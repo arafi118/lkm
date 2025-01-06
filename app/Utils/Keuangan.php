@@ -291,12 +291,6 @@ class Keuangan
                 'bulan' => '0'
             ])->get();
 
-<<<<<<< HEAD
-        return [
-            'debit' => floatval($saldo->debit ?? 0),
-            'kredit' => floatval($saldo->kredit ?? 0)
-        ];
-=======
             $kom_debit = 0;
             $kom_kredit = 0;
             foreach ($saldo as $s) {
@@ -320,7 +314,6 @@ class Keuangan
                 'kredit' => floatval($saldo->kredit)
             ];
         }
->>>>>>> 342205a7819ebe7a20c911c0aba3ad3f31117952
     }
 
     public function saldoPerBulan($tgl_kondisi, $kode_akun)
