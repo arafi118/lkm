@@ -97,7 +97,7 @@
                 <tr>
                     <td rowspan="7" align="center" width="400">
                         <div style="font-size: 14px; font-weight: bold;">
-                            {{ $kec->nama_lembaga_sort }}
+                            {{ $kec->nama_lembaga_sort }} {{ $kec->nama_kec }}
                         </div>
                         <div>
                             {{ $kec->alamat_kec }}
@@ -150,7 +150,7 @@
                     <td>{{ number_format($pinj->alokasi) }}</td>
                     <td>Jasa</td>
                     <td align="center">:</td>
-                    <td>{{ $pinj->pros_jasa / $pinj->jangka . '%' }}</td>
+                    <td>{{ $pinkel->pros_jasa / $pinkel->jangka . '%' }}</td>
                 </tr>
                 <tr>
                     <td>Angsuran</td>

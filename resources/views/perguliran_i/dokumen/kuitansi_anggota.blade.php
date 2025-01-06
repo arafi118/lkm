@@ -13,7 +13,7 @@
     @foreach ($pinjaman as $pinj)
         @php
             $waktu = date('H:i');
-            $tempat = 'Kantor UPK';
+            $tempat = 'Kantor DBM';
 
             $wt_cair = explode('_', $pinj->pinkel->wt_cair);
             if (count($wt_cair) == 1) {
@@ -59,7 +59,7 @@
                     <td>Untuk Pembayaran</td>
                     <td align="center">:</td>
                     <td class="b">
-                        Pencairan Pemanfaat Kelompok {{ $pinj->pinkel->kelompok->nama_kelompok }}
+                        Pencairan Nasabah Kelompok {{ $pinj->pinkel->kelompok->nama_kelompok }}
                     </td>
                 </tr>
                 <tr>
@@ -132,7 +132,7 @@
                         &nbsp;
                     </td>
                     <td align="center" colspan="3">
-                        Anggota Pemanfaat
+                        Anggota Nasabah
                     </td>
                 </tr>
                 <tr>

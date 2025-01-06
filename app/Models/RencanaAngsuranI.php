@@ -18,9 +18,4 @@ class RencanaAngsuranI extends Model
     {
         $this->table = 'rencana_angsuran_i_' . Session::get('lokasi');
     }
-
-    public function real()
-    {
-        return $this->hasMany(RealAngsuranI::class, 'loan_id', 'loan_id');
-    }
 }

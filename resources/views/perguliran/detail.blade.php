@@ -108,11 +108,6 @@
             'withExcel' => false,
         ],
         [
-            'title' => 'SPK Anggota',
-            'file' => 'spk_anggota',
-            'withExcel' => false,
-        ],
-        [
             'title' => 'Surat Kelayakan',
             'file' => 'suratKelayakan',
             'withExcel' => false,
@@ -162,11 +157,11 @@
             'file' => 'iptw',
             'withExcel' => false,
         ],
-         [
-             'title' => 'Peserta Asuransi',
-             'file' => 'Asuransi',
-             'withExcel' => false,
-         ],
+        // [
+        //     'title' => 'Peserta Asuransi',
+        //     'file' => 'pesertaAsuransi',
+        //     'withExcel' => false,
+        // ],
         [
             'title' => 'Tanggung Renteng Kematian',
             'file' => 'tanggungRentengKematian',

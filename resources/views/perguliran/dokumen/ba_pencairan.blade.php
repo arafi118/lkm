@@ -99,7 +99,7 @@
                 <td>Tanggal Berdiri</td>
                 <td align="center">:</td>
                 <td>
-                    <b>{{ $pinkel->kelompok->tgl_berdiri ? Tanggal::tglLatin($pinkel->kelompok->tgl_berdiri) : '-' }}</b>
+                    <b>{{ Tanggal::tglLatin($pinkel->kelompok->tgl_berdiri) }}</b>
                 </td>
 
                 <td align="center">12.</td>

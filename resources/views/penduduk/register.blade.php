@@ -1,9 +1,18 @@
 @extends('layouts.base')
-
 @section('content')
-    <div class="card">
-        <div class="card-body" id="RegisterPenduduk">
+    <div class="app-main__inner">
+        <div class="tab-content">
+             
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-card mb-3 card">
+                        <div class="card-body" id="RegisterPenduduk">
 
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
+            </div><br><br><br><br>
         </div>
     </div>
 @endsection
@@ -99,7 +108,7 @@
                                     icon: 'success',
                                 }).then(() => {
                                     $.get('/database/penduduk/create', function(
-                                    result) {
+                                        result) {
                                         $('#RegisterPenduduk').html(result)
                                     })
                                 })

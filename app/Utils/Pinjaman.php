@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Utils;
-use  App\UtilsTanggal;
 
 class Pinjaman
 {
@@ -28,10 +27,6 @@ class Pinjaman
                 [
                     'key' => '{pengawas}',
                     'des' => 'Menampilkan Nama Sebutan Pengawas',
-                ],
-                [
-                    'key' => '{namadepan}',
-                    'des' => 'Menampilkan Nama Peminjam individu',
                 ],
                 [
                     'key' => '{ketua}',
@@ -74,8 +69,12 @@ class Pinjaman
                     'des' => 'Menampilkan Sebutan Kepala Desa/Lurah',
                 ],
                 [
-                    'key' => '{tanggal}',
-                    'des' => 'Menampilkan Tanggal Cair',
+                    'key' => '{penjamin}',
+                    'des' => 'Menampilkan Nama penjamin',
+                ],
+                [
+                    'key' => '{peminjam}',
+                    'des' => 'Menampilkan Nama Peminjam',
                 ],
             ];
         } else {
@@ -90,23 +89,22 @@ class Pinjaman
             }
 
             $ttd = strtr(json_decode($text, true), [
-                '{nama_kec}' => $kec->nama_kec,
                 '{kepala_lembaga}' => $kec->sebutan_level_1,
                 '{kabag_administrasi}' => $kec->sebutan_level_2,
                 '{kabag_keuangan}' => $kec->sebutan_level_3,
                 '{verifikator}' => $kec->nama_tv_long,
                 '{pengawas}' => $kec->nama_bp_long,
-                '{namadepan}' => ($individu) ? $pinkel->anggota->namadepan:'',
                 '{ketua}' => (!$individu) ? $pinkel->kelompok->ketua:'',
                 '{sekretaris}' =>(!$individu) ? $pinkel->kelompok->sekretaris:'',
                 '{bendahara}' => (!$individu) ? $pinkel->kelompok->bendahara:'',
-                '{tanggal}' => Tanggal::tglLatin($pinkel->tgl_cair),
                 '{kades}' => $desa->kades,
                 '{nip}' => $desa->nip,
                 '{sekdes}' => $desa->sekdes,
                 '{ked}' => $desa->ked,
                 '{desa}' => $desa->nama_desa,
                 '{sebutan_kades}' => $desa->sebutan_desa->sebutan_kades,
+                '{penjamin}' => $kel->penjamin,
+                '{peminjam}' => $kel->namadepan,
                 '1' => '1',
                 '0' => '0'
             ]);

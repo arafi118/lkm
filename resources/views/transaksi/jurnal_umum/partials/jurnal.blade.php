@@ -169,12 +169,8 @@
                 if (isset($trx->user->ins)) {
                     $ins = $trx->user->ins;
                 }
-
-                $individu = '';
-                if ($trx->id_pinj_i != '0' && $trx->id_pinj == '0') {
-                    $individu = '_individu';
-                }
             @endphp
+
 
             <tr>
                 <td align="center">{{ $loop->iteration }}.</td>
@@ -189,7 +185,7 @@
                 <td align="right">
                     <div class="btn-group">
                         @if ($kuitansi)
-                            @if ($trx->idtp > 0 && ($trx->id_pinj != 0 || $trx->id_pinj_i != 0))
+                            @if ($trx->idtp > 0 && $trx->id_pinj != 0)
                                 <button type="button" data-idtp="{{ $trx->idtp }}"
                                     class="btn btn-instagram btn-icon-only btn-tooltip" data-bs-toggle="dropdown"
                                     aria-expanded="false">
@@ -198,19 +194,19 @@
                                 <ul class="dropdown-menu px-2 py-3" aria-labelledby="dropdownMenuButton">
                                     <li>
                                         <a class="dropdown-item border-radius-md" target="_blank"
-                                            href="/transaksi/dokumen/struk{{ $individu }}/{{ $trx->idtp }}">
+                                            href="/transaksi/dokumen/struk/{{ $trx->idtp }}">
                                             Kuitansi
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item border-radius-md" target="_blank"
-                                            href="/transaksi/dokumen/struk_matrix{{ $individu }}/{{ $trx->idtp }}">
+                                            href="/transaksi/dokumen/struk_matrix/{{ $trx->idtp }}">
                                             Kuitansi Dot Matrix
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item border-radius-md" target="_blank"
-                                            href="/transaksi/dokumen/struk_thermal{{ $individu }}/{{ $trx->idtp }}">
+                                            href="/transaksi/dokumen/struk_thermal/{{ $trx->idtp }}">
                                             Kuitansi Thermal
                                         </a>
                                     </li>
@@ -255,10 +251,10 @@
                             </button>
                         @endif
 
-                        @if ($is_dir || Session::get('lokasi') == 3)
+                        @if ($is_dir)
                             <button type="button" data-idt="{{ $trx->idt }}"
                                 class="btn btn-tumblr btn-icon-only btn-tooltip btn-reversal" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Reversal" data-container="body"1
+                                data-bs-placement="top" title="Reversal" data-container="body"
                                 data-animation="true">
                                 <span class="btn-inner--icon"><i class="fas fa-code-pull-request"></i></span>
                             </button>
