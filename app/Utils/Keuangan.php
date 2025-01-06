@@ -382,6 +382,7 @@ class Keuangan
             ];
         }
 
+
         $saldo = Saldo::where([
             ['tahun', $thn],
             ['bulan', $bln],
