@@ -81,7 +81,7 @@ class TransaksiController extends Controller
         }
 
         $api = env('APP_API', 'https://api-whatsapp.sidbm.net');
-        
+
         return view('transaksi.jurnal_angsuran.individu.index')->with(compact('title', 'pinkel', 'kec', 'api'));
     }
 
@@ -96,7 +96,7 @@ class TransaksiController extends Controller
     public function jurnalTutupBuku()
     {
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
-        
+
         $success = false;
         $title = 'Tutup Buku';
         return view('transaksi.tutup_buku.index')->with(compact('title', 'kec', 'success'));
@@ -283,12 +283,12 @@ class TransaksiController extends Controller
             Saldo::whereIn('id', $data_id)->delete();
             Saldo::insert($saldo_tutup_buku);
 
-        $success = true;
-        
-        $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
-        $title = 'Tutup Buku';
-        return view('transaksi.tutup_buku.index')->with(compact('title', 'kec', 'success'));
-             }
+            $success = true;
+
+            $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
+            $title = 'Tutup Buku';
+            return view('transaksi.tutup_buku.index')->with(compact('title', 'kec', 'success'));
+        }
 
         $surplus = $keuangan->laba_rugi($tahun . '-13-00');
 
@@ -382,7 +382,9 @@ class TransaksiController extends Controller
                 'tahun' => $tahun_tb,
                 'bulan' => '0',
                 'debit' => (string) $saldo->kredit,
-                'kredit' => str_replace(',', '', str_replace('.00', '', $surplus_bersih[$urut]))
+                'kredit' => isset($surplus_bersih[$urut])
+                    ? str_replace(',', '', str_replace('.00', '', $surplus_bersih[$urut]))
+                    : '0', // Nilai default jika indeks tidak ditemukan
             ];
 
             $keterangan = $title_form[$urut] . ' tahun ' . $tahun;
@@ -726,7 +728,7 @@ class TransaksiController extends Controller
                 $inv = Inventaris::create($inventaris);
 
                 $msg = 'Transaksi ' .  $rek_simpan->nama_akun . ' (' . $insert['keterangan_transaksi'] . ') berhasil disimpan';
-            } elseif(Keuangan::startWith($request->sumber_dana, '1.1.01') && Keuangan::startWith($request->disimpan_ke, '5.1.08.02') && $request->jenis_transaksi == '2'){
+            } elseif (Keuangan::startWith($request->sumber_dana, '1.1.01') && Keuangan::startWith($request->disimpan_ke, '5.1.08.02') && $request->jenis_transaksi == '2') {
                 $data = $request->only([
                     'tgl_transaksi',
                     'jenis_transaksi',
@@ -753,19 +755,19 @@ class TransaksiController extends Controller
                 $relasi = '';
                 if ($request->relasi) {
                     // 3206286504800001#Esah#140698#45000000
-                    $data_relasi = explode('#', $request->relasi); 
+                    $data_relasi = explode('#', $request->relasi);
                     // $data_relasi = [
-                        //     0 => '3206286504800001',
-                        //     1 => 'Esah',
-                        //     2 => '140698',
-                        //     3 => '45000000'
-                        // ];
-                        $id_pinj_i = $data_relasi[2];
+                    //     0 => '3206286504800001',
+                    //     1 => 'Esah',
+                    //     2 => '140698',
+                    //     3 => '45000000'
+                    // ];
+                    $id_pinj_i = $data_relasi[2];
 
-                        $pinj = PinjamanAnggota::where('id', $id_pinj_i)->first();
-                        $Agen = Agent::where('id', $pinj->id_agent)->first();
+                    $pinj = PinjamanAnggota::where('id', $id_pinj_i)->first();
+                    $Agen = Agent::where('id', $pinj->id_agent)->first();
 
-                        $relasi = $Agen->agent;
+                    $relasi = $Agen->agent;
                 }
 
                 $insert = [
@@ -783,9 +785,8 @@ class TransaksiController extends Controller
                 ];
 
                 $transaksi = Transaksi::create($insert);
-                $msg = 'Transaksi ' . $insert['keterangan_transaksi'] . ' berhasil disimpan';            }
-            
-            else {
+                $msg = 'Transaksi ' . $insert['keterangan_transaksi'] . ' berhasil disimpan';
+            } else {
                 $data = $request->only([
                     'tgl_transaksi',
                     'jenis_transaksi',
@@ -1235,7 +1236,7 @@ class TransaksiController extends Controller
                     'idtp' => $idtp,
                     'id_pinj' => '0',
                     'id_pinj_i' => $pinj_a->id,
-                    'keterangan_transaksi' => (string) 'Angs.' . $pinj_a->jpp->nama_jpp .' (P) ' . $pinj_a->anggota->namadepan . ' (' . $pinj_a->id . ')' . ' [' . $pinj_a->anggota->d->nama_desa . ']',
+                    'keterangan_transaksi' => (string) 'Angs.' . $pinj_a->jpp->nama_jpp . ' (P) ' . $pinj_a->anggota->namadepan . ' (' . $pinj_a->id . ')' . ' [' . $pinj_a->anggota->d->nama_desa . ']',
                     'relasi' => (string) $pinj_a->anggota->namadepan,
                     'jumlah' => str_replace(',', '', str_replace('.00', '', $request->pokok)),
                     'urutan' => '0',
@@ -1251,7 +1252,7 @@ class TransaksiController extends Controller
                     'idtp' => $idtp,
                     'id_pinj' => '0',
                     'id_pinj_i' => $pinj_a->id,
-                    'keterangan_transaksi' => (string) 'Angs.' . $pinj_a->jpp->nama_jpp .' (J) ' . $pinj_a->anggota->namadepan . ' (' . $pinj_a->id . ')' . ' [' . $pinj_a->anggota->d->nama_desa . ']',
+                    'keterangan_transaksi' => (string) 'Angs.' . $pinj_a->jpp->nama_jpp . ' (J) ' . $pinj_a->anggota->namadepan . ' (' . $pinj_a->id . ')' . ' [' . $pinj_a->anggota->d->nama_desa . ']',
                     'relasi' => (string) $pinj_a->anggota->namadepan,
                     'jumlah' => str_replace(',', '', str_replace('.00', '', $request->jasa)),
                     'urutan' => '0',
@@ -1571,7 +1572,6 @@ class TransaksiController extends Controller
                 }
 
                 return view('transaksi.jurnal_umum.partials.form_inventaris')->with(compact('relasi'));
-
             } elseif (Keuangan::startWith($sumber_dana, '1.1.01') && Keuangan::startWith($disimpan_ke, '5.1.08.02') && $jenis_transaksi == 2) {
                 // $Anggota = Anggota::with([
                 //     'pinjaman' => function ($query) {
@@ -1580,10 +1580,9 @@ class TransaksiController extends Controller
                 $Pinjaman = PinjamanIndividu::with([
                     'anggota'
                 ])->where('status', 'A')->get();
-                
+
 
                 return view('transaksi.jurnal_umum.partials.form_agen')->with(compact('Pinjaman'));
-            
             } else {
                 $rek_sumber = Rekening::where('kode_akun', $sumber_dana)->first();
                 $rek_simpan = Rekening::where('kode_akun', $disimpan_ke)->first();
@@ -2315,7 +2314,7 @@ class TransaksiController extends Controller
 
                 if ($data['rek']->jenis_mutasi == 'debet') {
                     $_saldo = $debit - $kredit;
-                } 
+                }
             }
         }
 
@@ -2343,7 +2342,7 @@ class TransaksiController extends Controller
             $dibayar = ucwords($user->namadepan . ' ' . $user->namabelakang);
         }
 
-       
+
 
         $logo = $kec->logo;
         if (empty($logo)) {
