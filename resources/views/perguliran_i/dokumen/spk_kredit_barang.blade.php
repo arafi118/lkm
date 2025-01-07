@@ -46,7 +46,8 @@
         mencapai kemajuan ekonomi dan kemakmuran bersama, pada hari ini {{ Tanggal::namaHari($pinkel->tgl_cair) }} tanggal
         {{ $keuangan->terbilang(Tanggal::hari($pinkel->tgl_cair)) }} bulan {{ Tanggal::namaBulan($pinkel->tgl_cair) }}
         tahun
-        {{ $keuangan->terbilang(Tanggal::tahun($pinkel->tgl_cair)) }}, bertempat di {{ $tempat }} kami yang bertanda
+        {{ $keuangan->terbilang(Tanggal::tahun($pinkel->tgl_cair)) }}, bertempat di {{ $kec->nama_lembaga_sort }} kami yang
+        bertanda
         tangan dibawah ini;
     </div>
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
@@ -126,7 +127,8 @@
         {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_cair)->locale('id')->translatedFormat('d F Y') }}
         bertempat di {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
         {{ $kec->nama_kec }} dengan sadar dan
-        sukarela menyatakan telah membuat perjanjian kredit barang kepada <b>Pihak Kedua berupa {{ $pinkel->nama_barang }}. </b>Kedua belah pihak sepakat untuk mengikatkan diri dalam perjanjian ini dengan syarat-syarat sebagai berikut:
+        sukarela menyatakan telah membuat perjanjian kredit barang kepada <b>Pihak Kedua berupa {{ $pinkel->nama_barang }}.
+        </b>Kedua belah pihak sepakat untuk mengikatkan diri dalam perjanjian ini dengan syarat-syarat sebagai berikut:
     </p>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 1 </b><br>
@@ -144,9 +146,12 @@
         <b class="centered-text">Nilai dan Barang</b>
         <ol class="centered-text">
             <li>Barang yang dikreditkan adalah berupa {{ $pinkel->nama_barang }} .</li>
-            <li>Nilai barang tersebut diatas sebesar  <b> {{ number_format($pinkel->alokasi) }} ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah). </b></li>
-            <li>Status kepemilikan barang sampai dengan sebelum perjanjian ini dinyatakan berakhir adalah <b>Fidusia atau Sewa Beli.</b></li>
-            <li>Perjanjian ini berakhir ketika <b>Pihak Pertama</b> telah selesai melakukan pembayaran sesuai dengan kesepakatan.</li>
+            <li>Nilai barang tersebut diatas sebesar <b> {{ number_format($pinkel->alokasi) }}
+                    ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah). </b></li>
+            <li>Status kepemilikan barang sampai dengan sebelum perjanjian ini dinyatakan berakhir adalah <b>Fidusia atau
+                    Sewa Beli.</b></li>
+            <li>Perjanjian ini berakhir ketika <b>Pihak Pertama</b> telah selesai melakukan pembayaran sesuai dengan
+                kesepakatan.</li>
         </ol>
     </div>
     <br>
@@ -154,7 +159,7 @@
         <b class="centered-text"> PASAL 3 </b><br>
         <b class="centered-text">Sistem Pengembalian</b>
         <b>&nbsp;</b>
-            </i> </h3>
+        </i> </h3>
         <ol class="centered-text">
             <li><b> Pihak Kedua </b> wajib membayar hutang tersebut kepada <b> Pihak Pertama </b> dengan cara pembayaran
                 angsuran
@@ -168,8 +173,10 @@
                 setiap bulan, selama {{ $pinkel->jangka }} bulan,
                 yang dimulai pada {{ Tanggal::namaHari($pinkel->tgl_cair) }},
                 {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_cair)->translatedFormat('d F Y') }} dan
-                sampai target pelunasan, sebagaimana jadwal angsuran terlampir.</li>
-            <li>Jika Kredit dapat diselesaikan sebelum jangka waktu pengembalian, maka <b>Pihak Kedua</b> diwajibkan membayar <b>sisa pokok + sisa jasa sepenuhnya.</b>  </li>
+                sampai target pelunasan, sebagaimana jadwal angsuran terlampir.
+            </li>
+            <li>Jika Kredit dapat diselesaikan sebelum jangka waktu pengembalian, maka <b>Pihak Kedua</b> diwajibkan
+                membayar <b>sisa pokok + sisa jasa sepenuhnya.</b> </li>
 
         </ol>
     </div>
@@ -178,7 +185,8 @@
         <b class="centered-text"> PASAL 4 </b><br>
         <b class="centered-text">Sanksi Keterlambatan Pembayaran</b>
         <ol class="centered-text">
-            <li>Keterlambatan angsuran <b>Pihak Kedua</b> telah melampaui masa toleransi 2(dua) hari, maka <b>Pihak kedua</b> di bebani denda sebesar <b>5%,8% dan 10% seiring waktu keterlambatan</b></li>
+            <li>Keterlambatan angsuran <b>Pihak Kedua</b> telah melampaui masa toleransi 2(dua) hari, maka <b>Pihak
+                    kedua</b> di bebani denda sebesar <b>5%,8% dan 10% seiring waktu keterlambatan</b></li>
         </ol>
     </div>
     <br><br>
@@ -187,32 +195,42 @@
         <b class="centered-text">Penyelesaian Perselisihan</b>
         </h3>
         <ol class="centered-text">
-          <li>Penggunaan kembali barang oleh <b>Pihak Kedua</b> setelah diterapkannya sanksi sebagaimana pada <b>Pasal 4 Ayat 3</b> dapat dilakukan apabila seluruh kewajiban angsuran dan denda dibayar lunas sesuai target angsuran berjalan.</li>
-            <li>Hal-hal yang tidak diatur dan/atau belum diatur dalam perjanjian ini dan/atau terjadi perbedaan penafsiran atas seluruh atau sebagian dari perjanjian ini maka kedua belah pihak sepakat untuk menyelesaikannya secara musyawarah untuk mufakat.</li>
-            <li>Apabila tidak tercapai kata mufakat dalam proses penyelesaian perselisihan sebagaimana dimaksud dalam <b>Pasal 5 Ayat 1</b> maka  akan diselesaikan secara hukum sesuai hukum yang berlaku di Indonesia melalui Pengadilan Negeri {{$kab->nama_kab}}</li>
+            <li>Penggunaan kembali barang oleh <b>Pihak Kedua</b> setelah diterapkannya sanksi sebagaimana pada <b>Pasal 4
+                    Ayat 3</b> dapat dilakukan apabila seluruh kewajiban angsuran dan denda dibayar lunas sesuai target
+                angsuran berjalan.</li>
+            <li>Hal-hal yang tidak diatur dan/atau belum diatur dalam perjanjian ini dan/atau terjadi perbedaan penafsiran
+                atas seluruh atau sebagian dari perjanjian ini maka kedua belah pihak sepakat untuk menyelesaikannya secara
+                musyawarah untuk mufakat.</li>
+            <li>Apabila tidak tercapai kata mufakat dalam proses penyelesaian perselisihan sebagaimana dimaksud dalam
+                <b>Pasal 5 Ayat 1</b> maka akan diselesaikan secara hukum sesuai hukum yang berlaku di Indonesia melalui
+                Pengadilan Negeri {{ $kab->nama_kab }}</li>
 
         </ol>
     </div> <br>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 6 </b><br>
         <b class="centered-text">Lain lain</b>
-            </i> </h3>
-            <div class="centered-text">
-                Hal-hal yang belum atau belum cukup diatur dalam perjanjian ini akan diatur lebih lanjut dalam bentuk surat menyurat dan atau addendum perjanjian yang ditandatangani oleh para pihak yang merupakan satu kesatuan dan bagian yang tidak terpisahkan dari perjanjian ini.
-    
-            </div>
+        </i> </h3>
+        <div class="centered-text">
+            Hal-hal yang belum atau belum cukup diatur dalam perjanjian ini akan diatur lebih lanjut dalam bentuk surat
+            menyurat dan atau addendum perjanjian yang ditandatangani oleh para pihak yang merupakan satu kesatuan dan
+            bagian yang tidak terpisahkan dari perjanjian ini.
+
+        </div>
     </div> <br>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 7 </b><br>
         <b class="centered-text">Penutup</b>
-            </i> </h3>
-            <div class="centered-text">
-                Perjanjian Kredit barang ini dibuat rangkap 2 (dua) di atas kertas bermaterai cukup untuk masing-masing pihak yang mempunyai kekuatan hukum yang sama dan ditanda tangani oleh kedua belah pihak dalam keadaan sehat jasmani dan rohani, serta tanpa unsur paksaan dari pihak manapun.
-            </div>
+        </i> </h3>
+        <div class="centered-text">
+            Perjanjian Kredit barang ini dibuat rangkap 2 (dua) di atas kertas bermaterai cukup untuk masing-masing pihak
+            yang mempunyai kekuatan hukum yang sama dan ditanda tangani oleh kedua belah pihak dalam keadaan sehat jasmani
+            dan rohani, serta tanpa unsur paksaan dari pihak manapun.
+        </div>
     </div>
     <div style="text-align: center;" style="font-size: 10px;">
-       <br>
-                    {{-- <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+        <br>
+        {{-- <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                         <tr>
                             <td width="10" align="center"> &nbsp; </td>
                             <td width="70" align="center"> Pihak Pertama </td>
@@ -247,15 +265,15 @@
                         <td width="50" align="center"> &nbsp; </td>
                     </tr>
                     </table> --}}
-                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;" class="p">
-                    <tr>
-                        <td>
-                            {!! $ttd !!}
-                        </td>
-                    </tr>
-                </table>
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;" class="p">
+            <tr>
+                <td>
+                    {!! $ttd !!}
                 </td>
             </tr>
+        </table>
+        </td>
+        </tr>
         </table>
     </div>
 @endsection
