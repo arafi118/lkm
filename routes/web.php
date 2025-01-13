@@ -55,6 +55,9 @@ Route::group(['prefix' => 'master', 'as' => 'master.', 'middleware' => 'master']
     Route::get('/kabupaten/laporan/data/{lokasi}/', [AdminKabupatenController::class, 'data']);
     Route::post('/kabupaten/laporan/preview/{kd_kab}', [AdminKabupatenController::class, 'preview']);
 
+    Route::post('/users/akses_tombol/{user}', [AdminUserController::class, 'AksesTombol']);
+    Route::post('/users/hak_akses/{user}', [AdminUserController::class, 'HakAkses']);
+    Route::get('/users/lokasi/{kd_kec}', [AdminUserController::class, 'DaftarUser']);
     Route::resource('/users', AdminUserController::class);
 
     Route::get('/laporan', [AdminController::class, 'laporan']);
@@ -327,12 +330,18 @@ Route::get('/link', function () {
 });
 
 Route::get('/user', function () {
+    $host = request()->getHost();
     $kec = Kecamatan::where('web_kec', request()->getHost())->orwhere('web_alternatif', request()->getHost())->with('kabupaten')->first();
     $users = User::where('lokasi', $kec->id)->with('l', 'j')->orderBy('level', 'ASC')->orderBy('jabatan', 'ASC')->get();
 
-    return view('welcome', ['users' => $users, 'kec' => $kec]);
-});
+    Session::put('login', true);
+    $http = 'http';
+    if (request()->secure()) {
+        $http .= 's';
+    }
 
+    return view('welcome', ['users' => $users, 'kec' => $kec, 'host' => $host, 'http' => $http]);
+});
 Route::get('/download/{file}', function ($file) {
     return response()->download(storage_path('app/public/docs/' . $file));
 })->name('download');
