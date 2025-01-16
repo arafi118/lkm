@@ -334,7 +334,7 @@
 
             if (sumber_dana == disimpan_ke) {
                 $('#SimpanTransaksi').attr('disabled', true)
-                simpan.setChoiceByValue(value_disimpan_ke)
+                $('#disimpan_ke').val(value_disimpan_ke).change()
 
                 Toastr('warning', 'Kode Akun tidak boleh sama')
                 return false
