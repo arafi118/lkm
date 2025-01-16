@@ -7,23 +7,23 @@
         <div class="tab-content">
             <div class="main-card mb-3 card">
                 <div class="card-body">
-                @if ($success)
-                <div class="alert alert-success alert-dismissible text-bl fade show" role="alert">
-                    <span class="alert-icon align-middle">
-                        &nbsp;
-                    </span>
-                    <span class="alert-text">
-                        <i class="fa-brands fa-signal-messenger"></i>
-                        <strong>Tutup Buku Tahun {{ $tahun }}</strong> berhasil.
-                    </span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif
+                    @if ($success)
+                        <div class="alert alert-success alert-dismissible text-bl fade show" role="alert">
+                            <span class="alert-icon align-middle">
+                                &nbsp;
+                            </span>
+                            <span class="alert-text">
+                                <i class="fa-brands fa-signal-messenger"></i>
+                                <strong>Tutup Buku Tahun {{ $tahun }}</strong> berhasil.
+                            </span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
                     <br>
                     <form action="" method="post" id="FormTahunTutupBuku">
-                    @csrf
+                        @csrf
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="position-relative mb-3"><label for="exampleEmail11"
@@ -73,9 +73,11 @@
 
 @section('script')
     <script>
-         $('.tutupbukuselect2').select2({
-            theme: 'bootstrap-5'
-            });  
+        $(document).ready(function() {
+            $('.tutupbukuselect2').select2({
+                theme: 'bootstrap4',
+            });
+        });
         var tahun = "{{ date('Y') }}"
         var bulan = "{{ date('m') }}"
 

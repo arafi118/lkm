@@ -141,9 +141,15 @@
 
 @section('script')
     <script>
-         $('.js-example-basic-single').select2({
-        theme: 'bootstrap-5'
-    });
+        //select 2
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2({
+                theme: 'bootstrap4',
+            });
+        });
+
+
+
         $(document).on('change', '#tahun, #bulan', function(e) {
             e.preventDefault()
 
@@ -241,7 +247,7 @@
                 window.location.reload()
             }
         })
-        
+
         function namaBulan(bulan) {
             switch (bulan) {
                 case '01':
