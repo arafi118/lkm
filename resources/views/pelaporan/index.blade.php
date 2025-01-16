@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="validationCustom01" class="form-label">Tahunan</label>
-                            <select class=" js-example-basic-single form-control" name="tahun" id="tahun">
+                            <select class=" pelaporanselect2 form-control" name="tahun" id="tahun">
                                 <option value="">---</option>
                                 @for ($i = $thn_awal; $i <= date('Y'); $i++)
                                     <option {{ $i == date('Y') ? 'selected' : '' }} value="{{ $i }}">
@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="validationCustom02" class="form-label">Bulanan</label>
-                            <select class="js-example-basic-single form-control" name="bulan" id="bulan">
+                            <select class="pelaporanselect2 form-control" name="bulan" id="bulan">
                                 <option value="">---</option>
                                 <option {{ date('m') == '01' ? 'selected' : '' }} value="01">01. JANUARI</option>
                                 <option {{ date('m') == '02' ? 'selected' : '' }} value="02">02. FEBRUARI</option>
@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="hari" class="form-label">Harian</label>
-                            <select class="js-example-basic-single form-control" name="hari" id="hari">
+                            <select class="pelaporanselect2 form-control" name="hari" id="hari">
                                 <option value="">---</option>
                                 @for ($j = 1; $j <= 31; $j++)
                                     @if ($j < 10)
@@ -74,7 +74,7 @@
                         <div id="namaLaporan" class="col-md-6">
                             <div class="my-2">
                                 <label class="form-label" for="laporan">Nama Laporan</label>
-                                <select class="js-example-basic-single form-control" name="laporan" id="laporan">
+                                <select class="pelaporanselect2 form-control" name="laporan" id="laporan">
                                     <option value="">---</option>
                                     @foreach ($laporan as $lap)
                                         <option value="{{ $lap->file }}">
@@ -89,7 +89,7 @@
                         <div id="subLaporan" class="col-md-6">
                             <div class="my-2">
                                 <label class="form-label" for="sub_laporan">Nama Sub Laporan</label>
-                                <select class="js-example-basic-single form-control" name="sub_laporan" id="sub_laporan">
+                                <select class="pelaporanselect2 form-control" name="sub_laporan" id="sub_laporan">
                                     <option value="">---</option>
                                 </select>
                                 <small class="text-danger" id="msg_sub_laporan"></small>
@@ -143,7 +143,7 @@
     <script>
         //select 2
         $(document).ready(function() {
-            $('.js-example-basic-single').select2({
+            $('.pelaporanselect2').select2({
                 theme: 'bootstrap4',
             });
         });
