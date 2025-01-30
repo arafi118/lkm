@@ -391,6 +391,7 @@ class PinjamanIndividuController extends Controller
             'proposal' => str_replace(',', '', str_replace('.00', '', $request->pengajuan)),
             'verifikasi' => str_replace(',', '', str_replace('.00', '', $request->pengajuan)),
             'harga' => str_replace(',', '', str_replace('.00', '', $request->pengajuan)),
+            'alokasi' => str_replace(',', '', str_replace('.00', '', $request->pengajuan)),
             'kom_pokok' => '0',
             'kom_jasa' => '0',
             'spk_no' => '0',
