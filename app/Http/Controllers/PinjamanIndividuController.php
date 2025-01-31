@@ -1104,6 +1104,7 @@ class PinjamanIndividuController extends Controller
             'proposal' => $pengajuan,
             'verifikasi' => $pengajuan,
             'harga' => $pengajuan,
+            'alokasi' => $pengajuan,
             'kom_pokok' => '0',
             'kom_jasa' => '0',
             'spk_no' => $request->get('spk'),
