@@ -157,10 +157,16 @@
         </tr>
         <tr>
             <td align="center">8.</td>
-            <td>Jenis Usaha</td>
+            <td>Pekerjaan</td>
             <td align="center">:</td>
             <td>
-                <b></b>
+                <b>
+                    @if (is_numeric($pinkel->anggota->usaha))
+                        {{ $pinkel->anggota->u->nama_usaha }}
+                    @else
+                        {{ $pinkel->anggota->usaha }}
+                    @endif
+                </b>
             </td>
 
 
