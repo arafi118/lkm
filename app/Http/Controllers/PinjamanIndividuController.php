@@ -316,6 +316,17 @@ class PinjamanIndividuController extends Controller
         return view('pinjaman_i.partials.register')->with(compact('anggota', 'kec', 'jenis_jasa', 'sistem_angsuran', 'agent', 'jenis_pp', 'jenis_pp_dipilih', 'jaminan'));
     }
 
+    public function JenisProdukPinjam($id)
+    {
+
+        $agent = Agent::where('lokasi', Session::get('lokasi'))->get();
+
+        return response()->json([
+            'success' => true,
+            'view' => view('pinjaman_i.partials.jenis_pinjaman')->with(compact('id', 'agent'))->render()
+        ]);
+    }
+
     public function Jaminan($id)
     {
         return response()->json([
@@ -353,8 +364,6 @@ class PinjamanIndividuController extends Controller
             'sistem_angsuran_pokok' => 'required',
             'sistem_angsuran_jasa' => 'required',
             'jenis_produk_pinjaman' => 'required',
-            'nama_barang' => 'required',
-            'id_agent'  => 'required',
             'data_jaminan' => 'required|array'
             // 'data_jaminan.*' => 'required',
         ]);
@@ -370,14 +379,17 @@ class PinjamanIndividuController extends Controller
             $jaminan[$key] = $val;
         }
         $jaminan['jenis_jaminan'] = $request->jaminan;
+        $agen = $request->id_agent ?? 1;
+        $barang = $request->nama_barang ?? 0;
+
 
         $insert = [
             'jenis_pinjaman' => 'I',
             'id_kel' => '0',
             'id_pinkel' => '0',
             'jenis_pp' => $request->jenis_produk_pinjaman,
-            'nama_barang' => $request->nama_barang,
-            'id_agent' => $request->id_agent,
+            'nama_barang' => $barang,
+            'id_agent' => $agen,
             'fee_supplier' => '0',
             'fee_agent' => '0',
             'depe' => '0',

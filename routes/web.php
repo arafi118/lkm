@@ -217,6 +217,7 @@ Route::post('/perguliran_i/waiting_edit_jaminan/{pinjaman}', [PinjamanIndividuCo
 
 Route::get('/register_proposal_i', [PinjamanIndividuController::class, 'create'])->middleware('auth');
 Route::get('/register_proposal_i/{nia}', [PinjamanIndividuController::class, 'register'])->middleware('auth');
+Route::get('/register_proposal_i/jenis_pinjaman/{id}', [PinjamanIndividuController::class, 'JenisProdukPinjam'])->middleware('auth');
 Route::get('/register_proposal_i/jaminan/{id}', [PinjamanIndividuController::class, 'Jaminan'])->middleware('auth');
 Route::get('/daftar_individu', [PinjamanIndividuController::class, 'DaftarAnggota'])->middleware('auth');
 
