@@ -55,7 +55,7 @@
         </tr>
         <tr>
             <td width="4%" align="right">7.</td>
-            <td>Jenis Usaha</td>
+            <td>Pekerjaan</td>
             <td colspan="4">: {{ $pinkel->anggota->usaha }}</td>
         </tr>
         <tr>
@@ -223,7 +223,7 @@
                 </p>
 
                 <table border="0" width='100%'>
-              
+
                     <tr>
                         <td>&nbsp;</td>
                     </tr>
@@ -234,19 +234,19 @@
                         <td width='30%' class='bottom'></td>
                     </tr>
                     @foreach ($user as $r)
-                    <tr>
-                        <td width="70" height="20">
-                            <div>{{ $r->namadepan }} {{ $r->namabelakang }}</div>
-                            <div>
-                                <b>{{ $r->j->nama_jabatan }}</b>
+                        <tr>
+                            <td width="70" height="20">
+                                <div>{{ $r->namadepan }} {{ $r->namabelakang }}</div>
+                                <div>
+                                    <b>{{ $r->j->nama_jabatan }}</b>
 
-                            </div>
-                        </td>
-                        <td align="right" style="vertical-align: bottom;">
-                            _____________________________________
-                        </td>
-                    </tr>
-                @endforeach
+                                </div>
+                            </td>
+                            <td align="right" style="vertical-align: bottom;">
+                                _____________________________________
+                            </td>
+                        </tr>
+                    @endforeach
                     {{-- <tr>
                         <td align="center" width='60%'>
                             {{ $pinkel->user->namadepan }}

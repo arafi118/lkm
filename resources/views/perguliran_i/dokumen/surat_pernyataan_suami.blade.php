@@ -115,7 +115,7 @@
         </tr>
         <tr>
             <td align="center">{{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}</td>
-            <td align="center">Nama Penjamin</td>
+            <td align="center">Penjamin</td>
         </tr>
         <tr>
             <td align="center" colspan="2" height="30">&nbsp;</td>

@@ -36,7 +36,7 @@
             <td>Tempat, Tgl. lahir</td>
             <td align="right">:</td>
             <td>{{ $pinkel->anggota->tempat_lahir }}
-            {{ Tanggal::tglLatin($pinkel->anggota->tgl_lahir) }} 
+                {{ Tanggal::tglLatin($pinkel->anggota->tgl_lahir) }}
             </td>
         </tr>
         <tr>
@@ -47,18 +47,18 @@
         <tr>
             <td>Alamat</td>
             <td align="right">:</td>
-            <td>{{ $pinkel->anggota->alamat}} {{ $pinkel->anggota->d->sebutan_desa->sebutan_desa }}
-                {{ $pinkel->anggota->d->desa }} {{$kec->sebutan_kec }} {{ $kec->nama_kec }}
+            <td>{{ $pinkel->anggota->alamat }} {{ $pinkel->anggota->d->sebutan_desa->sebutan_desa }}
+                {{ $pinkel->anggota->d->desa }} {{ $kec->sebutan_kec }} {{ $kec->nama_kec }}
                 {{ $nama_kabupaten }} </td>
         </tr>
         <tr>
-            <td>Jenis Usaha</td>
+            <td>Pekerjaan</td>
             <td align="right">:</td>
             <td>
                 @if (is_numeric($pinkel->anggota->usaha))
-                    {{$pinkel->anggota->u->nama_usaha}}
+                    {{ $pinkel->anggota->u->nama_usaha }}
                 @else
-                    {{$pinkel->anggota->usaha}}
+                    {{ $pinkel->anggota->usaha }}
                 @endif
             </td>
         </tr>
@@ -70,7 +70,8 @@
 
                 <ol>
                     <li>
-                    Saya selaku Nasabah {{ $kec->nama_lembaga_sort }} menyatakan benar-benar telah meminjam uang sebesar <br> Rp. _____________________,
+                        Saya selaku Nasabah {{ $kec->nama_lembaga_sort }} menyatakan benar-benar telah meminjam uang
+                        sebesar <br> Rp. _____________________,
                         dengan jaminan berupa barang sebagai berikut :
                         <ul style="list-style: disc;">
                             @for ($i = 0; $i < 3; $i++)
@@ -126,7 +127,8 @@
                 </ol>
 
                 <div>
-                Demikian surat pernyataan ini saya buat dengan sebenarnya dan dengan penuh kesadaran serta rasa tanggung jawab.
+                    Demikian surat pernyataan ini saya buat dengan sebenarnya dan dengan penuh kesadaran serta rasa tanggung
+                    jawab.
 
 
                 </div>
