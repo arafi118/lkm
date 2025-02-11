@@ -6,12 +6,24 @@ $section = 0;
 @extends('pelaporan.layout.base')
 
 @section('content')
+    @php
+        $nomor = 0;
+    @endphp
 @foreach ($jenis_pp_i as $jpp_i)
-@php
-if ($jpp_i->pinjaman_individu->isEmpty()) {
-continue;
-}
-@endphp
+        @php
+            if ($jpp_i->pinjaman_individu->isEmpty()) {
+                $empty = true;
+                continue;
+            }
+            $nomor++;
+        @endphp
+        @if ($nomor > 1)
+            <div class="break"></div>
+
+            @php
+                $empty = false;
+            @endphp
+        @endif
 @php
 $kd_desa = [];
 $t_alokasi = 0;
@@ -23,11 +35,7 @@ $t_kolek2 = 0;
 $t_kolek3 = 0;
 $t_kolek4 = 0;
 $t_kolek5 = 0;
-
 @endphp
-@if ($jpp_i->nama_jpp != 'SPP')
-<div class="break"></div>
-@endif
 <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
     <tr>
         <td colspan="5" align="center">

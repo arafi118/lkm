@@ -876,6 +876,7 @@ class PelaporanController extends Controller
             $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
         }
         
+        $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $data['jenis_pp_i'] = JenisProdukPinjaman::where(function ($query) use ($kec) {
             $query->where('lokasi', '0')
                 ->orWhere(function ($query) use ($kec) {
@@ -939,7 +940,7 @@ class PelaporanController extends Controller
             }
         ])->get();
 
-        $view = view('pelaporan.view.ojk.kolekbilitas_pinjaman', $data)->render();
+        $view = view('pelaporan.view.ojk.kolekbilitas_pinjaman2', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view)->setPaper('A4', 'landscape');

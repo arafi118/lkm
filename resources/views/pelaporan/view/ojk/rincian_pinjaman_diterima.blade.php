@@ -69,7 +69,6 @@
     </style>
     @php
         $nomor = 0;
-        dd($jenis_pp)->pinjaman_individu;
     @endphp
 
     @foreach ($jenis_pp as $jpp)
