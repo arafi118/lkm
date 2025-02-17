@@ -2,11 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\resources",
-    "\\resources\\views",
-    "\\resources\\views\\pelaporan",
-    "\\resources\\views\\pelaporan\\view",
-    "\\resources\\views\\pelaporan\\view\\ojk"
+    "\\resources\\views"
   ],
-  "SelectedNode": "\\resources\\views\\pelaporan\\view\\ojk\\rincian_pinjaman_diterima.blade.php",
   "PreviewInSolutionExplorer": false
 }
