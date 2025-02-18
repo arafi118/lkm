@@ -1,21 +1,22 @@
 @php
     use App\Models\Kecamatan;
     $kecamatan = Kecamatan::where('web_kec', explode('//', URL::to('/'))[1])
-            ->orWhere('web_alternatif', explode('//', URL::to('/'))[1])
-            ->first();
+        ->orWhere('web_alternatif', explode('//', URL::to('/'))[1])
+        ->first();
+
 @endphp
 
 @if ($pinj_aktif && count($pinj_aktif) > 0)
     @foreach ($pinj_aktif as $pa)
-    <div class="alert alert-danger text-black" role="alert">
-        <span class="text-sm">
-            <b>{{ ucwords(strtolower($pa->anggota->namadepan)) }}</b> masih memiliki kewajiban
-            angsuran pinjaman dengan
-            <a href="/detail_i/{{ $pa->id }}" target="_blank" class="alert-link text-black">
-                Loan ID. {{ $pa->id }}
-            </a>
-        </span>
-    </div>
+        <div class="alert alert-danger text-black" role="alert">
+            <span class="text-sm">
+                <b>{{ ucwords(strtolower($pa->anggota->namadepan)) }}</b> masih memiliki kewajiban
+                angsuran pinjaman dengan
+                <a href="/detail_i/{{ $pa->id }}" target="_blank" class="alert-link text-black">
+                    Loan ID. {{ $pa->id }}
+                </a>
+            </span>
+        </div>
     @endforeach
 @endif
 
@@ -195,7 +196,7 @@
                                 <label for="alokasi" class="form-label">Alokasi Rp.</label>
                                 <input autocomplete="off" disabled type="text" name="alokasi" id="alokasi"
                                     class="form-control money"
-                                    value="{{ number_format($perguliran_i->alokasi,2) }}">
+                                    value="{{ number_format($perguliran_i->alokasi, 2) }}">
                                 <small class="text-danger" id="msg_alokasi"></small>
                             </div>
                         </div>
@@ -219,7 +220,8 @@
                             <div class="position-relative mb-3">
                                 <label for="nama_agent" class="form-label">Nama Agent</label>
                                 <input autocomplete="off" type="text" name="nama_agent" id="nama_agent"
-                                    class="form-control" readonly value="{{ ($perguliran_i->agent) ? $perguliran_i->agent->agent:''; }}">
+                                    class="form-control" readonly
+                                    value="{{ $perguliran_i->agent ? $perguliran_i->agent->agent : '' }}">
                                 <small class="text-danger" id="msg_nama_agent"></small>
                             </div>
                         </div>
@@ -230,8 +232,8 @@
                                     style="width: 100%;">
                                     @foreach ($supplier as $sp)
                                         <option value="{{ $sp->id }}">
-                                            ({{ $sp->nomorid }})
-                                            {{ $sp->nama }}
+                                            ({{ $sp->kd_supplier }})
+                                            {{ $sp->supplier }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -293,7 +295,8 @@
                             style="background-color: rgb(240, 80, 0);">
                             <b><i class="fa fa-refresh"></i> &nbsp; KEMBALI KE VERIFIKASI</b>
                         </button>
-                        <button type="button" id="Simpan" {{ count($pinj_aktif) > 0 && $kecamatan->id != 280 ? 'disabled' : '' }}
+                        <button type="button" id="Simpan"
+                            {{ count($pinj_aktif) > 0 && $kecamatan->id != 280 ? 'disabled' : '' }}
                             class="btn btn-secondary flex-grow-1 ms-2" style="background-color: rgb(112, 109, 109);">
                             <b><i class="fa fa-search-plus"></i> Cairkan</b>
                         </button>
@@ -338,7 +341,7 @@
         lanjut = await Swal.fire({
             title: 'Peringatan',
             text: 'Anda akan melakukan Pencairan Piutang sebesar Rp. ' + $('#harga').val().split(
-                    '.00').join('') + 
+                    '.00').join('') +
                 ' untuk Nasabah tersebut? Setelah klik tombol Lanjutkan data tidak dapat diubah kembali !',
             showCancelButton: true,
             confirmButtonText: 'Lanjutkan',
