@@ -41,9 +41,9 @@
             $t_tunggakan_jasa = 0;
             $t_kel = 0;
         @endphp
-    @if ($nomor > 1)
-        <div class="break"></div>
-    @endif
+        @if ($nomor > 1)
+            <div class="break"></div>
+        @endif
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
             <tr>
                 <td colspan="3" align="center">
@@ -82,7 +82,7 @@
                 <th class="t l b" width="6%">Pokok</th>
                 <th class="t l b" width="6%">Jasa</th>
                 <!-- <th class="t l b" width="6%">Pokok</th>
-                <th class="t l b" width="6%">Jasa</th> -->
+                                <th class="t l b" width="6%">Jasa</th> -->
                 <th class="t l b" width="6%">Pokok</th>
                 <th class="t l b r" width="6%">Jasa</th>
             </tr>
@@ -222,10 +222,10 @@
                     $j_alokasi += $pinkel->alokasi;
                     $j_target_pokok += $target_pokok;
                     $j_target_jasa += $target_jasa;
-                    $j_real_bl_pokok += $sum_pokok - $pinkel->real_sum_realisasi_pokok;
-                    $j_real_bl_jasa += $sum_jasa - $pinkel->real_sum_realisasi_jasa;
-                    $j_real_pokok += $pinkel->real_sum_realisasi_pokok;
-                    $j_real_jasa += $pinkel->real_sum_realisasi_jasa;
+                    $j_real_bl_pokok += $sum_pokok - $pinkel->real_i_sum_realisasi_pokok;
+                    $j_real_bl_jasa += $sum_jasa - $pinkel->real_i_sum_realisasi_jasa;
+                    $j_real_pokok += $pinkel->real_i_sum_realisasi_pokok;
+                    $j_real_jasa += $pinkel->real_i_sum_realisasi_jasa;
                     $j_real_bi_pokok += $sum_pokok;
                     $j_real_bi_jasa += $sum_jasa;
                     $j_saldo_pokok += $saldo_pokok;

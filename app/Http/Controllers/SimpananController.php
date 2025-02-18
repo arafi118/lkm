@@ -86,7 +86,7 @@ class SimpananController extends Controller
             ->get();
         return view('simpanan.partials.detail-transaksi', compact('transaksi'));
     }
-
+     
 
     public function detailAnggota($id)
     {
