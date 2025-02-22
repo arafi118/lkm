@@ -224,8 +224,7 @@
                         </tr> <br> <br> <br> <br> <br><br><br><br>
                         <tr>
                             <td width="10" align="center"> &nbsp; </td>
-                            <td width="20" align="center">{{ $dir->namadepan }} {{ $dir->namabelakang }}<br> Direktur
-                                Utama LKM
+                            <td width="20" align="center">{{ $dir->namadepan }} {{ $dir->namabelakang }}<br>  {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
                             </td>
                             <td width="10" align="center"> &nbsp; </td>
                             <td width="70" align="center">{{ $pinkel->anggota->namadepan }} <br>
