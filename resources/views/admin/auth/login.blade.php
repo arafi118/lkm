@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="/admin/style.css">
         <link id="pagestyle" href="/admin/css/material-dashboard.min.css" rel="stylesheet" />
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
         <style>
             .swal2-container {
