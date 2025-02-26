@@ -277,9 +277,17 @@ class PinjamanIndividuController extends Controller
         $jenis_jasa = JenisJasa::all();
         $sistem_angsuran = SistemAngsuran::all();
         $agent = Agent::where('lokasi', Session::get('lokasi'))->get();
-        $jenis_pp = JenisProdukPinjaman::where('lokasi', '0')
-            ->orWhere('lokasi', 'LIKE', '%#' . session('lokasi') . '#%')
-            ->get();
+        $jenis_pp = JenisProdukPinjaman::where(function ($query) {
+            $query->where('lokasi', '0')
+                  ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+        })
+        ->orWhere(function ($query) {
+            $query->where('lokasi', session('lokasi'))
+                  ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+        })
+        ->orderBy('kode', 'asc')
+        ->get();
+
 
         $jenis_pp_dipilih = $anggota->jenis_produk_pinjaman;
 
@@ -318,12 +326,12 @@ class PinjamanIndividuController extends Controller
 
     public function JenisProdukPinjam($id)
     {
-
         $agent = Agent::where('lokasi', Session::get('lokasi'))->get();
+        $jenis_produk = JenisProdukPinjaman::where('id', $id)->value('jenis_produk');
 
         return response()->json([
             'success' => true,
-            'view' => view('pinjaman_i.partials.jenis_pinjaman')->with(compact('id', 'agent'))->render()
+            'view' => view('pinjaman_i.partials.jenis_pinjaman')->with(compact('id', 'agent', 'jenis_produk'))->render()
         ]);
     }
 
@@ -455,12 +463,19 @@ class PinjamanIndividuController extends Controller
         ])->where('id', $perguliran_i->id)->first();
         $jenis_jasa = JenisJasa::all();
         $sistem_angsuran = SistemAngsuran::all();
-        $sumber_bayar = Rekening::where('kode_akun', 'LIKE', '1.1.01%')->orderBy('kode_akun', 'asc')->get();
+        $sumber_bayar = Rekening::where([
+            ['lev1', '1'],
+            ['lev2', '1'],
+            ['lev3', '1']
+        ])
+        ->orderByRaw("CASE WHEN kode_akun LIKE ? THEN 0 ELSE 1 END", ['%' . ($perguliran_i->jpp->kode + 1)])
+        ->orderBy('kode_akun', 'asc')
+        ->get();
         $debet = Rekening::where([
             ['lev1', '1'],
             ['lev2', '1'],
             ['lev3', '3'],
-            ['lev4', $perguliran_i->jenis_pp]
+            ['lev4', $perguliran_i->jpp->kode]
         ])->first();
 
         $supplier = Supplier::where('lokasi', Session::get('lokasi'))->get();
@@ -603,9 +618,13 @@ class PinjamanIndividuController extends Controller
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $jenis_jasa = JenisJasa::all();
         $sistem_angsuran = SistemAngsuran::all();
-        $jenis_pp = JenisProdukPinjaman::where('lokasi', '0')
-            ->orWhere('lokasi', 'LIKE', '%#' . session('lokasi') . '#%')
-            ->get();
+        $jenis_pp = JenisProdukPinjaman::where(function ($query) use ($kec) {
+            $query->where('lokasi', '0')
+                ->orWhere(function ($query) use ($kec) {
+                    $query->where('kecuali', 'NOT LIKE', "%-{$kec['id']}-%")
+                        ->where('lokasi', 'LIKE', "%-{$kec['id']}-%");
+                });
+        })->get();
 
         $agent = Agent::where('lokasi', Session::get('lokasi'))->get();
 
@@ -670,6 +689,8 @@ class PinjamanIndividuController extends Controller
             $tgl = 'tgl_cair';
             $alokasi = 'alokasi';
         }
+
+        $kodeJenisProduk = JenisProdukPinjaman::where('id', $perguliran_i->jenis_pp)->value('kode');
 
         if ($request->status == 'L') {
             DataPemanfaat::where('id_pinkel', $perguliran_i->id)->where('lokasi', Session::get('lokasi'))->update([
@@ -885,7 +906,7 @@ class PinjamanIndividuController extends Controller
                 Transaksi::create([
                     'tgl_transaksi' => (string) Tanggal::tglNasional($data[$tgl]),
                     'rekening_debit' => (string) $request->sumber_pembayaran,
-                    'rekening_kredit' => '1.1.03.0' . $perguliran_i->jenis_pp,
+                    'rekening_kredit' => '1.1.03.0' . $kodeJenisProduk,
                     'idtp' => '0',
                     'id_pinj' => '0',
                     'id_pinj_i' => $perguliran_i->id,
@@ -1072,9 +1093,9 @@ class PinjamanIndividuController extends Controller
             'sis_pokok',
             'sis_jasa'
         ])->first();
-
-        $rekening_1 = '1.1.01.' . str_pad($pinj_i->jenis_pp + 1, 2, '0', STR_PAD_LEFT);
-        $rekening_2 = '1.1.03.' . str_pad($pinj_i->jenis_pp, 2, '0', STR_PAD_LEFT);
+        $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinj_i->jenis_pp)->value('kode');
+        $rekening_1 = '1.1.01.' . str_pad($kodeJenisProduk + 1, 2, '0', STR_PAD_LEFT);
+        $rekening_2 = '1.1.03.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
 
         $trx_resc = Transaksi::create([
             'tgl_transaksi' => (string) Tanggal::tglNasional($tgl_resceduling),
@@ -1189,9 +1210,10 @@ class PinjamanIndividuController extends Controller
             $saldo_pokok = $pinj_i->target->saldo_pokok - $pokok;
             $saldo_jasa = $pinj_i->target->saldo_jasa - $jasa;
         }
-
-        $rekening_debit = '1.1.04' . str_pad($pinj_i->jenis_pp, 2, '0', STR_PAD_LEFT);
-        $rekening_kredit = '1.1.03' . str_pad($pinj_i->jenis_pp, 2, '0', STR_PAD_LEFT);
+        
+        $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinj_i->jenis_pp)->value('kode');
+        $rekening_debit = '1.1.04' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
+        $rekening_kredit = '1.1.03' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
 
         $pinj_anggota = PinjamanIndividu::where('id', $pinj_i->id)->update([
             'tgl_lunas' => Tanggal::tglNasional($data['tgl_penghapusan']),

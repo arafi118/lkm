@@ -1,4 +1,4 @@
-@if ($id == 1)
+@if ($jenis_produk == 1)
     <!-- Tidak ada yang ditampilkan jika id adalah 1 -->
 @else
     <div class="row">
