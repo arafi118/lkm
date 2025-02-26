@@ -618,13 +618,16 @@ class PinjamanIndividuController extends Controller
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $jenis_jasa = JenisJasa::all();
         $sistem_angsuran = SistemAngsuran::all();
-        $jenis_pp = JenisProdukPinjaman::where(function ($query) use ($kec) {
+        $jenis_pp = JenisProdukPinjaman::where(function ($query) {
             $query->where('lokasi', '0')
-                ->orWhere(function ($query) use ($kec) {
-                    $query->where('kecuali', 'NOT LIKE', "%-{$kec['id']}-%")
-                        ->where('lokasi', 'LIKE', "%-{$kec['id']}-%");
-                });
-        })->get();
+                  ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+        })
+        ->orWhere(function ($query) {
+            $query->where('lokasi', session('lokasi'))
+                  ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+        })
+        ->orderBy('kode', 'asc')
+        ->get();
 
         $agent = Agent::where('lokasi', Session::get('lokasi'))->get();
 
