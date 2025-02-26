@@ -2497,7 +2497,6 @@ class PelaporanController extends Controller
                   ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
         })
         ->with([
-        })->with([
             'pinjaman_individu' => function ($query) use ($data) {
                 $tb_pinj_i = 'pinjaman_anggota_' . $data['kec']->id;
                 $tb_angg = 'anggota_' . $data['kec']->id;
