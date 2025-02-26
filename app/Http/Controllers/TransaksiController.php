@@ -9,6 +9,7 @@ use App\Models\Desa;
 use App\Models\Ebudgeting;
 use App\Models\Inventaris;
 use App\Models\JenisTransaksi;
+use App\Models\JenisProdukPinjaman;
 use App\Models\Kecamatan;
 use App\Models\PinjamanAnggota;
 use App\Models\PinjamanKelompok;
@@ -918,11 +919,12 @@ class TransaksiController extends Controller
                     'msg' => 'Tanggal transaksi tidak boleh sebelum Tanggal Cair'
                 ]);
             }
-
-            $kas_umum = '1.1.01.' . str_pad($pinkel->jenis_pp + 1, 2, '0', STR_PAD_LEFT);
-            $poko_kredit = '1.1.03.' . str_pad($pinkel->jenis_pp, 2, '0', STR_PAD_LEFT);
-            $jasa_kredit = '4.1.01.' . str_pad($pinkel->jenis_pp, 2, '0', STR_PAD_LEFT);
-            $dend_kredit = '4.1.02.' . str_pad($pinkel->jenis_pp, 2, '0', STR_PAD_LEFT);
+            
+        $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinkel->jenis_pp)->value('kode');
+            $kas_umum = '1.1.01.' . str_pad($kodeJenisProduk + 1, 2, '0', STR_PAD_LEFT);
+            $poko_kredit = '1.1.03.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
+            $jasa_kredit = '4.1.01.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
+            $dend_kredit = '4.1.02.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
 
             $_pokok = floatval($request->pokok) - floatval($request->total_pokok_anggota);
             $_jasa = floatval($request->jasa) - floatval($request->total_jasa_anggota);
@@ -1199,11 +1201,12 @@ class TransaksiController extends Controller
                     'msg' => 'Tanggal transaksi tidak boleh sebelum Tanggal Cair'
                 ]);
             }
-
+            
+        $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinj_a->jenis_pp)->value('kode');
             $kas_umum = '1.1.01.01';
-            $poko_kredit = '1.1.03.' . str_pad($pinj_a->jenis_pp, 2, '0', STR_PAD_LEFT);
-            $jasa_kredit = '4.1.01.' . str_pad($pinj_a->jenis_pp, 2, '0', STR_PAD_LEFT);
-            $dend_kredit = '4.1.02.' . str_pad($pinj_a->jenis_pp, 2, '0', STR_PAD_LEFT);
+            $poko_kredit = '1.1.03.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
+            $jasa_kredit = '4.1.01.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
+            $dend_kredit = '4.1.02.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
 
             if (strtotime($tgl_transaksi) < strtotime($request->tgl_pakai_aplikasi)) {
                 return response()->json([
