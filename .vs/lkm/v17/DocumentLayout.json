@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\laragon\\www\\lkm\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PinjamanIndividuController.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\Http\\Controllers\\PinjamanIndividuController.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\resources\\views\\pelaporan\\view\\ojk\\rincian_pinjaman_diterima.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:resources\\views\\pelaporan\\view\\ojk\\rincian_pinjaman_diterima.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\resources\\views\\layouts\\base.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:resources\\views\\layouts\\base.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
@@ -15,20 +23,12 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:resources\\views\\pelaporan\\view\\ojk\\kolekbilitas_pinjaman2.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\resources\\views\\pelaporan\\view\\ojk\\rincian_pinjaman_diterima.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:resources\\views\\pelaporan\\view\\ojk\\rincian_pinjaman_diterima.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PelaporanController.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\Http\\Controllers\\PelaporanController.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\resources\\views\\pelaporan\\view\\ojk\\kolekbilitas_pinjaman.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:resources\\views\\pelaporan\\view\\ojk\\kolekbilitas_pinjaman.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PinjamanIndividuController.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\Http\\Controllers\\PinjamanIndividuController.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\resources\\views\\pelaporan\\view\\ojk\\neraca_ojk.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
@@ -98,7 +98,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 17,
+          "SelectedChildIndex": 20,
           "Children": [
             {
               "$type": "Document",
@@ -184,7 +184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "navbar.blade.php",
               "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\layouts\\navbar.blade.php",
               "RelativeDocumentMoniker": "resources\\views\\layouts\\navbar.blade.php",
@@ -196,32 +196,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "base.blade.php",
               "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\layouts\\base.blade.php",
               "RelativeDocumentMoniker": "resources\\views\\layouts\\base.blade.php",
               "ToolTip": "C:\\laragon\\www\\lkm\\resources\\views\\layouts\\base.blade.php",
               "RelativeToolTip": "resources\\views\\layouts\\base.blade.php",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAwwCMAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAwwCsAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-02-15T02:12:44.373Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-15T02:12:44.373Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "rincian_pinjaman_diterima.blade.php",
               "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\pelaporan\\view\\ojk\\rincian_pinjaman_diterima.blade.php",
               "RelativeDocumentMoniker": "resources\\views\\pelaporan\\view\\ojk\\rincian_pinjaman_diterima.blade.php",
               "ToolTip": "C:\\laragon\\www\\lkm\\resources\\views\\pelaporan\\view\\ojk\\rincian_pinjaman_diterima.blade.php",
               "RelativeToolTip": "resources\\views\\pelaporan\\view\\ojk\\rincian_pinjaman_diterima.blade.php",
-              "ViewState": "AgIAADEAAAAAAAAAAAAuwFwAAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-02-10T06:11:05.681Z"
+              "WhenOpened": "2025-02-10T06:11:05.681Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "kolekbilitas_pinjaman2.blade.php",
               "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\pelaporan\\view\\ojk\\kolekbilitas_pinjaman2.blade.php",
               "RelativeDocumentMoniker": "resources\\views\\pelaporan\\view\\ojk\\kolekbilitas_pinjaman2.blade.php",
@@ -233,7 +233,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "PinjamanIndividuController.php",
               "DocumentMoniker": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PinjamanIndividuController.php",
               "RelativeDocumentMoniker": "app\\Http\\Controllers\\PinjamanIndividuController.php",
@@ -241,11 +241,12 @@
               "RelativeToolTip": "app\\Http\\Controllers\\PinjamanIndividuController.php",
               "ViewState": "AgIAAL8AAAAAAAAAAAAMwMYAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-02-06T01:21:19.144Z"
+              "WhenOpened": "2025-02-06T01:21:19.144Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "PelaporanController.php",
               "DocumentMoniker": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PelaporanController.php",
               "RelativeDocumentMoniker": "app\\Http\\Controllers\\PelaporanController.php",
@@ -257,7 +258,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "kolekbilitas_pinjaman.blade.php",
               "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\pelaporan\\view\\ojk\\kolekbilitas_pinjaman.blade.php",
               "RelativeDocumentMoniker": "resources\\views\\pelaporan\\view\\ojk\\kolekbilitas_pinjaman.blade.php",
