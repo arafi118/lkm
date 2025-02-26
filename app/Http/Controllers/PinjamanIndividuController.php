@@ -459,8 +459,7 @@ class PinjamanIndividuController extends Controller
         $debet = Rekening::where([
             ['lev1', '1'],
             ['lev2', '1'],
-            ['lev3', '3'],
-            ['lev4', $perguliran_i->jenis_pp]
+            ['lev3', '3']
         ])->first();
 
         $supplier = Supplier::where('lokasi', Session::get('lokasi'))->get();

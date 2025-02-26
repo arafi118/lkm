@@ -380,8 +380,7 @@ class PinjamanKelompokController extends Controller
         $sumber_bayar = Rekening::where([
             ['lev1', '1'],
             ['lev2', '1'],
-            ['lev3', '1'],
-            ['lev4', $perguliran->jenis_pp + 1]
+            ['lev3', '1']
         ])->orderBy('kode_akun', 'asc')->get();
         $debet = Rekening::where([
             ['lev1', '1'],
