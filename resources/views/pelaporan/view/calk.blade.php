@@ -73,23 +73,27 @@
         <li>
             <div style="text-transform: uppercase;">Gambaran Umum</div>
             <div style="text-align: justify">
-                Lembaga Keuangan Mikro ( {{ $kec->nama_lembaga_sort }} ) adalah lembaga keuangan yang khusus didirikan untuk memberikan jasa 
+                Lembaga Keuangan Mikro ( {{ $kec->nama_lembaga_sort }} ) adalah lembaga keuangan yang khusus didirikan untuk
+                memberikan jasa
                 pengembangan usaha dan pemberdayaan masyarakat, baik melalui pinjaman atau pembiayaan dalam usaha
-                 skala mikro kepada masyarakat, pengelolaan simpanan, maupun
-                  pengembangan usaha yang tidak semata-mata mencari keuntungan.
+                skala mikro kepada masyarakat, pengelolaan simpanan, maupun
+                pengembangan usaha yang tidak semata-mata mencari keuntungan.
             </div> <br>
             <div style="text-align: justify">
-                Dalam rangka memenuhi amanat regulasi tentang pendirian dan operasional lembaga kuangan mikro (LKM) sebagai berikut:
+                Dalam rangka memenuhi amanat regulasi tentang pendirian dan operasional lembaga kuangan mikro (LKM) sebagai
+                berikut:
             </div>
             <ol>
                 <li>
                     Undang-Undang Nomor 1 Tahun 2013 Tentang Lembaga Keuangan Mikro (Undang-Undang LKM).
                 </li>
                 <li>
-                    Peraturan Pemerintah Nomor 89 Tahun 2014 tentang Suku Bunga Pinjaman Atau Imbal Hasil Pembiayaan dan Luas Cakupan Wilayah Usaha Lembaga Keuangan Mikro.
+                    Peraturan Pemerintah Nomor 89 Tahun 2014 tentang Suku Bunga Pinjaman Atau Imbal Hasil Pembiayaan dan
+                    Luas Cakupan Wilayah Usaha Lembaga Keuangan Mikro.
                 </li>
                 <li>
-                    Surat Edaran Otoritas Jasa Keuangan (SEOJK), SEOJK Nomor 29/SEOJK.05/2015 tentang Laporan Keuangan Lembaga Keuangan Mikro.
+                    Surat Edaran Otoritas Jasa Keuangan (SEOJK), SEOJK Nomor 29/SEOJK.05/2015 tentang Laporan Keuangan
+                    Lembaga Keuangan Mikro.
                 </li>
                 <li>
                     Peraturan Otoritas Jasa Keuangan (POJK):
@@ -104,17 +108,21 @@
                             POJK Nomor 14/POJK.05/2014 tentang Pembinaan dan Pengawasan Lembaga Keuangan Mikro.
                         </li>
                         <li>
-                            POJK Nomor 61/POJK.05/2015 tentang Perubahan atas Peraturan Otoritas Jasa Keuangan Nomor 12/POJK.05/2014 tentang Perizinan Usaha dan Kelembagaan Lembaga Keuangan Mikro.
+                            POJK Nomor 61/POJK.05/2015 tentang Perubahan atas Peraturan Otoritas Jasa Keuangan Nomor
+                            12/POJK.05/2014 tentang Perizinan Usaha dan Kelembagaan Lembaga Keuangan Mikro.
                         </li>
                         <li>
-                            POJK Nomor 62/POJK.05/2015 tentang Perubahan atas Peraturan Otoritas Jasa Keuangan Nomor 13/POJK.05/2014 tentang Penyelenggaraan Usaha Lembaga Keuangan Mikro.
+                            POJK Nomor 62/POJK.05/2015 tentang Perubahan atas Peraturan Otoritas Jasa Keuangan Nomor
+                            13/POJK.05/2014 tentang Penyelenggaraan Usaha Lembaga Keuangan Mikro.
                         </li>
                     </ol>
                 </li>
             </ol>
             <p style="text-align: justify">
-                Selanjutnya {{ $kec->nama_lembaga_sort }} Sebagai anak usaha BUM Desa Bersama lkd {{ $kec->sebutan_kec }} {{ $kec->nama_kec }} 
-                telah resmi mendaftar sebagai lembaga keuangan yang selanjutnya mendapat legalitas dari Kementerian Hukum dan HAM 
+                Selanjutnya {{ $kec->nama_lembaga_sort }} Sebagai anak usaha BUM Desa Bersama lkd {{ $kec->sebutan_kec }}
+                {{ $kec->nama_kec }}
+                telah resmi mendaftar sebagai lembaga keuangan yang selanjutnya mendapat legalitas dari Kementerian Hukum
+                dan HAM
                 Nomor: {{ $kec->nomor_bh }}. Adapun susunan pengurusnya adalah sebagai berikut :
 
             <table style="margin-top: -10px; margin-left: 15px;">
@@ -165,8 +173,7 @@
                         <li>
                             Laporan keuangan disusun menggunakan Standar Akuntansi Keuangan Usaha Jasa Keuangan Mikro.
                         </li>
-                        <li>Dasar Penyusunan laporan keuangan Keputusan MAD cq. Program kerja penatausahaan dan penerbitan
-                            laporan Keuangan.</li>
+                        <li>Dasar Penyusunan laporan keuangan adalah SOP penatausahaan dan SOP laporan Keuangan.</li>
                         <li>
                             Dasar penyusunan laporan keuangan adalah biaya historis dan menggunakan asumsi dasar kas basis.
                             Mata uang penyajian yang digunakan untuk menyusun laporan keuangan ini adalah Rupiah.
@@ -176,9 +183,9 @@
                 <li>
                     Piutang Usaha
                     <div>
-                        Piutang usaha disajikan sebesar jumlah alokasi pencairan pinjaman ditambah resceduling setelah
+                        Piutang usaha disajikan sebesar jumlah alokasi pencairan piutang ditambah nilai resceduling setelah
                         dikurangi komulatif angsuran pada setiap pinjaman dan nilai penghapusan pinjaman yang diputuskan
-                        dalam MAD.
+                        dalam Rapat Direksi dan/atau Keputusan Direktur.
                     </div>
                 </li>
                 <li>
@@ -197,10 +204,10 @@
                     Pengakuan Pendapatan dan Beban
                     <ol style="list-style: lower-alpha;">
                         <li>
-                            Jasa piutang masyarakat yang sudah dilakukan pembayaran 
+                            Jasa piutang masyarakat yang sudah dilakukan pembayaran
                             diakui sebagai pendapatan dan diterbitkan kuitansi pembayaran,
                             sedangkan jasa yang seharusnya sudah memasuki kewajiban bayar/target bayar
-                            akan tetapi tidak dipenuhi oleh nasabah (menunggak) tetap diakui sebagai pendapatan 
+                            akan tetapi tidak dipenuhi oleh nasabah (menunggak) tetap diakui sebagai pendapatan
                             meskipun tidak diterbitkan kuitansi, sehinga sekaligus dicatatkan sebagai
                             piutang jasa. Adapun berkaitan dengan penerimaan denda atas keterlambatan
                             pembayaran/pinalti diakui sebagai pendapatan pada saat diterbitkan kuitansi pembayaran.
@@ -338,7 +345,7 @@
         </li>
         <li style="margin-top: 12px;">
             <div style="text-transform: uppercase;">
-                Ketentuan Pembagian Surplus :
+                Ketentuan Pembagian Laba :
             </div>
             <div>
                 Pembagian laba yang diperoleh dalam satu tahun buku dialokasikan
