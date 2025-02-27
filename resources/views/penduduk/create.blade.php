@@ -1,6 +1,7 @@
 <style>
     .select2-container .select2-selection--single .select2-selection__rendered {
-        font-size: 14px; /* Default font size */
+        font-size: 14px;
+        /* Default font size */
     }
 </style>
 
@@ -12,12 +13,12 @@
             </div>
             <div><b>Form Register Pelanggan</b>
                 <div class="page-title-subheading">
-                    {{ Session::get('nama_lembaga') }} 
-               </div>
+                    {{ Session::get('nama_lembaga') }}
+                </div>
             </div>
-        </div> 
+        </div>
     </div>
-</div>   
+</div>
 <form action="/database/penduduk" method="post" id="Penduduk">
     @csrf
 
@@ -25,8 +26,8 @@
         <div class="col-md-4">
             <div class="position-relative mb-3">
                 <label for="nik">NIK</label>
-                <input autocomplete="off" maxlength="16" type="text" name="nik" id="nik" class="form-control"
-                    value="{{ $nik }}">
+                <input autocomplete="off" maxlength="16" type="text" name="nik" id="nik"
+                    class="form-control" value="{{ $nik }}">
                 <small class="text-danger" id="msg_nik"></small>
             </div>
         </div>
@@ -57,9 +58,9 @@
         <div class="col-md-2">
             <div class="position-relative mb-3">
                 <label for="tgl_lahir">Tgl Lahir</label>
-                <input autocomplete="off" type="text" name="tgl_lahir" id="tgl_lahir"
-                        class="form-control date" value="{{ date('d/m/Y') }}">
-                        <small class="text-danger" id="msg_tgl_lahir"></small>
+                <input autocomplete="off" type="text" name="tgl_lahir" id="tgl_lahir" class="form-control date"
+                    value="{{ date('d/m/Y') }}">
+                <small class="text-danger" id="msg_tgl_lahir"></small>
             </div>
         </div>
         <div class="col-md-2">
@@ -72,7 +73,7 @@
                 </select>
                 <small class="text-danger" id="msg_jenis_kelamin"></small>
             </div>
-        </div>        
+        </div>
         <div class="col-md-4">
             <div class="position-relative mb-3">
                 <label for="no_kk">No. KK</label>
@@ -80,8 +81,8 @@
                     value="{{ substr($nik, 0, 6) }}">
                 <small class="text-danger" id="msg_no_kk"></small>
             </div>
-        </div>      
-    </div> 
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-4">
             <div class="position-relative mb-3">
@@ -105,7 +106,7 @@
                     <option>Pilih Desa/Kelurahan</option>
                     @foreach ($desa as $ds)
                         <option {{ $desa_dipilih == $ds->kd_desa ? 'selected' : '' }} value="{{ $ds->kd_desa }}">
-                            {{ $ds->sebutan_desa->sebutan_desa }} {{ $ds->nama_desa }}
+                            {{ $ds->sebutan_desa->sebutan_desa }} {{ $ds->nama_kec }} {{ $ds->nama_desa }}
                         </option>
                     @endforeach
                 </select>
@@ -158,7 +159,8 @@
         <div class="col-md-2">
             <div class="position-relative mb-3">
                 <label for="status_pernikahan">Status Pernikahan</label>
-                <select class="js-select-2 form-control" name="status_pernikahan" id="status_pernikahan" class="form-control">
+                <select class="js-select-2 form-control" name="status_pernikahan" id="status_pernikahan"
+                    class="form-control">
                     <option value="">Pilih Status</option>
                     <option value="lajang">Lajang</option>
                     <option value="menikah">Menikah</option>
@@ -180,7 +182,8 @@
         <div class="col-md-4">
             <div class="position-relative mb-3">
                 <label for="tempat_kerja">Alamat Tempat Kerja</label>
-                <input autocomplete="off" type="text" name="tempat_kerja" id="tempat_kerja" class="form-control">
+                <input autocomplete="off" type="text" name="tempat_kerja" id="tempat_kerja"
+                    class="form-control">
                 <small class="text-danger" id="msg_tempat_kerja"></small>
             </div>
         </div>
@@ -208,7 +211,7 @@
                 <small class="text-danger" id="msg_penjamin"></small>
             </div>
         </div>
-         <div class="col-md-4">
+        <div class="col-md-4">
             <div class="position-relative mb-3">
                 <label for="hubungan">Hubungan</label>
                 <select class="js-select-2 form-control" name="hubungan" id="hubungan">
@@ -224,24 +227,26 @@
     </div>
     <div class="col-md-12">
         <div class="font-icon-wrapper">
-            <p><p><b>Catatan : </b> ( Jika Ada data atau inputan yang kosong bisa di isi ( 0 ) atau ( - ) )</p></p>
+            <p>
+            <p><b>Catatan : </b> ( Jika Ada data atau inputan yang kosong bisa di isi ( 0 ) atau ( - ) )</p>
+            </p>
         </div>
     </div>
-    <button type="submit" class="btn btn-github btn-sm float-end btn-dark mb-0" id="SimpanPenduduk">Simpan Penduduk</button>
+    <button type="submit" class="btn btn-github btn-sm float-end btn-dark mb-0" id="SimpanPenduduk">Simpan
+        Penduduk</button>
 </form>
 
 <script>
-        $('.js-select-2').select2({
-            theme: 'bootstrap-5'
-        });
+    $('.js-select-2').select2({
+        theme: 'bootstrap-5'
+    });
 
-        // Function to set font size
-        function setFontSize(size) {
-            $('.select2-container .select2-selection--single .select2-selection__rendered').css('font-size', size + 'px');
-        }
+    // Function to set font size
+    function setFontSize(size) {
+        $('.select2-container .select2-selection--single .select2-selection__rendered').css('font-size', size + 'px');
+    }
 
-        $('.date').datepicker({
-            dateFormat: 'dd/mm/yy'
-        });
-
+    $('.date').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
 </script>
