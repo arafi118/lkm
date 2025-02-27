@@ -130,8 +130,9 @@
                                                     @foreach ($desa as $ds)
                                                         <option value="{{ $ds->kd_desa }}"
                                                             {{ old('desa', $desa_dipilih) == $ds->kd_desa ? 'selected' : '' }}>
-                                                            {{ $ds->sebutan_desa->sebutan_desa }} {{ $ds->nama_kec }}
-                                                            {{ $ds->nama_desa }}
+                                                            {{ $ds->sebutan_desa->sebutan_desa }}
+                                                            {{ $ds->nama_desa }} - {{ $ds->nama_kec }}
+                                                            {{ $ds->nama_kec }}
                                                         </option>
                                                     @endforeach
                                                 </select>
