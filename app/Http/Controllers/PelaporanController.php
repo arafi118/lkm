@@ -54,10 +54,20 @@ class PelaporanController extends Controller
             $rekening = Rekening::orderBy('kode_akun', 'ASC')->get();
             return view('pelaporan.partials.sub_laporan')->with(compact('file', 'rekening'));
         }
-
+        
         if ($file == 20) {
-            $ojk = SubLaporan::orderBy('id')->get();
+            $ojk = SubLaporan::where('file', '!=', '0')
+                ->orderBy('urut')
+                ->orderBy('id')
+                ->get();
+            return view('pelaporan.partials.sub_laporan')->with(compact('file', 'ojk'));
+        }
 
+        if ($file == 21) {
+            $ojk = SubLaporan::where('file_kab', '!=', '0')
+                ->orderBy('urut')
+                ->orderBy('id')
+                ->get();
             return view('pelaporan.partials.sub_laporan')->with(compact('file', 'ojk'));
         }
 
@@ -270,7 +280,7 @@ class PelaporanController extends Controller
             $data['kode_akun'] = $laporan[1];
             $data['laporan'] = 'buku_besar ' . $laporan[1];
             return $this->$file($data);
-        } elseif ($file == 20) {
+        } elseif ($file == 20 ||$file == 21 ) {
             $file = $request->sub_laporan;
             return $this->$file($data);
         } elseif ($file == 5) {
@@ -888,6 +898,67 @@ class PelaporanController extends Controller
 
         $view = view('pelaporan.view.ojk.kolekbilitas_pinjaman', $data)->render();
 
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view)->setPaper('A4', 'landscape');
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
+    
+    private function pinjaman_diberi(array $data)
+    {
+        $thn = $data['tahun'];
+        $bln = $data['bulan'];
+        $hari = $data['hari'];
+
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['judul'] = 'Laporan Keuangan';
+        $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
+        $data['tgl'] = Tanggal::tglLatin($tgl);
+
+        if ($data['bulanan']) {
+            $data['judul'] = 'Laporan Keuangan';
+            $data['sub_judul'] = date('t', strtotime($tgl)) . ' Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+        }
+        $data['jenis_pp'] = JenisProdukPinjaman::where(function ($query) {
+            $query->where('lokasi', '0')
+                  ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+        })
+        ->orWhere(function ($query) {
+            $query->where('lokasi', session('lokasi'))
+                  ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+        })
+        ->with([
+            'pinjaman_individu' => function ($query) use ($data) {
+                $tb_pinj_i = 'pinjaman_anggota_' . $data['kec']->id;
+                $tb_angg = 'anggota_' . $data['kec']->id;
+                $data['tb_pinj_i'] = $tb_pinj_i;
+
+                $query->select(
+                    $tb_pinj_i . '.*',
+                    $tb_angg . '.namadepan',
+                    $tb_angg . '.nik',
+                    'desa.nama_desa',
+                    'desa.kd_desa',
+                    'desa.kode_desa',
+                    'sebutan_desa.sebutan_desa'
+                )
+                    ->join($tb_angg, $tb_angg . '.id', '=', $tb_pinj_i . '.nia')
+                    ->join('desa', $tb_angg . '.desa', '=', 'desa.kd_desa')
+                    ->join('sebutan_desa', 'sebutan_desa.id', '=', 'desa.sebutan')
+                    ->withSum(['real_i' => function ($query) use ($data) {
+                        $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
+                    }], 'realisasi_pokok')
+                    ->withSum(['real_i' => function ($query) use ($data) {
+                        $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
+                    }], 'realisasi_jasa'); // Add closing parenthesis and square bracket here
+            }
+        ])->get();
+
+        $data['laporan'] = 'Rincian pinjaman Diterima';
+        $view = view('pelaporan.view.ojk.pinjaman_diberi', $data)->render();
+        
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view)->setPaper('A4', 'landscape');
             return $pdf->stream();
