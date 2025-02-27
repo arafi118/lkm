@@ -327,7 +327,7 @@
     $(".money").maskMoney();
 
     $('.js-example-basic-single').select2({
-        theme: 'bootstrap-5'
+        theme: 'bootstrap4'
     });
 
     $(document).on('click', '#Simpan', async function(e) {

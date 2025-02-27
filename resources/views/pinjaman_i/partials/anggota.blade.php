@@ -3,23 +3,6 @@
 
     $selected = false;
 @endphp
-<style>
-    .custom-button {
-    width: 200px; /* Atur panjang tombol sesuai kebutuhan */
-    float: right; /* Tempatkan tombol di sebelah kanan */
-    text-align: center; /* Pusatkan teks di tombol */
-    background-color: #2280de; /* Warna latar belakang */
-    color: white; /* Warna teks */
-    border: none; /* Hilangkan border */
-    border-radius: 5px; /* Atur radius sudut */
-    cursor: pointer; /* Ubah kursor saat dihover */
-}
-
-.custom-button:hover {
-    background-color: #495057; /* Warna latar belakang saat dihover */
-}
-
-</style>
 <div class="row">
     <div class="col-md-8">
         <div class="position-relative mb-3">
@@ -61,14 +44,15 @@
     </div>
     <div class="col-md-4 position-relative mb-3 resizeable">
         <div class="d-grid w-100 mb-2">
-            <a href="/database/penduduk/register_penduduk" class="btn btn-info btn-sm" style="width: 300px; height: 35px;">Reg. Calon Nasabah</a>
+            <a href="/database/penduduk/register_penduduk" class="btn btn-info btn-sm"
+                style="width: 300px; height: 35px;">Reg. Calon Nasabah</a>
         </div>
     </div>
-    
+
 </div>
 
 <script>
-  $('.js-example-basic-single').select2({
+    $('.js-example-basic-single').select2({
         theme: 'bootstrap-5'
     });
 </script>

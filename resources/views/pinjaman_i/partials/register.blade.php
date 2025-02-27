@@ -235,9 +235,10 @@
         dateFormat: 'dd/mm/yy'
     });
 
-
-    $('.js-example-basic-single').select2({
-        theme: 'bootstrap-5'
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2({
+            theme: 'bootstrap4',
+        });
     });
 
     $("#pengajuan").maskMoney();

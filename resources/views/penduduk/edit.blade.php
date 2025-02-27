@@ -76,7 +76,7 @@
             <div class="col-md-2">
                 <div class="position-relative mb-3">
                     <label for="jenis_kelamin">Jenis Kelamin</label>
-                    <select class="detailselect2 form-control" name="jenis_kelamin" id="jenis_kelamin">
+                    <select class="editselect2 form-control" name="jenis_kelamin" id="jenis_kelamin">
                         <option>Pilih Jenis Kelamin</option>
                         <option {{ $jk_dipilih == 'L' ? 'selected' : '' }} value="L">Laki Laki</option>
                         <option {{ $jk_dipilih == 'P' ? 'selected' : '' }} value="P">Perempuan</option>
@@ -113,7 +113,7 @@
             <div class="col-md-4">
                 <div class="position-relative mb-3">
                     <label for="jenis_usaha" for="desa">Desa/Kelurahan</label>
-                    <select class="detailselect2 form-control" name="desa" id="desa">
+                    <select class="editselect2 form-control" name="desa" id="desa">
                         <option value="">Pilih Desa/Kelurahan</option>
                         @foreach ($desa as $ds)
                             <option value="{{ $ds->kd_desa }}"
@@ -132,7 +132,7 @@
             <div class="col-md-4">
                 <div class="position-relative mb-3">
                     <label for="agama">Agama</label>
-                    <select class="detailselect2 form-control" name="agama" id="agama" class="form-control">
+                    <select class="editselect2 form-control" name="agama" id="agama" class="form-control">
                         <option value="">{{ $data_anggota->agama }}</option>
                         <option value="islam">Islam</option>
                         <option value="kristen_protestan">Kristen Protestan</option>
@@ -148,8 +148,7 @@
             <div class="col-md-2">
                 <div class="position-relative mb-3">
                     <label for="pendidikan">Pendidikan</label>
-                    <select class="detailselect2 form-control" name="pendidikan" id="pendidikan"
-                        class="form-control">
+                    <select class="editselect2 form-control" name="pendidikan" id="pendidikan" class="form-control">
                         <option value="">{{ $data_anggota->pendidikan }}</option>
                         <option value="sd_mi">SD/MI</option>
                         <option value="smp_mts">SMP/MTs</option>
@@ -168,7 +167,7 @@
             <div class="col-md-2">
                 <div class="position-relative mb-3">
                     <label for="status_pernikahan">Status Pernikahan</label>
-                    <select class="detailselect2 form-control" name="status_pernikahan" id="status_pernikahan"
+                    <select class="editselect2 form-control" name="status_pernikahan" id="status_pernikahan"
                         class="form-control">
                         <option value="">{{ $data_anggota->status_pernikahan }}</option>
                         <option value="lajang">Lajang</option>
@@ -236,7 +235,7 @@
             <div class="col-md-4">
                 <div class="position-relative mb-3">
                     <label for="hubungan">Hubungan</label>
-                    <select class="detailselect2 form-control" name="hubungan" id="hubungan">
+                    <select class="editselect2 form-control" name="hubungan" id="hubungan">
                         @foreach ($hubungan as $hb)
                             <option {{ $hubungan_dipilih == $hb->id ? 'selected' : '' }} value="{{ $hb->id }}">
                                 {{ $hb->kekeluargaan }}
@@ -266,7 +265,7 @@
 
 <script>
     $(document).ready(function() {
-        $('.detailselect2').select2({
+        $('.editselect2').select2({
             theme: 'bootstrap4',
         });
     });

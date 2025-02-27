@@ -14,11 +14,13 @@
                 <div class="col-md-4">
                     <div class="position-relative mb-3">
                         <label class="form-label" for="desa">Desa/Kelurahan</label>
-                        <select class="js-example-basic-single form-control" name="desa" id="desa">
-                            <option value="">Pilih ......</option>
+                        <select class="detailselect2 form-control" name="desa" id="desa">
+                            <option value="">Pilih Desa/Kelurahan</option>
                             @foreach ($desa as $ds)
-                                <option {{ $desa_dipilih == $ds->kd_desa ? 'selected' : '' }} value="{{ $ds->kd_desa }}">
-                                    {{ $ds->sebutan_desa->sebutan_desa }} {{ $ds->nama_desa }}
+                                <option value="{{ $ds->kd_desa }}"
+                                    {{ old('desa', $desa_dipilih) == $ds->kd_desa ? 'selected' : '' }}>
+                                    {{ $ds->sebutan_desa->sebutan_desa }}
+                                    {{ $ds->nama_desa }} - {{ $ds->nama_kec }}
                                 </option>
                             @endforeach
                         </select>
@@ -28,8 +30,8 @@
                 <div class="col-md-3">
                     <div class="DOMContentLoaded position-relative mb-3">
                         <label for="kd_agent" class="form-label">Kd Agen</label>
-                        <input autocomplete="off" type="text" name="kd_agent" id="kd_agent"
-                               class="form-control" value="{{ $agent->kd_agent }}" readonly>
+                        <input autocomplete="off" type="text" name="kd_agent" id="kd_agent" class="form-control"
+                            value="{{ $agent->kd_agent }}" readonly>
                         <small class="text-danger" id="msg_kd_agent"></small>
                     </div>
                 </div>
@@ -37,11 +39,11 @@
                     <div class="position-relative mb-3">
                         <label for="agent" class="form-label">Agen</label>
                         <input autocomplete="off" type="text" name="agent" id="agent"
-                            class="form-control money" value="{{ $agent->agent}}">
+                            class="form-control money" value="{{ $agent->agent }}">
                         <small class="text-danger" id="msg_agent"></small>
                     </div>
                 </div>
-               
+
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -56,7 +58,7 @@
                     <div class="position-relative mb-3">
                         <label for="nohp" class="form-label">Nomor HP</label>
                         <input autocomplete="off" type="text" name="nohp" id="nohp"
-                            class="form-control money" value="{{$agent->nohp}}">
+                            class="form-control money" value="{{ $agent->nohp }}">
                         <small class="text-danger" id="msg_nohp"></small>
                     </div>
                 </div>
@@ -65,19 +67,22 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">Close</button>
-        <button type="submit" id="SimpanEditAgent" class="btn btn-sm btn-github btn btn-sm btn-dark mb-0">Simpan</button>
+        <button type="submit" id="SimpanEditAgent"
+            class="btn btn-sm btn-github btn btn-sm btn-dark mb-0">Simpan</button>
     </div>
 </div>
 <script>
-    $('.js-example-basic-single').select2({
+    $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+    $('.detailselect2').select2({
         theme: 'bootstrap-5'
-        });
-        $(document).on('change', '#desa', function (e) {
+    });
+
+    $(document).on('change', '#desa', function(e) {
         e.preventDefault()
 
-            var kd_desa = $(this).val()
-            $.get('/database/agent/generatekode?kode=' + kd_desa, function (result) {
-                $('#kd_agent').val(result.kd_agent)
-            })
-        });
+        var kd_desa = $(this).val()
+        $.get('/database/agent/generatekode?kode=' + kd_desa, function(result) {
+            $('#kd_agent').val(result.kd_agent)
+        })
+    });
 </script>

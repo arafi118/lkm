@@ -7,17 +7,18 @@
     <div class="modal-body">
         <form action="/database/supplier" method="post" id="FormRegisterSupplier">
             @csrf
-        
+
             <br>
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="position-relative mb-3">
                         <label for="kd_supplier" class="form-label">KD Supplier</label>
-                        <input autocomplete="off"type="text" name="kd_supplier" id="kd_supplier" class="form-control" value="{{ $kd_supplier }}" readonly>
+                        <input autocomplete="off"type="text" name="kd_supplier" id="kd_supplier" class="form-control"
+                            value="{{ $kd_supplier }}" readonly>
                         <small class="text-danger" id="msg_kd_supplier"></small>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <div class="position-relative mb-3">
                         <label for="supplier" class="form-label">Nama Supplier</label>
                         <input autocomplete="off" type="text" name="supplier" id="supplier" class="form-control">
@@ -56,14 +57,14 @@
     </div>
 </div>
 <script>
-    $(document).on('change', '#desa', function (e) {
+    $(document).on('change', '#desa', function(e) {
         e.preventDefault()
 
-            var kd_desa = $(this).val()
-            $.get('/database/agent/generatekode?kode=' + kd_desa, function (result) {
-                $('#kd_agent').val(result.kd_agent)
-            })
-        });
+        var kd_desa = $(this).val()
+        $.get('/database/agent/generatekode?kode=' + kd_desa, function(result) {
+            $('#kd_agent').val(result.kd_agent)
+        })
+    });
 
     function submit() {
         console.log("Data disimpan");

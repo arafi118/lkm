@@ -108,13 +108,13 @@
     @csrf
     @method('PUT')
 
-<div class="tab-content">
-    <div class="tab-pane fade show active" id="" role="tabpanel">
-        <div class="main-card mb-3 card">
-            <div class="card-body">
-                <h5 class="card-title">Input Rekom Verifikator</h5>
-                <input type="hidden" name="_id" id="_id" value="{{ $perguliran_i->id }}">
-                <input type="hidden" name="status" id="status" value="W">
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="" role="tabpanel">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <h5 class="card-title">Input Rekom Verifikator</h5>
+                    <input type="hidden" name="_id" id="_id" value="{{ $perguliran_i->id }}">
+                    <input type="hidden" name="status" id="status" value="W">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="position-relative mb-3">
@@ -128,16 +128,17 @@
                             <div class="position-relative mb-3">
                                 <label for="harga" class="form-label">Harga Rp.</label>
                                 <input autocomplete="off" type="text" name="harga" id="harga"
-                                class="form-control money" value="{{ number_format($perguliran_i->verifikasi, 2) }}">
-                            <small class="text-danger" id="msg_harga"></small>
+                                    class="form-control money"
+                                    value="{{ number_format($perguliran_i->verifikasi, 2) }}">
+                                <small class="text-danger" id="msg_harga"></small>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="position-relative mb-3">
                                 <label for="jangka" class="form-label">Jangka</label>
-                                <input autocomplete="off" type="number" name="jangka" id="jangka" class="form-control"
-                                value="{{ $perguliran_i->jangka }}">
-                            <small class="text-danger" id="msg_jangka"></small>
+                                <input autocomplete="off" type="number" name="jangka" id="jangka"
+                                    class="form-control" value="{{ $perguliran_i->jangka }}">
+                                <small class="text-danger" id="msg_jangka"></small>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -167,7 +168,8 @@
                         <div class="col-md-4">
                             <div class="position-relative mb-3">
                                 <label for="sistem_angsuran_pokok" class="form-label">Sistem Ang. Pokok</label>
-                                <select class="selectverived form-control" name="sistem_angsuran_pokok" id="sistem_angsuran_pokok">
+                                <select class="selectverived form-control" name="sistem_angsuran_pokok"
+                                    id="sistem_angsuran_pokok">
                                     @foreach ($sistem_angsuran as $sa)
                                         <option {{ $sa->id == $perguliran_i->sistem_angsuran ? 'selected' : '' }}
                                             value="{{ $sa->id }}">
@@ -181,7 +183,8 @@
                         <div class="col-md-4">
                             <div class="position-relative mb-3">
                                 <label for="sistem_angsuran_jasa" class="form-label">Sistem Ang. Jasa</label>
-                                <select class="selectverived form-control" name="sistem_angsuran_jasa" id="sistem_angsuran_jasa">
+                                <select class="selectverived form-control" name="sistem_angsuran_jasa"
+                                    id="sistem_angsuran_jasa">
                                     @foreach ($sistem_angsuran as $sa)
                                         <option {{ $sa->id == $perguliran_i->sa_jasa ? 'selected' : '' }}
                                             value="{{ $sa->id }}">
@@ -198,41 +201,44 @@
                             <div class="position-relative mb-3">
                                 <label for="tgl_cair" class="form-label">Tgl Cair</label>
                                 <input autocomplete="off" type="text" name="tgl_cair" id="tgl_cair"
-                                class="form-control date" value="{{ date('d/m/Y') }}">
-                            <small class="text-danger" id="msg_tgl_cair"></small>
+                                    class="form-control date" value="{{ date('d/m/Y') }}">
+                                <small class="text-danger" id="msg_tgl_cair"></small>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="position-relative mb-3">
                                 <label for="depe" class="form-label">Down Payment (%)</label>
                                 <input autocomplete="off" type="text" name="depe" id="depe"
-                                class="form-control money" value="{{ number_format($perguliran_i->verifikasi * $kec->def_depe /100 ,2) }}">
-                            <small class="text-danger" id="msg_depe"></small>
+                                    class="form-control money"
+                                    value="{{ number_format(($perguliran_i->verifikasi * $kec->def_depe) / 100, 2) }}">
+                                <small class="text-danger" id="msg_depe"></small>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="position-relative mb-3">
                                 <label for="nomor_spk" class="form-label">Nomor SPK</label>
                                 <input autocomplete="off" type="text" name="nomor_spk" id="nomor_spk"
-                                class="form-control" value="{{ $perguliran_i->spk_no }}">
-                            <small class="text-danger" id="msg_nomor_spk"></small>
+                                    class="form-control" value="{{ $perguliran_i->spk_no }}">
+                                <small class="text-danger" id="msg_nomor_spk"></small>
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <button type="button" id="kembaliProposal" class="btn btn-info flex-grow-1 me-2" style="background-color: rgb(240, 148, 0);">
+                        <button type="button" id="kembaliProposal" class="btn btn-info flex-grow-1 me-2"
+                            style="background-color: rgb(240, 148, 0);">
                             <b><i class="fa fa-refresh"></i> &nbsp; KEMBALI KE PROPOSAL</b>
                         </button>
-                        <button type="button" id="Simpan" class="btn btn-secondary flex-grow-1 ms-2" style="background-color: rgb(112, 109, 109);">
+                        <button type="button" id="Simpan" class="btn btn-secondary flex-grow-1 ms-2"
+                            style="background-color: rgb(112, 109, 109);">
                             <b><i class="fa fa-search-plus"></i> &nbsp; SIMPAN KEPUTUSAN PENDANAAN</b>
                         </button>
                     </div>
-               
+
+                </div>
             </div>
         </div>
     </div>
-</div>
 </form>
 <form action="/perguliran_i/kembali_proposal/{{ $perguliran_i->id }}" method="post" id="formKembaliProposal">
     @csrf
@@ -248,7 +254,7 @@
     })
 
     $('.selectverived').select2({
-        theme: 'bootstrap-5'
+        theme: 'bootstrap4'
     });
 
     $(".money").maskMoney();
