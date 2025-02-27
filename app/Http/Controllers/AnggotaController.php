@@ -234,7 +234,8 @@ class AnggotaController extends Controller
     public function show(Anggota $penduduk)
     {
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
-        $desa = Desa::where('kd_kec', $kec->kd_kec)->with('sebutan_desa')->get();
+        // $desa = Desa::where('kd_kec', $kec->kd_kec)->with('sebutan_desa')->get();
+        $desa = Desa::where('kd_kec', 'LIKE', $kec->kd_kab . '%')->with('sebutan_desa')->get();
         $jenis_usaha = Usaha::orderBy('nama_usaha', 'ASC')->get();
         $hubungan = Keluarga::orderBy('id', 'ASC')->get();
 
