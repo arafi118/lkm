@@ -66,7 +66,7 @@
         <div class="col-md-2">
             <div class="position-relative mb-3">
                 <label for="jenis_kelamin">Jenis Kelamin</label>
-                <select class="js-select-2 form-control" name="jenis_kelamin" id="jenis_kelamin">
+                <select class="createselect2 form-control" name="jenis_kelamin" id="jenis_kelamin">
                     <option>Pilih Jenis Kelamin</option>
                     <option {{ $jk_dipilih == 'L' ? 'selected' : '' }} value="L">Laki Laki</option>
                     <option {{ $jk_dipilih == 'P' ? 'selected' : '' }} value="P">Perempuan</option>
@@ -102,7 +102,7 @@
         <div class="col-md-4">
             <div class="position-relative mb-3">
                 <label for="jenis_usaha" for="desa">Desa/Kelurahan</label>
-                <select class="js-select-2 form-control" name="desa" id="desa">
+                <select class="createselect2 form-control" name="desa" id="desa">
                     <option>Pilih Desa/Kelurahan</option>
                     @foreach ($desa as $ds)
                         <option {{ $desa_dipilih == $ds->kd_desa ? 'selected' : '' }} value="{{ $ds->kd_desa }}">
@@ -126,7 +126,7 @@
         <div class="col-md-4">
             <div class="position-relative mb-3">
                 <label for="pendidikan">Pendidikan</label>
-                <select class="js-select-2 form-control" name="pendidikan" id="pendidikan">
+                <select class="createselect2 form-control" name="pendidikan" id="pendidikan">
                     <option value="">Pilih Pendidikan</option>
                     <option value="sd_mi">SD/MI</option>
                     <option value="smp_mts">SMP/MTs</option>
@@ -144,7 +144,7 @@
         <div class="col-md-2">
             <div class="position-relative mb-3">
                 <label for="agama">Agama</label>
-                <select class="js-select-2 form-control" name="agama" id="agama" class="form-control">
+                <select class="createselect2 form-control" name="agama" id="agama" class="form-control">
                     <option value="">Pilih Agama</option>
                     <option value="islam">Islam</option>
                     <option value="kristen_protestan">Kristen Protestan</option>
@@ -159,7 +159,7 @@
         <div class="col-md-2">
             <div class="position-relative mb-3">
                 <label for="status_pernikahan">Status Pernikahan</label>
-                <select class="js-select-2 form-control" name="status_pernikahan" id="status_pernikahan"
+                <select class="createselect2 form-control" name="status_pernikahan" id="status_pernikahan"
                     class="form-control">
                     <option value="">Pilih Status</option>
                     <option value="lajang">Lajang</option>
@@ -214,7 +214,7 @@
         <div class="col-md-4">
             <div class="position-relative mb-3">
                 <label for="hubungan">Hubungan</label>
-                <select class="js-select-2 form-control" name="hubungan" id="hubungan">
+                <select class="createselect2 form-control" name="hubungan" id="hubungan">
                     @foreach ($hubungan as $hb)
                         <option {{ $hubungan_dipilih == $hb->id ? 'selected' : '' }} value="{{ $hb->id }}">
                             {{ $hb->kekeluargaan }}
@@ -237,8 +237,10 @@
 </form>
 
 <script>
-    $('.js-select-2').select2({
-        theme: 'bootstrap-5'
+    $(document).ready(function() {
+        $('.createselect2').select2({
+            theme: 'bootstrap4',
+        });
     });
 
     // Function to set font size

@@ -5,9 +5,33 @@
             font-size: 14px;
             /* Default font size */
         }
+
+        .nav-pills {
+            background-color: #ffffff;
+            /* Warna background */
+            border-radius: 8px;
+            /* Sudut melengkung */
+            padding: 5px;
+            /* Padding agar lebih rapi */
+        }
+
+        .nav-pills .nav-link {
+            color: #333;
+            /* Warna teks */
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: #007bff;
+            /* Warna background tab aktif */
+            color: rgb(253, 253, 253);
+            /* Warna teks tab aktif */
+            border-radius: 5px;
+            /* Sudut melengkung */
+        }
     </style>
     <div class="app-main__inner">
         <div class="card-body">
+
             <div class="nav-wrapper position-relative end-0">
                 <ul class="nav nav-pills nav-fill p-1" role="tablist">
                     <li class="nav-item">
