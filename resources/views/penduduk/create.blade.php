@@ -106,7 +106,7 @@
                     <option>Pilih Desa/Kelurahan</option>
                     @foreach ($desa as $ds)
                         <option {{ $desa_dipilih == $ds->kd_desa ? 'selected' : '' }} value="{{ $ds->kd_desa }}">
-                            {{ $ds->sebutan_desa->sebutan_desa }} {{ $ds->nama_desa }} - {{ $ds->nama_kec }}
+                            {{ $ds->sebutan_desa }} {{ $ds->nama_desa }} - {{ $ds->nama_kec }}
                         </option>
                     @endforeach
                 </select>
