@@ -47,52 +47,9 @@
                     <input type="hidden" name="surplus" id="surplus" value="{{ $surplus }}">
                     <div class="card">
                         <div class="card-body p-3">
-                            <div class="table-responsive mb-3">
-                                <table class="table table-striped midle">
-                                    <thead class="bg-dark text-white">
-                                        <tr>
-                                            <th width="50%">
-                                                <span class="text-sm">Cadangan Resiko</span>
-                                            </th>
-                                            <th width="50%">
-                                                <div class="d-flex justify-content-between">
-                                                    <span class="text-sm">Jumlah</span>
-                                                    <span class="text-sm">
-                                                        Rp. <span data-id="total_cadangan_resiko">
-                                                            {{ number_format($surplus, 2) }}
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <input type="hidden" name="total_cadangan_resiko" id="total_cadangan_resiko"
-                                            class="form-control total form-control-sm text-end" value="0">
-                                        @forelse ($cadangan_resiko as $cr)
-                                            <tr>
-                                                <td>{{ $cr->nama_akun }}</td>
-                                                <td>
-                                                    <div class="input-group input-group-outline my-0">
-                                                        <input type="text" name="cadangan_resiko[{{ $cr->kode_akun }}]"
-                                                            id="{{ $cr->kode_akun }}"
-                                                            class="form-control nominal cadangan_resiko form-control-sm text-end"
-                                                            value="0.00">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <input type="hiden" name="cadangan_resiko[0]" id="0"
-                                                class="form-control nominal cadangan_resiko form-control-sm text-end"
-                                                value="0.00">
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
                             <h4 class="font-weight-normal">
                                 Alokasi Surplus Bersih
                             </h4>
-
                             <div class="table-responsive mb-3">
                                 <table class="table table-striped midle">
                                     <thead class="bg-dark text-white">
@@ -118,8 +75,7 @@
                                                 <td>{{ $saldo->nama_akun }}</td>
                                                 <td>
                                                     <div class="input-group input-group-outline my-0">
-                                                        <input type="text"
-                                                            name="surplus_bersih[{{ $saldo->kode_akun }}]"
+                                                        <input type="text" name="surplus_bersih[{{ $saldo->kode_akun }}]"
                                                             id="surplus_bersih_{{ $saldo->kode_akun }}"
                                                             class="form-control nominal surplus_bersih form-control-sm text-end"
                                                             value="0.00">
@@ -156,16 +112,21 @@
                                     <tbody>
                                         <input type="hidden" name="total_laba_ditahan" id="total_laba_ditahan"
                                             class="form-control form-control-sm text-end" value="{{ $surplus }}">
-                                        <tr>
-                                            <td>Pemupukan modal</td>
-                                            <td>
-                                                <div class="input-group input-group-outline my-0">
-                                                    <input type="text" name="laba_ditahan[3.2.01.01]" id="laba_ditahan"
-                                                        class="form-control laba_ditahan form-control-sm text-end"
-                                                        value="{{ number_format($surplus, 2) }}" readonly>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        @foreach ($kode_surplus as $kode)
+                                            <tr>
+                                                <td>{{ $kode->nama_akun }}</td>
+                                                <td>
+                                                    <div class="input-group input-group-outline my-0">
+                                                        <input type="text" name="laba_ditahan[{{ $kode->kode_akun }}]"
+                                                            id="{{ str_replace('.', '', $kode->kode_akun) }}"
+                                                            class="form-control laba_ditahan nominal form-control-sm text-end"
+                                                            value="{{ $kode->kode_akun == '3.2.01.01' ? number_format($surplus, 2) : 0.0 }}"
+                                                            {{ $kode->kode_akun == '3.2.01.01' ? 'readonly' : '' }}>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+
                                     </tbody>
                                 </table>
                             </div>
@@ -194,26 +155,6 @@
             maximumFractionDigits: 2,
         })
 
-        $(document).on('change', '.cadangan_resiko', function(e) {
-            var total = 0;
-            $('.cadangan_resiko').map(function() {
-                var value = $(this).val()
-                if (value == '') {
-                    value = 0
-                } else {
-                    value = value.split(',').join('')
-                    value = value.split('.00').join('')
-                }
-
-                value = parseFloat(value)
-
-                total += value
-            })
-
-            $('#total_cadangan_resiko').val(formatter.format(total)).trigger('change')
-            $('[data-id=total_cadangan_resiko]').html(formatter.format(total))
-        })
-
         $(document).on('change', '.surplus_bersih', function(e) {
             var total = 0;
             $('.surplus_bersih').map(function() {
@@ -230,8 +171,35 @@
                 total += value
             })
 
+            // console.log('surplus_bersih: ' + total);
+
             $('#total_surplus_bersih').val(formatter.format(total)).trigger('change')
             $('[data-id=total_surplus_bersih]').html(formatter.format(total))
+        })
+
+        $(document).on('change', '.laba_ditahan:not(#320101)', function(e) {
+            var total = 0;
+            $('.laba_ditahan:not(#320101)').map(function() {
+                var value = $(this).val()
+                if (value == '') {
+                    value = 0
+                } else {
+                    value = value.split(',').join('')
+                    value = value.split('.00').join('')
+                }
+
+                value = parseFloat(value)
+
+                total += value
+
+            })
+
+            // console.log('laba_ditahan: ' + total);
+
+            var total_laba_ditahan = $('#total_laba_ditahan').val()
+            var laba_ditahan = total_laba_ditahan - total;
+            // console.log('total_laba_ditahan: ' + total_laba_ditahan + ' - ' + total)
+            $('#320101').val(formatter.format(laba_ditahan))
         })
 
         $(document).on('change', '.total', function(e) {
@@ -250,14 +218,17 @@
                 total += value
             })
 
+            // console.log('total: ' + total);
+
             var surplus = $('#surplus').val()
             surplus = surplus.split(',').join('')
             surplus = surplus.split('.00').join('')
 
             var sisa_surplus = surplus - total
+            // console.log('sisa_surplus: ' + sisa_surplus);
 
-            $('#total_laba_ditahan').val(formatter.format(sisa_surplus))
-            $('#laba_ditahan').val(formatter.format(sisa_surplus))
+            $('#320101').val(formatter.format(sisa_surplus))
+            $('#total_laba_ditahan').val(sisa_surplus).trigger('change')
             $('[data-id=total_laba_ditahan]').html(formatter.format(sisa_surplus))
         })
 

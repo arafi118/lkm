@@ -291,7 +291,6 @@ class TransaksiController extends Controller
             return view('transaksi.tutup_buku.index')->with(compact('title', 'kec', 'success'));
         }
 
-        $surplus = $keuangan->laba_rugi($tahun . '-13-00');
 
         $kec = Kecamatan::where('id', Session::get('lokasi'))->with([
             'saldo' => function ($query) use ($tahun, $bulan) {
@@ -299,8 +298,17 @@ class TransaksiController extends Controller
             },
         ])->first();
 
+        $surplus = $keuangan->laba_rugi($tahun . '-13-00');
+
+        $kode_surplus = Rekening::where('kode_akun', 'like', '3.2.01.%')->where([
+            ['nama_akun', 'NOT LIKE', '%pajak%'],
+            ['nama_akun', 'NOT LIKE', '%operasional%'],
+            ['nama_akun', 'NOT LIKE', '%bank%'],
+            ['nama_akun', 'NOT LIKE', '%ke-3%'],
+        ])->get();
+
         $cadangan_resiko = Rekening::where('kode_akun', 'like', '1.1.04.%')->get();
-        $pembagian_surplus = Rekening::where('kode_akun', 'like', '2.1.%')->where([
+        $pembagian_surplus = Rekening::where('kode_akun', 'like', '2.1.01.%')->where([
             ['nama_akun', 'NOT LIKE', '%pajak%'],
             ['nama_akun', 'NOT LIKE', '%operasional%'],
             ['nama_akun', 'NOT LIKE', '%bank%'],
@@ -315,7 +323,7 @@ class TransaksiController extends Controller
         ])->orderBy('kd_desa', 'ASC')->get();
 
         $title = 'Pembagian Laba';
-        return view('transaksi.tutup_buku.tutup_buku')->with(compact('title', 'kec', 'surplus', 'pembagian_surplus',  'desa', 'tgl_kondisi', 'tahun', 'migrasi_saldo', 'cadangan_resiko', 'success'));
+        return view('transaksi.tutup_buku.tutup_buku')->with(compact('title', 'kec', 'surplus', 'kode_surplus', 'pembagian_surplus',  'desa', 'tgl_kondisi', 'tahun', 'migrasi_saldo', 'cadangan_resiko', 'success'));
     }
 
     public function simpanAlokasiLaba(Request $request)
@@ -327,8 +335,6 @@ class TransaksiController extends Controller
             'laba_ditahan',
             'surplus_bersih',
             'total_surplus_bersih',
-            'total_cadangan_resiko',
-            'cadangan_resiko',
             'tgl_mad'
         ]);
 
@@ -353,17 +359,13 @@ class TransaksiController extends Controller
             4 => 'Lain-lain',
         ];
 
-        $alokasi_laba = [
-            '3.2.01.01' => 0
-        ];
-
-        $cadangan_resiko = $data['cadangan_resiko'];
-        $surplus_bersih = $data['surplus_bersih'];
-        $laba_ditahan = $data['laba_ditahan'];
+        $alokasi_laba = [];
+        $surplus_bersih = $data['surplus_bersih'] ?? 0;
+        $laba_ditahan = $data['laba_ditahan']; // ['3.2.01.01' => 12345]
 
         foreach ($laba_ditahan as $key => $val) {
             $value = str_replace(',', '', str_replace('.00', '', $val));
-            $alokasi_laba['3.2.01.01'] += floatval($value);
+            $alokasi_laba[$key] = floatval($value);
         }
 
         $trx = [];
@@ -392,36 +394,11 @@ class TransaksiController extends Controller
 
             $id = str_replace('.', '', $rek->kode_akun) . $tahun_tb . '00';
 
-            if ($rek->kode_akun == '3.2.01.01') {
-                $saldo_kredit += floatval($alokasi_laba['3.2.01.01']);
+            if (in_array($rek->kode_akun, $alokasi_laba)) {
+                $saldo_kredit += floatval($alokasi_laba['' . $rek->kode_akun . '']);
             }
-
             // Cadangan Kerugian Piutang
-            if (Keuangan::startWith($rek->kode_akun, '1.1.04')) {
-                $jumlah = floatval(str_replace(',', '', str_replace('.00', '', $cadangan_resiko[$rek->kode_akun])));
-                $keterangan = $rek->nama_akun . ' tahun ' . $tahun;
-                if ($jumlah != 0) {
-                    $trx['insert'][] = [
-                        'tgl_transaksi' => $data['tgl_mad'],
-                        'rekening_debit' => '3.2.01.01',
-                        'rekening_kredit' => $rek->kode_akun,
-                        'idtp' => '0',
-                        'id_pinj' => '0',
-                        'id_pinj_i' => '0',
-                        'keterangan_transaksi' => $keterangan,
-                        'relasi' => '-',
-                        'jumlah' => $jumlah,
-                        'urutan' => '0',
-                        'id_user' => auth()->user()->id
-                    ];
-
-                    $alokasi_laba['3.2.01.01'] += $jumlah;
-                }
-                $trx['delete'][] = $keterangan;
-            }
-
-            // Alokasi Surplus Bersih
-            else if (Keuangan::startWith($rek->kode_akun, '2.1.01')) {
+            if (Keuangan::startWith($rek->kode_akun, '2.1.01')) {
                 $jumlah = str_replace(',', '', str_replace('.00', '', $surplus_bersih[$rek->kode_akun]));
                 $keterangan = str_replace('Utang', '', $rek->nama_akun) . ' tahun ' . $tahun;
                 if ($jumlah != 0) {
@@ -919,8 +896,8 @@ class TransaksiController extends Controller
                     'msg' => 'Tanggal transaksi tidak boleh sebelum Tanggal Cair'
                 ]);
             }
-            
-        $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinkel->jenis_pp)->value('kode');
+
+            $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinkel->jenis_pp)->value('kode');
             $kas_umum = '1.1.01.' . str_pad($kodeJenisProduk + 1, 2, '0', STR_PAD_LEFT);
             $poko_kredit = '1.1.03.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
             $jasa_kredit = '4.1.01.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
@@ -1201,8 +1178,8 @@ class TransaksiController extends Controller
                     'msg' => 'Tanggal transaksi tidak boleh sebelum Tanggal Cair'
                 ]);
             }
-            
-        $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinj_a->jenis_pp)->value('kode');
+
+            $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinj_a->jenis_pp)->value('kode');
             $kas_umum = '1.1.01.01';
             $poko_kredit = '1.1.03.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
             $jasa_kredit = '4.1.01.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
