@@ -966,6 +966,49 @@ class PelaporanController extends Controller
             return $view;
         }
     }
+
+    private function max_suku_bunga(array $data)
+    {
+        $thn = $data['tahun'];
+        $bln = $data['bulan'];
+        $hari = $data['hari'];
+
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['judul'] = 'Laporan Keuangan';
+        $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
+        $data['tgl'] = Tanggal::tglLatin($tgl);
+
+        if ($data['bulanan']) {
+            $data['judul'] = 'Laporan Keuangan';
+            $data['sub_judul'] = date('t', strtotime($tgl)) . ' Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+        }$data['jenis_pp'] = JenisProdukPinjaman::where(function ($query) {
+        $query->where('lokasi', '0')
+              ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+            })
+            ->orWhere(function ($query) {
+                $query->where('lokasi', session('lokasi'))
+                      ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+            })
+            ->with([
+                'pinjaman_individu' => function ($query) {
+                    $query->orderByRaw("CAST(pros_jasa AS UNSIGNED) DESC")->limit(1);
+                }
+            ])
+            ->get()
+            ->map(function ($item) {
+                $item->pinjaman_individu = $item->pinjaman_individu->first(); 
+                return $item;
+            });
+        $data['laporan'] = 'Laporan Suku Bunga Maksimum Pinjaman';
+        $view = view('pelaporan.view.ojk.max_suku_bunga', $data)->render();
+        
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view)->setPaper('A4');
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
     
     private function KBP2(array $data)
     {
