@@ -105,6 +105,9 @@ class DashboardController extends Controller
         $data['user'] = auth()->user();
         $data['saldo'] = $this->_saldo($tgl);
         $data['jumlah_saldo'] = Saldo::where('kode_akun', 'NOT LIKE', $kec->kd_kec . '%')->count();
+        $data['jumlah_invoice'] = AdminInvoice::where('lokasi', 'LIKE', Session::get('lokasi') . '%')
+            ->where('status', 'UNPAID')
+            ->sum('jumlah');
 
         $data['api'] = env('APP_API', 'https://api-whatsapp.siupk.net');
         $data['title'] = "Dashboard";
@@ -142,7 +145,7 @@ class DashboardController extends Controller
                 $table .= '<td align="center">' . $no . '</td>';
                 $table .= '<td class="text-start d-flex justify-content-between"><span class="badge bg-' . $status . '">' . $pinj_anggota->id . '</span></td>';
                 $table .= '<td align="center">' . Tanggal::tglIndo($pinj_anggota->tgl_cair) . '</td>';
-                $table .= '<td class="text-start d-flex justify-content-between">' . $pinj_anggota->anggota->nik . '&nbsp;' . $pinj_anggota->anggota->namadepan .'</td>';
+                $table .= '<td class="text-start d-flex justify-content-between">' . $pinj_anggota->anggota->nik . '&nbsp;' . $pinj_anggota->anggota->namadepan . '</td>';
                 $table .= '<td align="center">' . $pinj_anggota->jpp->nama_jpp . '</td>';
                 $table .= '<td align="right">' . number_format($pinj_anggota->alokasi) . '</td>';
                 $table .= '<td align="center">' . $pinj_anggota->nama_barang . '</td>';
@@ -157,7 +160,7 @@ class DashboardController extends Controller
                 $table .= '<td align="center">' . $no . '</td>';
                 $table .= '<td class="text-start d-flex justify-content-between"><span class="badge bg-' . $status . '">' . $pinj_anggota->id . '</span></td>';
                 $table .= '<td align="center">' . Tanggal::tglIndo($pinj_anggota->$tgl) . '</td>';
-                $table .= '<td class="text-start d-flex justify-content-between">' . $pinj_anggota->anggota->nik . '&nbsp;' . $pinj_anggota->anggota->namadepan .'</td>';
+                $table .= '<td class="text-start d-flex justify-content-between">' . $pinj_anggota->anggota->nik . '&nbsp;' . $pinj_anggota->anggota->namadepan . '</td>';
                 $table .= '<td align="center">' . $pinj_anggota->jpp->nama_jpp . '</td>';
                 $table .= '<td align="right">' . number_format($pinj_anggota->$alokasi) . '</td>';
                 $table .= '<td align="center">' . $pinj_anggota->nama_barang . '</td>';
@@ -214,7 +217,7 @@ class DashboardController extends Controller
             $table .= '<td align="center">' . $pinj_anggota->anggota->nik . '</td>';
             $table .= '<td>' . $pinj_anggota->anggota->namadepan . '</td>';
             $table .= '<td>' . $nama_desa . ' ' . $pinj_anggota->anggota->alamat . '</td>';
-            $table .= '<td>' .  $pinj_anggota->jangka . '/bulanan'.'</td>';
+            $table .= '<td>' .  $pinj_anggota->jangka . '/bulanan' . '</td>';
             $table .= '<td align="center">' . Tanggal::tglIndo($pinj_anggota->$tgl) . '</td>';
             $table .= '<td align="right">' . number_format($pinj_anggota->$alokasi) . '</td>';
 
@@ -434,7 +437,7 @@ class DashboardController extends Controller
                     $table .= '<td align="right">' . number_format($nunggak_pokok) . '</td>';
                     $table .= '<td align="right">' . number_format($nunggak_jasa) . '</td>';
                     $table .= '<td align="right">' . number_format($total_pokok_jasa) . '</td>';
-                    $table .= '<td align="center">' . $pinj_anggota->catatan_verifikasi. '</td>';
+                    $table .= '<td align="center">' . $pinj_anggota->catatan_verifikasi . '</td>';
                     $table .= '</tr>';
                 }
             }

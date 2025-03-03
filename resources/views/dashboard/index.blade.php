@@ -219,10 +219,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-justify">
-                    LKM <strong>{{ $nama_lkm }} </strong> saat ini memiliki tagihan invoice untuk perpanjangan lisensi.
+                    LKM <strong>{{ $nama_lkm }} </strong> saat ini memiliki tagihan invoice sebesar
+                    <strong>Rp. {{ number_format($jumlah_invoice, 2) }}</strong> untuk perpanjangan lisensi.
                     Mohon
-                    segera lakukan pembayaran untuk menghindari kemungkinan pemblokiran dari sistem. Cek info selengkapnya
-                    pada menu <strong> Biaya Perpanjangan </strong> di menu pengaturan ->invoice.
+                    segera lakukan pembayaran untuk menghindari kemungkinan pemblokiran dari sistem.
+                    <br>Pembayaran Transfer Via : <br>
+                    - Bank Mandiri Nomor Rekening : <b> 185-000-417-4733 an. Santoso,</b> <br>
+                    - Bank BRI Nomor Rekening : <b>0048-01-057317-505 an.Santoso</b><br>
+                    Cek info selengkapnya pada menu <strong> Biaya Perpanjangan </strong> di menu pengaturan ->invoice.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
