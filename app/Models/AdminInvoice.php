@@ -29,6 +29,11 @@ class AdminInvoice extends Model
         return $this->belongsTo(Kecamatan::class, 'lokasi', 'id');
     }
 
+    public function usaha()
+    {
+        return $this->belongsTo(Usaha::class, 'lokasi', 'id');
+    }
+
     public function getRouteKeyName()
     {
         return 'idv';
