@@ -1,7 +1,13 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\app",
+    "\\resources",
+    "\\resources\\views",
+    "\\resources\\views\\pelaporan",
+    "\\resources\\views\\pelaporan\\view",
+    "\\resources\\views\\pelaporan\\view\\ojk"
   ],
-  "SelectedNode": "\\C:\\laragon\\www\\lkm",
+  "SelectedNode": "\\resources\\views\\pelaporan\\view\\ojk\\labarugi.blade.php",
   "PreviewInSolutionExplorer": false
 }

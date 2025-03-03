@@ -26,4 +26,12 @@ class JenisProdukPinjaman extends Model
     {
         return $this->hasMany(PinjamanIndividu::class, 'jenis_pp');
     }
+
+    public function max_pros()
+    {
+        return $this->hasOne(PinjamanIndividu::class, 'jenis_pp')
+            ->where('status', 'A')
+            ->orderByRaw('CASE WHEN jangka = 0 THEN 0 ELSE (pros_jasa / jangka) END DESC');
+    }
+
 }

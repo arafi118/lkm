@@ -206,7 +206,7 @@
               "RelativeDocumentMoniker": "app\\Http\\Controllers\\PelaporanController.php",
               "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PelaporanController.php",
               "RelativeToolTip": "app\\Http\\Controllers\\PelaporanController.php",
-              "ViewState": "AgIAAIYDAAAAAAAAAAAwwNADAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAMIDAAAAAAAAAAAwwOkDAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2025-01-22T05:40:25.699Z",
               "EditorCaption": ""
@@ -221,8 +221,7 @@
               "RelativeToolTip": "resources\\views\\pelaporan\\view\\ojk\\pinjaman_diberi.blade.php",
               "ViewState": "AgIAAE0BAAAAAAAAAAAAAFkBAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-02-27T03:22:06.013Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-27T03:22:06.013Z"
             },
             {
               "$type": "Document",
@@ -282,8 +281,7 @@
               "RelativeToolTip": "app\\Http\\Controllers\\PinjamanIndividuController.php",
               "ViewState": "AgIAAOoBAAAAAAAAAIAwwAgCAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-02-06T01:21:19.144Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-06T01:21:19.144Z"
             },
             {
               "$type": "Document",
@@ -295,8 +293,7 @@
               "RelativeToolTip": "resources\\views\\pelaporan\\view\\ojk\\kolekbilitas_pinjaman2.blade.php",
               "ViewState": "AgIAACQAAAAAAAAAAAAuwEIAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-02-10T06:04:49.276Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-10T06:04:49.276Z"
             },
             {
               "$type": "Document",

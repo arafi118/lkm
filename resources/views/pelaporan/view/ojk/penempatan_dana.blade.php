@@ -82,7 +82,7 @@
             <td height="20" class="bottom"></td>
         </tr>
         <tr>
-            <td height="20" colspan="2" class="style6 bottom align-center"><br>Laporan Suku Bunga Maksimum Pinjaman<br><br></td>
+            <td height="20" colspan="2" class="style6 bottom align-center"><br>Daftar Rincian Penempatan Dana<br><br></td>
         </tr>
     </table>
 
@@ -108,32 +108,29 @@
     <table width="96%" border="0" align="center" cellpadding="3" cellspacing="0">
         <tr align="center" height="30px" class="style9">
             <th width="5%" class="left bottom">No</th>
-            <th width="40%" class="left bottom">Jenis Pinjaman</th>
-            <th width="26%" class="left bottom">Periode Pembayaran</th>
-            <th width="25%" class="left bottom right">Suku Bunga Maksimum Pinjaman (%)</th>
+            <th width="40%" class="left bottom">Kode Akun</th>
+            <th width="26%" class="left bottom">Nama Akun</th>
+            <th width="25%" class="left bottom right">Nominal / Saldo</th>
         </tr>
         
         @php
             $nomor = 0;
         @endphp
-        @foreach ($jenis_pp as $jpp)
+        @foreach ($rekening as $rek)
             @php
-            if ($jpp->pinjaman_individu->isEmpty()) {
-                $empty = true;
-                continue;
-            }
                 $nomor++;
-
-                $kd_desa = [];
+                $debit  =$rek->saldo->debit ?? 0;
+                $kredit =$rek->saldo->kredit ?? 0;
+                $saldo  = $debit - $kredit;
             @endphp
 
 
 
             <tr align="center"class="style9">
                 <td class="left bottom">{{$nomor}}</td>
-                <td class="left bottom">{{$jpp->deskripsi_jpp}}</td>
-                <td class="left bottom">{{$jpp->max_pros->jangka ?? 0}} bulan</td>
-                <td class="left bottom right">{{ $jpp->max_pros && $jpp->max_pros->jangka ? ($jpp->max_pros->pros_jasa / max($jpp->max_pros->jangka, 1)) : 0 }}</td>
+                <td class="left bottom">{{$rek->kode_akun}}</td>
+                <td class="left bottom">{{$rek->nama_akun}}</td>
+                <td class="left bottom right">{{$saldo}}</td>
             </tr>
         @endforeach
         
