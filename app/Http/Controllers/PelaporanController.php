@@ -981,7 +981,8 @@ class PelaporanController extends Controller
         if ($data['bulanan']) {
             $data['judul'] = 'Laporan Keuangan';
             $data['sub_judul'] = date('t', strtotime($tgl)) . ' Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
-        }$data['jenis_pp'] = JenisProdukPinjaman::where(function ($query) {
+        }
+        $data['jenis_pp'] = JenisProdukPinjaman::where(function ($query) {
         $query->where('lokasi', '0')
               ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
             })
@@ -989,18 +990,44 @@ class PelaporanController extends Controller
                 $query->where('lokasi', session('lokasi'))
                       ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
             })
-            ->with([
-                'pinjaman_individu' => function ($query) {
-                    $query->orderByRaw("CAST(pros_jasa AS UNSIGNED) DESC")->limit(1);
-                }
-            ])
-            ->get()
-            ->map(function ($item) {
-                $item->pinjaman_individu = $item->pinjaman_individu->first(); 
-                return $item;
-            });
+            ->with('max_pros')
+            ->orderBy('kode', 'ASC')
+            ->get();
+
+
         $data['laporan'] = 'Laporan Suku Bunga Maksimum Pinjaman';
         $view = view('pelaporan.view.ojk.max_suku_bunga', $data)->render();
+        
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view)->setPaper('A4');
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
+    
+    private function penempatan_dana(array $data)
+    {
+        $thn = $data['tahun'];
+        $bln = $data['bulan'];
+        $hari = $data['hari'];
+
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['judul'] = 'Laporan Keuangan';
+        $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
+        $data['tgl'] = Tanggal::tglLatin($tgl);
+
+        $data['rekening'] = Rekening::where('kode_akun', 'like', '1.1.02%')
+            ->with([
+                'saldo' => function ($query) use ($thn, $bln) {
+                    $query->where('tahun', $thn)
+                          ->where('bulan', $bln);
+                }
+            ])
+            ->get();
+
+        $data['laporan'] = 'Daftar Rincian Penempatan Dana';
+        $view = view('pelaporan.view.ojk.penempatan_dana', $data)->render();
         
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view)->setPaper('A4');

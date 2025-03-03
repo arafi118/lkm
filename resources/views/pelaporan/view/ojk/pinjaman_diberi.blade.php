@@ -358,19 +358,19 @@
             </td>
             <td class="t l b" align="right">{{number_format($j_alokasi)}}</td>
             <td class="t l b" align="right">{{number_format($j_saldo)}}</td>
-            <td colspan="2"class="t l b" align="right"></td>
+            <td colspan="4"class="t l b" align="right"></td>
         </tr>
             <tr class="style9">
                 <th colspan="8" class="left top" align="center"style="background:rgba(0,0,0, 0.3);">TOTAL KESELURUHAN({{$jumlah_aktif}} Anggota)</th>
                 <th class="left top" align="right">{{number_format($t_alokasi)}}</th>
                 <th class="left top" align="right">{{number_format($t_saldo_pokok)}}</th>
-                <th colspan="2" class="left right top" align="right"></th>
+                <th colspan="4" class="left right top" align="right"></th>
                 </tr>
             <tr class="style9">
-                <th colspan="12" class="top" align="center">&nbsp;</th>
+                <th colspan="14" class="top" align="center">&nbsp;</th>
             </tr>
             <tr>
-                <td class="style10 top" colspan="12"><b>Keterangan</b> : Data yang ditampilkan diatas
+                <td class="style10 top" colspan="14"><b>Keterangan</b> : Data yang ditampilkan diatas
                     merupakan Individu aktif
                     pada tahun berjalan {{$tahun}}, untuk menampilkan data Individu aktif tahun lalu dapat
                     memilih mode tahun lalu
@@ -379,7 +379,7 @@
         @endif
     </table>
     <table class="p" border="0" align="center" width="96%" cellspacing="0" cellpadding="0"
-    style="font-size: 12px;"> 
+    style="font-size: 14px;"> 
         <tr>
             <td colspan="14">
                 <div style="margin-top: 14px;"></div>
