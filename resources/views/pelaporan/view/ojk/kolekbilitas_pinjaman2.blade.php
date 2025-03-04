@@ -187,10 +187,14 @@ $t_kolek5 = 0;
                                 if ($wajib_pokok != '0') {
                                 $_kolek = $tunggakan_pokok / $wajib_pokok;
                                 }
-                                $kolek=0;
-                                if($jatuh_tempo!=0){
-                                $kolek = round((strtotime($tgl_kondisi) - strtotime($jatuh_tempo)) / (60 * 60 * 24)); //kolek menjadi selisih hari
-                                }
+
+                                $kolek = 0;
+                                    if ($jatuh_tempo != 0) {
+                                        $kolek = round((strtotime($tgl_kondisi) - strtotime($jatuh_tempo)) / (60 * 60 * 24));
+                                        if ($kolek < 0) {
+                                            $kolek = 0;
+                                        }
+                                    }
 
                                     $kolek1 = $kolek2 = $kolek3 = $kolek4 = $kolek5 = 0;
 
