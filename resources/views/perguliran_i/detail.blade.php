@@ -169,6 +169,7 @@
 
     $jenis_jaminan =
         strlen($perguliran_i->jaminan) > 6 ? json_decode($perguliran_i->jaminan, true)['jenis_jaminan'] : '0';
+
 @endphp
 @extends('layouts.base')
 
@@ -207,7 +208,7 @@
                             <i class="fa fa-trash"></i>&nbsp; HAPUS PROPOSAL
                         </button>
                     </div>
-                @elseif ($perguliran_i->status == 'W')
+                @elseif(in_array($perguliran_i->status, ['A', 'W']))
                     <div class="page-title-actions">
                         <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom"
                             class="btn-shadow me-3 btn btn-success" id="BtnEditWaitingList">
