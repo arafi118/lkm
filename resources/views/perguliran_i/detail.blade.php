@@ -166,11 +166,6 @@
             'withExcel' => false,
         ];
     }
-    // $decoded = json_decode($perguliran_i->jaminan, true);
-    // $jenis_jaminan =
-    //     strlen($perguliran_i->jaminan) > 6 && is_array($decoded) && isset($decoded['jenis_jaminan'])
-    //         ? $decoded['jenis_jaminan']
-    //         : '0';
 
     $jenis_jaminan =
         strlen($perguliran_i->jaminan) > 6 ? json_decode($perguliran_i->jaminan, true)['jenis_jaminan'] : '0';
