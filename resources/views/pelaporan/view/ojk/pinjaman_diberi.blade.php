@@ -279,7 +279,9 @@
                 $selisih = $selisih->y * 12 + $selisih->m;
                 
                     $kolek = 0;
-                        if ($jatuh_tempo != 0) {
+                        if ($saldo_pokok <= 0) {
+                            $kolek = 0;
+                        } elseif ($jatuh_tempo != 0) {
                             $kolek = round((strtotime($tgl_kondisi) - strtotime($jatuh_tempo)) / (60 * 60 * 24));
                             if ($kolek < 0) {
                                 $kolek = 0;
@@ -296,6 +298,10 @@
                             $keterangan = 'Diragukan';
                         } else {
                             $keterangan = 'Macet';
+                        }
+
+                        if($pinj_i->status='L'){
+                            $keterangan = 'Lunas';
                         }
                         
                         $jaminan = json_decode($pinj_i->jaminan, true) ?? [];

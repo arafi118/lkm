@@ -189,12 +189,15 @@ $t_kolek5 = 0;
                                 }
 
                                 $kolek = 0;
-                                    if ($jatuh_tempo != 0) {
+                                    if ($saldo_pokok <= 0) {
+                                        $kolek = 0;
+                                    } elseif ($jatuh_tempo != 0) {
                                         $kolek = round((strtotime($tgl_kondisi) - strtotime($jatuh_tempo)) / (60 * 60 * 24));
                                         if ($kolek < 0) {
                                             $kolek = 0;
                                         }
                                     }
+
 
                                     $kolek1 = $kolek2 = $kolek3 = $kolek4 = $kolek5 = 0;
 
