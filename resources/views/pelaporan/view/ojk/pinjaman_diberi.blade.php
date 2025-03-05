@@ -300,7 +300,7 @@
                             $keterangan = 'Macet';
                         }
 
-                        if($pinj_i->status='L'){
+                        if($pinj_i->status=='L'){
                             $keterangan = 'Lunas';
                         }
                         
