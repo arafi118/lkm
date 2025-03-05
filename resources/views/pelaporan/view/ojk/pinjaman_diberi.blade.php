@@ -107,15 +107,13 @@
     <table width="96%" border="0" align="center" cellpadding="3" cellspacing="0">
         <tr>
             <td height="20" colspan="10" class="bottom"></td>
-            <td height="20" colspan="2" class="bottom">
-                
-            </td>
+            <td height="20" colspan="2" class="bottom"></td>
         </tr>
         <tr>
             <td height="20" colspan="12" class="style6 bottom align-center"><br>DAFTAR RINCIAN PINJAMAN YANG DIBERIKAN<br><br></td>
         </tr>
     </table>
-                
+
     <table width="96%" border="0" align="center" cellpadding="3" cellspacing="0">
         <tr>
             <td width="20%" class="style9">NAMA LKM</td>
@@ -198,8 +196,6 @@
                     $kpros_jasa =number_format($pinj_i['pros_jasa'] - $pinj_i['jangka'],2);
 
                     $ktgl1 = $pinj_i['tgl_cair'];
-                    $kpenambahan ="+".$pinj_i['jangka']." month";
-                    $ktgl2 = date('Y-m-d', strtotime($kpenambahan, strtotime($ktgl1)));
                     $kpros_jasa =number_format($pinj_i['pros_jasa']/$pinj_i['jangka'],2);
 
                     $j_alokasi = 0;
@@ -320,7 +316,9 @@
 
                         $Jenis_Agunan = $jenisJaminanMap[$jenisJaminan] ?? 'Tidak Diketahui';
                         $Nilai_Agunan = number_format($nilaiJaminan, 2);
-
+                        
+                    $kpenambahan ="+".$pinj_i['jangka']." month";
+                    $ktgl2 = date('Y-m-d', strtotime($kpenambahan, strtotime($ktgl1)));
             @endphp
 
             <tr align="right" height="15px" class="style9">
