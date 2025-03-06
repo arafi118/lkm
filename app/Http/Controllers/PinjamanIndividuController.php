@@ -279,14 +279,14 @@ class PinjamanIndividuController extends Controller
         $agent = Agent::where('lokasi', Session::get('lokasi'))->get();
         $jenis_pp = JenisProdukPinjaman::where(function ($query) {
             $query->where('lokasi', '0')
-                  ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+                ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
         })
-        ->orWhere(function ($query) {
-            $query->where('lokasi', session('lokasi'))
-                  ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
-        })
-        ->orderBy('kode', 'asc')
-        ->get();
+            ->orWhere(function ($query) {
+                $query->where('lokasi', session('lokasi'))
+                    ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+            })
+            ->orderBy('kode', 'asc')
+            ->get();
 
 
         $jenis_pp_dipilih = $anggota->jenis_produk_pinjaman;
@@ -613,14 +613,14 @@ class PinjamanIndividuController extends Controller
         $sistem_angsuran = SistemAngsuran::all();
         $jenis_pp = JenisProdukPinjaman::where(function ($query) {
             $query->where('lokasi', '0')
-                  ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+                ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
         })
-        ->orWhere(function ($query) {
-            $query->where('lokasi', session('lokasi'))
-                  ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
-        })
-        ->orderBy('kode', 'asc')
-        ->get();
+            ->orWhere(function ($query) {
+                $query->where('lokasi', session('lokasi'))
+                    ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+            })
+            ->orderBy('kode', 'asc')
+            ->get();
 
         $agent = Agent::where('lokasi', Session::get('lokasi'))->get();
 
@@ -1206,7 +1206,7 @@ class PinjamanIndividuController extends Controller
             $saldo_pokok = $pinj_i->target->saldo_pokok - $pokok;
             $saldo_jasa = $pinj_i->target->saldo_jasa - $jasa;
         }
-        
+
         $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinj_i->jenis_pp)->value('kode');
         $rekening_debit = '1.1.04' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
         $rekening_kredit = '1.1.03' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
@@ -1878,6 +1878,72 @@ class PinjamanIndividuController extends Controller
 
         $data['judul'] = 'Surat Perjanjian Kredit (Umum) (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
         $view = view('perguliran_i.dokumen.spk', $data)->render();
+
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view);
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
+
+    public function suratkuasamenjual($id, $data)
+    {
+        $keuangan = new Keuangan;
+        $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
+            'jpp',
+            'jasa',
+            'sis_pokok',
+            'sis_jasa',
+            'anggota',
+            'anggota.d',
+            'anggota.d.sebutan_desa'
+        ])->first();
+
+        $data['dir'] = User::where([
+            ['level', '1'],
+            ['jabatan', '1'],
+            ['lokasi', Session::get('lokasi')]
+        ])->first();
+
+        $data['keuangan'] = $keuangan;
+        $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
+
+        $data['judul'] = 'Surat Kuasa Menjual (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $view = view('perguliran_i.dokumen.sk_menjual', $data)->render();
+
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view);
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
+
+    public function perjanjiankredit($id, $data)
+    {
+        $keuangan = new Keuangan;
+        $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
+            'jpp',
+            'jasa',
+            'sis_pokok',
+            'sis_jasa',
+            'anggota',
+            'anggota.d',
+            'anggota.d.sebutan_desa'
+        ])->first();
+
+        $data['dir'] = User::where([
+            ['level', '1'],
+            ['jabatan', '1'],
+            ['lokasi', Session::get('lokasi')]
+        ])->first();
+
+        $data['keuangan'] = $keuangan;
+        $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
+
+        $data['judul'] = 'Surat Perjanjian Kredit (Umum) (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $view = view('perguliran_i.dokumen.perjanjian_kredit', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);

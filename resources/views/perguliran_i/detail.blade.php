@@ -158,11 +158,17 @@
         ],
     ];
 
-    if ($kecamatan && $kecamatan->id == 1) {
-        // Jika ID kecamatan adalah 1
+    if ($kecamatan && ($kecamatan->id == 1 || $kecamatan->id == 98)) {
+        // Jika ID kecamatan adalah 1 atau 10
         $dokumen_pencairan[] = [
-            'title' => 'SPK DudukSampean',
-            'file' => 'SPKDudukSampean',
+            'title' => 'Surat Kuasa Menjual',
+            'file' => 'suratkuasamenjual',
+            'withExcel' => false,
+        ];
+
+        $dokumen_pencairan[] = [
+            'title' => 'Perjanjian Kredit',
+            'file' => 'perjanjiankredit',
             'withExcel' => false,
         ];
     }
