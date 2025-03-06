@@ -52,23 +52,27 @@
         mencapai kemajuan ekonomi dan kemakmuran bersama, saya yang bertanda tangan dibawah ini :
     </div>
     <div style="text-align: center;">
-
-        <div class="centered-text"> {{ $dir->namadepan }} {{ $dir->namabelakang }}
-            dalam
-            hal ini bertindak dalam
-            kedudukan selaku Direktur dari Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }}
-            {{ $kec->sebutan_kec }}
-            {{ $kec->nama_kec }} oleh
-            karena itu bertindak untuk dan atas nama Badan Usaha Milik Desa Bersama TIRTA PESONA JAYA LKD, berkedudukan
-            di Jalan {{ $kec->alamat_kec }} {{ $kec->sebutan_kec }}
-            {{ $kec->nama_kec }} Kabupaten {{ $nama_kab }}..
-        </div> <br>
-        <div class="centered-text">
-            {{ $pinkel->anggota->namadepan }}, Nomor Induk Kependudukan {{ $pinkel->anggota->nik }} bertempat tinggal di
-            {{ $pinkel->anggota->alamat }} dalam hal ini bertindak untuk
-            diri sendiri, selanjutnya disebut DEBITOR. </div>
+        <ol class="centered-text" style="list-style-type: upper-roman;">
+            <li><b>{{ $dir->namadepan }} {{ $dir->namabelakang }}</b>
+                dalam
+                hal ini bertindak dalam
+                kedudukan selaku Direktur dari <b>Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }}
+                    {{ $kec->sebutan_kec }}
+                    {{ $kec->nama_kec }}</b> oleh
+                karena itu bertindak untuk dan atas nama Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }},
+                berkedudukan
+                di Jalan {{ $kec->alamat_kec }} {{ $kec->sebutan_kec }}
+                {{ $kec->nama_kec }} Kabupaten {{ $nama_kab }}.</li>
+            <li>
+                <b> {{ $pinkel->anggota->namadepan }}</b>, Nomor Induk Kependudukan {{ $pinkel->anggota->nik }} bertempat
+                tinggal di
+                {{ $pinkel->anggota->alamat }} dalam hal ini bertindak untuk
+                diri sendiri, selanjutnya disebut DEBITOR.
+            </li>
+        </ol>
     </div>
-    <div class="centered-text">Badan Usaha Milik Desa Bersama TIRTA PESONA JAYA LKD dan DEBITOR dalam kedudukan masing-
+    <div class="centered-text">Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }} dan DEBITOR dalam kedudukan
+        masing-
         masing seperti telah diterangkan diatas pada hari ini :
         {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->format('d F Y') }} bertempat di Kantor BUM Desa
         {{ $kec->nama_lembaga_sort }}
@@ -79,9 +83,9 @@
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 1 </b>
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 1 </i> </h3>
-
         <div class="centered-text">
-            Badan Usaha Milik Desa Bersama TIRTA PESONA JAYA LKD setuju memberikan kredit kepada DEBITOR sebesar Rp.
+            Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }} setuju memberikan kredit kepada DEBITOR sebesar
+            Rp.
             {{ number_format($pinkel->alokasi) }} ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah) berdasarkan
             permohonan dari DEBITOR sesuai surat permohonan kredit tanggal
             {{ Tanggal::tglLatin($pinkel->tgl_proposal) }}.
@@ -89,7 +93,6 @@
     </div>
     <div style="text-align: center;">
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 2 </i> </h3>
-
         <div class="centered-text">
             DEBITOR, mengaku telah menerima uang dalam jumlah sebagaimana yang diterangkan pada ayat 1 di atas, yang
             mana telah dibayarkan sesuai dengan permohonan dan dibuktikan secara sah dengan bukti kwitansi terlampir,
@@ -98,7 +101,6 @@
     </div>
     <div style="text-align: center;">
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 3 </i> </h3>
-
         <div class="centered-text">
             DEBITOR, menyerahkan jaminan atas pinjaman tersebut pada ayat 1 kepada Badan Usaha Milik Desa Bersama TIRTA
             PESONA JAYA LKD berupa @if ($jaminan['jenis_jaminan'] == '1')
@@ -130,7 +132,6 @@
         </div>
     </div>
     <div style="text-align: center;">
-
         <b class="centered-text"> PASAL 2 </b>
         <div class="centered-text">
             Kedua belah pihak secara suka rela menerima syarat-syarat perjanjian utang piutang sebagai mana dinyatakan dalam
@@ -139,7 +140,6 @@
     </div>
     <div style="text-align: center;">
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 1 </i> </h3>
-
         <div class="centered-text">
             Fasilitas Kredit tersebut akan digunakan untuk modal kerja. DEBITOR bertanggung jawab mengenai kebenaran
             atas penggunaan Fasilitas Kredit tersebut.
@@ -182,8 +182,7 @@
         </div>
     </div>
     <div style="text-align: center;">
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 1 </i> </h3>
-
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 6 </i> </h3>
         <div class="centered-text">
             Apabila kemudian hari DEBITOR tidak bisa menepati perjanjian ini kepada Badan Usaha Milik Desa Bersama TIRTA
             PESONA JAYA LKD maka :
@@ -191,7 +190,8 @@
                 <li>Akan diselesaikan secara musyawarah mufakat antara kedua belah pihak;</li>
                 <li>
                     Apabila musyawarah mufakat tidak atau belum ditemukan penyelesaiannya maka Badan Usaha Milik Desa
-                    Bersama TIRTA PESONA JAYA LKD berhak menyita dan menjual jaminan pinjaman tersebut pada Pasal 1 Ayat 3
+                    Bersama {{ $kec->nama_lembaga_sort }} berhak menyita dan menjual jaminan pinjaman tersebut pada Pasal 1
+                    Ayat 3
                     dari DEBITOR, guna menutup semua pinjaman yang diterimanya.
                 </li>
             </ol>
