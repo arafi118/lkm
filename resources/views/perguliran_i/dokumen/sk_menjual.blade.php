@@ -67,7 +67,7 @@
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td> Tempat, tangal lahir </td>
+            <td> Tempat, tanggal lahir </td>
             <td align="center"> : </td>
             <td> {{ $pinkel->anggota->tempat_lahir }},
                 {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_lahir)->locale('id')->translatedFormat('d F Y') }}
@@ -81,13 +81,13 @@
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td> Berkedudukan di </td>
+            <td> Alamat </td>
             <td align="center"> : </td>
             <td> {{ $pinkel->anggota->alamat }} </td>
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td colspan="3">Selanjutnya disebut sebagai Pihak KEDUA (Penerima Kuasa)</td>
+            <td colspan="3">Selanjutnya disebut sebagai Pihak PERTAMA (Pemberi Kuasa)</td>
         </tr>
     </table> <br>
     <div class="centered-text">
@@ -102,7 +102,7 @@
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td> Tempat, tangal lahir </td>
+            <td> Tempat, tanggal lahir </td>
             <td align="center"> : </td>
             <td> {{ $dir->tempat_lahir }},
                 {{ \Carbon\Carbon::parse($dir->tgl_lahir)->locale('id')->translatedFormat('d F Y') }}
@@ -130,7 +130,7 @@
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td colspan="3">Selanjutnya disebut sebagai Pihak PERTAMA (Pemberi Kuasa)</td>
+            <td colspan="3">Selanjutnya disebut sebagai Pihak KEDUA (Penerima Kuasa)</td>
         </tr>
     </table>
     <br>
