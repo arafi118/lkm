@@ -74,7 +74,8 @@
     <div class="centered-text">Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }} dan DEBITUR dalam kedudukan
         masing-
         masing seperti telah diterangkan di atas pada hari ini :
-        {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->format('d F Y') }} bertempat di Kantor BUM Desa
+        {{ \Carbon\Carbon::parse($pinkel->tgl_proposal)->locale('id')->translatedFormat('d F Y') }}
+        bertempat di Kantor BUM Desa
         {{ $kec->nama_lembaga_sort }}
         {{ $kec->sebutan_kec }}
         {{ $kec->nama_kec }} , dengan
@@ -88,7 +89,8 @@
             Rp.
             {{ number_format($pinkel->alokasi) }} ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah) berdasarkan
             permohonan dari DEBITUR sesuai surat permohonan kredit tanggal
-            {{ Tanggal::tglLatin($pinkel->tgl_proposal) }}.
+            {{ \Carbon\Carbon::parse($pinkel->tgl_proposal)->locale('id')->translatedFormat('d F Y') }}
+            .
         </div>
     </div>
     <div style="text-align: center;">
@@ -228,7 +230,7 @@
         </div>
     </div>
     <br>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;" class="p">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;" class="p">
         <tr>
             <td>
                 {!! $ttd !!}

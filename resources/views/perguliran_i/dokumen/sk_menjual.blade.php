@@ -49,7 +49,7 @@
         </tr>
     </table>
     <div class="centered-text">
-        Yang bertanda tangan dibawah ini, Saya :
+        Yang bertanda tangan di bawah ini, Saya :
     </div>
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
         <tr>
@@ -134,9 +134,10 @@
     </table>
     <div class="centered-text">
         Sesuai Surat Perjanjian Kredit (SPK) Nomor :
-        {{ $pinkel->spk_no }}/SPK.{{ $pinkel->jpp->nama_jpp }}-{{ $pinkel->jpp->id }}/BUMDESMA/II/{{ date('Y') }}
+        <b>{{ $pinkel->spk_no }}/SPK.{{ $pinkel->jpp->nama_jpp }}-{{ $pinkel->jpp->id }}/BUMDESMA/II/{{ date('Y') }}</b>
         tanggal
-        {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->format('d F Y') }} PIHAK PERTAMA
+        {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->locale('id')->translatedFormat('d F Y') }}
+        PIHAK PERTAMA
         memberikan kuasa sepenuhnya kepada BUMDesa Bersama {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
         {{ $kec->nama_kec }} melalui PIHAK KEDUA untuk
         melakukan penjualan hak milik saya berupa
@@ -163,7 +164,7 @@
             Nama jaminan: {{ $jaminan['nama_pemilik'] ?? 0 }},
             Alamat : {{ $jaminan['alamat'] ?? 0 }} Luas: {{ $jaminan['luas'] ?? 0 }} (m²),
             Nilai Jual Tanah: {{ number_format($jaminan['nilai_jual_tanah'] ?? 0) }},
-        @endif atas nama{{ $pinkel->anggota->namadepan }} (peminjam) yang terletak di
+        @endif atas nama <b>{{ $pinkel->anggota->namadepan }} (peminjam)</b> yang terletak di
         {{ $pinkel->anggota->d->sebutan_desa->sebutan_desa }}
         {{ $pinkel->anggota->d->nama_desa }} Kecamatan {{ $pinkel->anggota->d->nama_kec }},
         sesuai sertifikat yang saya titipkan di BUMDesa Bersama {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
@@ -171,8 +172,9 @@
     </div>
     <p class="centered-text">
         Dengan demikian apabila dikemudian hari saya tidak mampu memenuhi kewajiban saya sesuai Surat Perjanjian Kredit
-        diatas maka saya tidak berkeberatan apabila hak milik saya berupa tanah tersebut diatas PIHAK KEDUA atau Dikuasakan
-        untuk menjual dibawah tangan atau dimuka umum (Lelang) dengan harga yang dikehendaki oleh BUMDesa Bersama
+        di atas maka saya tidak berkeberatan apabila hak milik saya berupa tanah tersebut di atas PIHAK KEDUA atau
+        Dikuasakan untuk menjual di bawah tangan atau dimuka umum (Lelang) dengan harga yang dikehendaki oleh BUMDesa
+        Bersama
         {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
         {{ $kec->nama_kec }} dan hasilnya digunakan untuk melunasi kewajiban pinjaman saya. Apabila hasil
         penjualan tersebut tidak mencukupi sisa pinjaman saya maka saya tetap bertanggungjawab untuk melunasi sisa pinjaman
@@ -197,7 +199,7 @@
                             </td>
                         </tr>
                     </table> <br>
-                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
                         <tr>
                             <td width="40" align="center"> &nbsp; </td>
                             <td width="80" align="center">Yang Menerima Kuasa/ <br>
