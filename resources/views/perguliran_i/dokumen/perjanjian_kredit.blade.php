@@ -39,11 +39,12 @@
                     <b> SURAT PERJANJIAN KREDIT (SPK) </b>
                 </div>
                 <div style="font-size: 12px;">
-                    Nomor: {{ $pinkel->spk_no }}
+                    Nomor:
+                    {{ $pinkel->spk_no }}/SPK.{{ $pinkel->jpp->nama_jpp }}-{{ $pinkel->jpp->id }}/BUMDESMA/II/{{ date('Y') }}
                 </div>
 
-                <div style="font-size: 12px;">
-                    Nomor: {{ $pinkel->tgl_cair }}
+                <div style="font-size: 10px;">
+                    Tanggal: {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->locale('id')->translatedFormat('d F Y') }}
                 </div>
             </td>
         </tr>
@@ -83,7 +84,7 @@
         {{ $keuangan->terbilang(Tanggal::hari($pinkel->tgl_cair)) }}
         bulan {{ $keuangan->terbilang(Tanggal::bulan($pinkel->tgl_cair)) }}
         tahun {{ $keuangan->terbilang(Tanggal::tahun($pinkel->tgl_cair)) }}
-        {{ \Carbon\Carbon::parse($pinkel->tgl_proposal)->locale('id')->translatedFormat('d F Y') }}
+        {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->locale('id')->translatedFormat('d F Y') }}
         jam {{ $pinkel->wt_cair }} bertempat di Kantor BUM Desa
         {{ $kec->nama_lembaga_sort }}
         {{ $kec->sebutan_kec }}
@@ -170,7 +171,7 @@
         <div class="centered-text">
             Kredit akan dibayarkan kembali dengan sistem bulanan dalam jangka waktu {{ $pinkel->jangka }} bulan, dengan
             jasa <b> {{ $pinkel->pros_jasa / $pinkel->jangka }} % Flat </b> sebesar
-            <b> {{ number_format($pinkel->alokasi * ($pinkel->pros_jasa / $pinkel->jangka / 100)) }}
+            <b>Rp. {{ number_format($pinkel->alokasi * ($pinkel->pros_jasa / $pinkel->jangka / 100)) }}
                 ({{ $keuangan->terbilang($pinkel->alokasi * ($pinkel->pros_jasa / $pinkel->jangka / 100)) }} Rupiah)
             </b> setiap tanggal 07 (tujuh),
             sebagaimana jadwal angsuran terlampir.
