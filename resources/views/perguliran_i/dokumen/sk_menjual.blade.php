@@ -215,7 +215,7 @@
                         </tr> <br> <br> <br> <br> <br><br><br><br>
                         <tr>
                             <td width="40" align="center"> &nbsp; </td>
-                            <td width="80" align="center">{{ $dir->namadepan }}
+                            <td width="100" align="center">{{ $dir->namadepan }}
                                 {{ $dir->namabelakang }}</td>
                             <td width="60" align="center"> &nbsp; </td>
                             <td width="50" align="center" colspan="2"> {{ $pinkel->anggota->namadepan }}</td>
