@@ -158,8 +158,8 @@
         ],
     ];
 
-    if ($kecamatan && $kecamatan->id == 1) {
-        // Jika ID kecamatan adalah 1
+    if ($kecamatan && ($kecamatan->id == 1 || $kecamatan->id == 98)) {
+        // Jika ID kecamatan adalah 1 atau 10
         $dokumen_pencairan[] = [
             'title' => 'Surat Kuasa Menjual',
             'file' => 'suratkuasamenjual',
