@@ -67,14 +67,6 @@
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td> Jabatan </td>
-            <td align="center"> : </td>
-            <td> {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
-                {{ $kec->sebutan_kec }}
-                {{ $kec->nama_kec }}</td>
-        </tr>
-        <tr>
-            <td width="5"> &nbsp; </td>
             <td> Tempat, tangal lahir </td>
             <td align="center"> : </td>
             <td> {{ $pinkel->anggota->tempat_lahir }},
@@ -115,6 +107,14 @@
             <td> {{ $dir->tempat_lahir }},
                 {{ \Carbon\Carbon::parse($dir->tgl_lahir)->locale('id')->translatedFormat('d F Y') }}
             </td>
+        </tr>
+        <tr>
+            <td width="5"> &nbsp; </td>
+            <td> Jabatan </td>
+            <td align="center"> : </td>
+            <td> {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
+                {{ $kec->sebutan_kec }}
+                {{ $kec->nama_kec }}</td>
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
