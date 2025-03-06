@@ -237,12 +237,12 @@
                             <td width="80" align="left"> (. . . . . . . . . . . . . . . )</td>
                         </tr>
                     </table>
-                </li>
+                </li> <br>
                 <li>
                     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
                         <tr>
-                            <td width="80" align="left">{{ $dir->namadepan }}</td>
-                            <td width="80" align="right">{{ $dir->j->nama_jabatan }}</td>
+                            <td width="80" align="left">{{ $saksi->namadepan }}</td>
+                            <td width="80" align="right">{{ $saksi->j->nama_jabatan }}</td>
                             <td width="80" align="left"> (. . . . . . . . . . . . . . . )</td>
                         </tr>
                     </table>
