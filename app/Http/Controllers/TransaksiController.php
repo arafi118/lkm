@@ -55,6 +55,7 @@ class TransaksiController extends Controller
 
     public function jurnalAngsuran()
     {
+
         $title = 'Jurnal Angsuran';
 
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
@@ -71,6 +72,11 @@ class TransaksiController extends Controller
 
     public function jurnalAngsuranIndividu()
     {
+        $rekening = Rekening::where([
+            ['kode_akun', 'LIKE', '1.1.01.%'],
+            ['lev4', '!=', '02']
+        ])->orderBy('kode_akun')->get();
+
         $title = 'Jurnal Angsuran';
 
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
@@ -83,7 +89,7 @@ class TransaksiController extends Controller
 
         $api = env('APP_API', 'https://api-whatsapp.sidbm.net');
 
-        return view('transaksi.jurnal_angsuran.individu.index')->with(compact('title', 'pinkel', 'kec', 'api'));
+        return view('transaksi.jurnal_angsuran.individu.index')->with(compact('title', 'rekening', 'pinkel', 'kec', 'api'));
     }
 
     public function ebudgeting()
@@ -1114,7 +1120,8 @@ class TransaksiController extends Controller
                 'tgl_transaksi',
                 'pokok',
                 'jasa',
-                'denda'
+                'denda',
+                'tujuan'
             ]);
 
             $validate = Validator::make($data, [
@@ -1152,6 +1159,7 @@ class TransaksiController extends Controller
                     ]);
                 }
             ])->first();
+
             $sum_pokok = 0;
             $sum_jasa = 0;
             if ($pinj_a->saldo) {
@@ -1180,7 +1188,8 @@ class TransaksiController extends Controller
             }
 
             $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinj_a->jenis_pp)->value('kode');
-            $kas_umum = '1.1.01.01';
+
+            $kas_umum = $data['tujuan'];
             $poko_kredit = '1.1.03.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
             $jasa_kredit = '4.1.01.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
             $dend_kredit = '4.1.02.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
