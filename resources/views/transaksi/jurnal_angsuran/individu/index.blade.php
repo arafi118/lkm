@@ -30,6 +30,20 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="position-relative mb-3">
+                                            <label for="Tujuan">Tujuan</label>
+                                            <select class="form-control js-example-basic-single" name="tujuan"
+                                                id="tujuan">
+                                                @foreach ($rekening as $rek)
+                                                    <option value="{{ $rek->kode_akun }}">
+                                                        {{ $rek->kode_akun }}. {{ $rek->nama_akun }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <small class="text-danger" id="msg_tujuan"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="position-relative mb-3">
                                             <label for="pokok">Pokok </label>
                                             <input autocomplete="off" type="text" name="pokok" id="pokok"
                                                 class="form-control">
@@ -58,20 +72,6 @@
                                             <input autocomplete="off" readonly disabled type="text" name="total"
                                                 id="total" class="form-control">
                                             <small class="text-danger" id="msg_total"></small>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="position-relative mb-3">
-                                            <label for="Tujuan">Tujuan</label>
-                                            <select class="form-control js-example-basic-single" name="tujuan"
-                                                id="tujuan">
-                                                @foreach ($rekening as $rek)
-                                                    <option value="{{ $rek->kode_akun }}">
-                                                        {{ $rek->kode_akun }}. {{ $rek->nama_akun }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <small class="text-danger" id="msg_tujuan"></small>
                                         </div>
                                     </div>
                                 </div>
