@@ -39,9 +39,9 @@
                 <div style="font-size: 14px;">
                     <b> SURAT KUASA MENJUAL </b>
                 </div>
-                <div style="font-size: 12px;">
+                {{-- <div style="font-size: 12px;">
                     Nomor: {{ $pinkel->spk_no }}
-                </div>
+                </div> --}}
             </td>
         </tr>
         <tr>
@@ -89,7 +89,7 @@
             <td width="5"> &nbsp; </td>
             <td colspan="3">Selanjutnya disebut sebagai Pihak KEDUA (Penerima Kuasa)</td>
         </tr>
-    </table>
+    </table> <br>
     <div class="centered-text">
         Memberi Kuasa kapada :
     </div>
@@ -215,10 +215,10 @@
                         </tr> <br> <br> <br> <br> <br><br><br><br>
                         <tr>
                             <td width="40" align="center"> &nbsp; </td>
-                            <td width="80" align="center">{{ $pinkel->anggota->namadepan }}</td>
-                            <td width="60" align="center"> &nbsp; </td>
-                            <td width="50" align="center" colspan="2"> {{ $dir->namadepan }}
+                            <td width="80" align="center">{{ $dir->namadepan }}
                                 {{ $dir->namabelakang }}</td>
+                            <td width="60" align="center"> &nbsp; </td>
+                            <td width="50" align="center" colspan="2"> {{ $pinkel->anggota->namadepan }}</td>
                         </tr>
                     </table>
                 </td>
@@ -234,6 +234,15 @@
                         <tr>
                             <td width="80" align="left">{{ $pinkel->anggota->penjamin }}</td>
                             <td width="80" align="right">{{ $pinkel->anggota->keluarga->kekeluargaan }}</td>
+                            <td width="80" align="left"> (. . . . . . . . . . . . . . . )</td>
+                        </tr>
+                    </table>
+                </li>
+                <li>
+                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+                        <tr>
+                            <td width="80" align="left">{{ $dir->namadepan }}</td>
+                            <td width="80" align="right">{{ $dir->j->nama_jabatan }}</td>
                             <td width="80" align="left"> (. . . . . . . . . . . . . . . )</td>
                         </tr>
                     </table>
