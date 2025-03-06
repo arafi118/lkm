@@ -13,9 +13,9 @@
 @endphp
 <div class="app-header header-shadow">
     <div class="app-header__logo">
-        <a href="/dashboard" class="logo" id="nama_lembaga_sort" style="color: rgb(0, 0, 0);">
+        {{-- <a href="/dashboard" class="logo" id="nama_lembaga_sort" style="color: rgb(0, 0, 0);">
             <b> {{ Session::get('nama_lembaga') }} </b>
-        </a>
+        </a> --}}
         <div class="header__pane ms-auto">
             <div>
                 <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
@@ -147,14 +147,17 @@
         gap: 15px;
         /* Adjust the gap between items if necessary */
     }
+
     .header-menu .nav-item {
         position: relative;
     }
+
     .header-menu .dropdown-menu {
         right: 0;
         /* Align dropdown menu to the right */
         left: auto;
     }
+
     .header-menu .nav-link {
         display: flex;
         align-items: center;
