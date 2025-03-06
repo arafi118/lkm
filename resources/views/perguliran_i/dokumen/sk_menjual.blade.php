@@ -112,7 +112,7 @@
             <td width="5"> &nbsp; </td>
             <td> Jabatan </td>
             <td align="center"> : </td>
-            <td> {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
+            <td> {{ $dir->j->nama_jabatan }} {{ $kec->nama_lembaga_sort }}
                 {{ $kec->sebutan_kec }}
                 {{ $kec->nama_kec }}</td>
         </tr>

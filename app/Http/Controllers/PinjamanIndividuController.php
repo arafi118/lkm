@@ -1900,9 +1900,9 @@ class PinjamanIndividuController extends Controller
             'anggota.d.sebutan_desa'
         ])->first();
 
-        $data['dir'] = User::where([
+        $data['dir'] = User::with('j')->where([
             ['level', '1'],
-            ['jabatan', '1'],
+            ['jabatan', '7'],
             ['lokasi', Session::get('lokasi')]
         ])->first();
 

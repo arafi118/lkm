@@ -13,7 +13,7 @@ class User extends Authenticatable
 
     public function j()
     {
-        return $this->belongsTo(Jabatan::class, 'jabatan');
+        return $this->belongsTo(Jabatan::class, 'jabatan', 'id');
     }
 
     public function l()
