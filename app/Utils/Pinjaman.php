@@ -76,12 +76,18 @@ class Pinjaman
                     'key' => '{peminjam}',
                     'des' => 'Menampilkan Nama Peminjam',
                 ],
+
+                [
+                    'key' => '{hubungan}',
+                    'des' => 'Menampilkan Nama Hubungan Keluarga',
+                ],
             ];
         } else {
             $kec = $data['kec'];
             $pinkel = $data['pinkel'];
             if ($individu) {
                 $kel = $pinkel->anggota;
+                $hub = $pinkel->anggota->keluarga;
                 $desa = $pinkel->anggota->d;
             } else {
                 $kel = $pinkel->kelompok;
@@ -94,9 +100,9 @@ class Pinjaman
                 '{kabag_keuangan}' => $kec->sebutan_level_3,
                 '{verifikator}' => $kec->nama_tv_long,
                 '{pengawas}' => $kec->nama_bp_long,
-                '{ketua}' => (!$individu) ? $pinkel->kelompok->ketua:'',
-                '{sekretaris}' =>(!$individu) ? $pinkel->kelompok->sekretaris:'',
-                '{bendahara}' => (!$individu) ? $pinkel->kelompok->bendahara:'',
+                '{ketua}' => (!$individu) ? $pinkel->kelompok->ketua : '',
+                '{sekretaris}' => (!$individu) ? $pinkel->kelompok->sekretaris : '',
+                '{bendahara}' => (!$individu) ? $pinkel->kelompok->bendahara : '',
                 '{kades}' => $desa->kades,
                 '{nip}' => $desa->nip,
                 '{sekdes}' => $desa->sekdes,
@@ -105,6 +111,7 @@ class Pinjaman
                 '{sebutan_kades}' => $desa->sebutan_desa->sebutan_kades,
                 '{penjamin}' => $kel->penjamin,
                 '{peminjam}' => $kel->namadepan,
+                '{hubungan}' => $hub->kekeluargaan,
                 '1' => '1',
                 '0' => '0'
             ]);
