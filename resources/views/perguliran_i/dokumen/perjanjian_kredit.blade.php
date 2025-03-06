@@ -49,7 +49,7 @@
     </table>
     <div class="centered-text">
         Dengan memohon rahmat Tuhan Yang Maha Kuasa serta kesadaran akan cita-cita luhur pemberdayaan masyarakat desa untuk
-        mencapai kemajuan ekonomi dan kemakmuran bersama, saya yang bertanda tangan dibawah ini :
+        mencapai kemajuan ekonomi dan kemakmuran bersama, saya yang bertanda tangan di bawah ini :
     </div>
     <div style="text-align: center;">
         <ol class="centered-text" style="list-style-type: upper-roman;">
@@ -67,34 +67,34 @@
                 <b> {{ $pinkel->anggota->namadepan }}</b>, Nomor Induk Kependudukan {{ $pinkel->anggota->nik }} bertempat
                 tinggal di
                 {{ $pinkel->anggota->alamat }} dalam hal ini bertindak untuk
-                diri sendiri, selanjutnya disebut DEBITOR.
+                diri sendiri, selanjutnya disebut DEBITUR.
             </li>
         </ol>
     </div>
-    <div class="centered-text">Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }} dan DEBITOR dalam kedudukan
+    <div class="centered-text">Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }} dan DEBITUR dalam kedudukan
         masing-
-        masing seperti telah diterangkan diatas pada hari ini :
+        masing seperti telah diterangkan di atas pada hari ini :
         {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->format('d F Y') }} bertempat di Kantor BUM Desa
         {{ $kec->nama_lembaga_sort }}
         {{ $kec->sebutan_kec }}
         {{ $kec->nama_kec }} , dengan
         sadar dan sukarela menyatakan telah membuat perjanjian utang piutang dengan ketentuan-ketentuan yang disepakati
-        bersama sebagai berikut :</div>
+        bersama sebagai berikut :</div> <br>
     <div style="text-align: center;">
-        <b class="centered-text"> PASAL 1 </b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 1 </i> </h3>
+        <b class="centered-text">PASAL 1</b>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px; margin-top: 0;">Ayat 1</h3>
         <div class="centered-text">
-            Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }} setuju memberikan kredit kepada DEBITOR sebesar
+            Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }} setuju memberikan kredit kepada DEBITUR sebesar
             Rp.
             {{ number_format($pinkel->alokasi) }} ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah) berdasarkan
-            permohonan dari DEBITOR sesuai surat permohonan kredit tanggal
+            permohonan dari DEBITUR sesuai surat permohonan kredit tanggal
             {{ Tanggal::tglLatin($pinkel->tgl_proposal) }}.
         </div>
     </div>
     <div style="text-align: center;">
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 2 </i> </h3>
         <div class="centered-text">
-            DEBITOR, mengaku telah menerima uang dalam jumlah sebagaimana yang diterangkan pada ayat 1 di atas, yang
+            DEBITUR, mengaku telah menerima uang dalam jumlah sebagaimana yang diterangkan pada ayat 1 di atas, yang
             mana telah dibayarkan sesuai dengan permohonan dan dibuktikan secara sah dengan bukti kwitansi terlampir,
             yang berlaku sebagai surat pengakuan utang.
         </div>
@@ -102,7 +102,7 @@
     <div style="text-align: center;">
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 3 </i> </h3>
         <div class="centered-text">
-            DEBITOR, menyerahkan jaminan atas pinjaman tersebut pada ayat 1 kepada Badan Usaha Milik Desa Bersama TIRTA
+            DEBITUR, menyerahkan jaminan atas pinjaman tersebut pada ayat 1 kepada Badan Usaha Milik Desa Bersama TIRTA
             PESONA JAYA LKD berupa @if ($jaminan['jenis_jaminan'] == '1')
                 Nomor Sertifikat: {{ $jaminan['nomor_sertifikat'] ?? 0 }},
                 Nama jaminan: {{ $jaminan['nama_pemilik'] ?? 0 }},
@@ -135,13 +135,13 @@
         <b class="centered-text"> PASAL 2 </b>
         <div class="centered-text">
             Kedua belah pihak secara suka rela menerima syarat-syarat perjanjian utang piutang sebagai mana dinyatakan dalam
-            ketentuan-ketentuan dibawah ini :
+            ketentuan-ketentuan di bawah ini :
         </div>
     </div>
     <div style="text-align: center;">
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 1 </i> </h3>
         <div class="centered-text">
-            Fasilitas Kredit tersebut akan digunakan untuk modal kerja. DEBITOR bertanggung jawab mengenai kebenaran
+            Fasilitas Kredit tersebut akan digunakan untuk modal kerja. DEBITUR bertanggung jawab mengenai kebenaran
             atas penggunaan Fasilitas Kredit tersebut.
         </div>
     </div>
@@ -168,7 +168,7 @@
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 4 </i> </h3>
 
         <div class="centered-text">
-            DEBITOR mengerti dan menyadari bahwa jasa pinjaman yang dibayar akan dipergunakan untuk biaya pelayanan dan
+            DEBITUR mengerti dan menyadari bahwa jasa pinjaman yang dibayar akan dipergunakan untuk biaya pelayanan dan
             pengelolaan yang sehat serta pemupukan modal yang bermanfaat bagi Badan Usaha Milik Desa Bersama TIRTA
             PESONA JAYA LKD.
         </div>
@@ -177,14 +177,14 @@
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 5 </i> </h3>
 
         <div class="centered-text">
-            Apabila DEBITOR membayar angsuran dalam jumlah dan waktu yang tidak sesuai pada jadwal angsuran (terlambat
+            Apabila DEBITUR membayar angsuran dalam jumlah dan waktu yang tidak sesuai pada jadwal angsuran (terlambat
             satu bulan) maka akan diberikan sanksi/denda sejumlah 1,5 % (satu koma lima per seratus) per bulan.
         </div>
     </div>
     <div style="text-align: center;">
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 6 </i> </h3>
         <div class="centered-text">
-            Apabila kemudian hari DEBITOR tidak bisa menepati perjanjian ini kepada Badan Usaha Milik Desa Bersama TIRTA
+            Apabila kemudian hari DEBITUR tidak bisa menepati perjanjian ini kepada Badan Usaha Milik Desa Bersama TIRTA
             PESONA JAYA LKD maka :
             <ol class="centered-text">
                 <li>Akan diselesaikan secara musyawarah mufakat antara kedua belah pihak;</li>
@@ -192,7 +192,7 @@
                     Apabila musyawarah mufakat tidak atau belum ditemukan penyelesaiannya maka Badan Usaha Milik Desa
                     Bersama {{ $kec->nama_lembaga_sort }} berhak menyita dan menjual jaminan pinjaman tersebut pada Pasal 1
                     Ayat 3
-                    dari DEBITOR, guna menutup semua pinjaman yang diterimanya.
+                    dari DEBITUR, guna menutup semua pinjaman yang diterimanya.
                 </li>
             </ol>
         </div>
@@ -200,8 +200,8 @@
     <div style="text-align: center;">
 
         <b class="centered-text"> PASAL 3 </b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 1 </i>
-        </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px; margin-top: 0;"> Ayat
+            1</h3>
         <div class="centered-text">
             Pihak kedua dan pemberi kuasa sadar dan mengerti bahwa mengembalikan kredit secara lancar sesuai jadwal yang
             disepakati, merupakan kewajiban hukum sekaligus menunjukkan budi pekerti luhur. Pengembalian kredit secara
@@ -223,7 +223,7 @@
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 3 </i> </h3>
 
         <div class="centered-text">
-            DEBITOR menyatakan secara sadar dan sukarela telah menandatangani akad perjanjian kredit ini, setelah terlebih
+            DEBITUR menyatakan secara sadar dan sukarela telah menandatangani akad perjanjian kredit ini, setelah terlebih
             dahulu membacakan isi perjanjian ini dengan sejelas-jelasnya dan tidak menyatakan keberatan.
         </div>
     </div>
