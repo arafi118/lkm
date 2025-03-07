@@ -19,8 +19,8 @@
         $target_jasa = $ra_bulan_ini->target_jasa;
         $angsuran_ke = $ra_bulan_ini->angsuran_ke;
     }
-    
-    $angke = ($wajib_pokok != 0) ? ($real->sum_pokok / $wajib_pokok) : 0;
+    $angke = ($wajib_pokok != 0) ? floor($real->sum_pokok / $wajib_pokok) : 0;
+
     $jum_angsuran = $pinkel->jangka / $pinkel->sis_pokok->sistem;
     if ($real->saldo_pokok + $real->saldo_jasa <= 0) {
         $angsuran_ke = $jum_angsuran;
