@@ -40,7 +40,7 @@ $section = 0;
             <tr>
                 <td colspan="5" align="center">
                     <div style="font-size: 20px;">
-                        <b>DAFTAR KOLEKTIBILITAS REKAP {{ strtoupper($jpp_i->nama_jpp) }}</b>
+                        <b>DAFTAR RINCIAN PINJAMAN YANG DIBERIKAN {{ strtoupper($jpp_i->nama_jpp) }}</b>
                     </div>
                     <div style="font-size: 16px;">
                         <b>{{ strtoupper($sub_judul) }}</b>
