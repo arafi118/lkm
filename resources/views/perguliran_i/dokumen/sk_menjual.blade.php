@@ -39,9 +39,9 @@
                 <div style="font-size: 14px;">
                     <b> SURAT KUASA MENJUAL </b>
                 </div>
-                <div style="font-size: 12px;">
+                {{-- <div style="font-size: 12px;">
                     Nomor: {{ $pinkel->spk_no }}
-                </div>
+                </div> --}}
             </td>
         </tr>
         <tr>
@@ -51,41 +51,7 @@
     <div class="centered-text">
         Yang bertanda tangan di bawah ini, Saya :
     </div>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
-        <tr>
-            <td width="5"> &nbsp; </td>
-            <td width="90"> Nama Lengkap </td>
-            <td width="10" align="center"> : </td>
-            <td> {{ $dir->namadepan }} {{ $dir->namabelakang }} </td>
-        </tr>
-        <tr>
-            <td width="5"> &nbsp; </td>
-            <td> Tempat, tangal lahir </td>
-            <td align="center"> : </td>
-            <td> {{ $dir->tempat_lahir }},
-                {{ \Carbon\Carbon::parse($dir->tgl_lahir)->format('d F Y') }}
-            </td>
-        </tr>
-        <tr>
-            <td width="5"> &nbsp; </td>
-            <td> NIK </td>
-            <td align="center"> : </td>
-            <td> {{ $dir->nik }} </td>
-        </tr>
-        <tr>
-            <td width="5"> &nbsp; </td>
-            <td> Alamat </td>
-            <td align="center"> : </td>
-            <td> {{ $dir->alamat }} </td>
-        </tr>
-        <tr>
-            <td width="5"> &nbsp; </td>
-            <td colspan="3">Selanjutnya disebut sebagai Pihak PERTAMA (Pemberi Kuasa)</td>
-        </tr>
-    </table>
-    <div class="centered-text">
-        Memberi Kuasa kapada :
-    </div>
+
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
         <tr>
             <td width="5"> &nbsp; </td>
@@ -101,18 +67,10 @@
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td> Jabatan </td>
-            <td align="center"> : </td>
-            <td> {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
-                {{ $kec->sebutan_kec }}
-                {{ $kec->nama_kec }}</td>
-        </tr>
-        <tr>
-            <td width="5"> &nbsp; </td>
-            <td> Tempat, tangal lahir </td>
+            <td> Tempat, tanggal lahir </td>
             <td align="center"> : </td>
             <td> {{ $pinkel->anggota->tempat_lahir }},
-                {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_lahir)->format('d F Y') }}
+                {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_lahir)->locale('id')->translatedFormat('d F Y') }}
             </td>
         </tr>
         <tr>
@@ -123,15 +81,59 @@
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td> Berkedudukan di </td>
+            <td> Alamat </td>
             <td align="center"> : </td>
             <td> {{ $pinkel->anggota->alamat }} </td>
+        </tr>
+        <tr>
+            <td width="5"> &nbsp; </td>
+            <td colspan="3">Selanjutnya disebut sebagai Pihak PERTAMA (Pemberi Kuasa)</td>
+        </tr>
+    </table> <br>
+    <div class="centered-text">
+        Memberi Kuasa kapada :
+    </div>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+        <tr>
+            <td width="5"> &nbsp; </td>
+            <td width="90"> Nama Lengkap </td>
+            <td width="10" align="center"> : </td>
+            <td> {{ $dir->namadepan }} {{ $dir->namabelakang }} </td>
+        </tr>
+        <tr>
+            <td width="5"> &nbsp; </td>
+            <td> Tempat, tanggal lahir </td>
+            <td align="center"> : </td>
+            <td> {{ $dir->tempat_lahir }},
+                {{ \Carbon\Carbon::parse($dir->tgl_lahir)->locale('id')->translatedFormat('d F Y') }}
+            </td>
+        </tr>
+        <tr>
+            <td width="5"> &nbsp; </td>
+            <td> Jabatan </td>
+            <td align="center"> : </td>
+            <td> {{ $dir->j->nama_jabatan }} {{ $kec->nama_lembaga_sort }}
+                {{ $kec->sebutan_kec }}
+                {{ $kec->nama_kec }}</td>
+        </tr>
+        <tr>
+            <td width="5"> &nbsp; </td>
+            <td> NIK </td>
+            <td align="center"> : </td>
+            <td> {{ $dir->nik }} </td>
+        </tr>
+        <tr>
+            <td width="5"> &nbsp; </td>
+            <td> Alamat </td>
+            <td align="center"> : </td>
+            <td> {{ $dir->alamat }} </td>
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
             <td colspan="3">Selanjutnya disebut sebagai Pihak KEDUA (Penerima Kuasa)</td>
         </tr>
     </table>
+    <br>
     <div class="centered-text">
         Sesuai Surat Perjanjian Kredit (SPK) Nomor :
         <b>{{ $pinkel->spk_no }}/SPK.{{ $pinkel->jpp->nama_jpp }}-{{ $pinkel->jpp->id }}/BUMDESMA/II/{{ date('Y') }}</b>
@@ -164,11 +166,12 @@
             Nama jaminan: {{ $jaminan['nama_pemilik'] ?? 0 }},
             Alamat : {{ $jaminan['alamat'] ?? 0 }} Luas: {{ $jaminan['luas'] ?? 0 }} (m²),
             Nilai Jual Tanah: {{ number_format($jaminan['nilai_jual_tanah'] ?? 0) }},
-        @endif atas nama <b>{{ $pinkel->anggota->namadepan }} (peminjam)</b> yang terletak di
+        @endif atas nama <b>{{ $pinkel->anggota->penjamin }}
+            ({{ $pinkel->anggota->keluarga->kekeluargaan }})</b> yang terletak di
         {{ $pinkel->anggota->d->sebutan_desa->sebutan_desa }}
         {{ $pinkel->anggota->d->nama_desa }} Kecamatan {{ $pinkel->anggota->d->nama_kec }},
         sesuai sertifikat yang saya titipkan di BUMDesa Bersama {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
-        {{ $kec->nama_kec }} .
+        {{ $kec->nama_kec }}.
     </div>
     <p class="centered-text">
         Dengan demikian apabila dikemudian hari saya tidak mampu memenuhi kewajiban saya sesuai Surat Perjanjian Kredit
@@ -194,7 +197,7 @@
                                     adanya tekanan/paksaan dari pihak manapun untuk dapat dipergunakan sebagaimana mestinya
                                     sebagai itikad baik untuk melaksanakan kewajiban saya di BUMDesa Bersama
                                     {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
-                                    {{ $kec->nama_kec }} .
+                                    {{ $kec->nama_kec }}.
                                 </div>
                             </td>
                         </tr>
@@ -212,14 +215,39 @@
                         </tr> <br> <br> <br> <br> <br><br><br><br>
                         <tr>
                             <td width="40" align="center"> &nbsp; </td>
-                            <td width="80" align="center">{{ $pinkel->anggota->namadepan }}</td>
-                            <td width="60" align="center"> &nbsp; </td>
-                            <td width="50" align="center" colspan="2"> {{ $dir->namadepan }}
+                            <td width="100" align="center">{{ $dir->namadepan }}
                                 {{ $dir->namabelakang }}</td>
+                            <td width="60" align="center"> &nbsp; </td>
+                            <td width="50" align="center" colspan="2"> {{ $pinkel->anggota->namadepan }}</td>
                         </tr>
                     </table>
                 </td>
             </tr>
         </table>
+    </div> <br>
+    <div style="text-align: center;">
+        <div class="centered-text">
+            SAKSI-SAKSI :<br>
+            <ol class="centered-text">
+                <li>
+                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+                        <tr>
+                            <td width="80" align="left">{{ $pinkel->anggota->penjamin }}</td>
+                            <td width="80" align="right">{{ $pinkel->anggota->keluarga->kekeluargaan }}</td>
+                            <td width="80" align="left"> (. . . . . . . . . . . . . . . )</td>
+                        </tr>
+                    </table>
+                </li> <br>
+                <li>
+                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+                        <tr>
+                            <td width="80" align="left">{{ $saksi->namadepan }}</td>
+                            <td width="80" align="right">{{ $saksi->j->nama_jabatan }}</td>
+                            <td width="80" align="left"> (. . . . . . . . . . . . . . . )</td>
+                        </tr>
+                    </table>
+                </li>
+            </ol>
+        </div>
     </div>
 @endsection

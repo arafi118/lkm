@@ -30,6 +30,20 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="position-relative mb-3">
+                                            <label for="Tujuan">Tujuan</label>
+                                            <select class="form-control js-example-basic-single" name="tujuan"
+                                                id="tujuan">
+                                                @foreach ($rekening as $rek)
+                                                    <option value="{{ $rek->kode_akun }}">
+                                                        {{ $rek->kode_akun }}. {{ $rek->nama_akun }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <small class="text-danger" id="msg_tujuan"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="position-relative mb-3">
                                             <label for="pokok">Pokok </label>
                                             <input autocomplete="off" type="text" name="pokok" id="pokok"
                                                 class="form-control">
@@ -65,12 +79,12 @@
 
                             <div class="d-flex justify-content-end">
                                 <button type="button"class="btn btn-warning btn-sm me-3" style="color: white;">
-                                    Loan id 
+                                    Loan id
                                     <span class="badge badge-info" id="loan-id" style="font-size: 16px;">
                                     </span>
                                 </button>
                                 <button type="button" id="btnDetailIndividu" class="btn btn-info btn-sm me-3">
-                                    Detail Pemanfaat 
+                                    Detail Pemanfaat
                                 </button>
                                 <button type="button" id="SimpanAngsuran"
                                     class="btn btn-github btn-sm btn btn-sm btn-dark mb-0">Posting</button>
@@ -101,13 +115,15 @@
                 <div class="col-md-4 mb-3">
                     <div class="nav-wrapper position-relative end-0">
                         <div class="d-flex justify-content-between p-1" role="tablist">
-                            <button class="btn btn-outline-primary flex-fill me-1 active" data-bs-toggle="tab" data-bs-target="#Pokok" role="tab" aria-controls="Pokok" aria-selected="true">
+                            <button class="btn btn-outline-primary flex-fill me-1 active" data-bs-toggle="tab"
+                                data-bs-target="#Pokok" role="tab" aria-controls="Pokok" aria-selected="true">
                                 Pokok
                             </button>
-                            <button class="btn btn-outline-warning flex-fill" data-bs-toggle="tab" data-bs-target="#Jasa" role="tab" aria-controls="Jasa" aria-selected="false">
+                            <button class="btn btn-outline-warning flex-fill" data-bs-toggle="tab" data-bs-target="#Jasa"
+                                role="tab" aria-controls="Jasa" aria-selected="false">
                                 Jasa
                             </button>
-                        </div>                        
+                        </div>
 
                         <div class="tab-content mt-3">
                             <div class="tab-pane fade show active" id="Pokok" role="tabpanel"
@@ -222,7 +238,7 @@
             </div>
         </div>
     </div>
-    
+
     <form action="/transaksi/reversal" method="post" id="formReversal">
         @csrf
 
@@ -253,6 +269,12 @@
         });
         $('.date').datepicker({
             dateFormat: 'dd/mm/yy'
+        });
+
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2({
+                theme: 'bootstrap4',
+            });
         });
 
         var chr_pokok, chr_jasa = ''

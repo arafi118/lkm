@@ -39,7 +39,12 @@
                     <b> SURAT PERJANJIAN KREDIT (SPK) </b>
                 </div>
                 <div style="font-size: 12px;">
-                    Nomor: {{ $pinkel->spk_no }}
+                    Nomor:
+                    {{ $pinkel->spk_no }}/SPK.{{ $pinkel->jpp->nama_jpp }}-{{ $pinkel->jpp->id }}/BUMDESMA/II/{{ date('Y') }}
+                </div>
+
+                <div style="font-size: 10px;">
+                    Tanggal: {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->locale('id')->translatedFormat('d F Y') }}
                 </div>
             </td>
         </tr>
@@ -62,7 +67,7 @@
                 karena itu bertindak untuk dan atas nama Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }},
                 berkedudukan
                 di Jalan {{ $kec->alamat_kec }} {{ $kec->sebutan_kec }}
-                {{ $kec->nama_kec }} Kabupaten {{ $nama_kab }}.</li>
+                {{ $kec->nama_kec }} Kabupaten {{ $nama_kab }}.</li> <br>
             <li>
                 <b> {{ $pinkel->anggota->namadepan }}</b>, Nomor Induk Kependudukan {{ $pinkel->anggota->nik }} bertempat
                 tinggal di
@@ -71,11 +76,16 @@
             </li>
         </ol>
     </div>
+
     <div class="centered-text">Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }} dan DEBITUR dalam kedudukan
         masing-
-        masing seperti telah diterangkan di atas pada hari ini :
-        {{ \Carbon\Carbon::parse($pinkel->tgl_proposal)->locale('id')->translatedFormat('d F Y') }}
-        bertempat di Kantor BUM Desa
+        masing seperti telah diterangkan di atas pada hari ini
+        : {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->translatedFormat('l') }} tanggal :
+        {{ $keuangan->terbilang(Tanggal::hari($pinkel->tgl_cair)) }}
+        bulan {{ $keuangan->terbilang(Tanggal::bulan($pinkel->tgl_cair)) }}
+        tahun {{ $keuangan->terbilang(Tanggal::tahun($pinkel->tgl_cair)) }}
+        {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->locale('id')->translatedFormat('d F Y') }}
+        jam {{ $pinkel->wt_cair }} bertempat di Kantor BUM Desa
         {{ $kec->nama_lembaga_sort }}
         {{ $kec->sebutan_kec }}
         {{ $kec->nama_kec }} , dengan
@@ -86,8 +96,9 @@
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px; margin-top: 0;">Ayat 1</h3>
         <div class="centered-text">
             Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }} setuju memberikan kredit kepada DEBITUR sebesar
-            Rp.
-            {{ number_format($pinkel->alokasi) }} ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah) berdasarkan
+
+            <b>Rp. {{ number_format($pinkel->alokasi) }} ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah)</b>
+            berdasarkan
             permohonan dari DEBITUR sesuai surat permohonan kredit tanggal
             {{ \Carbon\Carbon::parse($pinkel->tgl_proposal)->locale('id')->translatedFormat('d F Y') }}
             .
@@ -160,7 +171,7 @@
         <div class="centered-text">
             Kredit akan dibayarkan kembali dengan sistem bulanan dalam jangka waktu {{ $pinkel->jangka }} bulan, dengan
             jasa <b> {{ $pinkel->pros_jasa / $pinkel->jangka }} % Flat </b> sebesar
-            <b> {{ number_format($pinkel->alokasi * ($pinkel->pros_jasa / $pinkel->jangka / 100)) }}
+            <b>Rp. {{ number_format($pinkel->alokasi * ($pinkel->pros_jasa / $pinkel->jangka / 100)) }}
                 ({{ $keuangan->terbilang($pinkel->alokasi * ($pinkel->pros_jasa / $pinkel->jangka / 100)) }} Rupiah)
             </b> setiap tanggal 07 (tujuh),
             sebagaimana jadwal angsuran terlampir.

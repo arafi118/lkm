@@ -1905,6 +1905,11 @@ class PinjamanIndividuController extends Controller
             ['jabatan', '1'],
             ['lokasi', Session::get('lokasi')]
         ])->first();
+        $data['saksi'] = User::with('j')->where([
+            ['level', '1'],
+            ['jabatan', '7'],
+            ['lokasi', Session::get('lokasi')]
+        ])->first();
 
         $data['keuangan'] = $keuangan;
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
