@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\resources",
+    "\\resources\\views",
+    "\\resources\\views\\transaksi",
+    "\\resources\\views\\transaksi\\jurnal_angsuran",
+    "\\resources\\views\\transaksi\\jurnal_angsuran\\dokumen"
   ],
-  "SelectedNode": "\\C:\\laragon\\www\\lkm",
   "PreviewInSolutionExplorer": false
 }

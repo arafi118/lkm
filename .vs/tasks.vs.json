@@ -10,6 +10,11 @@
       "taskLabel": "task-",
       "appliesTo": ".env",
       "type": "launch"
+    },
+    {
+      "taskLabel": "task-lkm",
+      "appliesTo": "/",
+      "type": "launch"
     }
   ]
 }

@@ -40,7 +40,7 @@ $section = 0;
             <tr>
                 <td colspan="5" align="center">
                     <div style="font-size: 20px;">
-                        <b>DAFTAR KOLEKTIBILITAS REKAP {{ strtoupper($jpp_i->nama_jpp) }}</b>
+                        <b>DAFTAR RINCIAN PINJAMAN YANG DIBERIKAN {{ strtoupper($jpp_i->nama_jpp) }}</b>
                     </div>
                     <div style="font-size: 16px;">
                         <b>{{ strtoupper($sub_judul) }}</b>
@@ -112,7 +112,6 @@ $section = 0;
                         $kpros_jasa = number_format($pinj_i['pros_jasa'] - $pinj_i['jangka'], 2);
                         $ktgl1 = $pinj_i['tgl_cair'];
                         $kpenambahan = "+" . $pinj_i['jangka'] . " month";
-                        $ktgl2 = date('Y-m-d', strtotime($kpenambahan, strtotime($ktgl1)));
                         $kpros_jasa = number_format($pinj_i['pros_jasa'] / $pinj_i['jangka'], 2);
                         $j_alokasi = 0;
                         $j_tunggakan_pokok = 0;
@@ -182,7 +181,9 @@ $section = 0;
                         $saldo_pokok = 0;
                         $saldo_jasa = 0;
                     }
-
+                    
+                    $kpenambahan = "+" . $pinj_i->jangka . " month";
+                    $ktgl2 = date('Y-m-d', strtotime($kpenambahan, strtotime($pinj_i->tgl_cair)));
                     $tgl_cair = explode('-', $pinj_i->tgl_cair);
                     $th_cair = $tgl_cair[0];
                     $bl_cair = $tgl_cair[1];
@@ -192,12 +193,12 @@ $section = 0;
                     $selisih_bulan = $bulan - $bl_cair;
 
                     $selisih = $selisih_bulan + $selisih_tahun;
-
+                    $jum_nunggak = ceil($wajib_pokok == 0 ? 0 : $tunggakan_pokok/$wajib_pokok);
                     $kolek = 0;
-                    if ($saldo_pokok <= 0) {
+                    if ($tunggakan_pokok <= 0) {
                         $kolek = 0;
                     } elseif ($jatuh_tempo != 0) {
-                        $kolek = round((strtotime($tgl_kondisi) - strtotime($jatuh_tempo)) / (60 * 60 * 24));
+                        $kolek = round((strtotime($tgl_kondisi) - strtotime($jatuh_tempo)) / (60 * 60 * 24))+(($jum_nunggak-1)*30);
                         if ($kolek < 0) {
                             $kolek = 0;
                         }
@@ -214,7 +215,14 @@ $section = 0;
                     } else {
                         $keterangan = 'Macet';
                     }
-
+                    if ($pinj_i->tgl_lunas <= $tgl_kondisi && $pinj_i->status != 'A') {
+                        $keterangan = match ($pinj_i->status) {
+                            'L' => 'Lunas',
+                            'R' => 'Rescheduling',
+                            'H' => 'Hapus',
+                            default => 'Lunas',
+                        };
+                    }
                     $jaminan = json_decode($pinj_i->jaminan, true) ?? [];
                     $jenisJaminan = $jaminan['jenis_jaminan'] ?? null;
                     $nilaiJaminan = isset($jaminan['nilai_jaminan']) ? (float) $jaminan['nilai_jaminan'] : 0;
@@ -232,17 +240,17 @@ $section = 0;
                 @endphp
 
                 <tr align="right" height="15px" class="style9">
-                    <td class="l top" align="center">{{ $nomor++ }}</td>
-                    <td class="l top" align="left">{{ $pinj_i->namadepan }} - {{ $pinj_i->id }}</td>
-                    <td class="l top" align="left">Pinjaman Modal Kerja</td>
-                    <td class="l top" align="center">{{ $pinj_i->angsuran_pokok->nama_sistem }}</td>
-                    <td class="l top" align="center">{{ Tanggal::tglIndo($pinj_i->tgl_cair) }}</td>
-                    <td class="l top" align="center">{{ Tanggal::tglIndo($ktgl2) }}</td>
-                    <td class="l top">{{ $kpros_jasa }}%</td>
-                    <td class="l top" align="center">per bulan</td>
-                    <td class="l top">{{ number_format($pinj_i->alokasi) }}</td>
-                    <td class="l top">{{ number_format($saldo_pokok) }}</td>
-                    <td class="l top">
+                    <td class="l t" align="center">{{ $nomor++ }}</td>
+                    <td class="l t" align="left">{{ $pinj_i->namadepan }} - {{ $pinj_i->id }}</td>
+                    <td class="l t" align="left">Pinjaman Modal Kerja</td>
+                    <td class="l t" align="center">{{ $pinj_i->angsuran_pokok->nama_sistem }}</td>
+                    <td class="l t" align="center">{{ Tanggal::tglIndo($pinj_i->tgl_cair) }}</td>
+                    <td class="l t" align="center">{{ Tanggal::tglIndo($ktgl2) }}</td>
+                    <td class="l t">{{ $kpros_jasa }}%</td>
+                    <td class="l t" align="center">per bulan</td>
+                    <td class="l t">{{ number_format($pinj_i->alokasi) }}</td>
+                    <td class="l t">{{ number_format($saldo_pokok) }}</td>
+                    <td class="l t">
                         @if ($kolek > 180)
                             {{ ceil($kolek / 30) }} bulan
                         @elseif ($kolek > 0)
@@ -316,7 +324,7 @@ $section = 0;
                             <tr class="style9">
                                 <th colspan="8" class="l t b" align="center" style="background:rgba(0,0,0, 0.3);">TOTAL KESELURUHAN({{ $jumlah_aktif }} Anggota)</th>
                                 <th class="l t b" align="right">{{ number_format($t_alokasi) }}</th>
-                                <th class="l t b" align="right">{{ number_format($t_saldo_pokok) }}</th>
+                                <th class="l t b" align="right">{{ number_format($t_saldo) }}</th>
                                 <th colspan="4" class="l r t b" align="right"></th>
                             </tr>
 

@@ -19,6 +19,7 @@
         $target_jasa = $ra_bulan_ini->target_jasa;
         $angsuran_ke = $ra_bulan_ini->angsuran_ke;
     }
+    $angke = ($wajib_pokok != 0) ? floor($real->sum_pokok / $wajib_pokok) : 0;
 
     $jum_angsuran = $pinkel->jangka / $pinkel->sis_pokok->sistem;
     if ($real->saldo_pokok + $real->saldo_jasa <= 0) {
@@ -153,7 +154,7 @@
             <td width="15%">Loan ID</td>
             <td width="11%"><strong>: {{ $pinkel->id }} - {{ $pinkel->jpp->nama_jpp }}</strong></td>
             <td colspan="2">
-                <div align="right">Angsuran ke: {{ $angsuran_ke }}
+                <div align="right">Angsuran ke: {{ $angke }}
                     dari {{ $jum_angsuran }}</div>
             </td>
             <th class="bottom top">STATUS PINJAMAN</th>
