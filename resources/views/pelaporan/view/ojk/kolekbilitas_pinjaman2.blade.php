@@ -192,18 +192,12 @@ $section = 0;
                     $selisih_bulan = $bulan - $bl_cair;
 
                     $selisih = $selisih_bulan + $selisih_tahun;
-
-                    $_kolek = 0;
-
-                    if ($wajib_pokok != '0') {
-                        $_kolek = $tunggakan_pokok / $wajib_pokok;
-                    }
-
+                    $jum_nunggak = ceil($wajib_pokok == 0 ? 0 : $tunggakan_pokok/$wajib_pokok);
                     $kolek = 0;
-                    if ($saldo_pokok <= 0) {
+                    if ($tunggakan_pokok <= 0) {
                         $kolek = 0;
                     } elseif ($jatuh_tempo != 0) {
-                        $kolek = round((strtotime($tgl_kondisi) - strtotime($jatuh_tempo)) / (60 * 60 * 24));
+                        $kolek = round((strtotime($tgl_kondisi) - strtotime($jatuh_tempo)) / (60 * 60 * 24))+(($jum_nunggak-1)*30);
                         if ($kolek < 0) {
                             $kolek = 0;
                         }
