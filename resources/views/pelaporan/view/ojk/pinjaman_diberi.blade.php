@@ -112,7 +112,6 @@ $section = 0;
                         $kpros_jasa = number_format($pinj_i['pros_jasa'] - $pinj_i['jangka'], 2);
                         $ktgl1 = $pinj_i['tgl_cair'];
                         $kpenambahan = "+" . $pinj_i['jangka'] . " month";
-                        $ktgl2 = date('Y-m-d', strtotime($kpenambahan, strtotime($ktgl1)));
                         $kpros_jasa = number_format($pinj_i['pros_jasa'] / $pinj_i['jangka'], 2);
                         $j_alokasi = 0;
                         $j_tunggakan_pokok = 0;
@@ -183,6 +182,7 @@ $section = 0;
                         $saldo_jasa = 0;
                     }
 
+                    $ktgl2 = date('Y-m-d', strtotime($kpenambahan, strtotime($pinj_i->tgl_cair)));
                     $tgl_cair = explode('-', $pinj_i->tgl_cair);
                     $th_cair = $tgl_cair[0];
                     $bl_cair = $tgl_cair[1];
@@ -237,7 +237,7 @@ $section = 0;
                     <td class="l t" align="left">Pinjaman Modal Kerja</td>
                     <td class="l t" align="center">{{ $pinj_i->angsuran_pokok->nama_sistem }}</td>
                     <td class="l t" align="center">{{ Tanggal::tglIndo($pinj_i->tgl_cair) }}</td>
-                    <td class="l t" align="center">{{ Tanggal::tglIndo($ktgl2) }}</td>
+                    <td class="l t" align="center">{{ Tanggal::tglIndo($pinj_i->target->jatuh_tempo) }}</td>
                     <td class="l t">{{ $kpros_jasa }}%</td>
                     <td class="l t" align="center">per bulan</td>
                     <td class="l t">{{ number_format($pinj_i->alokasi) }}</td>
