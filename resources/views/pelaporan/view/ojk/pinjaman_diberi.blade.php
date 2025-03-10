@@ -192,12 +192,12 @@ $section = 0;
                     $selisih_bulan = $bulan - $bl_cair;
 
                     $selisih = $selisih_bulan + $selisih_tahun;
-
+                    $jum_nunggak = ceil($wajib_pokok == 0 ? 0 : $tunggakan_pokok/$wajib_pokok);
                     $kolek = 0;
-                    if ($saldo_pokok <= 0) {
+                    if ($tunggakan_pokok <= 0) {
                         $kolek = 0;
                     } elseif ($jatuh_tempo != 0) {
-                        $kolek = round((strtotime($tgl_kondisi) - strtotime($jatuh_tempo)) / (60 * 60 * 24));
+                        $kolek = round((strtotime($tgl_kondisi) - strtotime($jatuh_tempo)) / (60 * 60 * 24))+(($jum_nunggak-1)*30);
                         if ($kolek < 0) {
                             $kolek = 0;
                         }
@@ -232,17 +232,17 @@ $section = 0;
                 @endphp
 
                 <tr align="right" height="15px" class="style9">
-                    <td class="l top" align="center">{{ $nomor++ }}</td>
-                    <td class="l top" align="left">{{ $pinj_i->namadepan }} - {{ $pinj_i->id }}</td>
-                    <td class="l top" align="left">Pinjaman Modal Kerja</td>
-                    <td class="l top" align="center">{{ $pinj_i->angsuran_pokok->nama_sistem }}</td>
-                    <td class="l top" align="center">{{ Tanggal::tglIndo($pinj_i->tgl_cair) }}</td>
-                    <td class="l top" align="center">{{ Tanggal::tglIndo($ktgl2) }}</td>
-                    <td class="l top">{{ $kpros_jasa }}%</td>
-                    <td class="l top" align="center">per bulan</td>
-                    <td class="l top">{{ number_format($pinj_i->alokasi) }}</td>
-                    <td class="l top">{{ number_format($saldo_pokok) }}</td>
-                    <td class="l top">
+                    <td class="l t" align="center">{{ $nomor++ }}</td>
+                    <td class="l t" align="left">{{ $pinj_i->namadepan }} - {{ $pinj_i->id }}</td>
+                    <td class="l t" align="left">Pinjaman Modal Kerja</td>
+                    <td class="l t" align="center">{{ $pinj_i->angsuran_pokok->nama_sistem }}</td>
+                    <td class="l t" align="center">{{ Tanggal::tglIndo($pinj_i->tgl_cair) }}</td>
+                    <td class="l t" align="center">{{ Tanggal::tglIndo($ktgl2) }}</td>
+                    <td class="l t">{{ $kpros_jasa }}%</td>
+                    <td class="l t" align="center">per bulan</td>
+                    <td class="l t">{{ number_format($pinj_i->alokasi) }}</td>
+                    <td class="l t">{{ number_format($saldo_pokok) }}</td>
+                    <td class="l t">
                         @if ($kolek > 180)
                             {{ ceil($kolek / 30) }} bulan
                         @elseif ($kolek > 0)

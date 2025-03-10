@@ -18,6 +18,8 @@ use Session;
 
 class AuthController extends Controller
 {
+    private const ID_KEC = 362;
+
     public function index()
     {
         $keuangan = new Keuangan;
@@ -28,7 +30,7 @@ class AuthController extends Controller
 
         // Handle URL lokal
         if (request()->server('SERVER_NAME') === '127.0.0.1' || request()->server('SERVER_NAME') === 'localhost') {
-            $kec = Kecamatan::where('id', '1')
+            $kec = Kecamatan::where('id', self::ID_KEC)
                 ->with('kabupaten')
                 ->first();
         } else {
@@ -73,7 +75,7 @@ class AuthController extends Controller
         }
 
         if (request()->server('SERVER_NAME') === '127.0.0.1' || request()->server('SERVER_NAME') === 'localhost') {
-            $kec = Kecamatan::where('id', '1')
+            $kec = Kecamatan::where('id', self::ID_KEC)
                 ->with('kabupaten')
                 ->first();
         } else {
@@ -165,7 +167,7 @@ class AuthController extends Controller
         $password = $uname;
 
         if (request()->server('SERVER_NAME') === '127.0.0.1' || request()->server('SERVER_NAME') === 'localhost') {
-            $kec = Kecamatan::where('id', '1')
+            $kec = Kecamatan::where('id', self::ID_KEC)
                 ->first();
         } else {
             $kec = Kecamatan::where('web_kec', $url)
