@@ -65,18 +65,18 @@
                         <td colspan="3">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td width="15%">&nbsp;</td>
-                        <td width="30%">Direktur utama </td>
+                        <td width="5%">&nbsp;</td>
+                        <td width="40%">Direktur utama </td>
                         <td>: Cicik Yuni Khustiyah </td>
                     </tr>
                     <tr>
-                        <td width="15%">&nbsp;</td>
-                        <td width="30%">Direktur</td>
+                        <td width="5%">&nbsp;</td>
+                        <td width="40%">Direktur</td>
                         <td>: Fufut Widianita, ST</td>
                     </tr>
                     <tr>
-                        <td width="15%">&nbsp;</td>
-                        <td width="30%">Kabag Administrasi & Keuangan </td>
+                        <td width="5%">&nbsp;</td>
+                        <td width="40%">Kabag Administrasi & Keuangan </td>
                         <td>: Yernada Desi Kurnia Sari</td>
                     </tr><i class="g fa-github-alt    "></i>
                 </table>
