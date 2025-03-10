@@ -324,7 +324,7 @@ $section = 0;
                             <tr class="style9">
                                 <th colspan="8" class="l t b" align="center" style="background:rgba(0,0,0, 0.3);">TOTAL KESELURUHAN({{ $jumlah_aktif }} Anggota)</th>
                                 <th class="l t b" align="right">{{ number_format($t_alokasi) }}</th>
-                                <th class="l t b" align="right">{{ number_format($t_saldo_pokok) }}</th>
+                                <th class="l t b" align="right">{{ number_format($t_saldo) }}</th>
                                 <th colspan="4" class="l r t b" align="right"></th>
                             </tr>
 
