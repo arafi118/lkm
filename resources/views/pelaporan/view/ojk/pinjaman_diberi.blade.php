@@ -215,10 +215,14 @@ $section = 0;
                     } else {
                         $keterangan = 'Macet';
                     }
-                    if($pinj_i->tgl_lunas <= $tgl_kondisi && $pinj_i->status != 'A'){
-                        $keterangan = $pinj_i->status;
+                    if ($pinj_i->tgl_lunas <= $tgl_kondisi && $pinj_i->status != 'A') {
+                        $keterangan = match ($pinj_i->status) {
+                            'L' => 'Lunas',
+                            'R' => 'Rescheduling',
+                            'H' => 'Hapus',
+                            default => 'Lunas',
+                        };
                     }
-
                     $jaminan = json_decode($pinj_i->jaminan, true) ?? [];
                     $jenisJaminan = $jaminan['jenis_jaminan'] ?? null;
                     $nilaiJaminan = isset($jaminan['nilai_jaminan']) ? (float) $jaminan['nilai_jaminan'] : 0;
