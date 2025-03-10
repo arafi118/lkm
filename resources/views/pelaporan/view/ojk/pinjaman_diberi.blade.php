@@ -215,6 +215,9 @@ $section = 0;
                     } else {
                         $keterangan = 'Macet';
                     }
+                    if($pinj_i->tgl_lunas <= $tgl_kondisi && $pinj_i->status != 'A'){
+                        $keterangan = $pinj_i->status;
+                    }
 
                     $jaminan = json_decode($pinj_i->jaminan, true) ?? [];
                     $jenisJaminan = $jaminan['jenis_jaminan'] ?? null;
