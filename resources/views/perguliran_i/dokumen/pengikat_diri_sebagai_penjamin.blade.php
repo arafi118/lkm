@@ -116,7 +116,7 @@
             <td colspan="3" align="justify">
                 <p>
                     untuk melakukan pinjaman dana di {{ $kec->nama_lembaga_sort }}, yang akan <b>dicairkan pada tanggal
-                        {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_cair)->format('d F Y') }} </b> sesuai kartu rencana
+                        {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->format('d F Y') }} </b> sesuai kartu rencana
                     angsuran
                     terlampir sebagai bagian yang tidak terpisahkan dari surat perjanjian kredit (SPK).
                 </p>
