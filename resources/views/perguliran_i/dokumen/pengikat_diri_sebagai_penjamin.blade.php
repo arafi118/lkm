@@ -41,7 +41,7 @@
             <td width="70%">{{ $pinkel->anggota->penjamin }}</td>
         </tr>
         <tr>
-            <td colspan="2">NIK/NO KK.</td>
+            <td colspan="2">NIK/No KK</td>
             <td align="center">:</td>
             <td>{{ $pinkel->anggota->nik_penjamin }} / {{ $pinkel->anggota->kk }}</td>
         </tr>
@@ -89,7 +89,7 @@
         </tr>
         <tr>
             <td width="5%">&nbsp;</td>
-            <td>No NIK</td>
+            <td>NIK</td>
             <td align="center">:</td>
             <td>{{ $pinkel->anggota->nik }}</td>
         </tr>
