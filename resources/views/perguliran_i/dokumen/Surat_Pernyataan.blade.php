@@ -22,9 +22,6 @@
                 <div style="font-size: 14px;">
                     <b> SURAT PERNYATAAN</b>
                 </div>
-                <div style="font-size: 12px;">
-                    Nomor: {{ $pinkel->spk_no }}
-                </div>
             </td>
         </tr>
         <tr>
@@ -33,8 +30,8 @@
     </table>
 
     <div class="centered-text">
-        yang bertanda tangan dibawah ini;
-    </div>
+        Yang bertanda tangan di bawah ini;
+    </div><br>
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
         <tr>
             <td width="5"> &nbsp; </td>
@@ -50,7 +47,7 @@
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td> Tempat, tangal lahir </td>
+            <td> Tempat, Tanggal lahir </td>
             <td align="center"> : </td>
             <td> {{ $pinkel->anggota->tempat_lahir }},
                 {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_lahir)->format('d F Y') }}
@@ -64,7 +61,7 @@
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td> No telepon </td>
+            <td> No Telepon </td>
             <td align="center"> : </td>
             <td> {{ $pinkel->anggota->hp }} </td>
         </tr>
@@ -83,7 +80,7 @@
     </table><br>
     <div class="centered-text">
         Mengajukan permohan pembiayaan /kredit barang kepada Unit Pembiayaan {{ $kec->nama_lembaga_sort }} yang berupa :
-    </div>
+    </div><br>
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
 
         <tr>
@@ -102,13 +99,13 @@
             <td width="5"> &nbsp; </td>
             <td width="90"> Harga </td>
             <td width="10" align="center"> : </td>
-            <td> {{ number_format($pinkel->harga, 2) }} </td>
+            <td>Rp. {{ number_format($pinkel->harga, 2) }} </td>
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
             <td> Jumlah Angsuran </td>
             <td align="center"> : </td>
-            <td> {{ number_format($pinkel->alokasi, 2) }}
+            <td>Rp. {{ number_format($pinkel->alokasi, 2) }}
             </td>
         </tr>
         <tr>
@@ -152,7 +149,7 @@
             <td width="5"> &nbsp; </td>
             <td> Uang Muka </td>
             <td align="center"> : </td>
-            <td> {{ number_format($pinkel->depe, 2) }} </td>
+            <td>Rp. {{ number_format($pinkel->depe, 2) }} </td>
         </tr>
     </table><br>
     <div class="centered-text">
