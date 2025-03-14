@@ -61,13 +61,16 @@
             'file' => 'PermohonanKreditBarang',
             'withExcel' => false,
         ],
+    ];
 
-        [
+    if ($kecamatan && ($kecamatan->id == 1 || $kecamatan->id == 279)) {
+        // Jika ID kecamatan adalah 1 atau 10
+        $dokumen_proposal[] = [
             'title' => 'surat pernyataan suami',
             'file' => 'suratpernyataansuami',
             'withExcel' => false,
-        ],
-    ];
+        ];
+    }
 
     $dokumen_pencairan = [
         [
