@@ -88,15 +88,21 @@
 
         <tr>
             <td width="5"> &nbsp; </td>
+            <td width="90"> Jenis Barang </td>
+            <td width="10" align="center"> : </td>
+            <td> {{ $pinkel->jpp->nama_jpp }} </td>
+        </tr>
+        <tr>
+            <td width="5"> &nbsp; </td>
             <td width="90"> Nama Barang </td>
             <td width="10" align="center"> : </td>
             <td> {{ $pinkel->nama_barang }} </td>
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td width="90"> Jenis Barang </td>
+            <td width="90"> Harga </td>
             <td width="10" align="center"> : </td>
-            <td> {{ $pinkel->jpp->nama_jpp }} </td>
+            <td> {{ number_format($pinkel->harga, 2) }} </td>
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
@@ -113,7 +119,7 @@
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td> Jaminan / Uang Muka </td>
+            <td> Jaminan</td>
             <td align="center"> : </td>
             <td>(
                 @if ($jaminan['jenis_jaminan'] == '1')
@@ -141,6 +147,12 @@
                     Nilai Jual Tanah: {{ number_format($jaminan['nilai_jual_tanah'] ?? 0) }},
                 @endif )
             </td>
+        </tr>
+        <tr>
+            <td width="5"> &nbsp; </td>
+            <td> Uang Muka </td>
+            <td align="center"> : </td>
+            <td> {{ number_format($pinkel->depe, 2) }} </td>
         </tr>
     </table><br>
     <div class="centered-text">
