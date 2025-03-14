@@ -99,13 +99,13 @@
             <td width="5"> &nbsp; </td>
             <td width="90"> Harga </td>
             <td width="10" align="center"> : </td>
-            <td>Rp. {{ number_format($pinkel->harga, 2, ',', '.') }} </td>
+            <td>Rp. {{ is_numeric($pinkel->harga) ? number_format((float) $pinkel->harga, 2, ',', '.') : '' }} </td>
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
             <td> Jumlah Angsuran </td>
             <td align="center"> : </td>
-            <td>Rp. {{ number_format($pinkel->alokasi, 2, ',', '.') }}
+            <td>Rp. {{ is_numeric($pinkel->alokasi) ? number_format((float) $pinkel->alokasi, 2, ',', '.') : '' }}
             </td>
         </tr>
         <tr>
@@ -149,7 +149,7 @@
             <td width="5"> &nbsp; </td>
             <td> Uang Muka </td>
             <td align="center"> : </td>
-            <td>Rp. {{ number_format($pinkel->depe, 2, ',', '.') }} </td>
+            <td>Rp. {{ is_numeric($pinkel->depe) ? number_format((float) $pinkel->depe, 2, ',', '.') : '' }}</td>
         </tr>
     </table><br>
     <div class="centered-text">
