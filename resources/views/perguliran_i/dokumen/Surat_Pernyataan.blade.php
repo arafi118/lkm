@@ -50,7 +50,7 @@
             <td> Tempat, Tanggal lahir </td>
             <td align="center"> : </td>
             <td> {{ $pinkel->anggota->tempat_lahir }},
-                {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_lahir)->format('d F Y') }}
+                {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_lahir)->locale('id')->translatedFormat('d F Y') }}
             </td>
         </tr>
         <tr>
@@ -61,7 +61,7 @@
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td> NO. Telepon </td>
+            <td> No. Telepon </td>
             <td align="center"> : </td>
             <td> {{ $pinkel->anggota->hp }} </td>
         </tr>
@@ -165,12 +165,13 @@
                     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                         <tr>
                             <td width="100" align="center"> Mengetahui, <br>
-                                {{ $pinkel->anggota->d->sebutan_desa->sebutan_kades }}
-                                {{ $pinkel->anggota->d->sebutan_desa->sebutan_desa }} ..........
+                                {{ $pinkel->anggota->d->sebutan_desa->sebutan_kades }} ..........
                             </td>
                             <td width="10" align="center"> &nbsp; </td>
                             <td width="100" align="center">
-                                {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_proposal) }}<br> Pemohon,</td>
+                                {{ $kec->nama_kec }},
+                                {{ \Carbon\Carbon::parse($pinkel->tgl_proposal)->locale('id')->translatedFormat('d F Y') }}
+                                <br> Pemohon,</td>
                         </tr> <br> <br> <br> <br> <br><br><br><br>
                         <tr>
                             <td width="100" align="center">
