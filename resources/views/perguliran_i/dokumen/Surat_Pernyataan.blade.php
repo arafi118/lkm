@@ -30,7 +30,7 @@
     </table>
 
     <div class="centered-text">
-        Yang bertanda tangan di bawah ini;
+        Yang bertanda tangan di bawah ini :
     </div><br>
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
         <tr>
@@ -61,7 +61,7 @@
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>
-            <td> No Telepon </td>
+            <td> NO. Telepon </td>
             <td align="center"> : </td>
             <td> {{ $pinkel->anggota->hp }} </td>
         </tr>
