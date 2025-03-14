@@ -63,7 +63,7 @@
         ],
     ];
 
-    if ($kecamatan && ($kecamatan->id == 1 || $kecamatan->id == 279)) {
+    if ($kecamatan && ($kecamatan->id == 279 || $kecamatan->id == 1)) {
         // Jika ID kecamatan adalah 1 atau 10
         $dokumen_proposal[] = [
             'title' => 'surat pernyataan suami',
