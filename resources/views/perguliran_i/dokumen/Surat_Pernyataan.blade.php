@@ -165,13 +165,15 @@
                     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                         <tr>
                             <td width="100" align="center"> Mengetahui, <br>
-                                {{ $pinkel->anggota->d->sebutan_desa->sebutan_kades }} ..........
+                                {{ $pinkel->anggota->d->sebutan_desa->sebutan_kades }}
+                                {{ $pinkel->anggota->d->nama_desa }}
                             </td>
                             <td width="10" align="center"> &nbsp; </td>
                             <td width="100" align="center">
                                 {{ $kec->nama_kec }},
                                 {{ \Carbon\Carbon::parse($pinkel->tgl_proposal)->locale('id')->translatedFormat('d F Y') }}
-                                <br> Pemohon,</td>
+                                <br> Pemohon,
+                            </td>
                         </tr> <br> <br> <br> <br> <br><br><br><br>
                         <tr>
                             <td width="100" align="center">
