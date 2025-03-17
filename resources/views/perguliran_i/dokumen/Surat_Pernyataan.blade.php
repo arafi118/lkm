@@ -23,7 +23,7 @@
                     <b> SURAT PERNYATAAN</b>
                 </div>
                 <div style="font-size: 12px;">
-                    No. ............
+                    No. .....................................
                 </div>
             </td>
         </tr>
@@ -121,7 +121,7 @@
             <td width="5"> &nbsp; </td>
             <td> Jaminan</td>
             <td align="center"> : </td>
-            <td>(
+            <td>
                 @if ($jaminan['jenis_jaminan'] == '1')
                     Nomor Sertifikat: {{ $jaminan['nomor_sertifikat'] ?? 0 }},
                     Nama jaminan: {{ $jaminan['nama_pemilik'] ?? 0 }},
@@ -145,7 +145,7 @@
                     Nama jaminan: {{ $jaminan['nama_pemilik'] ?? 0 }},
                     Alamat : {{ $jaminan['alamat'] ?? 0 }} Luas: {{ $jaminan['luas'] ?? 0 }} (m²),
                     Nilai Jual Tanah: {{ number_format($jaminan['nilai_jual_tanah'] ?? 0) }},
-                @endif )
+                @endif
             </td>
         </tr>
         <tr>
@@ -180,10 +180,10 @@
                         </tr> <br> <br> <br> <br> <br><br><br><br>
                         <tr>
                             <td width="100" align="center">
-                                {{ $pinkel->anggota->d->kades }}
+                                <b>{{ $pinkel->anggota->d->kades }}</b>
                             </td>
                             <td width="10" align="center"> &nbsp; </td>
-                            <td width="100" align="center"> {{ $pinkel->anggota->namadepan }}
+                            <td width="100" align="center"> <b>{{ $pinkel->anggota->namadepan }}</b>
                             </td>
                         </tr>
                         <tr>
@@ -196,9 +196,9 @@
                             </td>
                         </tr> <br> <br> <br> <br> <br><br><br><br>
                         <tr>
-                            <td width="100" align="center"> {{ $mgr->namadepan }} {{ $mgr->namabelakang }}</td>
+                            <td width="100" align="center"> <b>{{ $mgr->namadepan }} {{ $mgr->namabelakang }}</b></td>
                             <td width="10" align="center"> &nbsp; </td>
-                            <td width="100" align="center"> {{ $dir->namadepan }} {{ $dir->namabelakang }}
+                            <td width="100" align="center"> <b>{{ $dir->namadepan }} {{ $dir->namabelakang }}</b>
                             </td>
                         </tr>
                     </table>
