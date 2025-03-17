@@ -22,6 +22,9 @@
                 <div style="font-size: 14px;">
                     <b> SURAT PERNYATAAN</b>
                 </div>
+                <div style="font-size: 12px;">
+                    No. ............
+                </div>
             </td>
         </tr>
         <tr>
