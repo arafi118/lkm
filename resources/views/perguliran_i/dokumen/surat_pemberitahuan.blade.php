@@ -151,7 +151,7 @@
                         <td>Cara Pengikat Kredit</td>
                         <td align="center"width="5%">:</td>
                         <td>
-                            ibawah tanda tangan
+                            di bawah tanda tangan
                         </td>
                     </tr>
                     <tr>
