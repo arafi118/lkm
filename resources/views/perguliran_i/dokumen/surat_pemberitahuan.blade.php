@@ -88,7 +88,8 @@
             <td colspan="3">
                 <div style="text-align: justify;">
                     Dengan ini diberitahukan bahwa sesuai dengan surat permohonan kredit saudara dan setelah diadakan
-                    verifikasi serta penilaian Analisa dan kredit, maka {{ $kec->nama_lembaga_sort }} menyetujui permohonan tersebut dengan
+                    verifikasi serta penilaian Analisa dan kredit, maka {{ $kec->nama_lembaga_sort }} menyetujui permohonan
+                    tersebut dengan
                     ketentuan
                     dan syarat- syarat sebagai berikut:
                 </div>
@@ -117,7 +118,7 @@
                         <td>Jenis Kredit</td>
                         <td align="center"width="5%">:</td>
                         <td>
-                            Rp. {{ number_format($pinkel->jenis_pp) }}
+                            {{ $pinkel->jpp->nama_jpp }}
                         </td>
                     </tr>
                     <tr>
@@ -125,7 +126,7 @@
                         <td>Suku Jasa Kredit</td>
                         <td align="center"width="5%">:</td>
                         <td>
-                            Rp. {{ number_format($pinkel->pros_jasa) }}
+                            {{ number_format($pinkel->pros_jasa) }} %
                         </td>
                     </tr>
                     <tr>
