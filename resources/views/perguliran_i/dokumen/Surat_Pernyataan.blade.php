@@ -32,10 +32,10 @@
         </tr>
     </table>
 
-    <div class="centered-text">
+    <div class="centered-text" style="font-size: 12px;">
         Yang bertanda tangan di bawah ini :
     </div><br>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -81,10 +81,10 @@
             </td>
         </tr>
     </table><br>
-    <div class="centered-text">
+    <div class="centered-text" style="font-size: 12px;">
         Mengajukan permohan pembiayaan /kredit barang kepada Unit Pembiayaan {{ $kec->nama_lembaga_sort }} yang berupa :
     </div><br>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
 
         <tr>
             <td width="5"> &nbsp; </td>
@@ -155,17 +155,17 @@
             <td>Rp. {{ number_format($pinkel->depe, 2) }}</td>
         </tr>
     </table><br>
-    <div class="centered-text">
+    <div class="centered-text" style="font-size: 12px;">
         Dan dengan surat ini menyatakan sanggup untuk menyelesaikan pembiayaan/kredit sesuai dengan permohonan diatas.
         Apabila di kemudian hari terjadi kemacetan, saya siap di proses sesuai peraturan yang berlaku.</div>
-    <div class="centered-text">
+    <div class="centered-text" style="font-size: 12px;">
         Demikian surat pernyataan dibuat, agar bisa di gunakan sebagaimana mestinya. </div>
     <br>
-    <div style="text-align: center;" style="font-size: 10px;">
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;" class="p0">
+    <div style="text-align: center;" style="font-size: 12px;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;" class="p0">
             <tr>
                 <td style="padding: 0px !important;"><br>
-                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
                         <tr>
                             <td width="100" align="center"> Mengetahui, <br>
                                 {{ $pinkel->anggota->d->sebutan_desa->sebutan_kades }}
