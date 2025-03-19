@@ -180,8 +180,12 @@
                     Dikenakan Denda 0.1% per bulan dari jumlah angsuran apabila ada keterlambatan membayar angsuran.
                 </li>
                 <li>
-                    Akan dikenakan Pinalti apabila ada pelunasan pinjaman sebelum jangka waktu yang telah disepakati.
-                </li>
+                    Akan dikenakan Pinalti apabila ada pelunasan pinjaman sebelum jangka waktu yang telah disepakati. </li>
+                <ol type="a">
+                    <li>25% Pembayaran yang masuk akan dikenakan denda 3x Jasa.</li>
+                    <li>50% Pembayaran yang masuk akan dikenakan denda 2x Jasa.</li>
+                    <li>75% Pembayaran yang masuk akan dikenakan denda 1x Jasa.</li>
+                </ol>
                 <li>
                     {{ str_replace('"', '', stripslashes(strip_tags($kec->redaksi_spk))) }}
                 </li>
@@ -224,7 +228,8 @@
                         </tr> <br> <br> <br> <br> <br><br><br><br>
                         <tr>
                             <td width="10" align="center"> &nbsp; </td>
-                            <td width="20" align="center">{{ $dir->namadepan }} {{ $dir->namabelakang }}<br>  {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
+                            <td width="20" align="center">{{ $dir->namadepan }} {{ $dir->namabelakang }}<br>
+                                {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
                             </td>
                             <td width="10" align="center"> &nbsp; </td>
                             <td width="70" align="center">{{ $pinkel->anggota->namadepan }} <br>
