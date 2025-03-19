@@ -69,6 +69,15 @@
         ],
     ];
 
+    if ($kecamatan && ($kecamatan->id == 1 || $kecamatan->id == 279)) {
+        // Jika ID kecamatan adalah 1 atau 10
+        $dokumen_proposal[] = [
+            'title' => 'Surat Pernyataan',
+            'file' => 'SuratPernyataan',
+            'withExcel' => false,
+        ];
+    }
+
     $dokumen_pencairan = [
         [
             'title' => 'Cover',

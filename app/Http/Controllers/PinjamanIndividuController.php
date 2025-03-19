@@ -2608,6 +2608,48 @@ class PinjamanIndividuController extends Controller
         }
     }
 
+    public function SuratPernyataan($id, $data)
+    {
+        $keuangan = new Keuangan;
+        $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
+            'jpp',
+            'anggota',
+            'anggota.d',
+            'anggota.d.sebutan_desa',
+            'sis_pokok'
+        ])->first();
+
+        $data['real'] = RealAngsuranI::where('loan_id', $id)->orderBy('tgl_transaksi', 'DESC')->orderBy('id', 'DESC')->first();
+        $data['ra'] = RencanaAngsuranI::where([
+            ['loan_id', $id],
+            ['jatuh_tempo', '<=', date('Y-m-d')]
+        ])->orderBy('jatuh_tempo', 'DESC')->first();
+
+        $data['dir'] = User::where([
+            ['level', '1'],
+            ['jabatan', '1'],
+            ['lokasi', Session::get('lokasi')]
+        ])->first();
+
+        $data['mgr'] = User::where([
+            ['level', '2'],
+            ['jabatan', '1'],
+            ['lokasi', Session::get('lokasi')]
+        ])->first();
+
+        $data['keuangan'] = $keuangan;
+
+        $data['judul'] = 'Surat Pernyataan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $view = view('perguliran_i.dokumen.Surat_Pernyataan', $data)->render();
+
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view);
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
+
     public function suratAhliWaris($id, $data)
     {
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([

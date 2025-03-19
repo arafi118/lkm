@@ -20,7 +20,7 @@
             <td colspan="4" align="center">
                 <div style="font-size: 16px;">
                     SURAT PERNYATAAN
-                    PENGIKAT DIRI SEBAGAI PENJAMIN*)
+                    PENGIKAT DIRI SEBAGAI PENJAMIN
                 </div>
             </td>
         </tr>
@@ -41,7 +41,7 @@
             <td width="70%">{{ $pinkel->anggota->penjamin }}</td>
         </tr>
         <tr>
-            <td colspan="2">Nik/No KK.</td>
+            <td colspan="2">NIK/No KK</td>
             <td align="center">:</td>
             <td>{{ $pinkel->anggota->nik_penjamin }} / {{ $pinkel->anggota->kk }}</td>
         </tr>
@@ -89,7 +89,7 @@
         </tr>
         <tr>
             <td width="5%">&nbsp;</td>
-            <td>No KTP/SIM.</td>
+            <td>NIK</td>
             <td align="center">:</td>
             <td>{{ $pinkel->anggota->nik }}</td>
         </tr>
@@ -116,7 +116,7 @@
             <td colspan="3" align="justify">
                 <p>
                     untuk melakukan pinjaman dana di {{ $kec->nama_lembaga_sort }}, yang akan <b>dicairkan pada tanggal
-                        {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_cair)->format('d F Y') }} </b> sesuai kartu rencana
+                        {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->format('d F Y') }} </b> sesuai kartu rencana
                     angsuran
                     terlampir sebagai bagian yang tidak terpisahkan dari surat perjanjian kredit (SPK).
                 </p>
@@ -146,7 +146,7 @@
         </tr>
         <tr>
             <td align="center">{{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}</td>
-            <td align="center">Nama Penjamin</td>
+            <td align="center">Penjamin</td>
         </tr>
         <tr>
             <td align="center" colspan="2" height="30">&nbsp;</td>
