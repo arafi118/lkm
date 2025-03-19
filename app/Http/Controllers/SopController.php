@@ -172,7 +172,7 @@ class SopController extends Controller
             'msg' => 'Sebutan Pengelola Berhasil Diperbarui.',
         ]);
     }
-
+    
     public function pinjaman(Request $request, Kecamatan $kec)
     {
         $data = $request->only([
@@ -227,6 +227,45 @@ class SopController extends Controller
         return response()->json([
             'success' => true,
             'msg' => 'Sistem Pinjaman Berhasil Diperbarui.',
+        ]);
+    }
+
+    public function simpanan(Request $request, Kecamatan $kec)
+    {
+        $data = $request->only([
+            'min_bunga',
+            'min_pajak',
+            'def_bunga',
+            'def_pajak',
+            'def_admin_buka',
+            'def_admin_simp'
+        ]);
+
+        $validate = Validator::make($data, [
+            'min_bunga'      => 'required',
+            'min_pajak'      => 'required',
+            'def_bunga'      => 'required',
+            'def_pajak'      => 'required',
+            'def_admin_buka' => 'required',
+            'def_admin_simp' => 'required'
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json($validate->errors(), Response::HTTP_MOVED_PERMANENTLY);
+        }
+
+        $kecamatan = Kecamatan::where('id', $kec->id)->update([
+            'min_bunga'         => $data['min_bunga'],
+            'min_pajak'         => $data['min_pajak'],
+            'def_bunga'         => $data['def_bunga'],
+            'def_pajak'         => $data['def_pajak'],
+            'def_admin_buka'    => $data['def_admin_buka'],
+            'def_admin_simp'    => $data['def_admin_simp']
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'msg' => 'Sistem Simpanan Berhasil Diperbarui.',
         ]);
     }
 
