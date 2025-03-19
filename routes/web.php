@@ -388,5 +388,6 @@ Route::get('/simpanan/get-transaksi', [SimpananController::class, 'getTransaksi'
 
 Route::post('/simpanan/simpan-transaksi', [SimpananController::class, 'simpanTransaksi']);
 Route::resource('/simpanan', SimpananController::class)->middleware('auth', 'is_aktif');
+Route::get('/bunga', [SimpananController::class, 'bunga'])->middleware('auth', 'is_aktif');
 
 Route::get('/{invoice}', [PelaporanController::class, 'invoice']);
