@@ -82,34 +82,6 @@
 <script>
 
 $(document).ready(function() {
-    var currentDate = new Date();
-    var currentMonth = currentDate.getMonth() + 1;
-    var currentYear = currentDate.getFullYear();
-
-    $('#bulan').val(currentMonth);
-    $('#tahun').val(currentYear);
-
-    tableTransaksi(currentMonth, currentYear);
-
-    function tableTransaksi(bulan, tahun) {
-        $.get('/simpanan/get-transaksi', {
-            cif: '{{ $nia->id }}',
-            bulan: bulan,
-            tahun: tahun
-        }, function(result) {
-            $('#transaksi-container').html(result);
-        }).fail(function(xhr, status, error) {
-            console.error("Error loading transactions:", error);
-            $('#transaksi-container').html('<p>Error loading transactions. Please try again.</p>');
-        });
-    }
-
-    $('#bulan, #tahun').change(function() {
-        var bulan = $('#bulan').val();
-        var tahun = $('#tahun').val();
-        tableTransaksi(bulan, tahun);
-    });
-
     $('#simpanTransaksi').click(function() {
         var jenisMutasi = $('input[name="jenis_mutasi"]:checked').val();
         var tglTransaksi = $('#tgl_transaksi').val();
@@ -180,18 +152,6 @@ $(document).ready(function() {
             }
         });
     });
-
-    function refreshTransaksiContainer() {
-        var bulan = $('#bulan').val();
-        var tahun = $('#tahun').val();
-        tableTransaksi(bulan, tahun);
-    }
-
-    function resetForm() {
-        $('input[name="jenis_mutasi"]').prop('checked', false);
-        $('#tgl_transaksi').val('');
-        $('#jumlah').val('');
-    }
 });
 </script>
 @endsection

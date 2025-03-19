@@ -1,18 +1,12 @@
 @php
     use App\Utils\Tanggal;
 
-    $title_form = [
-        1 => 'Kegiatan sosial kemasyarakatan dan bantuan RTM',
-        2 => 'Pengembangan kapasitas kelompok SPP/UEP',
-        3 => 'Pelatihan masyarakat, dan kelompok pemanfaat umum',
-        4 => 'Penambahan Modal DBM',
-        5 => 'Penambahan Investasi Usaha',
-        6 => 'Pendirian Unit Usaha',
-    ];
+    $data_idtp = [];
+    $tgl_trx = [];
 
-    $jumlah_laba_ditahan = $surplus;
-    $jumlah = 0;
-    $total = 0;
+    $number = 1;
+    $debit = 0;
+    $kredit = 0;
 @endphp
 
 @extends('pelaporan.layout.base')
@@ -20,9 +14,9 @@
 @section('content')
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
-            <td align="center">
+            <td colspan="7" align="center">
                 <div style="font-size: 18px;">
-                    <b>ALOKASI PEMBAGIAN LABA USAHA</b>
+                    <b>JURNAL PENGALOKASIAN LABA</b>
                 </div>
                 <div style="font-size: 16px;">
                     <b>{{ strtoupper($sub_judul) }}</b>
@@ -30,159 +24,155 @@
             </td>
         </tr>
     </table>
-
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
-        <tr style="background: rgb(232, 232, 232); font-weight: bold; font-size: 12px;">
-            <td height="20">
-                <b>Laba/Rugi Tahun {{ $tahun - 1 }}</b>
-            </td>
-            <td align="right">
-                <b>Rp. {{ number_format($surplus, 2) }}</b>
-            </td>
+        <tr>
+            <td colspan="7" height="5"></td>
         </tr>
-        <tr style="background: rgb(74, 74, 74); color: #fff;">
-            <td colspan="2" height="20">
-                <b>Alokasi Laba Usaha</b>
-            </td>
+        <tr style="background: rgb(74, 74, 74); font-weight: bold; color: #fff;">
+            <td height="15" align="center" width="4%">No</td>
+            <td align="center" width="10%">Tanggal</td>
+            <td align="center" width="8%">Ref ID.</td>
+            <td align="center" width="8%">Kd. Rek</td>
+            <td align="center" width="35%">Keterangan</td>
+            <td align="center" width="15%">Debit</td>
+            <td align="center" width="15%">Kredit</td>
+            <td align="center" width="5%">Ins</td>
         </tr>
-        @foreach ($rekening as $rek)
-            <tr style="background: rgb(167, 167, 167); font-weight: bold;">
-                <td colspan="2">{{ str_replace('UTANG', '', strtoupper($rek->nama_akun)) }}</td>
-            </tr>
 
-            {{-- Laba Bagian Masyarakat --}}
-            @if ($rek->kode_akun == '2.1.04.01')
-                @foreach ($saldo_calk as $saldo)
-                    @php
-                        $jumlah_laba_ditahan -= floatval($saldo->kredit);
-                    @endphp
-                    @if (substr($saldo->id, -1) <= 3)
-                        @php
-                            $jumlah += floatval($saldo->kredit);
-                            $bg = 'rgb(230, 230, 230)';
-                            if ($loop->iteration % 2 == 0) {
-                                $bg = 'rgba(255, 255, 255)';
-                            }
-                        @endphp
-                        <tr style="background: {{ $bg }}">
-                            <td>{{ $title_form[substr($saldo->id, -1)] }}</td>
-                            <td align="right">
-                                Rp. {{ number_format(floatval($saldo->kredit), 2) }}
-                            </td>
-                        </tr>
-                    @endif
-                @endforeach
-            @endif
 
-            {{-- Laba Bagian Desa --}}
-            @if ($rek->kode_akun == '2.1.04.02')
-                @foreach ($desa as $d)
-                    @php
-                        $saldo_desa = 0;
-                        if ($d->saldo) {
-                            $jumlah_laba_ditahan -= floatval($d->saldo->kredit);
-                            $jumlah += floatval($d->saldo->kredit);
-                            $saldo_desa = floatval($d->saldo->kredit);
-                        }
-                        $bg = 'rgb(230, 230, 230)';
-                        if ($loop->iteration % 2 == 0) {
-                            $bg = 'rgb(255, 255, 255)';
-                        }
-                    @endphp
-                    <tr style="background: {{ $bg }}">
-                        <td>
-                            Bagian {{ $d->sebutan_desa->sebutan_desa }}
-                            {{ $d->nama_desa }}
-                        </td>
-                        <td align="right">
-                            Rp. {{ number_format($saldo_desa, 2) }}
-                        </td>
-                    </tr>
-                @endforeach
-            @endif
+        @foreach ($transaksi as $trx)
+            @php
+                $data_idtp[] = $trx->idtp;
 
-            {{-- Laba Bagian Penyerta Modal --}}
-            @if ($rek->kode_akun == '2.1.04.03')
-                @php
-                    $jumlah += $jumlah_laba_ditahan;
+                if (
+                    $trx->idtp != '0' &&
+                    array_count_values($data_idtp)[$trx->idtp] > 1 &&
+                    $trx->tgl_transaksi == $tgl_trx[$trx->idtp]
+                ) {
+                    continue;
+                }
+                $tgl_trx[$trx->idtp] = $trx->tgl_transaksi;
+
+                $bg = 'rgba(255, 255, 255)';
+                if ($number % 2 == 0) {
                     $bg = 'rgb(230, 230, 230)';
-                    if ($loop->iteration % 2 == 0) {
-                        $bg = 'rgb(255, 255, 255)';
+                }
+
+            @endphp
+
+            @if ($trx->idtp != '0')
+                @php
+                    $jumlah_angs = 0;
+                @endphp
+
+                @foreach ($trx->angs as $angs)
+                    @php
+                        $jumlah_angs += $angs->jumlah;
+                    @endphp
+                @endforeach
+
+                <tr style="background: {{ $bg }};">
+                    <td height="15" align="center">{{ $number }}.</td>
+                    <td align="center">{{ Tanggal::tglIndo($trx->tgl_transaksi) }}</td>
+                    <td align="left">{{ $trx->idtp }}.0</td>
+                    <td align="center">{{ $trx->rekening_debit }}</td>
+                    <td align="left">{{ $trx->rek_debit->nama_akun }}</td>
+                    <td align="right">{{ number_format($jumlah_angs, 2) }}</td>
+                    <td align="right">&nbsp;</td>
+                    @if ($trx->user)
+                        <td align="center">{{ $trx->user->ins }}</td>
+                    @else
+                        <td align="center">&nbsp;</td>
+                    @endif
+                </tr>
+
+                @foreach ($trx->angs as $angs)
+                    <tr style="background: {{ $bg }};">
+                        <td height="15" align="center">&nbsp;</td>
+                        <td align="center">&nbsp;</td>
+                        <td align="left">{{ $trx->idtp }}.{{ $angs->idt }}</td>
+                        <td align="center">{{ $angs->rekening_kredit }}</td>
+                        <td align="left">{{ $angs->rek_kredit->nama_akun }}</td>
+                        <td align="right">&nbsp;</td>
+                        <td align="right">{{ number_format($angs->jumlah, 2) }}</td>
+                        @if ($trx->user)
+                            <td align="center">{{ $trx->user->ins }}</td>
+                        @else
+                            <td align="center">&nbsp;</td>
+                        @endif
+                    </tr>
+
+                    @php
+                        $kredit += $angs->jumlah;
+                    @endphp
+                @endforeach
+
+                @php
+                    $debit += $jumlah_angs;
+                @endphp
+            @else
+                @php
+                    $rek_debit = '';
+                    $rek_kredit = '';
+
+                    if ($trx->rek_debit) {
+                        $rek_debit = $trx->rek_debit->nama_akun;
+                    }
+                    if ($trx->rek_kredit) {
+                        $rek_kredit = $trx->rek_kredit->nama_akun;
                     }
                 @endphp
-                <tr style="background: {{ $bg }}">
-                    <td>
-                        {{ str_replace('Utang', '', $rek->nama_akun) }}
-                    </td>
-                    <td align="right">
-                        Rp. {{ number_format($jumlah_laba_ditahan, 2) }}
-                    </td>
+                <tr style="background: {{ $bg }};">
+                    <td height="15" align="center">{{ $number }}.</td>
+                    <td align="center">{{ Tanggal::tglIndo($trx->tgl_transaksi) }}</td>
+                    <td align="left">{{ $trx->idt }}</td>
+                    <td align="center">{{ $trx->rekening_debit }}</td>
+                    <td align="left">{{ $rek_debit }}</td>
+                    <td align="right">{{ number_format(floatval($trx->jumlah), 2) }}</td>
+                    <td align="right">&nbsp;</td>
+                    @if ($trx->user)
+                        <td align="center">{{ $trx->user->ins }}</td>
+                    @else
+                        <td align="center">&nbsp;</td>
+                    @endif
                 </tr>
+                <tr style="background: {{ $bg }};">
+                    <td height="15" align="center">&nbsp;</td>
+                    <td align="center">&nbsp;</td>
+                    <td align="left">{{ $trx->idt }}</td>
+                    <td align="center">{{ $trx->rekening_kredit }}</td>
+                    <td align="left">{{ $rek_kredit }}</td>
+                    <td align="right">&nbsp;</td>
+                    <td align="right">{{ number_format(floatval($trx->jumlah), 2) }}</td>
+                    @if ($trx->user)
+                        <td align="center">{{ $trx->user->ins }}</td>
+                    @else
+                        <td align="center">&nbsp;</td>
+                    @endif
+                </tr>
+
+                @php
+                    $debit += floatval($trx->jumlah);
+                    $kredit += floatval($trx->jumlah);
+                @endphp
             @endif
 
-            <tr style="background: rgb(150, 150, 150); font-weight: bold;">
-                <td height="15">
-                    <b>Jumlah</b>
-                </td>
-                <td align="right">
-                    <b>Rp. {{ number_format($jumlah, 2) }}</b>
-                </td>
-            </tr>
-
-            <tr>
-                <td colspan="2" height="2"></td>
-            </tr>
-
             @php
-                $total += $jumlah;
-                $jumlah = 0;
+                $number++;
             @endphp
         @endforeach
 
-        <tr style="background: rgb(150, 150, 150); font-weight: bold;">
-            <td colspan="2">LABA DITAHAN</td>
-        </tr>
-
-        @foreach ($saldo_calk as $saldo)
-            @if (substr($saldo->id, -1) > 3)
-                @php
-                    $jumlah += floatval($saldo->kredit);
-                    $total += floatval($saldo->kredit);
-                    $bg = 'rgb(230, 230, 230)';
-                    if ($loop->iteration % 2 == 0) {
-                        $bg = 'rgb(255, 255, 255)';
-                    }
-                @endphp
-                <tr style="background: {{ $bg }}">
-                    <td>{{ $title_form[substr($saldo->id, -1)] }}</td>
-                    <td align="right">
-                        Rp. {{ number_format(floatval($saldo->kredit), 2) }}
-                    </td>
-                </tr>
-            @endif
-        @endforeach
-
-        <tr style="background: rgb(150, 150, 150); font-weight: bold;">
-            <td height="15">
-                <b>Jumlah</b>
-            </td>
-            <td align="right">
-                <b>Rp. {{ number_format($jumlah, 2) }}</b>
-            </td>
-        </tr>
-
-
         <tr>
-            <td colspan="2" style="padding: 0px !important;">
+            <td colspan="8" style="padding: 0px !important;">
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
                     style="font-size: 11px;">
-                    <tr style="background: rgb(74, 74, 74); color: #fff;">
-                        <td align="center" height="20">
-                            <b>Total Alokasi Laba Usaha</b>
+                    <tr style="background: rgb(233, 233, 233); font-weight: bold; color: #000;">
+                        <td height="15" align="center">
+                            <b>Total Transaksi</b>
                         </td>
-                        <td align="right">
-                            <b>Rp. {{ number_format($total, 2) }}</b>
-                        </td>
+                        <td align="right" width="15%">{{ number_format($debit, 2) }}</td>
+                        <td align="right" width="15%">{{ number_format($kredit, 2) }}</td>
+                        <td align="center" width="5%">&nbsp;</td>
                     </tr>
                 </table>
 
