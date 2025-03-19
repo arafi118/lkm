@@ -13,6 +13,7 @@ use App\Models\Desa;
 use App\Models\Keluarga;
 use App\Models\PinjamanIndividu;
 use App\Models\RealAngsuranI;
+use App\Models\RealSimpanan;
 use App\Models\Rekening;
 use App\Models\RencanaAngsuranI;
 use App\Models\StatusPinjaman;
@@ -79,12 +80,14 @@ class SimpananController extends Controller
         $tahun = request()->input('tahun');
         $cif = request()->input('cif');
 
-        $transaksi = Transaksi::where('id_simp', 'LIKE', "%-$cif")
+        $real = RealSimpanan::where('cif',$cif)
             ->whereMonth('tgl_transaksi', $bulan)
             ->whereYear('tgl_transaksi', $tahun)
-            ->orderBy('tgl_transaksi', 'asc')
+            ->orderBy('id', 'asc')
+            ->with('transaksi') 
             ->get();
-        return view('simpanan.partials.detail-transaksi', compact('transaksi'));
+
+        return view('simpanan.partials.detail-transaksi', compact('real'));
     }
      
 
@@ -207,7 +210,7 @@ class SimpananController extends Controller
         $jabatan = $request->jabatan;
         $catatan_simpanan = $request->catatan_simpanan;
         $namaDebitur = $request->nama_debitur;
-        $nia = $request->nia;
+        $cif = $request->nia;
 
         $jenisSimpanan = JenisSimpanan::where('id', substr($nomorRekening, 0, 1))->first();
 
@@ -218,13 +221,34 @@ class SimpananController extends Controller
         $transaksi->idtp = 0;
         $transaksi->id_pinj = 0;
         $transaksi->id_pinj_i = 0;
-        $transaksi->id_simp = $jenisMutasi == '1' ? "2-{$nia}" : "3-{$nia}";
+        $transaksi->id_simp = $cif;
         $transaksi->keterangan_transaksi = $jenisMutasi == '1' ? "Setor Tunai Rekening {$nomorRekening}" : "Tarik Tunai Rekening {$nomorRekening}";
         $transaksi->relasi = $namaDebitur;
-        $transaksi->jumlah = $jumlah;
+        $transaksi->jumlah = str_replace(',', '', str_replace('.00', '', $jumlah));
         $transaksi->urutan = 0;
         $transaksi->id_user = auth()->user()->id;
+        
+        $maxIdt = Transaksi::where('id_simp', $cif)->max('idt');
+        $kode = ($jenisMutasi == 1) ? 2 : 3;
+        $real = RealSimpanan::where('cif', $cif)->latest('tgl_transaksi')->first();
 
+        $jumlahBersih = str_replace(',', '', str_replace('.00', '', $jumlah));
+
+        $sumSebelumnya = $real ? $real->sum : 0;
+        $sumBaru = ($jenisMutasi == 1) 
+            ? $sumSebelumnya + $jumlahBersih 
+            : $sumSebelumnya - $jumlahBersih;
+
+        RealSimpanan::create([
+            'cif' => $cif,
+            'idt' => $maxIdt,
+            'tgl_transaksi' => Tanggal::tglNasional($tglTransaksi),
+            'real_d' => ($jenisMutasi == 2) ? $jumlahBersih : 0,
+            'real_k' => ($jenisMutasi == 1) ? $jumlahBersih : 0,
+            'sum' => $sumBaru,
+            'lu' => date('Y-m-d H:i:s'),
+            'id_user' => auth()->user()->id,
+        ]);
         if ($transaksi->save()) {
             return response()->json(['success' => true]);
         } else {
@@ -278,6 +302,9 @@ class SimpananController extends Controller
 
         $js = JenisSimpanan::where('id', $request->jenis_simpanan)->first();
         $anggota = Anggota::where('id', $request->nia)->first();
+
+
+        //setoran awal
         Transaksi::create([
             'tgl_transaksi' => Tanggal::tglNasional($request->tgl_buka_rekening),
             'rekening_debit' => $js->rek_kas,
@@ -292,6 +319,35 @@ class SimpananController extends Controller
             'urutan' => '0',
             'id_user' => auth()->user()->id,
         ]);
+        $maxIdt = Transaksi::max('idt');
+        
+        //admin register
+        Transaksi::create([
+            'tgl_transaksi' => Tanggal::tglNasional($request->tgl_buka_rekening),
+            'rekening_debit' => $js->rek_kas,
+            'rekening_kredit' =>  $js->rek_adm,
+            'idtp' => '0',
+            'id_pinj' => '0',
+            'id_pinj_i' => '0',
+            'id_simp' => '0',
+            'keterangan_transaksi' => 'Pendapatan Admin Simpanan ' . $js->nama_js . ' ' . $anggota->namadepan . '',
+            'relasi' => $anggota->namadepan . '[' . $request->nia . ']',
+            'jumlah' => str_replace(',', '', str_replace('.00', '', $request->admin_register)),
+            'urutan' => '0',
+            'id_user' => auth()->user()->id,
+        ]);
+        
+        //real setoran awalx
+        RealSimpanan::create([
+            'cif' => $maxId,
+            'idt' => $maxIdt,
+            'tgl_transaksi' => Tanggal::tglNasional($request->tgl_buka_rekening),
+            'real_d' =>  '0',
+            'real_k' => str_replace(',', '', str_replace('.00', '', $request->setoran_awal)),
+            'sum' => str_replace(',', '', str_replace('.00', '', $request->setoran_awal)),
+            'lu' => date('Y-m-d H:i:s'),
+            'id_user' => auth()->user()->id,
+        ]);
 
         return response()->json([
             'success' => true,
@@ -299,4 +355,13 @@ class SimpananController extends Controller
             'id' => $simpanan->id
         ]);
     }
+
+    public function bunga()
+    {
+        $id_angg = request()->get('id_angg');
+        $title = 'Perhitungan Bunga & Biaya';
+        return view('simpanan.bunga')->with(compact('title', 'id_angg'));
+    }
+
+
 }

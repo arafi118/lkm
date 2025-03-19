@@ -382,10 +382,6 @@ class PelaporanController extends Controller
         $bln = $data['bulan'];
         $hari = ($data['hari']);
 
-        if ($bln == '1' && $hari == '1') {
-            return $this->neraca_tutup_buku($data);
-        }
-
         $tgl = $thn . '-' . $bln . '-' . $hari;
         $data['sub_judul'] = 'Per ' . date('t', strtotime($tgl)) . ' ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
         $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
@@ -1389,10 +1385,6 @@ class PelaporanController extends Controller
         $bln = $data['bulan'];
         $hari = ($data['hari']);
 
-        if ($bln == '1' && $hari == '1') {
-            return $this->neraca_tutup_buku($data);
-        }
-
         $tgl = $thn . '-' . $bln . '-' . $hari;
         $data['sub_judul'] = 'Per ' . date('t', strtotime($tgl)) . ' ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
         $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
@@ -1430,9 +1422,6 @@ class PelaporanController extends Controller
         $hari = $data['hari'];
         $awal_tahun = $thn . '-01-01';
 
-        if ($bln == '1' && $hari == '1') {
-            return $this->laba_rugi_tutup_buku($data);
-        }
 
         $tgl = $thn . '-' . $bln . '-' . $hari;
         if ($data['bulanan']) {
@@ -1584,10 +1573,6 @@ class PelaporanController extends Controller
         $bln = $data['bulan'];
         $hari = $data['hari'];
 
-        if ($bln == '1' && $hari == '1') {
-            return $this->CALK_tutup_buku($data);
-        }
-
         $tgl = $thn . '-' . $bln . '-' . $hari;
         $data['tgl'] = Tanggal::tahun($tgl);
         $data['nama_tgl'] = 'Tahun ' . $thn;
@@ -1654,10 +1639,6 @@ class PelaporanController extends Controller
         $thn = $data['tahun'];
         $bln = $data['bulan'];
         $hari = $data['hari'];
-
-        if ($bln == '1' && $hari == '1') {
-            return $this->jurnal_tutup_buku($data);
-        }
 
         $tgl = $thn . '-' . $bln . '-' . $hari;
         if (!$data['bulanan']) {

@@ -49,7 +49,7 @@
             </div>
             <div class="col-md-3">
                 <div class="position-relative mb-3">
-                    <label for="admin" class="form-label">Admin</label>
+                    <label for="admin" class="form-label">Default Admin Simpanan</label>
                     <input autocomplete="off" type="text" name="admin" id="admin" class="form-control"value="">
                     <small class="text-danger" id="msg_admin"></small>
                 </div>
@@ -66,10 +66,9 @@
                             </option>
                         @endforeach
                     </select>
-                    <small class="text-danger" id="msg_kuasa"></small>                                                                                                                                             
+                   <small class="text-danger" id="msg_kuasa"></small>
                 </div>
             </div>
-            
         <div class="row" id="formKuasa"></div>
         </div>  
         <div class="row">
@@ -95,6 +94,19 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="position-relative mb-3">
+                    <label for="admin_register" class="form-label">Biaya Registrasi</label>
+                    <input autocomplete="off" type="text" name="admin_register" id="admin_register" class="form-control"value="">
+                    <small class="text-danger" id="msg_admin_register"></small>
+                </div>
+            </div>
+            <div class="position-relative mb-8">
+                <p>*Perlu diperhatikan bahwa setoran awal dan biaya administrasi pembukaan rekening adalah dua hal yang terpisah. <br> Biaya administrasi tidak akan mengurangi jumlah setoran awal yang Anda lakukan.</p>
+            </div>
+        </div>
+            
     @elseif ($id == '2')
         <div class="row">
             <div class="col-md-4">
@@ -147,7 +159,7 @@
             </div>
             <div class="col-md-3">
                 <div class="position-relative mb-3">
-                    <label for="admin">Admin</label>
+                    <label for="admin">Default Admin Simpanan</label>
                     <input autocomplete="off" type="text" name="admin" id="admin" class="form-control"
                         value="">
                     <small class="text-danger" id="msg_admin"></small>
@@ -193,6 +205,19 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="position-relative mb-3">
+                    <label for="admin_register" class="form-label">Biaya Registrasi</label>
+                    <input autocomplete="off" type="text" name="admin_register" id="admin_register" class="form-control"value="">
+                    <small class="text-danger" id="msg_admin_register"></small>
+                </div>
+            </div>
+            <div class="position-relative mb-8">
+                <p>*Perlu diperhatikan bahwa setoran awal dan biaya administrasi pembukaan rekening adalah dua hal yang terpisah. <br> Biaya administrasi tidak akan mengurangi jumlah setoran awal yang Anda lakukan.</p>
+            </div>
+        </div>
+            
     @elseif ($id == '3')
         <div class="row">
             <div class="col-md-4">
@@ -245,7 +270,7 @@
             </div>
             <div class="col-md-3">
                 <div class="position-relative mb-3">
-                    <label for="admin">Admin</label>
+                    <label for="admin">Default Admin Simpanan</label>
                     <input autocomplete="off" type="text" name="admin" id="admin" class="form-control"
                         value="">
                     <small class="text-danger" id="msg_admin"></small>
@@ -291,6 +316,19 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="position-relative mb-3">
+                    <label for="admin_register" class="form-label">Biaya Registrasi</label>
+                    <input autocomplete="off" type="text" name="admin_register" id="admin_register" class="form-control"value="">
+                    <small class="text-danger" id="msg_admin_register"></small>
+                </div>
+            </div>
+            <div class="position-relative mb-8">
+                <p>*Perlu diperhatikan bahwa setoran awal dan biaya administrasi pembukaan rekening adalah dua hal yang terpisah. <br> Biaya administrasi tidak akan mengurangi jumlah setoran awal yang Anda lakukan.</p>
+            </div>
+        </div>
+            
     @elseif ($id == '4')
     <div class="row">
         <div class="col-md-4">
@@ -343,7 +381,7 @@
             </div>
             <div class="col-md-3">
                 <div class="position-relative mb-3">
-                    <label for="admin">Admin</label>
+                    <label for="admin">Default Admin Simpanan</label>
                     <input autocomplete="off" type="text" name="admin" id="admin" class="form-control"
                         value="">
                     <small class="text-danger" id="msg_admin"></small>
@@ -389,9 +427,22 @@
                 </div>
             </div>
         </div>
-    @else
-        jika anda melihat pesan ini, silakan hubungi TS
-    @endif
+        <div class="row">
+            <div class="col-md-4">
+                <div class="position-relative mb-3">
+                    <label for="admin_register" class="form-label">Biaya Registrasi</label>
+                    <input autocomplete="off" type="text" name="admin_register" id="admin_register" class="form-control"value="">
+                    <small class="text-danger" id="msg_admin_register"></small>
+                </div>
+            </div>
+            <div class="position-relative mb-8">
+                <p>*Perlu diperhatikan bahwa setoran awal dan biaya administrasi pembukaan rekening adalah dua hal yang terpisah. <br> Biaya administrasi tidak akan mengurangi jumlah setoran awal yang Anda lakukan.</p>
+            </div>
+        </div>
+            @else
+                <p>Jika Anda melihat pesan ini, mohon untuk mengambil tangkapan layar dan segera menghubungi Tim Support.</p>
+            @endif
+
 </div>
 <script>
     $('.js-example-basic-single').select2({
