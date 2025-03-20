@@ -140,6 +140,7 @@ Route::put('/pengaturan/pesan_whatsapp/{kec}', [SopController::class, 'pesanWhat
 Route::put('/pengaturan/lembaga/{kec}', [SopController::class, 'lembaga'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/pengelola/{kec}', [SopController::class, 'pengelola'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/pinjaman/{kec}', [SopController::class, 'pinjaman'])->middleware('auth', 'is_aktif');
+Route::put('/pengaturan/simpanan/{kec}', [SopController::class, 'simpanan'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/asuransi/{kec}', [SopController::class, 'asuransi'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/spk/{kec}', [SopController::class, 'spk'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/logo/{kec}', [SopController::class, 'logo'])->middleware('auth', 'is_aktif');
@@ -389,5 +390,6 @@ Route::get('/simpanan/get-transaksi', [SimpananController::class, 'getTransaksi'
 Route::post('/simpanan/simpan-transaksi', [SimpananController::class, 'simpanTransaksi']);
 Route::resource('/simpanan', SimpananController::class)->middleware('auth', 'is_aktif');
 Route::get('/bunga', [SimpananController::class, 'bunga'])->middleware('auth', 'is_aktif');
+Route::post('/bunga/simpan-transaksi', [SimpananController::class, 'simpanTransaksiBunga']);
 
 Route::get('/{invoice}', [PelaporanController::class, 'invoice']);

@@ -264,7 +264,7 @@
                             <div class="position-relative mb-3">
                                 <label for="admin" class="form-label">Admin</label>
                                 <input autocomplete="off" type="text" name="admin" id="admin"
-                                    class="form-control money">
+                                    class="form-control money" value="{{ number_format($kec->def_admin, 2) }}">
                                 <small class="text-danger" id="msg_admin"></small>
                             </div>
                         </div>

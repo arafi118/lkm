@@ -76,6 +76,14 @@
                                 </a>
                             </div>
                             <div class="mb-3">&nbsp;
+                                <a role="tab" class="btn btn-white " style="width: 280px;" id="simpanan"
+                                    data-bs-toggle="tab" href="#tab-content-8">
+                                    <div class="left-align">
+                                        <i class="fa-solid fa-chart-simple"></i>&nbsp;&nbsp;<span>Sistem Simpanan</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="mb-3">&nbsp;
                                 <a role="tab" class="btn btn-white " style="width: 280px;" id="asuransi"
                                     data-bs-toggle="tab" href="#tab-content-4">
                                     <div class="left-align">
@@ -195,7 +203,17 @@
                                 </div>
                             </div>
                         </div>
-
+                        
+                        <div class="tab-pane tabs-animation fade" id="tab-content-8" role="tabpanel">
+                            <div class="row">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Sistem Peminjam</h5>
+                                        @include('sop.partials._simpanan')
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

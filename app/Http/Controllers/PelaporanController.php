@@ -120,7 +120,7 @@ class PelaporanController extends Controller
         if ($file == 'tutup_buku') {
             $data = [
                 0 => [
-                    'title' => 'Pengalokasian Laba',
+                    'title' => 'Pembagian Laba',
                     'file' => 'alokasi_laba'
                 ],
                 1 => [
@@ -3441,8 +3441,8 @@ class PelaporanController extends Controller
             ->orderBy('tgl_transaksi', 'ASC')
             ->orderBy('idt', 'ASC')
             ->get();
-
-        $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
+            
+        $data['sub_judul'] = 'Tahun ' . ($thn-1);
         $data['tgl'] = Tanggal::tglLatin($tgl);
 
 
@@ -3459,7 +3459,7 @@ class PelaporanController extends Controller
 
     private function jurnal_tutup_buku(array $data)
     {
-        $thn = $data['tahun'] - 1;
+        $thn = $data['tahun'];
         $bln = 1;
         $hari = 1;
 
@@ -3468,12 +3468,12 @@ class PelaporanController extends Controller
         $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
         $data['tgl'] = Tanggal::tahun($tgl);
         $data['saldo'] = Saldo::where([
-            ['tahun', $thn],
+            ['tahun', $thn-1],
             ['bulan', '13']
         ])->with('rek')->orderBy('kode_akun', 'ASC')->get();
         $data['rek'] = Rekening::where('kode_akun', '3.2.01.01')->first();
 
-        $data['tgl_transaksi'] = $thn . '-12-31';
+        $data['tgl_transaksi'] = $thn-1 . '-12-31';
         $data['laporan'] = 'Jurnal Awal Tahun';
         $view = view('pelaporan.view.tutup_buku.jurnal', $data)->render();
 

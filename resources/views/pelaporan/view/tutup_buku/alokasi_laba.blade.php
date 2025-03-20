@@ -16,7 +16,7 @@
         <tr>
             <td colspan="7" align="center">
                 <div style="font-size: 18px;">
-                    <b>JURNAL PENGALOKASIAN LABA</b>
+                    <b>JURNAL PEMBAGIAN LABA</b>
                 </div>
                 <div style="font-size: 16px;">
                     <b>{{ strtoupper($sub_judul) }}</b>
@@ -159,6 +159,7 @@
 
             @php
                 $number++;
+                $tanggal_kondisi = Tanggal::tglLatin(date('Y-m-d', strtotime($trx->tgl_transaksi)));
             @endphp
         @endforeach
 

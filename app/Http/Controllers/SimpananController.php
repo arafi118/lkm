@@ -341,6 +341,7 @@ class SimpananController extends Controller
         RealSimpanan::create([
             'cif' => $maxId,
             'idt' => $maxIdt,
+            'kode' => 1,
             'tgl_transaksi' => Tanggal::tglNasional($request->tgl_buka_rekening),
             'real_d' =>  '0',
             'real_k' => str_replace(',', '', str_replace('.00', '', $request->setoran_awal)),
@@ -362,6 +363,78 @@ class SimpananController extends Controller
         $title = 'Perhitungan Bunga & Biaya';
         return view('simpanan.bunga')->with(compact('title', 'id_angg'));
     }
+
+    public function simpanTransaksiBunga(Request $request)
+    {
+        $tglTransaksi = now(); 
+        $cifInput = $request->cif; // Bisa kosong atau berisi daftar CIF (misal: "2,3,12,34")
+        $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
+    
+        if (empty($cifInput)) {
+            $simpananList = Simpanan::where('status', 'A')
+                                    ->with('anggota')
+                                    ->get();
+        } else {
+            $cifArray = explode(',', $cifInput);
+            $simpananList = Simpanan::where('status', 'A')
+                                    ->whereIn('id', $cifArray)
+                                    ->with('anggota')
+                                    ->get();
+        }
+        foreach ($simpananList as $simpanan) {
+
+            $cif = $simpanan->id;
+            $nomorRekening = $simpanan->no_rekening;
+            $namaDebitur = $simpanan->anggota->namadepan;
+            $jenisSimpanan = JenisSimpanan::where('id', substr($nomorRekening, 0, 1))->first();
+
+            
+            $real = RealSimpanan::where('cif', $cif)->latest('tgl_transaksi')->first();
+            $sumSebelumnya = $real ? $real->sum : 0;
+            if($sumSebelumnya>=$kec->min_bunga){
+
+            }
+            $bunga = 10000;
+            $pajak = 10000;
+            $admin = 10000;
+
+            $transaksi = new Transaksi();
+            $transaksi->tgl_transaksi = Tanggal::tglNasional($tglTransaksi);
+            $transaksi->rekening_debit = ($jenisMutasi == '1') ? $jenisSimpanan->rek_kas : $jenisSimpanan->rek_simp;
+            $transaksi->rekening_kredit = ($jenisMutasi == '1') ? $jenisSimpanan->rek_simp : $jenisSimpanan->rek_kas;
+            $transaksi->idtp = 0;
+            $transaksi->id_pinj = 0;
+            $transaksi->id_pinj_i = 0;
+            $transaksi->id_simp = $cif;
+            $transaksi->keterangan_transaksi = ($jenisMutasi == '1') ? "Setor Tunai Rekening {$nomorRekening}" : "Tarik Tunai Rekening {$nomorRekening}";
+            $transaksi->relasi = $namaDebitur;
+            $transaksi->jumlah = str_replace(',', '', str_replace('.00', '', $jumlah));
+            $transaksi->urutan = 0;
+            $transaksi->id_user = auth()->user()->id;
+        
+            $maxIdt = Transaksi::where('id_simp', $cif)->max('idt');
+            $sumBaru = ($jenisMutasi == 1) 
+                ? $sumSebelumnya + $jumlahBersih 
+                : $sumSebelumnya - $jumlahBersih;
+
+            RealSimpanan::create([
+                'cif' => $cif,
+                'idt' => $maxIdt,
+                'kode' => ($jenisMutasi == 1) ? 2 : 3,
+                'tgl_transaksi' => Tanggal::tglNasional($tglTransaksi),
+                'real_d' => ($jenisMutasi == 2) ? $jumlahBersih : 0,
+                'real_k' => ($jenisMutasi == 1) ? $jumlahBersih : 0,
+                'sum' => $sumBaru,
+                'lu' => now(),
+                'id_user' => auth()->user()->id,
+            ]);
+
+            $transaksi->save();
+        }
+
+        return response()->json(['success' => true, 'message' => 'Transaksi berhasil disimpan']);
+    }
+
 
 
 }
