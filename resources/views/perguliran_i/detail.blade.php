@@ -125,7 +125,7 @@
             'withExcel' => false,
         ],
         [
-            'title' => 'Surat pemberitahuan',
+            'title' => 'SP2K',
             'file' => 'suratpemberitahuan',
             'withExcel' => false,
         ],
