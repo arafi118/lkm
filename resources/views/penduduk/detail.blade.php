@@ -345,9 +345,9 @@
                                                 }
                                             @endphp
                                             <blockquote data-link="/{{ $detail }}/{{ $pinkel->id }}"
-                                                class="blockquote text-white mb-1 pointer">
+                                                class="blockquote text-black mb-1 pointer">
                                                 <p class="text-dark ms-3">
-                                                    <span class="badge badge-{{ $pinkel->sts->warna_status }}">
+                                                    <span class="badge bg-{{ $pinkel->sts->warna_status }}">
                                                         Loan ID. {{ $pinkel->id }}
                                                         {{ $pinj->pinkel ? $pinj->kelompok->nama_kelompok : $penduduk->namadepan }}
                                                     </span>

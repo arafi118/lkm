@@ -3,64 +3,66 @@
 
 <head>
 
-<style>
-.loader-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9998;
-}
+    <style>
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+        }
 
-.loader {
-  width: 120px;
-  height: 20px;
-  border-radius: 20px;
-  background:
-   linear-gradient(orange 0 0) 0/0% no-repeat
-   lightblue;
-  animation: l2 2s infinite steps(10);
-}
+        .loader {
+            width: 120px;
+            height: 20px;
+            border-radius: 20px;
+            background:
+                linear-gradient(orange 0 0) 0/0% no-repeat lightblue;
+            animation: l2 2s infinite steps(10);
+        }
 
-@keyframes l2 {
-    100% {background-size:110%}
-}
+        @keyframes l2 {
+            100% {
+                background-size: 110%
+            }
+        }
 
-.hidden {
-    display: none;
-}
-</style>
+        .hidden {
+            display: none;
+        }
+    </style>
 
 
-<style>
-.loader {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 120px;
-  height: 20px;
-  border-radius: 20px;
-  background:
-   linear-gradient(orange 0 0) 0/0% no-repeat
-   lightblue;
-  animation: l2 2s infinite steps(10);
-  z-index: 9999;
-}
+    <style>
+        .loader {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 20px;
+            border-radius: 20px;
+            background:
+                linear-gradient(orange 0 0) 0/0% no-repeat lightblue;
+            animation: l2 2s infinite steps(10);
+            z-index: 9999;
+        }
 
-@keyframes l2 {
-    100% {background-size:110%}
-}
+        @keyframes l2 {
+            100% {
+                background-size: 110%
+            }
+        }
 
-.hidden {
-    display: none;
-}
-</style>
+        .hidden {
+            display: none;
+        }
+    </style>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -192,7 +194,9 @@
 </head>
 
 <body>
-<div class="loader-overlay"><div class="loader"></div></div>
+    <div class="loader-overlay">
+        <div class="loader"></div>
+    </div>
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
         @include('layouts.navbar')
         <div class="ui-theme-settings">
@@ -695,7 +699,8 @@
                         states.push({
                             "id": item.id,
                             "name": item.namadepan +
-                                ' [' + item.nama_desa + ']' +
+                                ' [' + item.domisi + ', ' +
+                                item.nama_desa + ']' +
                                 ' - ' + item.id +
                                 ' [' + item.nik + ']',
                             "value": item.id
@@ -912,12 +917,12 @@
         </script>
     @endif
 
-<script>
-window.addEventListener("load", function() {
-    document.querySelector(".loader").classList.add("hidden");
-    document.querySelector(".loader-overlay").classList.add("hidden");
-});
-</script>
+    <script>
+        window.addEventListener("load", function() {
+            document.querySelector(".loader").classList.add("hidden");
+            document.querySelector(".loader-overlay").classList.add("hidden");
+        });
+    </script>
 
 
 
