@@ -1090,7 +1090,7 @@ class PinjamanIndividuController extends Controller
             'sis_jasa'
         ])->first();
         $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinj_i->jenis_pp)->value('kode');
-        $rekening_1 = '1.1.01.' . str_pad($kodeJenisProduk + 1, 2, '0', STR_PAD_LEFT);
+        $rekening_1 = '1.1.01.01';
         $rekening_2 = '1.1.03.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
 
         $trx_resc = Transaksi::create([
