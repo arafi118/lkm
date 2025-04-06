@@ -1633,6 +1633,42 @@ class PelaporanController extends Controller
             return $view;
         }
     }
+    
+    private function neraca_dana(array $data)
+    {
+        $data['keuangan'] = new Keuangan;
+
+        $thn = $data['tahun'];
+        $bln = $data['bulan'];
+        $hari = ($data['hari']);
+
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['sub_judul'] = 'Per ' . date('t', strtotime($tgl)) . ' ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+        $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+
+        $data['debit'] = 0;
+        $data['kredit'] = 0;
+
+        $data['akun1'] = AkunLevel1::where('lev1', '<=', '3')->with([
+            'akun2',
+            'akun2.akun3',
+            'akun2.akun3.rek',
+            'akun2.akun3.rek.kom_saldo' => function ($query) use ($data) {
+                $query->where('tahun', $data['tahun'])->where(function ($query) use ($data) {
+                    $query->where('bulan', '0')->orwhere('bulan', $data['bulan']);
+                });
+            },
+        ])->orderBy('kode_akun', 'ASC')->get();
+
+        $view = view('pelaporan.view.neraca_dana', $data)->render();
+
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view);
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
 
     private function jurnal_transaksi(array $data)
     {
