@@ -19,6 +19,6 @@ class Wilayah extends Model
 
     public function kec()
     {
-        return $this->hasMany(Kecamatan::class, 'kd_kec', 'kode');
+        return $this->hasOne(Kecamatan::class, 'kd_kec', 'kode');
     }
 }
