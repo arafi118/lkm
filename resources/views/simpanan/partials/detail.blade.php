@@ -43,7 +43,7 @@
         </div>
         <div class="tab-content">  
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <form class="">
@@ -102,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <style>
