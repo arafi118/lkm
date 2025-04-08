@@ -78,7 +78,7 @@
                     Tembusan :
                     <ol>
                         <li>Arsip</li>
-                        <li>Ojk</li>
+                        <li>OJK</li>
                     </ol>
                 </div>
             </td>
