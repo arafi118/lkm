@@ -1090,7 +1090,7 @@ class PinjamanIndividuController extends Controller
             'sis_jasa'
         ])->first();
         $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinj_i->jenis_pp)->value('kode');
-        $rekening_1 = '1.1.01.' . str_pad($kodeJenisProduk + 1, 2, '0', STR_PAD_LEFT);
+        $rekening_1 = '1.1.01.01';
         $rekening_2 = '1.1.03.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
 
         $trx_resc = Transaksi::create([
@@ -1120,9 +1120,9 @@ class PinjamanIndividuController extends Controller
             'id_pinkel' => '0',
             'jenis_pp' => $pinj_i->jenis_pp,
             'nama_barang' => $pinj_i->nama_barang,
-            'fee_supplier' => $pinj_i->fee_supplier,
-            'fee_agent' => $pinj_i->fee_agent,
-            'depe' => $pinj_i->depe,
+            'fee_supplier' =>  '0',
+            'fee_agent' =>  '0',
+            'depe' =>  '0',
             'nia' => $pinj_i->nia,
             'tgl_proposal' => Tanggal::tglNasional($tgl_resceduling),
             'tgl_verifikasi' => Tanggal::tglNasional($tgl_resceduling),
@@ -1137,14 +1137,18 @@ class PinjamanIndividuController extends Controller
             'kom_pokok' => '0',
             'kom_jasa' => '0',
             'spk_no' => $request->get('spk'),
+            'id_agent' => $pinj_i->id_agent,
+            'id_supplier' => $pinj_i->id_supplier,
             'sumber' => 1,
             'pros_jasa' => $pros_jasa,
             'jenis_jasa' => $pinj_i->jenis_jasa,
             'jangka' => $jangka,
             'sistem_angsuran' => $sis_pokok,
+            'admin' => '0',
+            'provisi' => '0',
             'sa_jasa' => $sis_jasa,
             'status' => 'A',
-            'jaminan' => json_encode($pinj_i->jaminan),
+            'jaminan' => $pinj_i->jaminan,
             'catatan_verifikasi' => $pinj_i->catatan_verifikasi,
             'lu' => date('Y-m-d H:i:s'),
             'user_id' => auth()->user()->id

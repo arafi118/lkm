@@ -165,10 +165,10 @@
 
     <div class="content">
         <?php 
-        $koneksi = mysqli_connect('cpanel.siupk.net', 'siupk_global', 'siupk_global', 'siupk_dbm');
+        $koneksi = mysqli_connect('cpanel.siupk.net', 'siupk_global', 'siupk_global', 'siupk_lkm');
 
-        $lokasi = 3;
-        $kd_kab = 3;
+        $lokasi = 352;
+        $kd_kab = 352; 
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             if($id == NULL or $id == ""){
@@ -230,33 +230,48 @@
             $q2 = mysqli_query($koneksi,"SELECT * FROM simpanan_anggota_$kd_kab WHERE ($where) ORDER BY id ASC  LIMIT $start, $per_page");
             while ($simp = mysqli_fetch_array($q2)) {
                 $del_re = mysqli_query($koneksi,"DELETE FROM real_simpanan_$lokasi WHERE cif=$simp[id]");
-                $query  = mysqli_query($koneksi,"SELECT * FROM transaksi_$lokasi WHERE id_simp LIKE '%-$simp[id]' ORDER BY tgl_transaksi ASC, urutan ASC, idt ASC");
+                $query  = mysqli_query($koneksi,"SELECT * FROM transaksi_$lokasi WHERE id_simp LIKE '$simp[id]' ORDER BY tgl_transaksi ASC, urutan ASC, idt ASC");
                 $sum = 0;
                 while ($trx = mysqli_fetch_array($query)) {
                     $cif            = $simp['id'];
+                    $idt            = $trx['idt'];
                     $tgl_transaksi  = $trx['tgl_transaksi'];
                     $jumlah         = $trx['jumlah'];
+                    $real_d = 0;
+                    $real_k = 0;
                     
-                    if (in_array(substr($trx['id_simp'], 0, 1), ['1', '2', '5'])) {
-                        $real_d = 0;
+                    if (str_starts_with($trx['rekening_kredit'], '2.1.04.')) {
                         $real_k = $jumlah;
                         $sum += $jumlah;
-                    } elseif (in_array(substr($trx['id_simp'], 0, 1), ['3', '4', '6', '7'])) {
+                        if($trx['rekening_debit']=="1.1.01.01"){
+                            $kode = 1;
+                            if($sum != 0){
+                                $kode = 2;
+                            }
+                        }
+                        if(str_starts_with($trx['rekening_debit'], '5.3.04.')){
+                            $kode = 4;
+                        }
+                    } elseif (str_starts_with($trx['rekening_debit'], '2.1.04.')) {
                         $real_d = $jumlah;
-                        $real_k = 0;
                         $sum -= $jumlah;
-                    } else {
-                        $real_d         = 0;
-                        $real_k         = 0;
+                        
+                        if($trx['rekening_kredit']=="1.1.01.01"){
+                            $kode = 3;
+                        }
+                        if(str_starts_with($trx['rekening_kredit'], '4.1.03.')){
+                            $kode = 5;
+                        }
+                        if($trx['rekening_kredit']=="2.1.03.01"){
+                            $kode = 10;
+                        }
                     }
-                    
-
                     
                     $lu             = date('Y-m-d H:i:s');
                     $id_user        = $trx['id_user'];
                     
-                    $insert_t = mysqli_query($koneksi,"INSERT INTO `real_simpanan_$lokasi`(`cif`, `tgl_transaksi`, `real_d`, `real_k`, `sum`, `lu`, `id_user`) 
-                                 VALUES ('$cif','$tgl_transaksi','$real_d','$real_k','$sum','$lu','$id_user')");
+                    $insert_t = mysqli_query($koneksi,"INSERT INTO `real_simpanan_$lokasi`(`cif`, `idt`, `kode`, `tgl_transaksi`, `real_d`, `real_k`, `sum`, `lu`, `id_user`) 
+                                 VALUES ('$cif','$idt','$kode','$tgl_transaksi','$real_d','$real_k','$sum','$lu','$id_user')");
                 }
             }
             

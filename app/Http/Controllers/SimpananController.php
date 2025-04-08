@@ -4,32 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota;
 use App\Models\DataPemanfaat;
-use App\Models\JenisJasa;
+use App\Models\Desa;
+use App\Models\JenisaJasa;
 use App\Models\JenisProdukPinjaman;
 use App\Models\JenisSimpanan;
-use App\Models\Simpanan;
 use App\Models\Kecamatan;
-use App\Models\Desa;
 use App\Models\Keluarga;
+use App\Models\kode;
 use App\Models\PinjamanIndividu;
+use App\Models\Rekening;
 use App\Models\RealAngsuranI;
 use App\Models\RealSimpanan;
-use App\Models\Rekening;
 use App\Models\RencanaAngsuranI;
-use App\Models\StatusPinjaman;
+use App\Models\Simpanan;
 use App\Models\SistemAngsuran;
+use App\Models\StatusPinjaman;
 use App\Models\Transaksi;
 use App\Models\User;
 use App\Utils\Keuangan;
 use App\Utils\Pinjaman;
 use App\Utils\Tanggal;
-use PDF;
+use DNS1D;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\DataTables;
-use DNS1D;
+use PDF;
 use Session;
+use Yajra\DataTables\DataTables;
 
 class SimpananController extends Controller
 {
@@ -416,6 +417,9 @@ class SimpananController extends Controller
             $sumBaru = ($jenisMutasi == 1) 
                 ? $sumSebelumnya + $jumlahBersih 
                 : $sumSebelumnya - $jumlahBersih;
+
+                $jm = ($jenisMutasi == 1) ? 2 : 3;
+            $kode   = kode::where('def', $jm);
 
             RealSimpanan::create([
                 'cif' => $cif,

@@ -363,7 +363,10 @@
             <td colspan="2" align="center">Peminjam</td>
         </tr>
         <tr>
-            <td colspan="3" height="40">&nbsp;</td>
+            <td align="center">
+                &nbsp;
+            </td>
+            <td colspan="2"  height="40">&nbsp;</td>
         </tr>
         <tr>
             <td align="center" style="font-weight: bold;">

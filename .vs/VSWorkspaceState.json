@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\resources",
+    "\\resources\\views",
+    "\\resources\\views\\pelaporan",
+    "\\resources\\views\\pelaporan\\view"
   ],
-  "SelectedNode": "\\C:\\laragon\\www\\lkm",
+  "SelectedNode": "\\resources\\views\\pelaporan\\view\\perubahan_modal.blade.php",
   "PreviewInSolutionExplorer": false
 }
