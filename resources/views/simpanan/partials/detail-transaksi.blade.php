@@ -17,16 +17,16 @@ $sum = DB::table('real_simpanan_' . session('lokasi'))
 <div class="table-responsive">
     <table class="table table-striped align-items-center mb-0" width="97%" style="table-layout: fixed; border-collapse: collapse;">
         <thead>
-            <tr  style="background-color: #404040;color: #ffffff;">
-                <th width='3%'>#</th>
-                <th width='10%'>Tgl transaksi</th>
-                <th width='35%'>Keterangan</th>
-                <th width='10%'>KD.TRX</th>
-                <th width='10%'>Debit (Tarik)</th>
-                <th width='10%'>Kredit (Setor)</th>
-                <th width='10%'>Saldo</th>
-                <th width='5%'>P</th>
-                <th width='10%'>#</th>
+            <tr style="background-color: #404040; color: #ffffff; align:"center";">
+                <th width="3%">#</th>
+                <th width="10%">Tgl transaksi</th>
+                <th width="35%">Keterangan</th>
+                <th width="10%">KD.TRX</th>
+                <th width="10%">Debit (Tarik)</th>
+                <th width="10%">Kredit (Setor)</th>
+                <th width="15%">Saldo</th>
+                <th width="5%">P</th>
+                <th width="5%">#</th>     
             </tr>
         </thead>
         @if ($bulankop != 0 && $tahunkop != 0 ) 
@@ -76,18 +76,18 @@ $sum = DB::table('real_simpanan_' . session('lokasi'))
                     <td>{{ number_format($real_k, 0, ',', '.') }}</td>
                     <td>{{ number_format($sum, 0, ',', '.') }}</td>
                     <td>{{ $trx->ins ?? '-' }}</td>
-                    <td>
-<a class="btn btn-sm float-end ms-2" data-toggle='tooltip' 
+                    <td style="padding:5px; align:"center";">
+<a class="btn btn-sm" data-toggle='tooltip' 
    onclick="window.open('/cetak_buku/{{$idt}}')" 
    data-placement='top' style="background-color: transparent; border: none; padding: 0;"
    title='Cetak Pada Buku'>
-    <i class="fa fa-book" style="font-size: 1.2rem;"></i>
+    <i class="fa fa-book" style="font-size: 1rem;"></i>
 </a>
-<a class="btn btn-sm float-end ms-2" data-toggle='tooltip' 
+<a class="btn btn-sm" data-toggle='tooltip' 
    onclick="window.open('/cetak_kuitansi/{{$idt}}')" 
    data-placement='top' style="background-color: transparent; border: none; padding: 0;"
    title='Cetak Pada Kwitansi'>
-    <i class="fa fa-file-text" style="font-size: 1.2rem;"></i>
+    <i class="fa fa-file-text" style="font-size: 1rem;"></i>
 </a>
 
                     </td>
