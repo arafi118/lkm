@@ -125,14 +125,20 @@
                                 }
                             </style>
                             <form class="forminline">
-                                <select id="bulan" name="bulan" class="js-example-basic-single formcontrol">
+                                <select id="bulants" name="bulants" class="js-example-basic-single formcontrol">
+                                    <option value="0">
+                                        Semua Bulan
+                                    </option>
                                     @foreach(range(1, 12) as $bulan)
                                         <option value="{{ $bulan }}" {{ date('n') == $bulan ? 'selected' : '' }}>
                                             {{ date('F', mktime(0, 0, 0, $bulan, 1)) }}
                                         </option>
                                     @endforeach
                                 </select>
-                                <select id="tahun" name="tahun" class="js-example-basic-single formcontrol">
+                                <select id="tahunts" name="tahunts" class="js-example-basic-single formcontrol">
+                                    <option value="0">
+                                        Semua Tahun
+                                    </option>
                                     @foreach(range(date('Y')-5, date('Y')+5) as $tahun)
                                         <option value="{{ $tahun }}" {{ date('Y') == $tahun ? 'selected' : '' }}>
                                             {{ $tahun }}
@@ -174,9 +180,6 @@ $(document).ready(function() {
     var currentMonth = currentDate.getMonth() + 1;
     var currentYear = currentDate.getFullYear();
 
-    $('#bulan').val(currentMonth);
-    $('#tahun').val(currentYear);
-
     tableTransaksi(currentMonth, currentYear);
 
     function tableTransaksi(bulan, tahun) {
@@ -192,9 +195,9 @@ $(document).ready(function() {
         });
     }
 
-    $('#bulan, #tahun').change(function() {
-        var bulan = $('#bulan').val();
-        var tahun = $('#tahun').val();
+    $('#bulants, #tahunts').change(function() {
+        var bulan = $('#bulants').val();
+        var tahun = $('#tahunts').val();
         tableTransaksi(bulan, tahun);
     });
 

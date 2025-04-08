@@ -1,11 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\app",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\pelaporan",
-    "\\resources\\views\\pelaporan\\view"
+    "\\resources\\views\\simpanan",
+    "\\resources\\views\\simpanan\\partials"
   ],
-  "SelectedNode": "\\resources\\views\\pelaporan\\view\\perubahan_modal.blade.php",
+  "SelectedNode": "\\resources\\views\\simpanan\\partials\\cetak_pada_buku.blade.php",
   "PreviewInSolutionExplorer": false
 }

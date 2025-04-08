@@ -385,6 +385,9 @@ Route::get('/cetak_kop/{simpanan}', [SimpananController::class, 'kop'])->middlew
 
 Route::get('/cetak_koran/{simpanan}', [SimpananController::class, 'koran'])->middleware('auth', 'is_aktif');
 
+Route::get('/cetak_buku/{idt}', [SimpananController::class, 'cetakPadaBuku'])->middleware('auth');
+Route::get('/cetak_kuitansi/{idt}', [SimpananController::class, 'cetakKwitansi'])->middleware('auth');
+
 Route::get('/simpanan/get-transaksi', [SimpananController::class, 'getTransaksi'])->middleware('auth', 'is_aktif');
 
 Route::post('/simpanan/simpan-transaksi', [SimpananController::class, 'simpanTransaksi']);

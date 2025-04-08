@@ -74,23 +74,46 @@ class SimpananController extends Controller
         $title = 'Daftar Simpanan';
         return view('simpanan.index')->with(compact('title'));
     }
-
-    public function getTransaksi()
-    {
+    
+    public function getTransaksi() {
         $bulan = request()->input('bulan');
         $tahun = request()->input('tahun');
         $cif = request()->input('cif');
 
-        $real = RealSimpanan::where('cif',$cif)
-            ->whereMonth('tgl_transaksi', $bulan)
-            ->whereYear('tgl_transaksi', $tahun)
-            ->orderBy('id', 'asc')
-            ->with('transaksi') 
-            ->get();
+        $transaksiQuery = Transaksi::where('id_simp', "$cif");
 
-        return view('simpanan.partials.detail-transaksi', compact('real'));
-    }
-     
+        if ($tahun != 0) {
+            $transaksiQuery->whereYear('tgl_transaksi', $tahun);
+        }
+
+        if ($bulan != 0) {
+            $transaksiQuery->whereMonth('tgl_transaksi', $bulan);
+        }
+
+        $transaksi = $transaksiQuery->with('realSimpanan')->orderBy('tgl_transaksi', 'asc')->get();
+
+        $transaksi->each(function ($item) {
+            $item->ins = User::where('id', $item->id_user)->value('ins');
+        });
+
+        $bulankop = $bulan;
+        $tahunkop = $tahun;
+        
+    $startDate = \Carbon\Carbon::createFromDate(
+        $tahunkop, 
+        $bulankop == 0 ? 1 : $bulankop, 
+        1
+    )->startOfMonth();
+
+    $last_sum = RealSimpanan::where('cif', $cif)
+        ->where('tgl_transaksi', '<', $startDate)
+        ->orderBy('tgl_transaksi', 'desc')
+        ->orderBy('id', 'desc')
+        ->value('sum') ?? 0;
+
+    return view('simpanan.partials.detail-transaksi', compact('transaksi', 'bulankop', 'tahunkop', 'cif', 'last_sum'));
+}
+
 
     public function detailAnggota($id)
     {
@@ -200,6 +223,66 @@ class SimpananController extends Controller
         $title = 'Cetak Rekening Koran' . $simpanan->anggota->namadepan;
         return view('simpanan.partials.cetak_koran')->with(compact('title', 'simpanan', 'kec'));
     }
+
+    
+    public function cetakKwitansi($idt)
+    {
+        $transaksi = Transaksi::where('idt', $idt)->first();
+        $user = auth()->user();
+        $userTransaksi = User::find($transaksi->id_user);
+    
+        // Logika untuk menentukan user yang ditampilkan
+        $userDisplay = ($user->id == $userTransaksi->id) 
+            ? $user->ins 
+            : $user->ins . ' / ' . $userTransaksi->ins;
+
+        $user = $userDisplay;
+        // Menentukan kode berdasarkan jenis rekening
+    
+        $kode=substr($transaksi->id_simp, 0, 1);
+
+            $title = 'Cetak Pada Kwitansi '.$transaksi->id_simp;
+
+        return view('simpanan.partials.cetak_pada_kwitansi', compact(
+            'transaksi',
+            'user',
+            'title',
+            'kode'
+        ));
+    }
+
+    public function cetakPadaBuku($idt)
+    {
+        $saldo = 0;
+        $transaksi = Transaksi::where('idt', $idt)->with('realSimpanan')->orderBy('tgl_transaksi', 'asc')->first();
+        $transaksiCount = Transaksi::where('id_simp', $transaksi->id_simp)
+                                   ->where('idt', '<=', $idt)
+                                   ->count();
+        $user = auth()->user();
+        $userTransaksi = User::find($transaksi->id_user);
+    
+        // Logika untuk menentukan user yang ditampilkan
+        $userDisplay = ($user->id == $userTransaksi->id) 
+            ? $user->ins 
+            : $user->ins . ' / ' . $userTransaksi->ins;
+        $user = $userDisplay;
+        $kode=substr($transaksi->id_simp, 0, 1);
+                        if(in_array(substr($transaksi->id_simp, 0, 1), ['1', '2', '5'])) {
+                            $debit = 0;
+                            $kredit = $transaksi->jumlah;
+                            $saldo += $transaksi->jumlah;
+                        } elseif(in_array(substr($transaksi->id_simp, 0, 1), ['3', '4', '6', '7'])) {
+                            $debit = $transaksi->jumlah;
+                            $kredit = 0;
+                            $saldo -= $transaksi->jumlah;
+                        } else {
+                            $debit = 0;
+                            $kredit = 0;
+                        }
+
+            $title = 'Cetak Pada Buku '.$transaksi->id_simp;
+            return view('simpanan.partials.cetak_pada_buku')->with(compact('title','transaksi', 'transaksiCount', 'kode', 'user', 'debit', 'kredit',  'saldo'));
+     }
 
     public function simpanTransaksi(Request $request)
     {
