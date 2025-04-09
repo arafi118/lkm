@@ -139,7 +139,6 @@ class SimpananController extends Controller
             'pinjaman.sts'
         ])->first();
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
-        $jenis_jasa = JenisJasa::all();
         $sistem_angsuran = SistemAngsuran::all();
         $js = JenisSimpanan::where(function ($query) use ($kec) {
             $query->where('lokasi', '0')
@@ -151,7 +150,7 @@ class SimpananController extends Controller
 
         $js_dipilih = $anggota->jenis_produk_pinjaman;
 
-        return view('simpanan.partials.register')->with(compact('anggota', 'kec', 'jenis_jasa', 'sistem_angsuran', 'js', 'js_dipilih'));
+        return view('simpanan.partials.register')->with(compact('anggota', 'kec', 'sistem_angsuran', 'js', 'js_dipilih'));
     }
 
     public function jenis_simpanan($id, Request $request)

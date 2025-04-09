@@ -1,12 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\simpanan",
-    "\\resources\\views\\simpanan\\partials"
+    "\\resources\\views\\pelaporan",
+    "\\resources\\views\\pelaporan\\view",
+    "\\resources\\views\\pelaporan\\view\\ojk"
   ],
-  "SelectedNode": "\\resources\\views\\simpanan\\partials\\detail-transaksi.blade.php",
+  "SelectedNode": "\\resources\\views\\pelaporan\\view\\ojk\\pinjaman_diberi.blade.php",
   "PreviewInSolutionExplorer": false
 }
