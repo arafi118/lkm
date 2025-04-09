@@ -164,11 +164,21 @@
     </header>
 
     <div class="content">
-        <?php 
-        $koneksi = mysqli_connect('cpanel.siupk.net', 'siupk_global', 'siupk_global', 'siupk_lkm');
+        <?php
+        <?php
+            $koneksi = mysqli_connect('cpanel.siupk.net', 'siupk_global', 'siupk_global', 'siupk_lkm');
 
-        $lokasi = 1;
-        $kd_kab = 1; 
+            $domain = $_SERVER['HTTP_HOST']; 
+
+            $query = mysqli_query($koneksi, "SELECT id, kd_kab FROM kecamatan WHERE web_kec = '$domain' LIMIT 1");
+
+            if ($row = mysqli_fetch_assoc($query)) {
+                $lokasi = $row['id'];
+                $kd_kab = $row['id'];
+            } else {
+                die("Wilayah tidak ditemukan untuk domain: $domain");
+            }
+
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             if($id == NULL or $id == ""){
