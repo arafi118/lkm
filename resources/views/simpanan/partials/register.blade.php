@@ -41,11 +41,11 @@
     </style>
                         <div class="card-body">
                                 <div class="col-lg-6 col-xl-12">
-                                    <div class="card mb-3 widget-content bg-happy-green">
+                                    <div class="card mb-3 widget-content bg-primary">
                                         <div class="widget-content-wrapper text-white">
                                             <div class="app-bg-icon fa-solid fa-window-restore"></div>
                                             <div class="widget-content-left">
-                                                <h5><b>Pendataan Utang {{ $anggota->namadepan }}</b></h5>
+                                                <h5><b>Pendataan {{ $anggota->namadepan }}</b></h5>
                                                 <div class="app-text_fount">{{ $anggota->d->sebutan_desa->sebutan_desa }} {{ $anggota->d->nama_desa }},
                                                     <b>{{ $anggota->d->kd_desa }}</b></div>
                                             </div>
@@ -109,4 +109,3 @@
             }
         });
     </script>
-    
