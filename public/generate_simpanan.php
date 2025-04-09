@@ -167,8 +167,8 @@
         <?php 
         $koneksi = mysqli_connect('cpanel.siupk.net', 'siupk_global', 'siupk_global', 'siupk_lkm');
 
-        $lokasi = 352;
-        $kd_kab = 352; 
+        $lokasi = 1;
+        $kd_kab = 1; 
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             if($id == NULL or $id == ""){
@@ -239,6 +239,7 @@
                     $jumlah         = $trx['jumlah'];
                     $real_d = 0;
                     $real_k = 0;
+                    $kode   = 0;
                     
                     if (str_starts_with($trx['rekening_kredit'], '2.1.04.')) {
                         $real_k = $jumlah;

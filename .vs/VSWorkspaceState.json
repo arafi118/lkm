@@ -7,6 +7,6 @@
     "\\resources\\views\\simpanan",
     "\\resources\\views\\simpanan\\partials"
   ],
-  "SelectedNode": "\\resources\\views\\simpanan\\partials\\cetak_pada_buku.blade.php",
+  "SelectedNode": "\\resources\\views\\simpanan\\partials\\detail-transaksi.blade.php",
   "PreviewInSolutionExplorer": false
 }

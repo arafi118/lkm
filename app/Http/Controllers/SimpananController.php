@@ -221,6 +221,7 @@ class SimpananController extends Controller
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $simpanan = $simpanan->where('id', $simpanan->id)->with(['anggota', 'js'])->first();
         $title = 'Cetak Rekening Koran' . $simpanan->anggota->namadepan;
+        dd($simpanan);
         return view('simpanan.partials.cetak_koran')->with(compact('title', 'simpanan', 'kec'));
     }
 
@@ -312,7 +313,6 @@ class SimpananController extends Controller
         $transaksi->urutan = 0;
         $transaksi->id_user = auth()->user()->id;
         
-        $maxIdt = Transaksi::where('id_simp', $cif)->max('idt');
         $kode = ($jenisMutasi == 1) ? 2 : 3;
         $real = RealSimpanan::where('cif', $cif)->latest('tgl_transaksi')->first();
 
@@ -323,21 +323,25 @@ class SimpananController extends Controller
             ? $sumSebelumnya + $jumlahBersih 
             : $sumSebelumnya - $jumlahBersih;
 
-        RealSimpanan::create([
-            'cif' => $cif,
-            'idt' => $maxIdt,
-            'tgl_transaksi' => Tanggal::tglNasional($tglTransaksi),
-            'real_d' => ($jenisMutasi == 2) ? $jumlahBersih : 0,
-            'real_k' => ($jenisMutasi == 1) ? $jumlahBersih : 0,
-            'sum' => $sumBaru,
-            'lu' => date('Y-m-d H:i:s'),
-            'id_user' => auth()->user()->id,
-        ]);
         if ($transaksi->save()) {
+                $maxIdt = Transaksi::max('idt');
+
+                RealSimpanan::create([
+                    'cif' => $cif,
+                    'idt' => $maxIdt,
+                    'kode' => $kode,
+                    'tgl_transaksi' => Tanggal::tglNasional($tglTransaksi),
+                    'real_d' => ($jenisMutasi == 2) ? $jumlahBersih : 0,
+                    'real_k' => ($jenisMutasi == 1) ? $jumlahBersih : 0,
+                    'sum' => $sumBaru,
+                    'lu' => date('Y-m-d H:i:s'),
+                    'id_user' => auth()->user()->id,
+                ]);
             return response()->json(['success' => true]);
         } else {
             return response()->json(['success' => false, 'message' => 'Gagal menyimpan transaksi']);
         }
+
     }
 
     public function store(Request $request)
