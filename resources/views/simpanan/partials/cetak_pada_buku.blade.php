@@ -31,7 +31,7 @@
 
 @endphp
 
-    <table width="100%" border="0" align="center" cellpadding="5" cellspacing="0">
+    <table width="100%" border="1" align="center" cellpadding="5" cellspacing="0">
         <tr>
             <th width="10%" class="style10">
                 <br><br><br><br><br>
@@ -45,14 +45,14 @@
         @endfor
 
         <tr>
-            <td width="12%" class="style9 align-center">{{ $br }}</td>
+            <td width="5%" class="style9 align-center">{{ $br }}</td>
             <td width="12%" class="style9 align-center">{{ $transaksi->tgl_transaksi }}</td>
             <td width="5%" class="style9 align-center">{{ $transaksi->realSimpanan->kode }}</td>
             <td width="16%" class="style9 align-center">{{ number_format($transaksi->realSimpanan->real_d) }}</td>
             <td width="16%" class="style9 align-center">{{ number_format($transaksi->realSimpanan->real_k) }}</td>
             <td width="16%" class="style9 align-center">{{ number_format($transaksi->realSimpanan->sum) }}</td>
             <td width="10%" class="style9 align-center">{{ strtoupper($user) }}-{{ $transaksi->idt }}</td>
-            <td width="25%" class="style9 align-center">&nbsp;</td>
+            <td width="20%" class="style9 align-center">&nbsp;</td>
         </tr>
     </table>
 </body>
