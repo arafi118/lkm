@@ -75,7 +75,7 @@
                                             <i class="fa fa-refresh fa-w-16 fa-spin fa-2x"></i>
                                         </div>
                                     </form>
-                            <button type="submit" id="SimpanUtang" class="btn btn-dark custom-button">Simpan Utang</button>
+                            <button type="submit" id="SimpanUtang" class="btn btn-dark custom-button">Simpan Data</button>
                         </div><br><br><br>
     <script>  
             $('.select2T').select2({

@@ -3,10 +3,9 @@
     "",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\pelaporan",
-    "\\resources\\views\\pelaporan\\view",
-    "\\resources\\views\\pelaporan\\view\\ojk"
+    "\\resources\\views\\simpanan",
+    "\\resources\\views\\simpanan\\partials"
   ],
-  "SelectedNode": "\\resources\\views\\pelaporan\\view\\ojk\\pinjaman_diberi.blade.php",
+  "SelectedNode": "\\resources\\views\\simpanan\\partials\\register.blade.php",
   "PreviewInSolutionExplorer": false
 }
