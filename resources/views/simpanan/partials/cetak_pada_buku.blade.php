@@ -48,11 +48,10 @@
             <td width="5%" class="style9 align-center">{{ $br }}</td>
             <td width="12%" class="style9 align-center">{{ $transaksi->tgl_transaksi }}</td>
             <td width="5%" class="style9 align-center">{{ $transaksi->realSimpanan->kode }}</td>
-            <td width="20%" class="style9 align-center">{{ number_format($transaksi->realSimpanan->real_d) }}</td>
-            <td width="20%" class="style9 align-center">{{ number_format($transaksi->realSimpanan->real_k) }}</td>
-            <td width="20%" class="style9 align-center">{{ number_format($transaksi->realSimpanan->sum) }}</td>
-            <td width="8%" class="style9 align-center">{{ strtoupper($user) }}-{{ $transaksi->idt }}</td>
-            <td width="10%" class="style9 align-center">&nbsp;</td>
+            <td width="23%" class="style9 align-center">{{ number_format($transaksi->realSimpanan->real_d) }}</td>
+            <td width="23%" class="style9 align-center">{{ number_format($transaksi->realSimpanan->real_k) }}</td>
+            <td width="23%" class="style9 align-center">{{ number_format($transaksi->realSimpanan->sum) }}</td>
+            <td width="9%" class="style9 align-center">{{ strtoupper($user) }}-{{ $transaksi->idt }}</td>
         </tr>
     </table>
 </body>
