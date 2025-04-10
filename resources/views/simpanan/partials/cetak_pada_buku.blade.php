@@ -45,6 +45,7 @@
         @endfor
 
         <tr>
+            <td width="12%" class="style9 align-center">{{ $br }}</td>
             <td width="12%" class="style9 align-center">{{ $transaksi->tgl_transaksi }}</td>
             <td width="5%" class="style9 align-center">{{ $transaksi->realSimpanan->kode }}</td>
             <td width="16%" class="style9 align-center">{{ number_format($transaksi->realSimpanan->real_d) }}</td>
