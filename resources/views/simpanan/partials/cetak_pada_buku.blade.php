@@ -31,7 +31,7 @@
 
 @endphp
 
-    <table width="100%" border="1" align="center" cellpadding="5" cellspacing="0">
+    <table width="100%" border="0" align="center" cellpadding="5" cellspacing="0">
         <tr>
             <th width="10%" class="style10">
                 <br><br><br><br><br>
