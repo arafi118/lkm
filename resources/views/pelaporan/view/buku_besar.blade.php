@@ -116,13 +116,18 @@
                 if ($number % 2 == 0) {
                     $bg = 'rgba(255, 255, 255)';
                 }
+                $relasi = "";
+                    if(str_starts_with($trx->rekening_debit, '2.1.04.') || str_starts_with($trx->rekening_kredit, '2.1.04.')){
+                        $relasi = $trx->relasi;
+                    }
+
             @endphp
 
             <tr style="background: {{ $bg }};">
                 <td align="center">{{ $number }}</td>
                 <td align="center">{{ Tanggal::tglIndo($trx->tgl_transaksi) }}</td>
                 <td align="center">{{ $ref . '-' . $trx->idt }}</td>
-                <td>{{ $trx->keterangan_transaksi }}</td>
+                <td>{{ $trx->keterangan_transaksi }} {{ $relasi }}</td>
                 <td align="right">{{ number_format($debit, 2) }}</td>
                 <td align="right">{{ number_format($kredit, 2) }}</td>
                 <td align="right">
