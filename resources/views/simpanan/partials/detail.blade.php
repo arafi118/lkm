@@ -175,6 +175,7 @@
     $('.date').datepicker({
         dateFormat: 'dd/mm/yy'
     });
+
 $(document).ready(function() {
     var currentDate = new Date();
     var currentMonth = currentDate.getMonth() + 1;

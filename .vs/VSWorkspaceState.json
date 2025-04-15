@@ -1,7 +1,14 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\app",
+    "\\app\\Http",
+    "\\app\\Http\\Controllers",
+    "\\resources",
+    "\\resources\\views",
+    "\\resources\\views\\simpanan",
+    "\\resources\\views\\simpanan\\partials"
   ],
-  "SelectedNode": "\\G:\\laragon\\www\\lkm",
+  "SelectedNode": "\\resources\\views\\simpanan\\partials\\cetak_pada_kwitansi.blade.php",
   "PreviewInSolutionExplorer": false
 }
