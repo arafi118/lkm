@@ -28,19 +28,45 @@
                             <div class="row">
                                 <!-- CIF -->
                                 <div class="col-md-4">
+                                    
+                                    <div class="form-group">
+                                        <label for="bulants">Bulan</label>
+                                        <select id="bulants" name="bulants" class="form-control">
+                                            <option value="0">
+                                                Semua Bulan
+                                            </option>
+                                            @foreach(range(1, 12) as $bulan)
+                                                <option value="{{ $bulan }}" {{ date('n') == $bulan ? 'selected' : '' }}>
+                                                    {{ date('F', mktime(0, 0, 0, $bulan, 1)) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="tahunts">Tahun</label>
+                                        <select id="tahunts" name="tahunts" class="form-control">
+                                            <option value="0">
+                                                Semua Tahun
+                                            </option>
+                                            @foreach(range(date('Y')-5, date('Y')+5) as $tahun)
+                                                <option value="{{ $tahun }}" {{ date('Y') == $tahun ? 'selected' : '' }}>
+                                                    {{ $tahun }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <div class="form-group">
                                         <label for="cif">CIF</label>
                                         <input type="text" name="cif" id="cif" class="form-control" placeholder="Semua CIF">
                                     </div>
+
                                 </div>
                                 <div class="col-md-8">
                                     <div class="alert alert-info d-flex align-items-center" role="alert" style="background-color: #e7f3fe; color: #31708f; border: 1px solid #bce8f1;">
                                         <i class="fas fa-info-circle" style="font-size: 1.5rem; margin-right: 10px;"></i>
-                                        <span>
-                                            Proses Hitung Bunga ini akan menghitung bunga dari tanggal 3 hingga tanggal 2025-02-28, jika tanggal kurang sesuai, silakan atur di Pengaturan SOP atau bisa menghubungi TS Simpanan (+62 881 3756 007)
-
-                                            Biarkan CIF kosong untuk memproses semua CIF. Jika hanya ingin memproses beberapa CIF tertentu, silakan masukkan dalam format: CIF1, CIF2, CIF3, dan seterusnya. (misal : 1, 2, 4, 34, dsb)
-                                        </span>
+                                           <!-- CIF -->
                                     </div>
                                 </div>
                             </div>
