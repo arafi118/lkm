@@ -10,7 +10,7 @@ use App\Utils\Keuangan;
 use Auth;
 use Illuminate\Http\Request;
 
-class AuthRekapController extends Controller
+class AuthController extends Controller
 {
     public function index()
     {
