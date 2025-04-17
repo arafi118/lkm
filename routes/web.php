@@ -13,6 +13,8 @@ use App\Http\Controllers\DesaController;
 use App\Http\Controllers\GenerateController;
 use App\Http\Controllers\Kabupaten\AuthController as KabupatenAuthController;
 use App\Http\Controllers\Kabupaten\KabupatenController;
+use App\Http\Controllers\Rekap\AuthController as RekapAuthController;
+use App\Http\Controllers\Rekap\RekapController;
 use App\Http\Controllers\KelompokController;
 use App\Http\Controllers\PelaporanController;
 use App\Http\Controllers\PinjamanAnggotaController;
@@ -104,6 +106,18 @@ Route::group(['prefix' => 'kab', 'as' => 'kab.', 'middleware' => 'kab'], functio
     Route::post('/logout', [KabupatenAuthController::class, 'logout']);
 });
 
+Route::get('/rekap', [RekapAuthController::class, 'index'])->middleware('guest');
+Route::post('/rekap/login', [RekapAuthController::class, 'login'])->middleware('guest');
+
+Route::group(['prefix' => 'rekap', 'as' => 'rekap.', 'middleware' => 'rekap'], function () {
+    Route::get('/dashboard', [RekapController::class, 'index']);
+    Route::get('/laporan', [RekapController::class, 'laporan']);
+    Route::get('/laporan/sub_laporan/{laporan}', [RekapController::class, 'subLaporan']);
+    Route::get('/laporan/data/{lokasi}', [RekapController::class, 'data']);
+    Route::post('/laporan/preview/{kd_kab}', [RekapController::class, 'preview']);
+
+    Route::post('/logout', [RekapAuthController::class, 'logout']);
+});
 
 Route::get('/', [AuthController::class, 'index'])->middleware('guest')->name('/');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');

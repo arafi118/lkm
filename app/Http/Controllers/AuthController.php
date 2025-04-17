@@ -43,10 +43,15 @@ class AuthController extends Controller
             $kab = Kabupaten::where('web_kab', explode('//', request()->url(''))[1])
                 ->orWhere('web_kab_alternatif', explode('//', request()->url(''))[1])
                 ->first();
-            if (!$kab) {
-                abort(404);
-            }
-
+                if (!$kab) {
+                    $pus = Pusat::where('web_kab', explode('//', request()->url(''))[1])
+                        ->orWhere('web_kab_alternatif', explode('//', request()->url(''))[1])
+                        ->first();
+                    if (!$pus) {
+                        abort(404);
+                    }
+                    return redirect('/pusat');
+                }
             return redirect('/kab');
         }
 

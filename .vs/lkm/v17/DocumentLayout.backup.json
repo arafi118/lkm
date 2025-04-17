@@ -287,8 +287,7 @@
               "ViewState": "AgIAANQAAAAAAAAAAAAjwOkAAABUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2024-12-09T03:33:21.649Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -301,8 +300,7 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2025-03-10T05:35:44.153Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -329,19 +327,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2025-03-10T05:42:51.088Z",
               "IsPinned": true
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "lunas.blade.php",
-              "DocumentMoniker": "G:\\laragon\\www\\lkm\\resources\\views\\perguliran_i\\partials\\lunas.blade.php",
-              "RelativeDocumentMoniker": "resources\\views\\perguliran_i\\partials\\lunas.blade.php",
-              "ToolTip": "G:\\laragon\\www\\lkm\\resources\\views\\perguliran_i\\partials\\lunas.blade.php",
-              "RelativeToolTip": "resources\\views\\perguliran_i\\partials\\lunas.blade.php",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAAAoAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-04-16T02:20:02.716Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
@@ -394,6 +379,18 @@
             {
               "$type": "Bookmark",
               "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "lunas.blade.php",
+              "DocumentMoniker": "G:\\laragon\\www\\lkm\\resources\\views\\perguliran_i\\partials\\lunas.blade.php",
+              "RelativeDocumentMoniker": "resources\\views\\perguliran_i\\partials\\lunas.blade.php",
+              "ToolTip": "G:\\laragon\\www\\lkm\\resources\\views\\perguliran_i\\partials\\lunas.blade.php",
+              "RelativeToolTip": "resources\\views\\perguliran_i\\partials\\lunas.blade.php",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAAAoAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2025-04-16T02:20:02.716Z"
             },
             {
               "$type": "Document",
@@ -1078,8 +1075,7 @@
               "RelativeToolTip": "app\\Http\\Controllers\\PinjamanIndividuController.php",
               "ViewState": "AgIAADACAAAAAAAAAAAjwEsCAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-03-10T05:42:47.664Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-10T05:42:47.664Z"
             },
             {
               "$type": "Document",

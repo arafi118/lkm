@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\resources",
+    "\\resources\\views",
+    "\\resources\\views\\perguliran_i",
+    "\\resources\\views\\perguliran_i\\partials"
   ],
-  "SelectedNode": "\\G:\\laragon\\www\\lkm",
+  "SelectedNode": "\\resources\\views\\perguliran_i\\partials\\lunas.blade.php",
   "PreviewInSolutionExplorer": false
 }
