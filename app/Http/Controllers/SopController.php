@@ -36,22 +36,22 @@ class SopController extends Controller
         $kec = Kecamatan::where('id', Session::get('lokasi'))->with('ttd')->first();
 
         $dir = User::where([
-            ['jabatan','1'],
+            ['jabatan', '1'],
             ['level', '1']
         ])->first();
 
         $seke = User::where([
-            ['jabatan','1'],
+            ['jabatan', '1'],
             ['level', '2']
         ])->first();
 
         $bend = User::where([
-            ['jabatan','1'],
+            ['jabatan', '1'],
             ['level', '3']
         ])->first();
 
         $manaj = User::where([
-            ['jabatan','1'],
+            ['jabatan', '1'],
             ['level', '7']
         ])->first();
 
@@ -172,7 +172,7 @@ class SopController extends Controller
             'msg' => 'Sebutan Pengelola Berhasil Diperbarui.',
         ]);
     }
-    
+
     public function pinjaman(Request $request, Kecamatan $kec)
     {
         $data = $request->only([
@@ -316,6 +316,8 @@ class SopController extends Controller
             return response()->json($validate->errors(), Response::HTTP_MOVED_PERMANENTLY);
         }
 
+        $data['spk'] = str_replace('<ol>', '', $data['spk']);
+        $data['spk'] = str_replace('</ol>', '', $data['spk']);
         $spk = json_encode($data['spk']);
 
         $kecamatan = Kecamatan::where('id', $kec->id)->update([
@@ -584,5 +586,4 @@ class SopController extends Controller
         $title = 'Invoice #' . $inv->nomor . ' - ' . $inv->jp->nama_jp;
         return view('sop.detail_invoice')->with(compact('title', 'inv'));
     }
-
 }

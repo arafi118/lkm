@@ -63,7 +63,7 @@
         </tr>
         <tr>
             <td colspan="4">
-                Adalah Suami dari :
+                Adalah {{ $pinkel->anggota->keluarga->kekeluargaan }} dari :
             </td>
         </tr>
         <tr>
@@ -96,7 +96,8 @@
                     pengajuan permohonan kredit.
                 </p>
                 <p>
-                    Sebagai bentuk tanggung jawab saya sebagai Suami, maka saya akan turut bertanggung jawab dalam
+                    Sebagai bentuk tanggung jawab saya sebagai {{ $pinkel->anggota->keluarga->kekeluargaan }}, maka saya
+                    akan turut bertanggung jawab dalam
                     melaksanakan kewajiban pengembalian dana tersebut.
                 </p>
                 <p>
