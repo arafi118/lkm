@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Rekap;
 
 use App\Http\Controllers\Controller;
+use App\Models\Rekap;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use App\Models\Wilayah;
