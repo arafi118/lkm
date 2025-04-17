@@ -158,7 +158,7 @@
         </div>
     </div>
 
-    <form action="/kab/logout" method="post" id="formLogout">
+    <form action="/rekap/logout" method="post" id="formLogout">
         @csrf
     </form>
 

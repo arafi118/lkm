@@ -297,7 +297,7 @@
                         @php
                             $lokasi_khusus = in_array($kecamatan->id, [1, 351, 352, 353, 354]);
                             $user_boleh_akses = auth()->user()->jabatan == '1' && auth()->user()->level == '1';
-                            $user_boleh_akses = auth()->user()->jabatan == '1' && auth()->user()->level == '3'&& ($kecamatan->id == '351' ||->id == '352' ||->id == '353' ||->id == '354' );
+                            $user_boleh_akses = auth()->user()->jabatan == '1' && auth()->user()->level == '3'&& ($kecamatan->id == '351' ||$kecamatan->id == '352' ||$kecamatan->id == '353' ||$kecamatan->id == '354' );
                             $force_disable = (count($pinj_aktif) > 0 && $kecamatan->id != 280) || ($lokasi_khusus && !$user_boleh_akses);
                         @endphp
 
