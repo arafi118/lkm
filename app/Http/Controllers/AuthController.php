@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AdminInvoice;
 use App\Models\AdminJenisPembayaran;
+use App\Models\Rekap;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use App\Models\Menu;
@@ -44,13 +45,13 @@ class AuthController extends Controller
                 ->orWhere('web_kab_alternatif', explode('//', request()->url(''))[1])
                 ->first();
                 if (!$kab) {
-                    $pus = Pusat::where('web_kab', explode('//', request()->url(''))[1])
+                    $pus = Rekap::where('web_kab', explode('//', request()->url(''))[1])
                         ->orWhere('web_kab_alternatif', explode('//', request()->url(''))[1])
                         ->first();
                     if (!$pus) {
                         abort(404);
                     }
-                    return redirect('/pusat');
+                    return redirect('/rekap');
                 }
             return redirect('/kab');
         }
