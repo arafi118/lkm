@@ -45,8 +45,7 @@ class AuthController extends Controller
                 ->orWhere('web_kab_alternatif', explode('//', request()->url(''))[1])
                 ->first();
                 if (!$kab) {
-                    $pus = Rekap::where('web_kab', explode('//', request()->url(''))[1])
-                        ->orWhere('web_kab_alternatif', explode('//', request()->url(''))[1])
+                    $pus = Rekap::where('web_rekap', explode('//', request()->url(''))[1])
                         ->first();
                     if (!$pus) {
                         abort(404);
