@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Kabupaten;
+namespace App\Http\Controllers\Rekap;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kabupaten;
@@ -10,7 +10,7 @@ use App\Utils\Keuangan;
 use Auth;
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class AuthRekapController extends Controller
 {
     public function index()
     {
