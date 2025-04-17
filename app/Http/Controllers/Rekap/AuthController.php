@@ -52,6 +52,7 @@ class AuthController extends Controller
                         'kecamatan' => $kecamatan,
                         'kd_kab' => "",
                         'kd_prov' => "",
+                        'id_rekap' => $login_kab->id,
                     ]);
 
                     return redirect('/rekap/dashboard')->with([

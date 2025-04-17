@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Kabupaten;
+namespace App\Http\Controllers\Rekap;
 
 use App\Http\Controllers\Controller;
 use App\Models\JenisLaporan;
+use App\Models\Rekap;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use App\Models\Rekening;
@@ -12,7 +13,7 @@ use App\Utils\Keuangan;
 use Illuminate\Http\Request;
 use Session;
 
-class KabupatenController extends Controller
+class RekapController extends Controller
 {
     public function index()
     {
@@ -20,11 +21,16 @@ class KabupatenController extends Controller
         $tahun = date('Y');
         $bulan = date('m');
 
-        $kd_prov = Session::get('kd_prov');
-        $kd_kab = Session::get('kd_kab');
+        $id = Session::get('id_rekap');
 
         $saldo_kec = [];
-        $wilayah = Wilayah::where('kode', 'like', $kd_kab . '%')->whereRaw('LENGTH(kode)=8')->with('kec')->orderBy('nama')->get();
+                        $kab = Rekap::where('id', $id)->first();
+                        $lokasiIds = array_filter(explode(',', $kab->lokasi));
+                        $kdKecList = Kecamatan::whereIn('id', $lokasiIds)->pluck('kd_kec');
+                        $wilayah = Wilayah::whereIn('kode', $kdKecList)
+                                                ->whereRaw('LENGTH(kode) = 8')
+                                                ->orderBy('nama', 'ASC')
+                                                ->get();
         foreach ($wilayah as $wl) {
             $saldo_kec[$wl->kode] = [
                 'nama' => $wl->nama,
