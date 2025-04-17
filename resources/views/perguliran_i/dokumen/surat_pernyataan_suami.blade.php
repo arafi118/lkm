@@ -63,7 +63,7 @@
         </tr>
         <tr>
             <td colspan="4">
-                Adalah Suami dari :
+                Adalah {{ $pinkel->anggota->keluarga->kekeluargaan }} dari :
             </td>
         </tr>
         <tr>
