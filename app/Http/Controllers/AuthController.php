@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AdminInvoice;
 use App\Models\AdminJenisPembayaran;
+use App\Models\Rekap;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use App\Models\Menu;
@@ -18,7 +19,7 @@ use Session;
 
 class AuthController extends Controller
 {
-    private const ID_KEC = 352;
+    private const ID_KEC = 1;
 
     public function index()
     {
@@ -43,10 +44,14 @@ class AuthController extends Controller
             $kab = Kabupaten::where('web_kab', explode('//', request()->url(''))[1])
                 ->orWhere('web_kab_alternatif', explode('//', request()->url(''))[1])
                 ->first();
-            if (!$kab) {
-                abort(404);
-            }
-
+                if (!$kab) {
+                    $pus = Rekap::where('web_rekap', explode('//', request()->url(''))[1])
+                        ->first();
+                    if (!$pus) {
+                        abort(404);
+                    }
+                    return redirect('/rekap');
+                }
             return redirect('/kab');
         }
 
@@ -374,7 +379,5 @@ class AuthController extends Controller
             $no++;
         }
 
-        // DB::table('rekening_ojk_test')->insert($rekening);
-        dd($rekening);
     }
 }

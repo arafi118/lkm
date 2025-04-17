@@ -164,7 +164,8 @@
                                     <table class="table table-flush table-hover table-click" width="100%" id="TbLunas">
                                         <thead>
                                             <tr>
-                                                <th>Nama Anggota</th>
+                                                <th>Loan id</th>
+                                                <th>Nama Anggota L</th>
                                                 <th>Alamat</th>
                                                 <th>Tgl Cair</th>
                                                 <th>Verifikasi</th>
@@ -278,6 +279,9 @@
         }])
 
         var tbLunas = CreateTable('#TbLunas', '/perguliran_i/lunas', [{
+            data: 'id',
+            name: 'id'
+        },{
             data: 'anggota.namadepan',
             name: 'anggota.namadepan'
         }, {

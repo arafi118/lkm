@@ -1,7 +1,6 @@
 @php
     use App\Models\Kecamatan;
-    $kecamatan = Kecamatan::where('web_kec', explode('//', URL::to('/'))[1])
-        ->orWhere('web_alternatif', explode('//', URL::to('/'))[1])
+    $kecamatan = Kecamatan::where('id',session('lokasi'))
         ->first();
 
 @endphp
@@ -295,11 +294,18 @@
                             style="background-color: rgb(240, 80, 0);">
                             <b><i class="fa fa-refresh"></i> &nbsp; KEMBALI KE VERIFIKASI</b>
                         </button>
+                        @php
+                            $lokasi_khusus = in_array($kecamatan->id, [1, 351, 352, 353, 354]);
+                            $user_boleh_akses = auth()->user()->jabatan == '1' && auth()->user()->level == '1';
+                            $force_disable = (count($pinj_aktif) > 0 && $kecamatan->id != 280) || ($lokasi_khusus && !$user_boleh_akses);
+                        @endphp
+
                         <button type="button" id="Simpan"
-                            {{ count($pinj_aktif) > 0 && $kecamatan->id != 280 ? 'disabled' : '' }}
+                            {{ $force_disable ? 'disabled' : '' }}
                             class="btn btn-secondary flex-grow-1 ms-2" style="background-color: rgb(112, 109, 109);">
                             <b><i class="fa fa-search-plus"></i> Cairkan</b>
                         </button>
+
                     </div>
                 </div>
             </div>

@@ -2,7 +2,11 @@
     $is_dir = false;
     if (
         (auth()->user()->jabatan == '1' && auth()->user()->level == '1') ||
-        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec == '98')
+        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec == '98') ||
+        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec == '351') ||
+        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec == '352') ||
+        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec == '353') ||
+        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec == '354')
     ) {
         $is_dir = true;
     }
@@ -133,7 +137,7 @@
                                         type="button">
                                         <i class="fa fa-print"></i> Cetak Keterangan Pelunasan
                                     </button>
-                                    @if ($is_dir)
+                                    @if ($is_dir )
                                         <button class="btn btn-danger btn-sm" type="button" id="TombolLunaskan" disabled>
                                             <i class="fa fa-gavel"></i> Validasi Lunas
                                         </button>

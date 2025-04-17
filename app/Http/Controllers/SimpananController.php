@@ -74,23 +74,46 @@ class SimpananController extends Controller
         $title = 'Daftar Simpanan';
         return view('simpanan.index')->with(compact('title'));
     }
-
-    public function getTransaksi()
-    {
+    
+    public function getTransaksi() {
         $bulan = request()->input('bulan');
         $tahun = request()->input('tahun');
         $cif = request()->input('cif');
 
-        $real = RealSimpanan::where('cif',$cif)
-            ->whereMonth('tgl_transaksi', $bulan)
-            ->whereYear('tgl_transaksi', $tahun)
-            ->orderBy('id', 'asc')
-            ->with('transaksi') 
-            ->get();
+        $transaksiQuery = Transaksi::where('id_simp', "$cif");
 
-        return view('simpanan.partials.detail-transaksi', compact('real'));
-    }
-     
+        if ($tahun != 0) {
+            $transaksiQuery->whereYear('tgl_transaksi', $tahun);
+        }
+
+        if ($bulan != 0) {
+            $transaksiQuery->whereMonth('tgl_transaksi', $bulan);
+        }
+
+        $transaksi = $transaksiQuery->with('realSimpanan')->orderBy('tgl_transaksi', 'asc')->get();
+
+        $transaksi->each(function ($item) {
+            $item->ins = User::where('id', $item->id_user)->value('ins');
+        });
+
+        $bulankop = $bulan;
+        $tahunkop = $tahun;
+        
+    $startDate = \Carbon\Carbon::createFromDate(
+        $tahunkop, 
+        $bulankop == 0 ? 1 : $bulankop, 
+        1
+    )->startOfMonth();
+
+    $last_sum = RealSimpanan::where('cif', $cif)
+        ->where('tgl_transaksi', '<', $startDate)
+        ->orderBy('tgl_transaksi', 'desc')
+        ->orderBy('id', 'desc')
+        ->value('sum') ?? 0;
+
+    return view('simpanan.partials.detail-transaksi', compact('transaksi', 'bulankop', 'tahunkop', 'cif', 'last_sum'));
+}
+
 
     public function detailAnggota($id)
     {
@@ -116,7 +139,6 @@ class SimpananController extends Controller
             'pinjaman.sts'
         ])->first();
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
-        $jenis_jasa = JenisJasa::all();
         $sistem_angsuran = SistemAngsuran::all();
         $js = JenisSimpanan::where(function ($query) use ($kec) {
             $query->where('lokasi', '0')
@@ -128,7 +150,7 @@ class SimpananController extends Controller
 
         $js_dipilih = $anggota->jenis_produk_pinjaman;
 
-        return view('simpanan.partials.register')->with(compact('anggota', 'kec', 'jenis_jasa', 'sistem_angsuran', 'js', 'js_dipilih'));
+        return view('simpanan.partials.register')->with(compact('anggota', 'kec', 'sistem_angsuran', 'js', 'js_dipilih'));
     }
 
     public function jenis_simpanan($id, Request $request)
@@ -198,8 +220,69 @@ class SimpananController extends Controller
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $simpanan = $simpanan->where('id', $simpanan->id)->with(['anggota', 'js'])->first();
         $title = 'Cetak Rekening Koran' . $simpanan->anggota->namadepan;
+        dd($simpanan);
         return view('simpanan.partials.cetak_koran')->with(compact('title', 'simpanan', 'kec'));
     }
+
+    
+    public function cetakKwitansi($idt)
+    {
+        $transaksi = Transaksi::where('idt', $idt)->first();
+        $user = auth()->user();
+        $userTransaksi = User::find($transaksi->id_user);
+    
+        // Logika untuk menentukan user yang ditampilkan
+        $userDisplay = ($user->id == $userTransaksi->id) 
+            ? $user->ins 
+            : $user->ins . ' / ' . $userTransaksi->ins;
+
+        $user = $userDisplay;
+        // Menentukan kode berdasarkan jenis rekening
+    
+        $kode=substr($transaksi->id_simp, 0, 1);
+
+            $title = 'Cetak Pada Kwitansi '.$transaksi->id_simp;
+
+        return view('simpanan.partials.cetak_pada_kwitansi', compact(
+            'transaksi',
+            'user',
+            'title',
+            'kode'
+        ));
+    }
+
+    public function cetakPadaBuku($idt)
+    {
+        $saldo = 0;
+        $transaksi = Transaksi::where('idt', $idt)->with('realSimpanan')->orderBy('tgl_transaksi', 'asc')->first();
+        $transaksiCount = Transaksi::where('id_simp', $transaksi->id_simp)
+                                   ->where('idt', '<=', $idt)
+                                   ->count();
+        $user = auth()->user();
+        $userTransaksi = User::find($transaksi->id_user);
+    
+        // Logika untuk menentukan user yang ditampilkan
+        $userDisplay = ($user->id == $userTransaksi->id) 
+            ? $user->ins 
+            : $user->ins . ' / ' . $userTransaksi->ins;
+        $user = $userDisplay;
+        $kode=substr($transaksi->id_simp, 0, 1);
+                        if(in_array(substr($transaksi->id_simp, 0, 1), ['1', '2', '5'])) {
+                            $debit = 0;
+                            $kredit = $transaksi->jumlah;
+                            $saldo += $transaksi->jumlah;
+                        } elseif(in_array(substr($transaksi->id_simp, 0, 1), ['3', '4', '6', '7'])) {
+                            $debit = $transaksi->jumlah;
+                            $kredit = 0;
+                            $saldo -= $transaksi->jumlah;
+                        } else {
+                            $debit = 0;
+                            $kredit = 0;
+                        }
+
+            $title = 'Cetak Pada Buku '.$transaksi->id_simp;
+            return view('simpanan.partials.cetak_pada_buku')->with(compact('title','transaksi', 'transaksiCount', 'kode', 'user', 'debit', 'kredit',  'saldo'));
+     }
 
     public function simpanTransaksi(Request $request)
     {
@@ -213,10 +296,24 @@ class SimpananController extends Controller
         $namaDebitur = $request->nama_debitur;
         $cif = $request->nia;
 
-        $jenisSimpanan = JenisSimpanan::where('id', substr($nomorRekening, 0, 1))->first();
-
+        $simpanan = Simpanan::where('id', $cif)->first();
+        $jenisSimpanan = JenisSimpanan::where('id', $simpanan->jenis_simpanan)->first();
+        
         $transaksi = new Transaksi();
         $transaksi->tgl_transaksi = Tanggal::tglNasional($tglTransaksi);
+
+
+
+
+
+
+
+
+
+
+
+
+
         $transaksi->rekening_debit = $jenisMutasi == '1' ? $jenisSimpanan->rek_kas : $jenisSimpanan->rek_simp;
         $transaksi->rekening_kredit = $jenisMutasi == '1' ? $jenisSimpanan->rek_simp : $jenisSimpanan->rek_kas;
         $transaksi->idtp = 0;
@@ -229,10 +326,9 @@ class SimpananController extends Controller
         $transaksi->urutan = 0;
         $transaksi->id_user = auth()->user()->id;
         
-        $maxIdt = Transaksi::where('id_simp', $cif)->max('idt');
         $kode = ($jenisMutasi == 1) ? 2 : 3;
-        $real = RealSimpanan::where('cif', $cif)->latest('tgl_transaksi')->first();
-
+        $real = RealSimpanan::where('cif', $cif)->latest('tgl_transaksi')->orderBy('id', 'DESC')->first();
+        
         $jumlahBersih = str_replace(',', '', str_replace('.00', '', $jumlah));
 
         $sumSebelumnya = $real ? $real->sum : 0;
@@ -240,21 +336,25 @@ class SimpananController extends Controller
             ? $sumSebelumnya + $jumlahBersih 
             : $sumSebelumnya - $jumlahBersih;
 
-        RealSimpanan::create([
-            'cif' => $cif,
-            'idt' => $maxIdt,
-            'tgl_transaksi' => Tanggal::tglNasional($tglTransaksi),
-            'real_d' => ($jenisMutasi == 2) ? $jumlahBersih : 0,
-            'real_k' => ($jenisMutasi == 1) ? $jumlahBersih : 0,
-            'sum' => $sumBaru,
-            'lu' => date('Y-m-d H:i:s'),
-            'id_user' => auth()->user()->id,
-        ]);
         if ($transaksi->save()) {
+                $maxIdt = Transaksi::max('idt');
+
+                RealSimpanan::create([
+                    'cif' => $cif,
+                    'idt' => $maxIdt,
+                    'kode' => $kode,
+                    'tgl_transaksi' => Tanggal::tglNasional($tglTransaksi),
+                    'real_d' => ($jenisMutasi == 2) ? $jumlahBersih : 0,
+                    'real_k' => ($jenisMutasi == 1) ? $jumlahBersih : 0,
+                    'sum' => $sumBaru,
+                    'lu' => date('Y-m-d H:i:s'),
+                    'id_user' => auth()->user()->id,
+                ]);
             return response()->json(['success' => true]);
         } else {
             return response()->json(['success' => false, 'message' => 'Gagal menyimpan transaksi']);
         }
+
     }
 
     public function store(Request $request)
@@ -387,7 +487,8 @@ class SimpananController extends Controller
             $cif = $simpanan->id;
             $nomorRekening = $simpanan->no_rekening;
             $namaDebitur = $simpanan->anggota->namadepan;
-            $jenisSimpanan = JenisSimpanan::where('id', substr($nomorRekening, 0, 1))->first();
+            $simpanan = Simpanan::where('id', $cif)->first();
+            $jenisSimpanan = JenisSimpanan::where('id', $simpanan->jenis_simpanan)->first();
 
             
             $real = RealSimpanan::where('cif', $cif)->latest('tgl_transaksi')->first();

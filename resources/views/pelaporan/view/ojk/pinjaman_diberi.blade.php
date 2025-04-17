@@ -237,12 +237,13 @@ $section = 0;
 
                     $Jenis_Agunan = $jenisJaminanMap[$jenisJaminan] ?? 'Tidak Diketahui';
                     $Nilai_Agunan = number_format($nilaiJaminan, 2);
+
                 @endphp
 
                 <tr align="right" height="15px" class="style9">
                     <td class="l t" align="center">{{ $nomor++ }}</td>
                     <td class="l t" align="left">{{ $pinj_i->namadepan }} - {{ $pinj_i->id }}</td>
-                    <td class="l t" align="left">Pinjaman Modal Kerja</td>
+                    <td class="l t" align="left">{{ strtoupper($jpp_i->deskripsi_jpp) }}</td>
                     <td class="l t" align="center">{{ $pinj_i->angsuran_pokok->nama_sistem }}</td>
                     <td class="l t" align="center">{{ Tanggal::tglIndo($pinj_i->tgl_cair) }}</td>
                     <td class="l t" align="center">{{ Tanggal::tglIndo($ktgl2) }}</td>

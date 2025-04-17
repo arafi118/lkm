@@ -3,9 +3,9 @@
     "",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\pelaporan",
-    "\\resources\\views\\pelaporan\\view"
+    "\\resources\\views\\perguliran_i",
+    "\\resources\\views\\perguliran_i\\partials"
   ],
-  "SelectedNode": "\\resources\\views\\pelaporan\\view\\perubahan_modal.blade.php",
+  "SelectedNode": "\\resources\\views\\perguliran_i\\partials\\lunas.blade.php",
   "PreviewInSolutionExplorer": false
 }
