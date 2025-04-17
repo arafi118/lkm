@@ -16,9 +16,15 @@
         $waktu = $wt_cair[0];
         $tempat = $wt_cair[1] ?? ' . . . . . . . ';
     }
-    $redaksi_spk = str_replace(' <ol> ', '', str_replace(' </ol> ', '', $kec->redaksi_spk));
-    $redaksi_spk = str_replace(' <ul> ', '', str_replace(' </ul> ', '', $redaksi_spk));
 
+    $html = str_replace(['\\"', '\\/'], ['"', '/'], trim($kec->redaksi_spk, '"'));
+    $html = preg_replace_callback(
+        '/<ul>(.*?)<\/ul>/s',
+        function ($matches) {
+            return '<ol type="a">' . $matches[1] . '</ol>';
+        },
+        $html,
+    );
 @endphp
 @extends('perguliran_i.dokumen.layout.base')
 @section('content')
@@ -176,19 +182,7 @@
                     atas barang jaminan baik untuk dimiliki {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
                     {{ $kec->nama_kec }} maupun dijual/dipindahtangankan kepada orang lain.
                 </li>
-                <li>
-                    Dikenakan Denda 0.1% per bulan dari jumlah angsuran apabila ada keterlambatan membayar angsuran.
-                </li>
-                <li>
-                    Akan dikenakan Pinalti apabila ada pelunasan pinjaman sebelum jangka waktu yang telah disepakati. </li>
-                <ol type="a">
-                    <li>25% Pembayaran yang masuk akan dikenakan denda 3x Jasa.</li>
-                    <li>50% Pembayaran yang masuk akan dikenakan denda 2x Jasa.</li>
-                    <li>75% Pembayaran yang masuk akan dikenakan denda 1x Jasa.</li>
-                </ol>
-                <li>
-                    {{ str_replace('"', '', stripslashes(strip_tags($kec->redaksi_spk))) }}
-                </li>
+                {!! $html !!}
             </ol>
         </div>
     </div>
