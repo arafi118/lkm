@@ -63,7 +63,7 @@
         ],
 
         [
-            'title' => 'surat pernyataan suami',
+            'title' => 'Surat Pernyataan Penjamin',
             'file' => 'suratpernyataansuami',
             'withExcel' => false,
         ],
@@ -72,7 +72,7 @@
     if ($kecamatan && ($kecamatan->id == 1 || $kecamatan->id == 279)) {
         // Jika ID kecamatan adalah 1 atau 10
         $dokumen_proposal[] = [
-            'title' => 'Surat Pernyataan',
+            'title' => 'Surat Persetujuan Penjamin',
             'file' => 'SuratPernyataan',
             'withExcel' => false,
         ];
