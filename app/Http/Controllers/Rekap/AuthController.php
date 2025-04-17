@@ -12,12 +12,11 @@ use Auth;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
-{
+{ 
     public function index()
     {
         $url = request()->getHost();
         $kab = Rekap::where('web_rekap', $url)->first();
-
             $nama_kab = ' Rekap ' . ucwords(strtolower($kab->nama_rekap));
 
         return view('rekap.auth.login')->with(compact('nama_kab'));
@@ -44,10 +43,11 @@ class AuthController extends Controller
                     
                         $lokasiIds = array_filter(explode(',', $kab->lokasi));
                         $kdKecList = Kecamatan::whereIn('id', $lokasiIds)->pluck('kd_kec');
-                        $kecamatan = Wilayah::whereIn('kode', $kdKecList)
-                                                ->whereRaw('LENGTH(kode) = 8')
-                                                ->orderBy('nama', 'ASC')
-                                                ->get();
+                        $kecamatan = Kecamatan::whereIn('kd_kec', $kdKecList)
+                                        ->select('id', 'kd_kec as kode', 'nama_kec as nama')
+                                        ->orderBy('nama_kec', 'ASC')
+                                        ->get();
+
                     session([
                         'nama_kab' => ucwords(strtolower($login_kab->nama_rekap)),
                         'kecamatan' => $kecamatan,

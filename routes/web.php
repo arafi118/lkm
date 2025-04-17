@@ -109,7 +109,7 @@ Route::group(['prefix' => 'kab', 'as' => 'kab.', 'middleware' => 'kab'], functio
 Route::get('/rekap', [RekapAuthController::class, 'index'])->middleware('guest');
 Route::post('/rekap/login', [RekapAuthController::class, 'login'])->middleware('guest');
 
-Route::group(['prefix' => 'rekap', 'as' => 'rekap.', 'middleware' => 'rekap'], function () {
+Route::group(['prefix' => 'rekap', 'as' => 'rekap.', 'middleware' => 'kab'], function () {
     Route::get('/dashboard', [RekapController::class, 'index']);
     Route::get('/laporan', [RekapController::class, 'laporan']);
     Route::get('/laporan/sub_laporan/{laporan}', [RekapController::class, 'subLaporan']);

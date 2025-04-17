@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <form role="form" method="post" action="/kab/login" class="text-start">
+                                <form role="form" method="post" action="/rekap/login" class="text-start">
                                     @csrf
 
                                     <div
