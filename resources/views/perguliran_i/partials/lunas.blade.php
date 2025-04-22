@@ -2,11 +2,11 @@
     $is_dir = false;
     if (
         (auth()->user()->jabatan == '1' && auth()->user()->level == '1') ||
-        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec == '98') ||
-        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec == '351') ||
-        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec == '352') ||
-        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec == '353') ||
-        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec == '354')
+        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec->id == '98') ||
+        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec->id == '351') ||
+        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec->id == '352') ||
+        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec->id == '353') ||
+        (auth()->user()->jabatan == '3' && auth()->user()->level == '1' && $kec->id == '354')
     ) {
         $is_dir = true;
     }
