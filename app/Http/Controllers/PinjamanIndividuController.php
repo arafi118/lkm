@@ -50,6 +50,7 @@ class PinjamanIndividuController extends Controller
             $pinj_i = PinjamanIndividu::where('pinjaman_anggota_' . session('lokasi') . '.status', 'P')
                 ->where('jenis_pinjaman', 'I')
                 ->orderBy('tgl_proposal', 'desc')
+                ->orderBy('pinjaman_anggota_' . session('lokasi') . '.id', 'desc')
                 ->with('anggota', 'anggota.d', 'jpp', 'sts');
 
             return DataTables::of($pinj_i)
@@ -92,6 +93,7 @@ class PinjamanIndividuController extends Controller
             $pinj_i = PinjamanIndividu::where('pinjaman_anggota_' . session('lokasi') . '.status', 'V')
                 ->where('jenis_pinjaman', 'I')
                 ->orderBy('tgl_verifikasi', 'desc')
+                ->orderBy('pinjaman_anggota_' . session('lokasi') . '.id', 'desc')
                 ->with('anggota', 'anggota.d', 'jpp', 'sts');
 
             return DataTables::of($pinj_i)
@@ -134,6 +136,7 @@ class PinjamanIndividuController extends Controller
             $pinj_i = PinjamanIndividu::where('pinjaman_anggota_' . session('lokasi') . '.status', 'W')
                 ->where('jenis_pinjaman', 'I')
                 ->orderBy('tgl_tunggu', 'desc')
+                ->orderBy('pinjaman_anggota_' . session('lokasi') . '.id', 'desc')
                 ->with('anggota', 'anggota.d', 'jpp', 'sts');
 
             return DataTables::of($pinj_i)
@@ -176,6 +179,7 @@ class PinjamanIndividuController extends Controller
             $pinj_i = PinjamanIndividu::where('pinjaman_anggota_' . session('lokasi') . '.status', 'A')
                 ->where('jenis_pinjaman', 'I')
                 ->orderBy('tgl_cair', 'desc')
+                ->orderBy('pinjaman_anggota_' . session('lokasi') . '.id', 'desc')
                 ->with('anggota', 'anggota.d', 'jpp', 'sts');
 
             return DataTables::of($pinj_i)
@@ -220,6 +224,7 @@ class PinjamanIndividuController extends Controller
                 ->where('jenis_pinjaman', 'I')
                 ->whereRaw($tb_pinkel . '.alokasi<=(SELECT SUM(realisasi_pokok) FROM real_angsuran_i_' . Session::get('lokasi') . ' WHERE loan_id=' . $tb_pinkel . '.id)')
                 ->orderBy('tgl_cair', 'desc')
+                ->orderBy('pinjaman_anggota_' . session('lokasi') . '.id', 'desc')
                 ->with('anggota', 'anggota.d', 'jpp', 'sts');
                 
             return DataTables::of($pinj_i)
