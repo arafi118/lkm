@@ -49,7 +49,8 @@ class PinjamanIndividuController extends Controller
         if (request()->ajax()) {
             $pinj_i = PinjamanIndividu::where('status', 'P')
                 ->where('jenis_pinjaman', 'I')
-                ->with('anggota', 'anggota.d', 'jpp', 'sts')->get();
+                ->with('anggota', 'anggota.d', 'jpp', 'sts')
+                ->orderBy('tgl_proposal', 'desc')->get();
 
             /**
              * [
@@ -100,7 +101,8 @@ class PinjamanIndividuController extends Controller
         if (request()->ajax()) {
             $pinj_i = PinjamanIndividu::where('status', 'V')
                 ->where('jenis_pinjaman', 'I')
-                ->with('anggota', 'anggota.d', 'jpp', 'sts')->get();
+                ->with('anggota', 'anggota.d', 'jpp', 'sts')
+                ->orderBy('tgl_verifikasi', 'desc')->get();
 
             return DataTables::of($pinj_i)
                 ->addColumn('jasa', function ($row) {
@@ -140,7 +142,8 @@ class PinjamanIndividuController extends Controller
         if (request()->ajax()) {
             $pinj_i = PinjamanIndividu::where('status', 'W')
                 ->where('jenis_pinjaman', 'I')
-                ->with('anggota', 'anggota.d', 'jpp', 'sts')->get();
+                ->with('anggota', 'anggota.d', 'jpp', 'sts')
+                ->orderBy('tgl_tunggu', 'desc')->get();
 
             return DataTables::of($pinj_i)
                 ->addColumn('jasa', function ($row) {
@@ -176,7 +179,8 @@ class PinjamanIndividuController extends Controller
         if (request()->ajax()) {
             $pinj_i = PinjamanIndividu::where('status', 'A')
                 ->where('jenis_pinjaman', 'I')
-                ->with('anggota', 'anggota.d', 'jpp', 'sts')->get();
+                ->with('anggota', 'anggota.d', 'jpp', 'sts')
+                ->orderBy('tgl_cair', 'desc')->get();
 
             return DataTables::of($pinj_i)
                 ->addColumn('jasa', function ($row) {
@@ -214,7 +218,8 @@ class PinjamanIndividuController extends Controller
             $pinj_i = PinjamanIndividu::where('status', 'A')
                 ->where('jenis_pinjaman', 'I')
                 ->whereRaw($tb_pinkel . '.alokasi<=(SELECT SUM(realisasi_pokok) FROM real_angsuran_i_' . Session::get('lokasi') . ' WHERE loan_id=' . $tb_pinkel . '.id)')
-                ->with('anggota', 'jpp', 'sts')->get();
+                ->with('anggota', 'anggota.d', 'jpp', 'sts')
+                ->orderBy('tgl_cair', 'desc')->get();
 
             return DataTables::of($pinj_i)
                 ->addColumn('jasa', function ($row) {

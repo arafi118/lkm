@@ -1,14 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\app\\Http\\Controllers\\Kabupaten",
-    "\\app\\Models",
-    "\\resources",
-    "\\resources\\views",
-    "\\resources\\views\\perguliran_i",
-    "\\resources\\views\\perguliran_i\\partials",
-    "\\resources\\views\\rekap\\auth"
+    ""
   ],
-  "SelectedNode": "\\resources\\views\\perguliran_i\\partials\\waiting.blade.php",
+  "SelectedNode": "\\G:\\laragon\\www\\lkm",
   "PreviewInSolutionExplorer": false
 }
