@@ -20,10 +20,10 @@
         <tr>
             <td colspan="3" align="center">
                 <div style="font-size: 18px;">
-                    LAPORAN PERKEMBANGAN PINJAMAN PER KELOMPOK
+                    LAPORAN PERKEMBANGAN PINJAMAN NASABAH
                 </div>
                 <div style="font-size: 18px; font-weight: bolder; text-transform: uppercase;">
-                    KELOMPOK {{ $id_pinj_i->jpp->nama_jpp }} {{ $id_pinj_i->anggota->namadepan }}
+                    PRODUK PINJAMAN {{ $id_pinj_i->jpp->nama_jpp }} {{ $id_pinj_i->anggota->namadepan }}
                     {{ $id_pinj_i->anggota->d->sebutan_desa->sebutan_desa }} {{ $id_pinj_i->anggota->d->nama_desa }}
                 </div>
             </td>
@@ -35,7 +35,7 @@
     <table border="0" width="90%" align="center" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
             <td width="30">&nbsp;</td>
-            <td width="50">Kd. Kelompok</td>
+            <td width="50">NIK</td>
             <td width="100">: &nbsp;
                 <b>{{ $id_pinj_i->anggota->nik}}</b>
             </td>
@@ -46,7 +46,7 @@
         </tr>
         <tr>
             <td width="30">&nbsp;</td>
-            <td width="50">Nama Kelompok</td>
+            <td width="50">Nama Nasabah</td>
             <td width="100">: &nbsp;
                 <b>{{ $id_pinj_i->anggota->namadepan}}</b>
             </td>

@@ -27,7 +27,7 @@
     </table>
     <table border="0" width="100%" align="center"cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
-            <td width="100">Kode Kelompok/Loan ID</td>
+            <td width="100">Kode Nasabah/Loan ID</td>
             <td align="center" width="5">:</td>
             <td>
                 <b>{{ $pinkel->anggota->kd_kelompok }} / {{ $pinkel->id }}</b>

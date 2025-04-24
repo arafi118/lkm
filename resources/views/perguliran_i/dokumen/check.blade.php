@@ -24,7 +24,7 @@
 
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
-            <td width="100">Kode Kelompok</td>
+            <td width="100">Kode Nasabah</td>
             <td width="5">:</td>
             <td style="font-weight: bold;">{{ $pinkel->anggota->nik }}</td>
 
@@ -36,13 +36,13 @@
         </tr>
 
         <tr>
-            <td>Nama Kelompok</td>
+            <td>Nama Nasabah</td>
             <td width="5">:</td>
             <td style="font-weight: bold;">{{ $pinkel->anggota->namadepan }}</td>
 
             <td>&nbsp;</td>
 
-            <td>Ketua</td>
+            <td>Panggilan Nasabah</td>
             <td width="5">:</td>
             <td style="font-weight: bold;">{{ $pinkel->anggota->namadepan }}</td>
         </tr>

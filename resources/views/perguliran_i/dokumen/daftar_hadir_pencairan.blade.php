@@ -96,7 +96,7 @@
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td align="center">Ketua Kelompok {{ $pinkel->anggota->nama_kelompok }}</td>
+            <td align="center">___________________</td>
         </tr>
         <tr>
             <td colspan="2" height="40">&nbsp;</td>
@@ -105,7 +105,7 @@
             <td>&nbsp;</td>
             <td align="center">
                 <u>
-                    <b>{{ $pinkel->anggota->ketua }}</b>
+                    <b>____________________</b>
                 </u>
             </td>
         </tr>

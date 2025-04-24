@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\app",
+    "\\app\\Models",
+    "\\resources",
+    "\\resources\\views",
+    "\\resources\\views\\perguliran_i"
   ],
-  "SelectedNode": "\\G:\\laragon\\www\\lkm",
+  "SelectedNode": "\\app\\Models\\PinjamanIndividu.php",
   "PreviewInSolutionExplorer": false
 }
