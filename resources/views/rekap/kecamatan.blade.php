@@ -2,7 +2,7 @@
     $thn_awal = explode('-', $kec->tgl_pakai)[0];
 @endphp
 
-@extends('kabupaten.layout.base')
+@extends('rekap.layout.base')
 
 @section('content')
     <div class="card mb-3">
@@ -206,7 +206,7 @@
                 }
             })
 
-            childWindow = window.open('/kab/simpan_saldo?bulan=00&tahun=' + tahun, '_blank');
+            childWindow = window.open('/rekap/simpan_saldo?bulan=00&tahun=' + tahun, '_blank');
         })
 
         window.addEventListener('message', function(event) {

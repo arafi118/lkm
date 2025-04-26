@@ -1,4 +1,4 @@
-@extends('kabupaten.layout.base')
+@extends('rekap.layout.base')
 
 @section('content')
 @endsection

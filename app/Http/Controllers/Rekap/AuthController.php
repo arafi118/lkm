@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Rekap;
 
 use App\Http\Controllers\Controller;
 use App\Models\Rekap;
-use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use App\Models\Wilayah;
 use App\Utils\Keuangan;
@@ -16,10 +15,10 @@ class AuthController extends Controller
     public function index()
     {
         $url = request()->getHost();
-        $kab = Rekap::where('web_rekap', $url)->first();
-            $nama_kab = ' Rekap ' . ucwords(strtolower($kab->nama_rekap));
+        $rekap = Rekap::where('web_rekap', $url)->first();
+            $nama_rekap = ' Rekap ' . ucwords(strtolower($rekap->nama_rekap));
 
-        return view('rekap.auth.login')->with(compact('nama_kab'));
+        return view('rekap.auth.login')->with(compact('nama_rekap'));
     }
 
     public function login(Request $request)
@@ -34,14 +33,14 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        $kab = Rekap::where('web_rekap', $url)->first();
-        $login_kab = Rekap::where('username', $data['username'])->first();
-        if ($login_kab) {
-            if ($login_kab->password == $kab->password && $login_kab->password === $data['password']) {
-                if (Auth::guard('kab')->loginUsingId($login_kab->id)) {
+        $rekap = Rekap::where('web_rekap', $url)->first();
+        $login_rekap = Rekap::where('username', $data['username'])->first();
+        if ($login_rekap) {
+            if ($login_rekap->password == $rekap->password && $login_rekap->password === $data['password']) {
+                if (Auth::guard('rekap')->loginUsingId($login_rekap->id)) {
                     $request->session()->regenerate();
                     
-                        $lokasiIds = array_filter(explode(',', $kab->lokasi));
+                        $lokasiIds = array_filter(explode(',', $rekap->lokasi));
                         $kdKecList = Kecamatan::whereIn('id', $lokasiIds)->pluck('kd_kec');
                         $kecamatan = Kecamatan::whereIn('kd_kec', $kdKecList)
                                         ->select('id', 'kd_kec as kode', 'nama_kec as nama')
@@ -49,15 +48,15 @@ class AuthController extends Controller
                                         ->get();
 
                     session([
-                        'nama_kab' => ucwords(strtolower($login_kab->nama_rekap)),
+                        'nama_rekap' => ucwords(strtolower($login_rekap->nama_rekap)),
                         'kecamatan' => $kecamatan,
-                        'kd_kab' => "",
+                        'kd_rekap' => "",
                         'kd_prov' => "",
-                        'id_rekap' => $login_kab->id,
+                        'id_rekap' => $login_rekap->id,
                     ]);
 
                     return redirect('/rekap/dashboard')->with([
-                        'pesan' => 'Login Kabupaten ' . ucwords(strtolower($login_kab->nama_kab)) . ' Berhasil'
+                        'pesan' => 'Login rekapitulasi ' . ucwords(strtolower($login_rekap->nama_rekap)) . ' Berhasil'
                     ]);
                 }
             }
@@ -69,8 +68,8 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $user = auth()->guard('kab')->user()->nama_kab;
-        Auth::guard('kab')->logout();
+        $user = auth()->guard('rekap')->user()->nama_rekap;
+        Auth::guard('rekap')->logout();
 
         return redirect('/rekap')->with('pesan', 'Terima Kasih');
     }

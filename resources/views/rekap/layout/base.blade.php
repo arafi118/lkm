@@ -7,7 +7,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/icon/favicon.png">
     <link rel="icon" type="image/png" href="/assets/img/icon/favicon.png">
     <title>
-        {{ $title }} &mdash; Aplikasi SI UPK Online
+        {{ $title }} &mdash; Aplikasi SI LKM v8.23-a2
     </title>
 
     <link rel="canonical" href="https://www.creative-tim.com/product/material-dashboard-pro" />
@@ -51,9 +51,9 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-    @include('kabupaten.layout.sidebar')
+    @include('rekap.layout.sidebar')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        @include('kabupaten.layout.navbar')
+        @include('rekap.layout.navbar')
 
         <div class="container-fluid py-3">
             @yield('content')

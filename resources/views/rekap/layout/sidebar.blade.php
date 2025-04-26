@@ -29,7 +29,7 @@
             aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand text-center" href="/master/dashboard">
             <span class="ms-1 font-weight-bold text-white" id="nama_lembaga_sort">
-                {{ Session::get('nama_kab') }} Page
+                {{ Session::get('nama_rekap') }} Page
             </span>
         </a>
     </div>
@@ -40,13 +40,13 @@
                 <a href="#" class="nav-link text-white">
                     <img src="https://w7.pngwing.com/pngs/326/629/png-transparent-desktop-pc-pc-computer-calculator-icon.png"
                         class="avatar" id="profil_avatar">
-                    <span class="nav-link-text ms-2 ps-1 nama_user">{{ Session::get('nama_kab') }}</span>
+                    <span class="nav-link-text ms-2 ps-1 nama_user">{{ Session::get('nama_rekap') }}</span>
                 </a>
             </li>
             <hr class="horizontal light mt-0">
 
             <li class="nav-item nav-item-link {{ active('dashboard') }}">
-                <a class="nav-link text-white {{ active('dashboard') }}" href="/kab/dashboard">
+                <a class="nav-link text-white {{ active('dashboard') }}" href="/rekap/dashboard">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
                     </div>
@@ -77,7 +77,7 @@
                         @foreach (Session::get('kecamatan') as $kec)
                             <li class="nav-item nav-item-link {{ active($kec->kode) }}">
                                 <a class="nav-link text-white {{ active($kec->kode) }}"
-                                    href="/kab/kecamatan/{{ $kec->kode }}"">
+                                    href="/rekap/kecamatan/{{ $kec->kode }}"">
                                     <span class="sidenav-mini-icon">
                                         {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
                                     </span>

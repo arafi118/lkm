@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="position-relative mb-3">
-                <label for="hitung_bunga" class="form-label">Default Pembulatan</label>
+                <label for="hitung_bunga" class="form-label">Jenis Perhitungan Bunga</label>
                 <select class="form-control" name="hitung_bunga" id="hitung_bunga">
                     <option {{ $kec->hitung_bunga == '0' ? 'selected' : '' }} value="0">Silakan Pilih Perhitungan</option>
                     <option {{ $kec->hitung_bunga == '1' ? 'selected' : '' }} value="1">Saldo Terakhir</option>

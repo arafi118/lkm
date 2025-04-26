@@ -50,6 +50,11 @@ return [
             'driver' => 'session',
             'provider' => 'regencies',
         ],
+
+        'rekap' => [
+            'driver' => 'session',
+            'provider' => 'recapitulation',
+        ],
     ],
 
     /*
@@ -83,6 +88,11 @@ return [
         'regencies' => [
             'driver' => 'eloquent',
             'model' => App\Models\Kabupaten::class,
+        ],
+
+        'recapitulation' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Rekap::class,
         ],
     ],
 

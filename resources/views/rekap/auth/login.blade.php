@@ -7,7 +7,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/icon/favicon.png">
     <link rel="icon" type="image/png" href="/assets/img/icon/favicon.png">
     <title>
-        SI UPK Online
+        SI LKM v8.23-a2
     </title>
     <meta name="keywords" content="">
     <meta name="description" content="">
@@ -48,7 +48,7 @@
                                 <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
                                     <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
                                     <div class="text-center">
-                                        Login {{ $nama_kab }}
+                                        Login {{ $nama_rekap }}
                                     </div>
                                 </div>
                             </div>
