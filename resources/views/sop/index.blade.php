@@ -79,7 +79,8 @@
                                 <a role="tab" class="btn btn-white " style="width: 280px;" id="simpanan"
                                     data-bs-toggle="tab" href="#tab-content-8">
                                     <div class="left-align">
-                                        <i class="fa-solid fa-chart-simple"></i>&nbsp;&nbsp;<span>Sistem Simpanan</span>
+                                        <i class="fa-solid fa-vault"></i>&nbsp;&nbsp;<span>Sistem Simpanan</span>
+
                                     </div>
                                 </a>
                             </div>
@@ -208,7 +209,7 @@
                             <div class="row">
                                 <div class="main-card mb-3 card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Sistem Peminjam</h5>
+                                        <h5 class="card-title">Pengaturan Simpanan</h5>
                                         @include('sop.partials._simpanan')
                                     </div>
                                 </div>

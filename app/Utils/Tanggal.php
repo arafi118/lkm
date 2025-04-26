@@ -29,9 +29,13 @@ class Tanggal
 
         return date('d/m/Y');
     }
-
+    
     public static function tglNasional($tanggal)
     {
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $tanggal)) {
+            return $tanggal; 
+        }
+    
         $tgl = Carbon::createFromFormat('d/m/Y', $tanggal)->format('Y-m-d');
         return $tgl;
     }

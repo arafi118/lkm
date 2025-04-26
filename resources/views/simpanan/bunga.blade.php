@@ -64,9 +64,11 @@
 
                                 </div>
                                 <div class="col-md-8">
-                                    <div class="alert alert-info d-flex align-items-center" role="alert" style="background-color: #e7f3fe; color: #31708f; border: 1px solid #bce8f1;">
-                                        <i class="fas fa-info-circle" style="font-size: 1.5rem; margin-right: 10px;"></i>
-                                           <!-- CIF -->
+                                    <div class="alert alert-info d-flex " role="alert" style="background-color: #e7f3fe; color: #31708f; border: 1px solid #bce8f1;">
+                                        <i class="fas fa-info-circle" style="font-size: 1.5rem; margin-right: 10px; margin-top: 10px; vertical-align:top"></i>
+                                        <div id="info-bunga">
+                                            
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -84,72 +86,66 @@
 
 @section('script')
     <script>
+        
+
         $(document).ready(function() {
-            function prosesKalkulasi() {
-                var cif = $('#cif').val();
+            var currentMonth = $('#bulants').val();
+            var currentYear = $('#tahunts').val();
 
-                Swal.fire({
-                    title: 'Mohon menunggu',
-                    text: 'Sedang memproses transaksi...',
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                    willOpen: () => {
-                        Swal.showLoading();
-                    },
-                });
+            tableTransaksi(currentMonth, currentYear);
 
-                $.ajax({
-                    url: '/bunga/simpan-transaksi',
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        cif: cif
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            Swal.close();
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: 'Transaksi berhasil disimpan',
-                                confirmButtonText: 'Oke'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    refreshTransaksiContainer();
-                                    resetForm();
-                                }
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: 'Gagal menyimpan transaksi: ' + response.message,
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Terjadi kesalahan: ' + error,
-                        });
-                    }
+            function tableTransaksi(bulan, tahun) {
+                $.get('/bunga/info', {
+                    bulan: bulan,
+                    tahun: tahun
+                }, function(result) {
+                    $('#info-bunga').html(result);
+                }).fail(function(xhr, status, error) {
+                    console.error("Error loading :", error);
+                    $('#info-bunga').html('<p>Error loading. Please try again.</p>');
                 });
             }
 
-            // Klik tombol proses
-            $('#simpanBunga').click(function() {
-                prosesKalkulasi();
+            $('#bulants, #tahunts').change(function() {
+                var bulan = $('#bulants').val();
+                var tahun = $('#tahunts').val();
+                tableTransaksi(bulan, tahun);
             });
 
-            // Enter pada input CIF
-            $('#cif').keypress(function(event) {
-                if (event.which === 13) { // 13 adalah keycode untuk Enter
-                    event.preventDefault(); // Mencegah form submit secara default
-                    prosesKalkulasi();
-                }
-            });
         });
 
+        let childWindow, loading;
+        $(document).on('click', '#simpanBunga', function(e) {
+            e.preventDefault();
+
+            var bulan = $('select#bulants').val();
+            var tahun = $('select#tahunts').val();
+            var cif = $('#cif').val().trim(); // ambil input dari #cif
+
+            loading = Swal.fire({
+                title: "Mohon Menunggu..",
+                html: "Proses Hitung bunga",
+                timerProgressBar: true,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Susun URL dengan parameter yang sudah diencode
+            var url = '/simpan_bunga?bulan=' + encodeURIComponent(bulan) +
+                        '&tahun=' + encodeURIComponent(tahun) +
+                        '&start=0' +
+                        '&id=' + encodeURIComponent(cif);
+
+            childWindow = window.open(url, '_blank');
+        });
+
+        window.addEventListener('message', function(event) {
+            if (event.data === 'closed') {
+                loading.close()
+                window.location.reload()
+            }
+        })
     </script>
 @endsection

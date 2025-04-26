@@ -464,6 +464,418 @@ class SimpananController extends Controller
         $title = 'Perhitungan Bunga & Biaya';
         return view('simpanan.bunga')->with(compact('title', 'id_angg'));
     }
+    
+    public function infoBunga() {
+        $bulan = request()->input('bulan');
+        $tahun = request()->input('tahun');
+
+        $tahun_now = $tahun;
+
+        // Hitung bulan lalu
+        $tahun_lalu = $tahun_now;
+        $bulan_lalu = $bulan - 1;
+        if ($bulan_lalu == 0) {
+            $bulan_lalu = 12;
+            $tahun_lalu--;
+        }
+
+        // Ambil tanggal bunga dari pengaturan kecamatan
+        $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
+        $tgl_bunga = $kec->tgl_bunga ?? 0;
+
+        // Hitung jumlah hari dalam bulan sekarang dan bulan sekitar
+        $last_day_bulan_lalu = cal_days_in_month(CAL_GREGORIAN, $bulan_lalu, $tahun_lalu);
+        $last_day_bulan_ini  = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun_now);
+
+        if ($tgl_bunga < 0) {
+            // Hitung dari akhir bulan
+            $day_bunga_lalu = $last_day_bulan_lalu + $tgl_bunga + 1;
+            $day_bunga_ini  = $last_day_bulan_ini + $tgl_bunga + 1;
+
+            // Amankan tanggal agar tidak di luar batas
+            $day_bunga_lalu = max(1, min($day_bunga_lalu, $last_day_bulan_lalu));
+            $day_bunga_ini  = max(1, min($day_bunga_ini, $last_day_bulan_ini));
+
+            $tgl_awal  = sprintf("%04d-%02d-%02d", $tahun_lalu, $bulan_lalu, $day_bunga_lalu);
+            $tgl_trans = sprintf("%04d-%02d-%02d", $tahun_now, $bulan, $day_bunga_ini);
+            $tgl_akhir = date("Y-m-d", strtotime($tgl_trans . " -1 day"));
+        } else {
+            // Gunakan langsung tgl bunga sebagai awal bulan ini
+            $day_bunga_ini = $tgl_bunga;
+            $day_bunga_ini = max(1, min($day_bunga_ini, $last_day_bulan_ini));
+
+            // Hitung bulan depan
+            $bulan_depan = $bulan + 1;
+            $tahun_depan = $tahun_now;
+            if ($bulan_depan == 13) {
+                $bulan_depan = 1;
+                $tahun_depan++;
+            }
+
+            $last_day_bulan_depan = cal_days_in_month(CAL_GREGORIAN, $bulan_depan, $tahun_depan);
+            $day_bunga_depan = max(1, min($tgl_bunga, $last_day_bulan_depan));
+
+            $tgl_awal  = sprintf("%04d-%02d-%02d", $tahun_now, $bulan, $day_bunga_ini);
+            $tgl_trans = sprintf("%04d-%02d-%02d", $tahun_depan, $bulan_depan, $day_bunga_depan);
+            $tgl_akhir = date("Y-m-d", strtotime($tgl_trans . " -1 day"));
+        }
+
+        // Hitung jumlah hari inklusif
+        $datetime_awal  = new \DateTime($tgl_awal);
+        $datetime_akhir = new \DateTime($tgl_akhir);
+        $selisih = $datetime_awal->diff($datetime_akhir);
+        $jumlah_hari = $selisih->days + 1;
+
+        return view('simpanan.partials.info_hitung_bunga', compact('jumlah_hari', 'tgl_awal', 'tgl_akhir'));
+    }
+
+    
+    public function simpanBunga()
+    {
+        $tahun = request()->get('tahun');
+        $bulan = request()->get('bulan');
+        $start = request()->get('start');
+        $id = request()->get('id');
+        $limit = 30;
+
+        if ($id == NULL || $id == "" || $id == 0) {
+            $count = Simpanan::where('status', 'A')->count();
+            $nia = Simpanan::where('status', 'A')
+                           ->orderBy('id', 'asc')
+                           ->skip($start)
+                           ->take($limit)
+                           ->with(['anggota', 'js'])
+                           ->get();
+        } else {
+            $id_array = explode(',', $id);
+            $id_array = array_map('trim', $id_array);
+            $id_array = array_filter($id_array, 'is_numeric');
+        
+            $count = Simpanan::whereIn('id', $id_array)
+                             ->where('status', 'A')
+                             ->count();
+            $nia = Simpanan::whereIn('id', $id_array)
+                           ->where('status', 'A')
+                           ->orderBy('id', 'asc')
+                           ->skip($start)
+                           ->take($limit)
+                           ->with(['anggota', 'js'])
+                           ->get();
+        }
+        $tahun_now = $tahun;
+        // Hitung bulan lalu
+        $tahun_lalu = $tahun_now;
+        $bulan_lalu = $bulan - 1;
+        if ($bulan_lalu == 0) {
+            $bulan_lalu = 12;
+            $tahun_lalu--;
+        }
+
+        // Ambil tanggal bunga dari pengaturan kecamatan
+        $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
+        $tgl_bunga = $kec->tgl_bunga ?? 0;
+
+        // Hitung jumlah hari dalam bulan sekarang dan bulan sekitar
+        $last_day_bulan_lalu = cal_days_in_month(CAL_GREGORIAN, $bulan_lalu, $tahun_lalu);
+        $last_day_bulan_ini  = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun_now);
+
+        if ($tgl_bunga < 0) {
+            // Hitung dari akhir bulan
+            $day_bunga_lalu = $last_day_bulan_lalu + $tgl_bunga + 1;
+            $day_bunga_ini  = $last_day_bulan_ini + $tgl_bunga + 1;
+
+            // Amankan tanggal agar tidak di luar batas
+            $day_bunga_lalu = max(1, min($day_bunga_lalu, $last_day_bulan_lalu));
+            $day_bunga_ini  = max(1, min($day_bunga_ini, $last_day_bulan_ini));
+
+            $tgl_awal  = sprintf("%04d-%02d-%02d", $tahun_lalu, $bulan_lalu, $day_bunga_lalu);
+            $tgl_trans = sprintf("%04d-%02d-%02d", $tahun_now, $bulan, $day_bunga_ini);
+            $tgl_akhir = date("Y-m-d", strtotime($tgl_trans . " -1 day"));
+        } else {
+            // Gunakan langsung tgl bunga sebagai awal bulan ini
+            $day_bunga_ini = $tgl_bunga;
+            $day_bunga_ini = max(1, min($day_bunga_ini, $last_day_bulan_ini));
+
+            // Hitung bulan depan
+            $bulan_depan = $bulan + 1;
+            $tahun_depan = $tahun_now;
+            if ($bulan_depan == 13) {
+                $bulan_depan = 1;
+                $tahun_depan++;
+            }
+
+            $last_day_bulan_depan = cal_days_in_month(CAL_GREGORIAN, $bulan_depan, $tahun_depan);
+            $day_bunga_depan = max(1, min($tgl_bunga, $last_day_bulan_depan));
+
+            $tgl_awal  = sprintf("%04d-%02d-%02d", $tahun_now, $bulan, $day_bunga_ini);
+            $tgl_trans = sprintf("%04d-%02d-%02d", $tahun_depan, $bulan_depan, $day_bunga_depan);
+            $tgl_akhir = date("Y-m-d", strtotime($tgl_trans . " -1 day"));
+        }
+
+        // Hitung jumlah hari inklusif
+        $datetime_awal  = new \DateTime($tgl_awal);
+        $datetime_akhir = new \DateTime($tgl_akhir);
+        $selisih = $datetime_awal->diff($datetime_akhir);
+        $jumlah_hari = $selisih->days + 1;
+
+        $hitung_bunga = $kec->hitung_bunga;
+
+        foreach ($nia as $simp) {
+            if ($hitung_bunga == 1) { // saldo_terakhir
+                $real = RealSimpanan::where('cif', $simp->id)
+                    ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
+                    ->orderByDesc('tgl_transaksi')
+                    ->orderByDesc('id')
+                    ->first();
+
+                $saldo = $real->sum ?? 0;
+            } elseif ($hitung_bunga == 2) { // saldo_terendah
+                $real = RealSimpanan::where('cif', $simp->id)
+                    ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
+                    ->orderBy('sum', 'asc')
+                    ->first();
+
+                $saldo = $real->sum ?? 0;
+            } else { // saldo_rata-rata
+                $saldo_terakhir_data = RealSimpanan::where('cif', $simp->id)
+                    ->where('tgl_transaksi', '<', $tgl_awal)
+                    ->orderByDesc('tgl_transaksi')
+                    ->orderByDesc('id')
+                    ->first();
+
+                $saldo_terakhir = $saldo_terakhir_data->sum ?? 0;
+                
+                $transaksi = RealSimpanan::where('cif', $simp->id)
+                    ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
+                    ->get();
+
+                $jumdeb = 0;
+                $jumkre = 0;
+
+                foreach ($transaksi as $real) {
+                    $hari_ke = (strtotime($real->tgl_transaksi) - strtotime($tgl_awal)) / (60 * 60 * 24) + 1;
+                    $jumdeb += ($real->real_d * ($jumlah_hari - ($hari_ke - 1)));
+                    $jumkre += ($real->real_k * ($jumlah_hari - ($hari_ke - 1)));
+                }
+                
+                $saldo = $saldo_terakhir+($jumkre/$jumlah_hari)-($jumdeb/$jumlah_hari);
+            }
+            
+            // Hitung bunga dan pajak
+            $bunga = 0;
+            $pajak = 0;
+
+            if ($kec->min_bunga <= $saldo) {
+                $bunga = number_format($saldo * $simp->bunga/100, 0, '.', '');
+            }
+        
+            if ($kec->min_pajak <= $bunga) {
+                $pajak = number_format($bunga * $simp->pajak/100, 0, '.', '');
+            }
+            $admin = $simp->admin;
+
+            // Insert ke transaksi dan real
+            $realSimpanan = RealSimpanan::where('cif', $simp->id)
+                ->where('tgl_transaksi', '<=', $tgl_trans)
+                ->orderBy('id', 'desc')
+                ->first();
+                
+            $jenisSimpanan = JenisSimpanan::where('id', $simp->jenis_simpanan)->first();
+            $idmax = Transaksi::max('idt');
+                $tanggal_formatted = Tanggal::tglNasional($tgl_trans);
+                $bungaExists = Transaksi::where('tgl_transaksi', $tanggal_formatted)
+                                   ->where('rekening_debit', $jenisSimpanan->rek_bunga)
+                                   ->where('rekening_kredit', $jenisSimpanan->rek_simp)
+                                   ->where('id_simp', $simp->id)
+                                   ->exists();
+                $pajakExists = Transaksi::where('tgl_transaksi', $tanggal_formatted)
+                                   ->where('rekening_debit', $jenisSimpanan->rek_simp)
+                                   ->where('rekening_kredit', $jenisSimpanan->rek_pajak)
+                                   ->where('id_simp', $simp->id)
+                                   ->exists();
+                $adminExists = Transaksi::where('tgl_transaksi', $tanggal_formatted)
+                                   ->where('rekening_debit', $jenisSimpanan->rek_simp)
+                                   ->where('rekening_kredit', $jenisSimpanan->rek_adm)
+                                   ->where('id_simp', $simp->id)
+                                   ->exists();
+
+            if (!$bungaExists && $bunga > 0) {
+                $idmax++;
+                $sum_baru = $realSimpanan ? $realSimpanan->sum + $bunga : $bunga;
+
+                $transaksi = new Transaksi();
+                $transaksi->tgl_transaksi = Tanggal::tglNasional($tgl_trans);
+                $transaksi->rekening_debit = $jenisSimpanan->rek_bunga;
+                $transaksi->rekening_kredit = $jenisSimpanan->rek_simp;
+                $transaksi->idtp = 0;
+                $transaksi->id_pinj = 0;
+                $transaksi->id_pinj_i = 0;
+                $transaksi->id_simp = $simp->id;
+                $transaksi->keterangan_transaksi = "Bunga ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulan." ".$tahun;
+                $transaksi->relasi = $simp->anggota->namadepan;
+                $transaksi->jumlah = $bunga;
+                $transaksi->urutan = 0;
+                $transaksi->id_user = auth()->user()->id;
+
+                if ($transaksi->save()) {
+                    RealSimpanan::create([
+                        'cif' => $simp->id,
+                        'idt' => $idmax,
+                        'kode' => 5,
+                        'tgl_transaksi' => $tgl_trans,
+                        'real_d' => 0,
+                        'real_k' => $bunga,
+                        'sum' => $sum_baru,
+                        'lu' => now(),
+                        'id_user' => $transaksi->id_user,
+                    ]);
+                }
+            }
+
+            // pajak
+            if (!$pajakExists && $pajak > 0) {
+                $idmax++;
+                $sum_baru = $realSimpanan ? $realSimpanan->sum - $pajak : $pajak;
+
+                $transaksi = new Transaksi();
+                $transaksi->tgl_transaksi = Tanggal::tglNasional($tgl_trans);
+                $transaksi->rekening_debit = $jenisSimpanan->rek_simp;
+                $transaksi->rekening_kredit = $jenisSimpanan->rek_pajak;
+                $transaksi->idtp = 0;
+                $transaksi->id_pinj = 0;
+                $transaksi->id_pinj_i = 0;
+                $transaksi->id_simp = $simp->id;
+                $transaksi->keterangan_transaksi = "Pajak Bunga ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulan." ".$tahun;
+                $transaksi->relasi = $simp->anggota->namadepan;
+                $transaksi->jumlah = $pajak;
+                $transaksi->urutan = 0;
+                $transaksi->id_user = auth()->user()->id;
+                
+                if ($transaksi->save()) {
+                    RealSimpanan::create([
+                        'cif' => $simp->id,
+                        'idt' => $idmax,
+                        'kode' => 6,
+                        'tgl_transaksi' => $tgl_trans,
+                        'real_d' => $pajak,
+                        'real_k' => 0,
+                        'sum' => $sum_baru,
+                        'lu' => now(),
+                        'id_user' => $transaksi->id_user,
+                    ]);
+                }
+            }
+            // admin
+            if (!$adminExists && $admin > 0) {
+                $idmax++;
+                $sum_baru = $realSimpanan ? $realSimpanan->sum - $admin : $admin;
+
+                $transaksi = new Transaksi();
+                $transaksi->tgl_transaksi = Tanggal::tglNasional($tgl_trans);
+                $transaksi->rekening_debit = $jenisSimpanan->rek_simp;
+                $transaksi->rekening_kredit = $jenisSimpanan->rek_adm;
+                $transaksi->idtp = 0;
+                $transaksi->id_pinj = 0;
+                $transaksi->id_pinj_i = 0;
+                $transaksi->id_simp = $simp->id;
+                $transaksi->keterangan_transaksi = "Admin ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulan." ".$tahun;
+                $transaksi->relasi = $simp->anggota->namadepan;
+                $transaksi->jumlah = $admin;
+                $transaksi->urutan = 0;
+                $transaksi->id_user = auth()->user()->id;
+                
+                if ($transaksi->save()) {
+                    RealSimpanan::create([
+                        'cif' => $simp->id,
+                        'idt' => $idmax,
+                        'kode' => 7,
+                        'tgl_transaksi' => $tgl_trans,
+                        'real_d' => $admin,
+                        'real_k' => 0,
+                        'sum' => $sum_baru,
+                        'lu' => now(),
+                        'id_user' => $transaksi->id_user,
+                    ]);
+                }
+            }
+        }
+
+        $link = request()->url('');
+        $query = request()->query();
+    
+        if ($query['id'] == "" || $query['id'] == NULL) {
+            $query['id'] = 0;
+        }
+    
+        $query['start'] = $start + 30;
+        $next = $link . '?' . http_build_query($query);
+
+        if ($query['start'] < $count + 30) {
+            $persen = round($query['start'] / ($count + 30) * 100);
+
+            echo '<a href="' . $next . '" id="next"></a>';
+            echo '
+                <style>
+                    @keyframes progress {
+                        0% { --percentage: 0; }
+                        100% { --percentage: var(--value); }
+                    }
+
+                    @property --percentage {
+                        syntax: "<number>";
+                        inherits: true;
+                        initial-value: 0;
+                    }
+
+                    [role="progressbar"] {
+                        --percentage: var(--value);
+                        --primary: #369;
+                        --secondary: #adf;
+                        --size: 200px;
+                        animation: progress 1s 0.2s forwards;
+                        width: var(--size);
+                        aspect-ratio: 1;
+                        border-radius: 50%;
+                        position: relative;
+                        overflow: hidden;
+                        display: grid;
+                        place-items: center;
+                        margin: 100px auto;
+                    }
+
+                    [role="progressbar"]::before {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: conic-gradient(var(--primary) calc(var(--percentage) * 1%), var(--secondary) 0);
+                        mask: radial-gradient(white 55%, transparent 0);
+                        mask-mode: alpha;
+                        -webkit-mask: radial-gradient(#0000 55%, #000 0);
+                        -webkit-mask-mode: alpha;
+                    }
+
+                    [role="progressbar"]::after {
+                        counter-reset: percentage var(--value);
+                        content: counter(percentage) "%";
+                        font-family: Helvetica, Arial, sans-serif;
+                        font-size: calc(var(--size) / 5);
+                        color: var(--primary);
+                    }
+                </style>
+
+                <div role="progressbar" aria-valuenow="' . $persen . '" aria-valuemin="0" aria-valuemax="100" style="--value: ' . $persen . '"></div>
+
+                <script>document.querySelector("#next").click()</script>
+            ';
+            exit;
+        } else {
+            echo '<script>window.opener.postMessage("closed", "*"); window.close();</script>';
+            exit;
+        }
+    }
 
     public function simpanTransaksiBunga(Request $request)
     {

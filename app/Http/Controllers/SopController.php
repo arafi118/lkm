@@ -233,6 +233,8 @@ class SopController extends Controller
     public function simpanan(Request $request, Kecamatan $kec)
     {
         $data = $request->only([
+            'hitung_bunga',
+            'tgl_bunga',
             'min_bunga',
             'min_pajak',
             'def_bunga',
@@ -242,6 +244,8 @@ class SopController extends Controller
         ]);
 
         $validate = Validator::make($data, [
+            'hitung_bunga'   => 'required',
+            'tgl_bunga'      => 'required',
             'min_bunga'      => 'required',
             'min_pajak'      => 'required',
             'def_bunga'      => 'required',
@@ -255,6 +259,8 @@ class SopController extends Controller
         }
 
         $kecamatan = Kecamatan::where('id', $kec->id)->update([
+            'hitung_bunga'         => $data['hitung_bunga'],
+            'tgl_bunga'         => $data['tgl_bunga'],
             'min_bunga'         => $data['min_bunga'],
             'min_pajak'         => $data['min_pajak'],
             'def_bunga'         => $data['def_bunga'],
