@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Rekap;
 use App\Http\Controllers\Controller;
 use App\Models\JenisLaporan;
 use App\Models\Rekap;
-use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use App\Models\Rekening;
 use App\Models\Wilayah;
@@ -24,8 +23,8 @@ class RekapController extends Controller
         $id = Session::get('id_rekap');
 
         $saldo_kec = [];
-                        $kab = Rekap::where('id', $id)->first();
-                        $lokasiIds = array_filter(explode(',', $kab->lokasi));
+                        $rekap = Rekap::where('id', $id)->first();
+                        $lokasiIds = array_filter(explode(',', $rekap->lokasi));
                         $kdKecList = Kecamatan::whereIn('id', $lokasiIds)->pluck('kd_kec');
                         $wilayah = Wilayah::whereIn('kode', $kdKecList)
                                                 ->whereRaw('LENGTH(kode) = 8')
@@ -80,17 +79,17 @@ class RekapController extends Controller
             }
         }
 
-        $title = Session::get('nama_kab') . ' Page';
+        $title = Session::get('nama_rekap') . ' Page';
         return view('rekap.index')->with(compact('title', 'saldo_kec', 'keuangan'));
     }
 
     public function tandaTangan()
     {
-        $kd_kab = Session::get('kd_kab');
-        $kab = Kabupaten::where('kd_kab', $kd_kab)->first();
+        $kd_rekap = Session::get('kd_rekap');
+        $rekap = Rekap::where('kd_rekap', $kd_rekap)->first();
 
         $title = 'Pengaturan Tanda Tangan Laporan';
-        return view('rekap.tanda_tangan')->with(compact('title', 'kab'));
+        return view('rekap.tanda_tangan')->with(compact('title', 'rekap'));
     }
 
     public function simpanTandaTangan(Request $request)
@@ -105,8 +104,8 @@ class RekapController extends Controller
         $data['tanda_tangan'] = str_replace('colgroup', 'tr', $data['tanda_tangan']);
         $data['tanda_tangan'] = preg_replace('/<col([^>]*)>/', '<td$1>&nbsp;</td>', $data['tanda_tangan']);
 
-        $kd_kab = Session::get('kd_kab');
-        $tanda_tangan = Kabupaten::where('kd_kab', $kd_kab)->update([
+        $kd_rekap = Session::get('kd_rekap');
+        $tanda_tangan = Rekap::where('kd_rekap', $kd_rekap)->update([
             'tanda_tangan' => json_encode($data['tanda_tangan'])
         ]);
 
@@ -118,7 +117,7 @@ class RekapController extends Controller
 
     public function kecamatan($kd_kec)
     {
-        $kec = Kecamatan::where('kd_kec', $kd_kec)->with('kabupaten')->first();
+        $kec = Kecamatan::where('kd_kec', $kd_kec)->with('rekap')->first();
         $laporan = JenisLaporan::where('file', '!=', '0')->orderBy('urut', 'ASC')->get();
 
         if (!$kec) {
@@ -128,12 +127,12 @@ class RekapController extends Controller
             return view('rekap._kecamatan')->with(compact('title', 'kec'));
         }
 
-        $kab = $kec->kabupaten;
+        $rekap = $kec->rekap;
         $nama_kec = $kec->sebutan_kec . ' ' . $kec->nama_kec;
-        if (Keuangan::startWith($kab->nama_kab, 'KOTA') || Keuangan::startWith($kab->nama_kab, 'KAB')) {
-            $nama_kec .= ' ' . ucwords(strtolower($kab->nama_kab));
+        if (Keuangan::startWith($rekap->nama_rekap, 'KOTA') || Keuangan::startWith($rekap->nama_rekap, 'rekap')) {
+            $nama_kec .= ' ' . ucwords(strtolower($rekap->nama_rekap));
         } else {
-            $nama_kec .= ' Kabupaten ' . ucwords(strtolower($kab->nama_kab));
+            $nama_kec .= ' Rekap ' . ucwords(strtolower($rekap->nama_rekap));
         }
 
         Session::put('lokasi', $kec->id);
