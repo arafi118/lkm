@@ -21,16 +21,17 @@ class RekapController extends Controller
         $bulan = date('m');
 
         $id = Session::get('id_rekap');
-
         $saldo_kec = [];
                         $rekap = Rekap::where('id', $id)->first();
+                        
                         $lokasiIds = array_filter(explode(',', $rekap->lokasi));
                         $kdKecList = Kecamatan::whereIn('id', $lokasiIds)->pluck('kd_kec');
-                        $wilayah = Wilayah::whereIn('kode', $kdKecList)
-                                                ->whereRaw('LENGTH(kode) = 8')
-                                                ->orderBy('nama', 'ASC')
-                                                ->get();
-        foreach ($wilayah as $wl) {
+                        $kecamatan = Kecamatan::whereIn('kd_kec', $kdKecList)
+                                        ->select('id', 'kd_kec as kode', 'nama_kec as nama')
+                                        ->orderBy('nama_kec', 'ASC')
+                                        ->get();
+
+        foreach ($kecamatan as $wl) {
             $saldo_kec[$wl->kode] = [
                 'nama' => $wl->nama,
                 'kode' => $wl->kode,
@@ -41,7 +42,6 @@ class RekapController extends Controller
                 'surplus' => 0,
                 'used_dbm' => false
             ];
-
             if ($wl->kec) {
                 Session::put('lokasi', $wl->kec->id);
                 $laba_rugi = Rekening::where('lev1', '>=', '4')->with([
@@ -78,7 +78,7 @@ class RekapController extends Controller
                 $saldo_kec[$wl->kode]['used_dbm'] = true;
             }
         }
-
+        dd($saldo_kec);
         $title = Session::get('nama_rekap') . ' Page';
         return view('rekap.index')->with(compact('title', 'saldo_kec', 'keuangan'));
     }

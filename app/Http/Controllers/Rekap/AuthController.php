@@ -17,7 +17,6 @@ class AuthController extends Controller
         $url = request()->getHost();
         $rekap = Rekap::where('web_rekap', $url)->first();
             $nama_rekap = ' Rekap ' . ucwords(strtolower($rekap->nama_rekap));
-
         return view('rekap.auth.login')->with(compact('nama_rekap'));
     }
 

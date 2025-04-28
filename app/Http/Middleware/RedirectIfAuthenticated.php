@@ -28,6 +28,10 @@ class RedirectIfAuthenticated
         if (auth()->guard('kab')->check()) {
             return redirect('/kab/dashboard');
         }
+		
+        if (auth()->guard('rekap')->check()) {
+            return redirect('/rekap/dashboard');
+        }
 
         if (auth()->guard('web')->check()) {
             return redirect('/dashboard');

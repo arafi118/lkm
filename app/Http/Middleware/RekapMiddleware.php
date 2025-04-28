@@ -2,12 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use Auth;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class isAuth
+class RekapMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,10 +15,10 @@ class isAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() || auth()->guard('master')->check() auth()->guard('rekap')->check() || auth()->guard('kab')->check()) {
+        if (auth()->guard('rekap')->check()) {
             return $next($request);
         }
 
-        return redirect('/');
+        return redirect('/rekap');
     }
 }
