@@ -4,11 +4,11 @@
     "\\app",
     "\\app\\Http",
     "\\app\\Http\\Controllers",
-    "\\app\\Http\\Controllers\\Rekap",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\rekap"
+    "\\resources\\views\\simpanan",
+    "\\resources\\views\\simpanan\\partials"
   ],
-  "SelectedNode": "\\app\\Http\\Controllers\\Rekap\\AuthController.php",
+  "SelectedNode": "\\resources\\views\\simpanan\\partials\\info_hitung_bunga.blade.php",
   "PreviewInSolutionExplorer": false
 }
