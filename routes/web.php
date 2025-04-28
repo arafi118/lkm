@@ -125,10 +125,10 @@ Route::get('/app', [AuthController::class, 'app']);
 
 // Route::get('/force/{uname}', [AuthController::class, 'force'])->middleware('guest');
 
-Route::get('/pelaporan', [PelaporanController::class, 'index'])->middleware('basic', 'is_aktif');
-Route::get('/pelaporan/sub_laporan/{file}', [PelaporanController::class, 'subLaporan'])->middleware('basic', 'is_aktif');
-Route::post('/pelaporan/preview', [PelaporanController::class, 'preview'])->middleware('basic', 'is_aktif');
-Route::post('/pelaporan/preview/{lokasi?}', [PelaporanController::class, 'preview'])->middleware('basic', 'is_aktif');
+Route::get('/pelaporan', [PelaporanController::class, 'index'])->middleware('auth', 'is_aktif');
+Route::get('/pelaporan/sub_laporan/{file}', [PelaporanController::class, 'subLaporan'])->middleware('auth', 'is_aktif');
+Route::post('/pelaporan/preview', [PelaporanController::class, 'preview'])->middleware('auth', 'is_aktif');
+Route::post('/pelaporan/preview/{lokasi?}', [PelaporanController::class, 'preview'])->middleware('auth', 'is_aktif');
 
 Route::get('/pelaporan/mou', [PelaporanController::class, 'mou'])->middleware('auth', 'is_aktif');
 Route::get('/pelaporan/ts', [PelaporanController::class, 'ts'])->middleware('auth', 'is_aktif');
