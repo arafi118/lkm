@@ -471,6 +471,14 @@ class SimpananController extends Controller
 
         $tahun_now = $tahun;
 
+        // Hitung bulan -1
+        $tahun = $tahun_now;
+        $bulan = $bulan - 1;
+        if ($bulan == 0) {
+            $bulan = 12;
+            $tahun--;
+        }
+
         // Hitung bulan lalu
         $tahun_lalu = $tahun_now;
         $bulan_lalu = $bulan - 1;
@@ -481,6 +489,7 @@ class SimpananController extends Controller
 
         // Ambil tanggal bunga dari pengaturan kecamatan
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
+        $jb = $kec->hitung_bunga;
         $tgl_bunga = $kec->tgl_bunga ?? 0;
 
         // Hitung jumlah hari dalam bulan sekarang dan bulan sekitar
@@ -526,7 +535,7 @@ class SimpananController extends Controller
         $selisih = $datetime_awal->diff($datetime_akhir);
         $jumlah_hari = $selisih->days + 1;
 
-        return view('simpanan.partials.info_hitung_bunga', compact('jumlah_hari', 'tgl_awal', 'tgl_akhir'));
+        return view('simpanan.partials.info_hitung_bunga', compact('jumlah_hari', 'tgl_awal', 'tgl_akhir','jb'));
     }
 
     
@@ -563,6 +572,15 @@ class SimpananController extends Controller
                            ->get();
         }
         $tahun_now = $tahun;
+
+        // Hitung bulan -1
+        $tahun = $tahun_now;
+        $bulan = $bulan - 1;
+        if ($bulan == 0) {
+            $bulan = 12;
+            $tahun--;
+        }
+
         // Hitung bulan lalu
         $tahun_lalu = $tahun_now;
         $bulan_lalu = $bulan - 1;
@@ -698,7 +716,6 @@ class SimpananController extends Controller
                                    ->where('rekening_kredit', $jenisSimpanan->rek_adm)
                                    ->where('id_simp', $simp->id)
                                    ->exists();
-
             if (!$bungaExists && $bunga > 0) {
                 $idmax++;
                 $sum_baru = $realSimpanan ? $realSimpanan->sum + $bunga : $bunga;
