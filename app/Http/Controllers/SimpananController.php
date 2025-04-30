@@ -301,19 +301,6 @@ class SimpananController extends Controller
         
         $transaksi = new Transaksi();
         $transaksi->tgl_transaksi = Tanggal::tglNasional($tglTransaksi);
-
-
-
-
-
-
-
-
-
-
-
-
-
         $transaksi->rekening_debit = $jenisMutasi == '1' ? $jenisSimpanan->rek_kas : $jenisSimpanan->rek_simp;
         $transaksi->rekening_kredit = $jenisMutasi == '1' ? $jenisSimpanan->rek_simp : $jenisSimpanan->rek_kas;
         $transaksi->idtp = 0;
@@ -327,8 +314,7 @@ class SimpananController extends Controller
         $transaksi->id_user = auth()->user()->id;
         
         $kode = ($jenisMutasi == 1) ? 2 : 3;
-        $real = RealSimpanan::where('cif', $cif)->latest('tgl_transaksi')->orderBy('id', 'DESC')->first();
-        
+        $real = RealSimpanan::where('cif', $cif)->latest('tgl_transaksi')->latest('lu')->orderBy('id', 'desc')->first();
         $jumlahBersih = str_replace(',', '', str_replace('.00', '', $jumlah));
 
         $sumSebelumnya = $real ? $real->sum : 0;

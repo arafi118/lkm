@@ -86,9 +86,7 @@
             columns: [
                 {
                     data: 'id',
-                    name: 'id',
-                    visible: false,
-                    searchable: false
+                    name: 'id'
                 },
                 {
                     data: 'nomor_rekening',
@@ -105,13 +103,17 @@
                 {
                     data: 'jumlah',
                     name: 'jumlah',
+                    visible: false,
+                    searchable: false
                     // render: function(data, type, row) {
                     //     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data);
                     // }
                 },
                 {
                     data: 'tgl_buka',
-                    name: 'tgl_buka'
+                    name: 'tgl_buka',
+                    visible: false,
+                    searchable: false
                 },
                 {
                     data: 'status',

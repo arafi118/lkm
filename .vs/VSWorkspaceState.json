@@ -1,12 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\app",
-    "\\resources",
-    "\\resources\\views",
-    "\\resources\\views\\simpanan",
-    "\\resources\\views\\simpanan\\partials"
+    ""
   ],
-  "SelectedNode": "\\resources\\views\\simpanan\\partials\\detail-transaksi.blade.php",
+  "SelectedNode": "\\G:\\laragon\\www\\lkm",
   "PreviewInSolutionExplorer": false
 }
