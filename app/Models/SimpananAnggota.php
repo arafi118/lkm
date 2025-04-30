@@ -29,7 +29,6 @@ class SimpananAnggota extends Model
         return $this->belongsTo(Anggota::class, 'nia', 'id');
     }
 
-
     // ambil data dari transaksi
     public function trx_tarik()
     {
@@ -41,5 +40,10 @@ class SimpananAnggota extends Model
     {
         return $this->hasMany(Transaksi::class, 'id_simp', 'id');
     }
+    public function real_s()
+    {
+        return $this->hasMany(RealSimpanan::class, 'cif', 'id')->orderBy('tgl_transaksi', 'ASC')->orderBy('id', 'ASC');
+    }
+
 }
 
