@@ -11,9 +11,9 @@
                                 <div class="widget-heading">Nasabah {{ $nia->anggota->namadepan }} CIF. {{$nia->id}} 
                                     ({{ $nia->js->nama_js }})</div>
                                 <div class="widget-subheading">
-                                    <span class="badge bg-{{ $nia->sts->warna_status }}">{{ $nia->anggota->nia }}</span>
-                                    <span class="badge bg-{{ $nia->sts->warna_status }}">{{ $nia->anggota->alamat_anggota }}</span>
-                                    <span class="badge bg-{{ $nia->sts->warna_status }}">
+                                    <span class="badge bg-info">{{ $nia->anggota->nia }}</span>
+                                    <span class="badge bg-info">{{ $nia->anggota->alamat_anggota }}</span>
+                                    <span class="badge bg-info">
                                         {{ $nia->anggota->d->sebutan_desa->sebutan_desa }}
                                         {{ $nia->anggota->d->nama_desa }}
                                     </span>

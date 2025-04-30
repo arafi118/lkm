@@ -133,7 +133,7 @@ class SimpananController extends Controller
     public function register($id_angg)
     {
         $anggota = Anggota::where('id', $id_angg)->with([
-            'pinjaman' => function ($query) {
+            'Simpanan' => function ($query) {
                 $query->orderBy('tgl_proposal', 'DESC');
             },
             'pinjaman.sts'
