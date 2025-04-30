@@ -78,7 +78,6 @@ class RekapController extends Controller
                 $saldo_kec[$wl->kode]['used_dbm'] = true;
             }
         }
-        dd($saldo_kec);
         $title = Session::get('nama_rekap') . ' Page';
         return view('rekap.index')->with(compact('title', 'saldo_kec', 'keuangan'));
     }

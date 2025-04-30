@@ -89,6 +89,18 @@
                     </ul>
                 </div>
             </li>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder text-white">Laporan</h6>
+            </li>
+            
+            <li class="nav-item nav-item-link {{ active('laporan') }}">
+                <a class="nav-link text-white {{ active('laporan') }}" href="/rekap/laporan">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">book</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Laporan</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

@@ -2,13 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\app",
-    "\\app\\Http",
-    "\\app\\Http\\Controllers",
     "\\resources",
     "\\resources\\views",
     "\\resources\\views\\simpanan",
     "\\resources\\views\\simpanan\\partials"
   ],
-  "SelectedNode": "\\resources\\views\\simpanan\\partials\\info_hitung_bunga.blade.php",
+  "SelectedNode": "\\resources\\views\\simpanan\\partials\\detail-transaksi.blade.php",
   "PreviewInSolutionExplorer": false
 }

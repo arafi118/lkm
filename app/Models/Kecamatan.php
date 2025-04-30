@@ -16,6 +16,10 @@ class Kecamatan extends Model
     {
         return $this->belongsTo(Kabupaten::class, 'kd_kab', 'kd_kab');
     }
+    public function rekap()
+    {
+        return $this->belongsTo(Rekap::class, 'kd_rekap', 'kd_kab');
+    }
 
     public function desa()
     {
