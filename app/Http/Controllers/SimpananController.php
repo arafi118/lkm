@@ -514,7 +514,8 @@ class SimpananController extends Controller
             $tgl_trans = sprintf("%04d-%02d-%02d", $tahun_depan, $bulan_depan, $day_bunga_depan);
             $tgl_akhir = date("Y-m-d", strtotime($tgl_trans . " -1 day"));
         }
-
+        
+        $bulanTahun = \Carbon\Carbon::parse($tgl_trans)->translatedFormat('F Y');
         // Hitung jumlah hari inklusif
         $datetime_awal  = new \DateTime($tgl_awal);
         $datetime_akhir = new \DateTime($tgl_akhir);
@@ -615,6 +616,7 @@ class SimpananController extends Controller
             $tgl_trans = sprintf("%04d-%02d-%02d", $tahun_depan, $bulan_depan, $day_bunga_depan);
             $tgl_akhir = date("Y-m-d", strtotime($tgl_trans . " -1 day"));
         }
+        $bulanTahun = \Carbon\Carbon::parse($tgl_trans)->translatedFormat('F Y');
 
         // Hitung jumlah hari inklusif
         $datetime_awal  = new \DateTime($tgl_awal);
@@ -714,7 +716,7 @@ class SimpananController extends Controller
                 $transaksi->id_pinj = 0;
                 $transaksi->id_pinj_i = 0;
                 $transaksi->id_simp = $simp->id;
-                $transaksi->keterangan_transaksi = "Bunga ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulan." ".$tahun;
+                $transaksi->keterangan_transaksi = "Bunga ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulantahun;
                 $transaksi->relasi = $simp->anggota->namadepan;
                 $transaksi->jumlah = $bunga;
                 $transaksi->urutan = 0;
@@ -748,7 +750,7 @@ class SimpananController extends Controller
                 $transaksi->id_pinj = 0;
                 $transaksi->id_pinj_i = 0;
                 $transaksi->id_simp = $simp->id;
-                $transaksi->keterangan_transaksi = "Pajak Bunga ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulan." ".$tahun;
+                $transaksi->keterangan_transaksi = "Pajak Bunga ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulantahun;
                 $transaksi->relasi = $simp->anggota->namadepan;
                 $transaksi->jumlah = $pajak;
                 $transaksi->urutan = 0;
@@ -781,7 +783,7 @@ class SimpananController extends Controller
                 $transaksi->id_pinj = 0;
                 $transaksi->id_pinj_i = 0;
                 $transaksi->id_simp = $simp->id;
-                $transaksi->keterangan_transaksi = "Admin ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulan." ".$tahun;
+                $transaksi->keterangan_transaksi = "Admin ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulantahun;
                 $transaksi->relasi = $simp->anggota->namadepan;
                 $transaksi->jumlah = $admin;
                 $transaksi->urutan = 0;
