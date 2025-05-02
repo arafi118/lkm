@@ -134,7 +134,7 @@ class SimpananController extends Controller
     {
         $anggota = Anggota::where('id', $id_angg)->with([
             'Simpanan' => function ($query) {
-                $query->orderBy('tgl_proposal', 'DESC');
+                $query->orderBy('tgl_buka', 'DESC');
             },
             'pinjaman.sts'
         ])->first();
