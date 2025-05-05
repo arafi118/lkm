@@ -26,7 +26,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $today = Carbon::today()->toDateString();
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         if (Session::get('pesan')) {
             // $this->piutang();
@@ -101,8 +100,7 @@ class DashboardController extends Controller
         $unpaidInvoice = AdminInvoice::where([
             ['lokasi', Session::get('lokasi')],
             ['status', 'UNPAID']
-        ])
-        ->where('tgl_lunas', '<=', $today)->count();
+        ])->count();
         $data['jumlah_unpaid'] = $unpaidInvoice;
         $data['user'] = auth()->user();
         $data['saldo'] = $this->_saldo($tgl);
