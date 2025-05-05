@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -91,27 +90,20 @@
         <th width="10%" class="style9">SALDO</th>
         <th width="2%" class="style9">P</th>
     </tr>
-    @php /* $no = 0; $saldosamping = 0; @endphp
+    @php $no = 0; $saldosamping = 0; @endphp
     @foreach($transaksi as $row2)
     @php
-    $no++;
-    $rek = \App\Models\Rekening::where(['kd_jb' => $kd_jb, 'kd_rekening' => $row2->rekening_kredit])->count();
-    $file = jenisrek("2-{$simpanan->jenis_simpanan}") ? "c_bkm" : "c_bkk";
-    $debit = $rek > 0 ? 0 : $row2->jumlah;
-    $kredit = $rek > 0 ? $row2->jumlah : 0;
-    $prasaldo = $kredit - $debit;
-    $saldosamping += $prasaldo;
-    $user = \App\Models\User::find($row2->id_user);
+        $no++;
     @endphp
     <tr>
         <td width="4%" height="30" class="style9">{{ $no }}</td>
         <td width="10%" class="style9 align-center">{{ $row2->tgl_transaksi }}</td>
         <td width="6%" class="style9 align-center">{{ $row2->idt }}</td>
-        <td width="40%" class="style9">{{ $row2->keterangan_transaksi }}</td>
-        <td width="10%" class="style9 align-right">{{ number_format($debit) }}</td>
-        <td width="10%" class="style9 align-right">{{ number_format($kredit) }}</td>
-        <td width="10%" class="style9 align-right">{{ number_format($saldosamping) }}</td>
-        <td width="2%" class="style9 align-center">{{ $user->ins }}</td>
+        <td width="40%" class="style9">{{ $row2->transaksi->keterangan_transaksi }}</td>
+        <td width="10%" class="style9 align-right">{{ number_format($row2->real_d) }}</td>
+        <td width="10%" class="style9 align-right">{{ number_format($row2->real_k) }}</td>
+        <td width="10%" class="style9 align-right">{{ number_format($row2->sum) }}</td>
+        <td width="2%" class="style9 align-center">{{ $row2->transaksi->user->ins }}</td>
     </tr>
     @endforeach
     

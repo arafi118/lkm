@@ -219,9 +219,9 @@ class SimpananController extends Controller
     {
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $simpanan = $simpanan->where('id', $simpanan->id)->with(['anggota', 'js'])->first();
+        $transaksi = RealSimpanan::where('cif', $simpanan->id)->with('transaksi', 'transaksi.user')->get();
         $title = 'Cetak Rekening Koran' . $simpanan->anggota->namadepan;
-        dd($simpanan);
-        return view('simpanan.partials.cetak_koran')->with(compact('title', 'simpanan', 'kec'));
+        return view('simpanan.partials.cetak_koran')->with(compact('title','transaksi', 'simpanan', 'kec'));
     }
 
     

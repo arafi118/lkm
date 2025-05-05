@@ -16,10 +16,12 @@ class Kecamatan extends Model
     {
         return $this->belongsTo(Kabupaten::class, 'kd_kab', 'kd_kab');
     }
+
     public function rekap()
     {
-        return $this->hasMany(Rekap::class)->whereRaw('FIND_IN_SET(?, lokasi)', [$this->id]);
+        return $this->belongsTo(Rekap::class, 'kd_rekap', 'kd_kab');
     }
+
     public function desa()
     {
         return $this->hasMany(Desa::class, 'kd_kec', 'kd_kec')->orderBy('kd_desa', 'ASC');
