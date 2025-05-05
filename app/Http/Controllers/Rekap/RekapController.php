@@ -117,6 +117,7 @@ class RekapController extends Controller
     public function kecamatan($kd_kec)
     {
         $kec = Kecamatan::where('kd_kec', $kd_kec)->with('rekap')->first();
+        dd($kec);
         $laporan = JenisLaporan::where('file', '!=', '0')->orderBy('urut', 'ASC')->get();
 
         if (!$kec) {

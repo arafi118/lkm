@@ -3,9 +3,10 @@
     "",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\simpanan",
-    "\\resources\\views\\simpanan\\partials"
+    "\\resources\\views\\pelaporan",
+    "\\resources\\views\\pelaporan\\view",
+    "\\resources\\views\\pelaporan\\view\\ojk"
   ],
-  "SelectedNode": "\\resources\\views\\simpanan\\partials\\detail.blade.php",
+  "SelectedNode": "\\resources\\views\\pelaporan\\view\\ojk\\daftar_rincian_pinjamanaktif.blade.php",
   "PreviewInSolutionExplorer": false
 }

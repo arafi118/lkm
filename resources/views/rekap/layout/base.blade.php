@@ -68,7 +68,7 @@
                                 </script>,
                                 made with <i class="fa fa-heart"></i> by
                                 <a href="https://abt.co.id" class="font-weight-bold" target="_blank">
-                                    PT. Asta Brata Teknologi
+                                    PT. Asta Brata Teknologia
                                 </a>
                                 for a business.
                             </div>

@@ -321,6 +321,16 @@
                 function(result) {
                     $('#saldo').html(formatter.format(result.saldo))
                 })
+            // --- Mapping sumber_dana ke disimpan_ke ---
+            var pilihanSimpan = {
+                '1.2.02.01': '5.1.07.01',
+                '1.2.02.02': '5.1.07.02',
+                '1.2.02.03': '5.1.07.03'
+            };
+
+            if (pilihanSimpan[sumber_dana]) {
+                $('#disimpan_ke').val(pilihanSimpan[sumber_dana]).trigger('change');
+            }
         })
 
         var value_disimpan_ke = ''

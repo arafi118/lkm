@@ -18,9 +18,8 @@ class Kecamatan extends Model
     }
     public function rekap()
     {
-        return $this->belongsTo(Rekap::class, 'kd_rekap', 'kd_kab');
+        return $this->hasMany(Rekap::class)->whereRaw('FIND_IN_SET(?, lokasi)', [$this->id]);
     }
-
     public function desa()
     {
         return $this->hasMany(Desa::class, 'kd_kec', 'kd_kec')->orderBy('kd_desa', 'ASC');
