@@ -106,8 +106,7 @@
         <td width="2%" class="style9 align-center">{{ $row2->transaksi->user->ins }}</td>
     </tr>
     @endforeach
-    
-    @endphp
+    <br>
 </table>
 </body>
 
