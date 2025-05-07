@@ -1,6 +1,3 @@
-@php
-    $thn_awal = explode('-', $kec->tgl_pakai)[0];
-@endphp
 
 @extends('rekap.layout.base')
 
@@ -8,15 +5,15 @@
     <div class="card mb-3">
         <div class="card-header pt-3">
             <div>
-                {{ strtoupper($kec->nama_lembaga_long) }}
+                {{ strtoupper($rekap->nama_rekap) }}
             </div>
             <div class="fw-bold">
-                <small>{{ strtoupper($nama_kec) }}</small>
+                <small>{{ strtoupper($rekap->nama_rekap) }}</small>
             </div>
         </div>
         <div class="card-body pt-0 pb-0">
 
-            <form action="/pelaporan/preview/{{ $kec->id }}" method="post" id="FormPelaporan" target="_blank">
+            <form action="/pelaporan/preview/{{ $rekap->id }}" method="post" id="FormPelaporan" target="_blank">
                 @csrf
                 <div class="row">
                     <div class="col-md-4">
@@ -24,7 +21,7 @@
                             <label class="form-label" for="tahun">Tahunan</label>
                             <select class="form-control" name="tahun" id="tahun">
                                 <option value="">---</option>
-                                @for ($i = $thn_awal; $i < $kec->tgl_close; $i++)
+                                @for ($i = 2020; $i < 2028; $i++)
                                     <option {{ $i == date('Y') ? 'selected' : '' }} value="{{ $i }}">
                                         {{ $i }}
                                     </option>
@@ -86,15 +83,6 @@
                                 @endforeach
                             </select>
                             <small class="text-danger" id="msg_laporan"></small>
-                        </div>
-                    </div>
-                    <div class="col-md-6" id="subLaporan">
-                        <div class="my-2">
-                            <label class="form-label" for="sub_laporan">Nama Sub Laporan</label>
-                            <select class="form-control" name="sub_laporan" id="sub_laporan">
-                                <option value="">---</option>
-                            </select>
-                            <small class="text-danger" id="msg_sub_laporan"></small>
                         </div>
                     </div>
                 </div>

@@ -117,8 +117,7 @@ class RekapController extends Controller
     public function kecamatan($kd_kec)
     {
 
-        $kec = Kecamatan::where('kd_kec', $kd_kec)->with('rekap')->first();
-        dd($kec);
+        $kec = Kecamatan::where('kd_kec', $kd_kec)->with('kabupaten')->first();
         $laporan = JenisLaporan::where('file', '!=', '0')->orderBy('urut', 'ASC')->get();
 
         if (!$kec) {
@@ -127,17 +126,42 @@ class RekapController extends Controller
             $title = 'Kecamatan Belum Terdaftar';
             return view('rekap._kecamatan')->with(compact('title', 'kec'));
         }
-
-        $rekap = $kec->rekap;
+        
+        $kab = $kec->kabupaten;
         $nama_kec = $kec->sebutan_kec . ' ' . $kec->nama_kec;
-        if (Keuangan::startWith($rekap->nama_rekap, 'KOTA') || Keuangan::startWith($rekap->nama_rekap, 'rekap')) {
-            $nama_kec .= ' ' . ucwords(strtolower($rekap->nama_rekap));
+        if (Keuangan::startWith($kab->nama_kab, 'KOTA') || Keuangan::startWith($kab->nama_kab, 'KAB')) {
+            $nama_kec .= ' ' . ucwords(strtolower($kab->nama_kab));
         } else {
-            $nama_kec .= ' Rekap ' . ucwords(strtolower($rekap->nama_rekap));
+            $nama_kec .= ' Kabupaten ' . ucwords(strtolower($kab->nama_kab));
         }
 
         Session::put('lokasi', $kec->id);
         $title = 'Pelaporan ' . $kec->sebutan_kec . ' ' . $kec->nama_kec;
         return view('rekap.kecamatan')->with(compact('title', 'kec', 'laporan', 'nama_kec'));
     }
+    public function laporan()
+    {
+        $id = Session::get('id_rekap');
+        $rekap = Rekap::where('id', $id)->first();
+        $title = 'Laporan Rekap';
+        $laporan = collect([
+            (object)[
+                'id' => 1,
+                'urut' => 1,
+                'nama_laporan' => 'Neraca',
+                'file' => 'rekap_neraca',
+                'awal_tahun' => 0,
+            ],
+            (object)[
+                'id' => 2,
+                'urut' => 2,
+                'nama_laporan' => 'Rugi Laba',
+                'file' => 'rekap_rb',
+                'awal_tahun' => 0,
+            ],
+        ]);
+        
+        return view('rekap.laporan')->with(compact('title', 'rekap', 'laporan'));
+    }
+
 }

@@ -52,6 +52,7 @@ class AuthController extends Controller
                         'kd_rekap' => "",
                         'kd_prov' => "",
                         'id_rekap' => $login_rekap->id,
+                        'rekapan' => $login_rekap->lokasi,
                     ]);
 
                     return redirect('/rekap/dashboard')->with([
