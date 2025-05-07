@@ -32,7 +32,7 @@ class AuthController extends Controller
         // Handle URL lokal
         if (request()->server('SERVER_NAME') === '127.0.0.1' || request()->server('SERVER_NAME') === 'localhost') {
                     $kec = Kecamatan::where('id', self::ID_KEC)->with('kabupaten')->first();
-                    $pus = Rekap::where('id', 1)->first();return redirect('/rekap');
+                   // $pus = Rekap::where('id', 1)->first();return redirect('/rekap');
         } else {
             $kec = Kecamatan::where('web_kec', explode('//', request()->url(''))[1])
                 ->orWhere('web_alternatif', explode('//', request()->url(''))[1])

@@ -94,16 +94,18 @@
     @foreach($transaksi as $row2)
     @php
         $no++;
+        $saldosamping += $row2->realSimpanan->real_k;
+        $saldosamping -= $row2->realSimpanan->real_d;
     @endphp
     <tr>
         <td width="4%" height="30" class="style9">{{ $no }}</td>
         <td width="10%" class="style9 align-center">{{ $row2->tgl_transaksi }}</td>
         <td width="6%" class="style9 align-center">{{ $row2->idt }}</td>
-        <td width="40%" class="style9">{{ $row2->transaksi->keterangan_transaksi }}</td>
-        <td width="10%" class="style9 align-right">{{ number_format($row2->real_d) }}</td>
-        <td width="10%" class="style9 align-right">{{ number_format($row2->real_k) }}</td>
-        <td width="10%" class="style9 align-right">{{ number_format($row2->sum) }}</td>
-        <td width="2%" class="style9 align-center">{{ $row2->transaksi->user->ins }}</td>
+        <td width="40%" class="style9">{{ $row2->keterangan_transaksi }}</td>
+        <td width="10%" class="style9 align-right">{{ number_format($row2->realSimpanan->real_d) }}</td>
+        <td width="10%" class="style9 align-right">{{ number_format($row2->realSimpanan->real_k) }}</td>
+        <td width="10%" class="style9 align-right">{{ number_format($saldosamping) }}</td>
+        <td width="2%" class="style9 align-center">{{ $row2->user->ins }}</td>
     </tr>
     @endforeach
     <br>
