@@ -111,6 +111,10 @@ class PelaporanController extends Controller
                 3 => [
                     'title' => '04. Oktober - Desember',
                     'id' => '10,11,12'
+                ],
+                4 => [
+                    'title' => '05. Januari - Desember',
+                    'id' => '12'
                 ]
             ];
 
@@ -3462,7 +3466,8 @@ class PelaporanController extends Controller
             '1,2,3' => 'Januari - Maret',
             '4,5,6' => 'April - Juni',
             '7,8,9' => 'Juli - September',
-            '10,11,12' => 'Oktober - Desember'
+            '10,11,12' => 'Oktober - Desember',
+            '12' => 'Januari - Desember'
         ];
 
         $tgl = $thn . '-' . $bln . '-' . $hari;
@@ -3480,6 +3485,9 @@ class PelaporanController extends Controller
         $data['bulan_akhir'] = $awal - 1;
         $data['bulan_tampil'] = $bulan;
         $data['triwulan'] = array_search($data['sub'], array_keys($title)) + 1;
+
+        $data['is_tahunan'] = ($data['sub'] === '12');
+
         $data['akun1'] = AkunLevel1::where('lev1', '>=', '4')->with([
             'akun2',
             'akun2.akun3',

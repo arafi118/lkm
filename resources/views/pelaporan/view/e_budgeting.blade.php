@@ -47,7 +47,104 @@
             <td colspan="3" height="5"></td>
         </tr>
     </table>
+    
+    @if ($is_tahunan)
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+        <tr style="background: rgb(232, 232, 232); font-weight: bold; font-size: 12px;">
+            <th rowspan="2" class="t l b" width="32%">Rekening</th>
+            <th colspan="2" class="t l b r" width="16%" height="16">
+                        Akumulasi Januari-Desember
+                    </th>
+         </tr>
+        <tr style="background: rgb(232, 232, 232); font-weight: bold; font-size: 12px;">
+            <th class="t l b" width="8%" height="16">Rencana</th>
+            <th class="t l b r" width="8%">Realisasi</th>
+        </tr>
+        @foreach ($akun1 as $lev1)
+            @php
+                $kom_saldo_lalu = 0;
+                
+                $bulan1 = 0;
+                $rencana1 = 0;
+            @endphp
+            <tr style="background: rgb(200, 200, 200); font-weight: bold;">
+                <td colspan="3" class="t l b r">
+                    <b>{{ $lev1->kode_akun }}. {{ $lev1->nama_akun }}</b>
+                </td>
+            </tr>
+            @foreach ($lev1->akun2 as $lev2)
+                <tr style="background: rgb(150, 150, 150); font-weight: bold;">
+                    <td colspan="3" class="t l b r">
+                        <b>{{ $lev2->kode_akun }}. {{ $lev2->nama_akun }}</b>
+                    </td>
+                </tr>
+                @foreach ($lev2->akun3 as $lev3)
+                    @foreach ($lev3->rek as $rek)
+                        @php
+                            $bg = 'rgb(230, 230, 230)';
+                            if ($loop->iteration % 2 == 0) {
+                                $bg = 'rgba(255, 255, 255)';
+                            }
 
+                            $nomor = 0;
+                            $t_saldo = 0;
+                            $t_rencana = 0;
+                            $saldo_bula_lalu = 0;
+                            $bulan_lalu = 0;
+                            $saldo_kom = 0;
+
+                            $urutan = 1;
+                        @endphp
+                        <tr style="background: {{ $bg }};">
+                            <td class="t l b">{{ $rek->kode_akun }}. {{ $rek->nama_akun }}</td>
+                            @foreach ($rek->kom_saldo as $saldo)
+                                @php
+                                    $_saldo = floatval($saldo->kredit) - floatval($saldo->debit);
+                                    $rencana =0;
+                                    if ($saldo->eb) {
+                                        $rencana = $saldo->eb->jumlah;
+                                    }
+                                    if ($rek->lev1 == 5) {
+                                        $_saldo = floatval($saldo->debit) - floatval($saldo->kredit);
+                                    }
+                                    $bulan1 += $_saldo;
+                                    $rencana1 += $rencana;
+                                @endphp
+                            @endforeach
+                                    <td class="t l b" align="right">
+                                        {{ number_format($rencana, 2) }} 
+                                    </td>
+                                    <td class="t l b r" align="right">
+                                        {{ number_format($_saldo, 2) }} 
+                                    </td>
+                        </tr>
+                    @endforeach
+                @endforeach
+            @endforeach
+
+            <tr style="background: rgb(150, 150, 150); font-weight: bold;">
+                <td align="center" class="t l b" height="14">Total Realisasi {{ $lev1->nama_akun }}</td>
+                <td align="right" class="t l b">{{ number_format($rencana1, 2) }}</td>
+                <td align="right" class="t l b r">{{ number_format($bulan1, 2) }}</td>
+            </tr>
+        @endforeach
+
+        @php
+            $r_pendapatan = $r_pendapatan1 + $r_pendapatan2 + $r_pendapatan3;
+            $r_beban = $r_beban1 + $r_beban2 + $r_beban3;
+
+            $pendapatan = $pendapatan1 + $pendapatan2 + $pendapatan3;
+            $beban = $beban1 + $beban2 + $beban3;
+        @endphp
+
+        <tr>
+            <td colspan="3" style="padding: 0px !important;">
+                <div style="margin-top: 16px;"></div>
+                {!! json_decode(str_replace('{tanggal}', $tanggal_kondisi, $kec->ttd->tanda_tangan_pelaporan), true) !!}
+            </td>
+        </tr>
+    </table>
+    @else
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr style="background: rgb(232, 232, 232); font-weight: bold; font-size: 12px;">
             <th rowspan="2" class="t l b" width="32%">Rekening</th>
@@ -147,7 +244,7 @@
                                         $kom_saldo_lalu += $saldo_kom;
                                     @endphp
                                     <td class="t l b" align="right">
-                                        {{ number_format($saldo_kom, 2) }}
+                                        {{ number_format($saldo_kom, 2) }} 
                                     </td>
                                 @endif
 
@@ -172,14 +269,14 @@
                                         $urutan++;
                                     @endphp
                                     <td class="t l b" align="right">
-                                        {{ number_format($rencana, 2) }}
+                                        {{ number_format($rencana, 2) }} 
                                     </td>
                                     <td class="t l b" align="right">
-                                        {{ number_format($_saldo, 2) }}
+                                        {{ number_format($_saldo, 2) }} 
                                     </td>
                                 @endif
                             @endforeach
-                            <td class="t l b r" align="right">{{ number_format($t_saldo + $saldo_kom, 2) }}</td>
+                            <td class="t l b r" align="right">{{ number_format($t_saldo + $saldo_kom, 2) }}</td> 
                         </tr>
                     @endforeach
                 @endforeach
@@ -264,4 +361,5 @@
             </td>
         </tr>
     </table>
+    @endif
 @endsection
