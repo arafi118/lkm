@@ -13,7 +13,7 @@
         </div>
         <div class="card-body pt-0 pb-0">
 
-            <form action="/pelaporan/preview/{{ $rekap->id }}" method="post" id="FormPelaporan" target="_blank">
+            <form action="/pelaporan/preview/" method="post" id="FormPelaporan" target="_blank">
                 @csrf
                 <div class="row">
                     <div class="col-md-4">
