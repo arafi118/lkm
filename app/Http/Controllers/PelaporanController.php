@@ -3870,4 +3870,185 @@ class PelaporanController extends Controller
             return $view;
         }
     }
+
+    private function rekap_rb(array $data)
+    {
+        $thn = $data['tahun'];
+        $bln = $data['bulan'];
+        $hari = ($data['hari']);
+        $awal_tahun = $thn . '-01-01';
+
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+
+        if ($data['bulanan']) {
+            $data['sub_judul'] = 'Periode ' . Tanggal::tglLatin($thn . '-' . $bln . '-01') . ' S.D ' . Tanggal::tglLatin($data['tgl_kondisi']);
+            $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+            $data['bulan_lalu'] = date('Y-m-t', strtotime('-1 month', strtotime($thn . '-' . $bln . '-10')));
+            $data['header_lalu'] = 'Bulan Lalu';
+            $data['header_sekarang'] = 'Bulan Ini';
+            $jenis = 'Bulanan';
+        } else {
+            $data['sub_judul'] = 'Periode ' . Tanggal::tglLatin($awal_tahun) . ' S.D ' . Tanggal::tglLatin($data['tgl_kondisi']);
+            $data['tgl'] = Tanggal::tahun($tgl);
+            $data['bulan_lalu'] = ($thn - 1) . '-12-31';
+            $data['header_lalu'] = 'Tahun Lalu';
+            $data['header_sekarang'] = 'Tahun Ini';
+            $jenis = 'Tahunan';
+        }
+
+        $lokasi_ids = session('rekapan'); 
+        $lokasi_ids = explode(',', $lokasi_ids);
+        $lokasi_ids = array_map('trim', $lokasi_ids);
+
+        $rekap_baru = [];
+
+        foreach ($lokasi_ids as $lokasi_id) {
+            $kecamatan = DB::table('kecamatan')->where('id', $lokasi_id)->first();
+
+            // --- Inline laporan_laba_rugi ---
+
+            $tanggal = explode('-', $data['tgl_kondisi']);
+            $tahun = $tanggal[0];
+            $bulan = $tanggal[1];
+            $hari = $tanggal[2];
+
+            $bulan_lalu = $bulan - 1;
+
+            $rekening_table = 'rekening_' . $lokasi_id;
+
+            $akun2 = DB::table('akun_level_2')
+                ->whereIn('lev1', ['4', '5'])
+                ->orderBy('kode_akun')
+                ->get();
+
+            $pendapatan = [];
+            $beban = [];
+            $pendapatan_non_ops = [];
+            $beban_non_ops = [];
+
+            foreach ($akun2 as $akn2) {
+                $rek = DB::table($rekening_table)
+                    ->where('lev2', $akn2->lev2)
+                    ->where('lev1', $akn2->lev1)
+                    ->get();
+
+                $data_rek = [];
+
+                foreach ($rek as $r) {
+                    $kom_saldo = DB::table('saldo_' . $lokasi_id)
+                        ->where('kode_akun', $r->kode_akun)
+                        ->where('tahun', $tahun)
+                        ->whereIn('bulan', [$bulan, $bulan_lalu])
+                        ->get();
+
+                    $saldo = DB::table('saldo')
+                        ->where('kode_akun', $r->kode_akun)
+                        ->where('tahun', $tahun)
+                        ->where('bulan', '0')
+                        ->first();
+
+                    $debit_bulan_ini = 0;
+                    $kredit_bulan_ini = 0;
+                    $debit_bulan_lalu = 0;
+                    $kredit_bulan_lalu = 0;
+
+                    foreach ($kom_saldo as $ks) {
+                        if ($ks->bulan == $bulan) {
+                            $debit_bulan_ini += floatval($ks->debit);
+                            $kredit_bulan_ini += floatval($ks->kredit);
+                        } else {
+                            $debit_bulan_lalu += floatval($ks->debit);
+                            $kredit_bulan_lalu += floatval($ks->kredit);
+                        }
+                    }
+
+                    $debit_awal = $saldo ? floatval($saldo->debit) : 0;
+                    $kredit_awal = $saldo ? floatval($saldo->kredit) : 0;
+
+                    $saldo_awal = $debit_awal - $kredit_awal;
+                    $saldo_bulan_ini = $saldo_awal + ($debit_bulan_ini - $kredit_bulan_ini);
+                    $saldo_bulan_lalu = $saldo_awal + ($debit_bulan_lalu - $kredit_bulan_lalu);
+
+                    if ($r->lev1 == 4) {
+                        $saldo_awal = $kredit_awal - $debit_awal;
+                        $saldo_bulan_ini = $saldo_awal + ($kredit_bulan_ini - $debit_bulan_ini);
+                        $saldo_bulan_lalu = $saldo_awal + ($kredit_bulan_lalu - $debit_bulan_lalu);
+                    }
+
+                    $data_rek[$r->kode_akun] = [
+                        'kode_akun' => $r->kode_akun,
+                        'nama_akun' => $r->nama_akun,
+                        'saldo' => $saldo_bulan_ini,
+                        'saldo_bln_lalu' => $saldo_bulan_lalu
+                    ];
+                }
+
+                if ($akn2->lev1 == '4' && $akn2->lev2 == '1') {
+                    $pendapatan[$akn2->lev2] = [
+                        'kode_akun' => $akn2->kode_akun,
+                        'nama_akun' => $akn2->nama_akun,
+                        'rek' => $data_rek
+                    ];
+                }
+
+                if ($akn2->lev1 == '5' && in_array($akn2->lev2, ['1', '2'])) {
+                    $beban[$akn2->lev2] = [
+                        'kode_akun' => $akn2->kode_akun,
+                        'nama_akun' => $akn2->nama_akun,
+                        'rek' => $data_rek
+                    ];
+                }
+
+                if ($akn2->lev1 == '4' && in_array($akn2->lev2, ['2', '3'])) {
+                    $pendapatan_non_ops[$akn2->lev2] = [
+                        'kode_akun' => $akn2->kode_akun,
+                        'nama_akun' => $akn2->nama_akun,
+                        'rek' => $data_rek
+                    ];
+                }
+
+                if ($akn2->lev1 == '5' && $akn2->lev2 == '3') {
+                    $beban_non_ops[$akn2->lev2] = [
+                        'kode_akun' => $akn2->kode_akun,
+                        'nama_akun' => $akn2->nama_akun,
+                        'rek' => $data_rek
+                    ];
+                }
+            }
+
+            // --- End Inline laporan_laba_rugi ---
+
+            $data_akun = array_merge($pendapatan, $beban, $pendapatan_non_ops, $beban_non_ops);
+
+            foreach ($data_akun as $akun) {
+                $kode_akun2 = substr($akun['kode_akun'], 0, 3); // Misal: 4.1 atau 5.1
+                foreach ($akun['rek'] as $kode_akun => $rek) {
+                    $kode_akun3 = substr($kode_akun, 0, 7); // Misal: 4.1.01 atau 5.1.02
+
+                    $rekap_baru[$kode_akun2]['nama'] = $akun['nama_akun'];
+                    $rekap_baru[$kode_akun2]['akun3'][$kode_akun3]['nama'] = $akun['nama_akun'];
+
+                    $rekap_baru[$kode_akun2]['akun3'][$kode_akun3]['rekap'][$kode_akun]['nama'] = $rek['nama_akun'];
+                    $rekap_baru[$kode_akun2]['akun3'][$kode_akun3]['rekap'][$kode_akun]['lokasi'][$lokasi_id] = [
+                        'nama_kec' => $kecamatan->nama_kec,
+                        'saldo' => $rek['saldo'],
+                        'saldo_bln_lalu' => $rek['saldo_bln_lalu']
+                    ];
+                }
+            }
+        }
+
+        $data['rekap'] = $rekap_baru;
+
+        $view = view('pelaporan.view.rekap_rb', $data)->render();
+
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view);
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
+
+
 }
