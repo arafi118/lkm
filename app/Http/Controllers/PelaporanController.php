@@ -183,9 +183,6 @@ class PelaporanController extends Controller
 
     public function preview(Request $request, $lokasi = null)
     {
-        if ($lokasi != null) {
-            Session::put('lokasi', $lokasi);
-        }
         if (Session::has('rekapan') && Session::get('rekapan') != '') {
             $lokasi_ids = session('rekapan'); 
             $lokasi_ids = explode(',', $lokasi_ids);
@@ -194,6 +191,9 @@ class PelaporanController extends Controller
             if (!empty($lokasi_ids)) {
                 Session::put('lokasi', $lokasi_ids[0]);
             }
+        }
+        if ($lokasi != null) {
+            Session::put('lokasi', $lokasi);
         }
         $data = $request->only([
             'tahun',
