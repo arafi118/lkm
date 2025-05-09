@@ -92,7 +92,7 @@
 
             <div class="d-flex justify-content-end">
                 <button type="button" id="Excel" class="btn btn-sm btn-success me-2">Excel</button>
-                <button type="button" id="Preview" class="btn btn-sm btn-github">Preview</button>
+                <button type="button" id="Preview" class="btn btn-sm btn-github">aPreview</button>
             </div>
         </div>
     </div>
