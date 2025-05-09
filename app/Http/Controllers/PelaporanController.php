@@ -4014,6 +4014,13 @@ class PelaporanController extends Controller
                         'rek' => $data_rek
                     ];
                 }
+                if ($akn2->lev1 == '5' && $akn2->lev2 == '4') {
+                    $beban_non_ops[$akn2->lev2] = [
+                        'kode_akun' => $akn2->kode_akun,
+                        'nama_akun' => $akn2->nama_akun,
+                        'rek' => $data_rek
+                    ];
+                }
             }
 
             // --- End Inline laporan_laba_rugi ---
@@ -4039,7 +4046,6 @@ class PelaporanController extends Controller
         }
 
         $data['rekap'] = $rekap_baru;
-
         $view = view('pelaporan.view.rekap_rb', $data)->render();
 
         if ($data['type'] == 'pdf') {
