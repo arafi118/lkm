@@ -175,9 +175,9 @@
         <td>{{ $lev3->kode_akun }}.</td>
         <td>{{ $lev3->nama_akun }}</td>
         @if ($total_saldo < 0)
-            <td align="right">({{ number_format(abs($total_saldo)) }})</td>
+            <td align="right">({{ number_format(abs($total_saldo),2) }})</td>
         @else
-            <td align="right">{{ number_format($total_saldo) }}</td>
+            <td align="right">{{ number_format($total_saldo,2) }}</td>
         @endif
     </tr>
 
@@ -190,9 +190,9 @@
             <td></td>
             <td>{{ $lev3->nama_akun }} di {{ $lokasi->nama_kec }}</td>
             @if ($lokasi->saldo < 0)
-                <td align="right">({{ number_format(abs($lokasi->saldo)) }})</td>
+                <td align="right">({{ number_format(abs($lokasi->saldo),2) }})</td>
             @else
-                <td align="right">{{ number_format($lokasi->saldo) }}</td>
+                <td align="right">{{ number_format($lokasi->saldo,2) }}</td>
             @endif
         </tr>
     @endforeach
