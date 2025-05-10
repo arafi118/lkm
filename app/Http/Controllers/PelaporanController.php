@@ -11,6 +11,7 @@ use App\Models\ArusKas;
 use App\Models\MasterArusKas;
 use App\Models\Calk;
 use App\Models\Desa;
+use App\Models\Rekap;
 use App\Models\JenisLaporan;
 use App\Models\JenisLaporanPinjaman;
 use App\Models\JenisProdukPinjaman;
@@ -194,6 +195,18 @@ class PelaporanController extends Controller
             'sub_laporan',
             'type'
         ]);
+        
+        if ($data['laporan'] == 'rekap_neraca' || $data['laporan'] == 'rekap_rb' ) {
+            $lokasi_ids = session('rekapan'); 
+            $lokasi_ids = explode(',', $lokasi_ids);
+            $lokasi_ids = array_map('trim', $lokasi_ids);
+    
+            if (!empty($lokasi_ids)) {
+                Session::put('lokasi', $lokasi_ids[0]);
+            }
+            $rekap = Rekap::where('id', Session::get('id_rekap'))->first();
+            $data['nama_rekap'] = $rekap->nama_rekap;
+        }
 
         if ($data['laporan'] == 'calk' && strlen($data['sub_laporan']) > 22) {
             Calk::where([

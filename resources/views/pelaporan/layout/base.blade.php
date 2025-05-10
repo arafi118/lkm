@@ -113,7 +113,7 @@
                     <td>
                         <div style="font-size: 12px;">{{ strtoupper($nama_lembaga) }}</div>
                         <div style="font-size: 12px;">
-                            <b>{{ strtoupper($nama_kecamatan) }}</b>
+                            <b>{{ strtoupper("Pelaporan Rekapan Seluruh Cabang ". $nama_rekap) }}</b>
                         </div>
                     </td>
                 </tr>
