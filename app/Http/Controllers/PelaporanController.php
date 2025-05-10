@@ -183,15 +183,6 @@ class PelaporanController extends Controller
 
     public function preview(Request $request, $lokasi = null)
     {
-        if (Session::has('rekapan') && Session::get('rekapan') != '') {
-            $lokasi_ids = session('rekapan'); 
-            $lokasi_ids = explode(',', $lokasi_ids);
-            $lokasi_ids = array_map('trim', $lokasi_ids);
-    
-            if (!empty($lokasi_ids)) {
-                Session::put('lokasi', $lokasi_ids[0]);
-            }
-        }
         if ($lokasi != null) {
             Session::put('lokasi', $lokasi);
         }
