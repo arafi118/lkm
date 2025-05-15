@@ -167,4 +167,41 @@
             <td align="right">{{ number_format($totalC - $taksiran, 2) }}</td>
         </tr>
     </table>
+                <div style="margin-top: 16px;"></div>
+                
+                <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
+                    style="font-size: 11px;">
+                    <tr>
+                        <td width="50%" align="center">
+                            <strong>Diperiksa Oleh : </strong>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><u>Ardiansyah Asdar STP.MM</u></p>
+                            Ketua Dewan Pengawas
+                        </td>
+                        <td width="50%" align="center">
+                            <strong>Dilaporkan Oleh : </strong>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><u>Basuki</u></p>
+                            Manajer
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <p>&nbsp;</p>
+                            <strong>Mengetahui/Menyetujui : </strong>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><u>Eko Susanto</u></p>
+                            Ketua Koperasi
+                        </td>
+                    </tr>
+                </table>
 @endsection
