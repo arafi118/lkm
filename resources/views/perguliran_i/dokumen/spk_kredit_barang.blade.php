@@ -174,7 +174,7 @@
                 </b>
                 setiap bulan, selama {{ $pinkel->jangka }} bulan,
                 yang dimulai pada {{ Tanggal::namaHari($pinkel->tgl_cair) }},
-                {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_cair)->translatedFormat('d F Y') }} dan
+                {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->translatedFormat('d F Y') }} dan
                 sampai target pelunasan, sebagaimana jadwal angsuran terlampir.
             </li>
             <li>Jika Kredit dapat diselesaikan sebelum jangka waktu pengembalian, maka <b>Pihak Kedua</b> diwajibkan
