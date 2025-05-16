@@ -126,7 +126,7 @@
     </div>
     <p class="centered-text">
         Pihak Pertama dan Pihak Kedua dalam kedudukan masing-masing seperti telah diterangkan diatas, Pada hari
-        {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_cair)->locale('id')->translatedFormat('d F Y') }}
+        {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->locale('id')->translatedFormat('d F Y') }}
         bertempat di {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
         {{ $kec->nama_kec }} dengan sadar dan
         sukarela menyatakan telah membuat perjanjian kredit barang kepada <b>Pihak Kedua berupa {{ $pinkel->nama_barang }}.
