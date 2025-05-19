@@ -155,7 +155,7 @@ class RekapController extends Controller
             (object)[
                 'id' => 2,
                 'urut' => 2,
-                'nama_laporan' => 'Rugi Laba',
+                'nama_laporan' => 'Laba Rugi',
                 'file' => 'rekap_rb',
                 'awal_tahun' => 0,
             ],

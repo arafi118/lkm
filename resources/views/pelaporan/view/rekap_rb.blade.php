@@ -38,6 +38,7 @@
             <td align="center" width="15%">{{ $header_sekarang }}</td>
             <td align="center" width="15%">s.d. {{ $header_sekarang }}</td>
         </tr>
+        
         @php
             $kelompok_judul = [
                 '4.1' => '4. Pendapatan',
@@ -62,6 +63,7 @@
             @php
                 $judul = $kelompok_judul[$kode] ?? '';
             @endphp
+            
             @if ($judul && !in_array($judul, $sudah_tampil))
                 <tr style="background: rgb(200, 200, 200); font-weight: bold; text-transform: uppercase;">
                     <td colspan="4" height="14">{{ $judul }}</td>
@@ -70,33 +72,41 @@
                     $sudah_tampil[] = $judul;
                 @endphp
             @endif
+            
             <tr style="background: rgb(150, 150, 150); font-weight: bold;">
-                <td colspan="4" height="14">{{$kode}}. {{ $p['nama'] }}</td>
+                <td colspan="4" height="14">{{ $kode }}. {{ $p['nama'] }}</td>
             </tr>
+            
             @php
                 $jum_bulan_lalu = 0;
                 $jum_saldo = 0;
             @endphp
                 
-                @foreach ($p['akun3'] as $kode1 => $p1)
-                    @foreach ($p1['rekap'] as $kode2 => $p2)
+            @foreach ($p['akun3'] as $kode1 => $p1)
+                @foreach ($p1['rekap'] as $kode2 => $p2)
                     @php
-                $total_bln_lalu = 0;
-                $total_saldo = 0;
-                        $a = 1;
+                        $total_bln_lalu = 0;
+                        $total_saldo = 0;
+                        foreach ($p2['lokasi'] as $temp) {
+                            $total_bln_lalu += $temp['saldo_bln_lalu'];
+                            $jum_bulan_lalu += $temp['saldo_bln_lalu'];
+                            $total_saldo += $temp['saldo'];
+                            $jum_saldo += $temp['saldo'];
+                        }
                     @endphp
-                        <tr style="background: rgb(200, 200, 200); font-weight: bold;">
-                            <td colspan="4" height="14">{{$kode2}}. {{ $p2['nama'] }}</td>
-                        </tr>
-                            @foreach ($p2['lokasi'] as $p3)
-                @php
-                    $a+=1;
-                    $bg = 'rgb(230, 230, 230)';
-                    if ($a % 2 == 0) {
-                        $bg = 'rgb(255, 255, 255)';
-                    }
-                            $total_bln_lalu += $p3['saldo_bln_lalu'];
-                            $total_saldo += $p3['saldo'];
+
+                    <tr style="background: rgb(200, 200, 200); font-weight: bold;">
+                        <td height="14">{{ $kode2 }}. {{ $p2['nama'] }}</td>
+                        <td align="right">{{ number_format($total_bln_lalu, 2) }}</td>
+                        <td align="right">{{ number_format($total_saldo - $total_bln_lalu, 2) }}</td>
+                        <td align="right">{{ number_format($total_saldo, 2) }}</td>
+                    </tr>
+
+                    @php $a = 1; @endphp
+                    @foreach ($p2['lokasi'] as $p3)
+                        @php
+                            $a += 1;
+                            $bg = $a % 2 == 0 ? 'rgb(255, 255, 255)' : 'rgb(230, 230, 230)';
                         @endphp
                         <tr style="background: {{ $bg }};">
                             <td height="14">&nbsp;&nbsp;&nbsp; {{ $p2['nama'] }} di {{ $p3['nama_kec'] }}</td>
@@ -111,22 +121,22 @@
             {{-- Jumlah per $kode --}}
             <tr style="background: rgb(150, 150, 150); font-weight: bold;">
                 <td align="left" height="14">Jumlah {{ $kode }}. {{ $p['nama'] }}</td>
-                <td align="right">{{ number_format($total_bln_lalu, 2) }}</td>
-                <td align="right">{{ number_format($total_saldo - $total_bln_lalu, 2) }}</td>
-                <td align="right">{{ number_format($total_saldo, 2) }}</td>
+                <td align="right">{{ number_format($jum_bulan_lalu, 2) }}</td>
+                <td align="right">{{ number_format($jum_saldo - $jum_bulan_lalu, 2) }}</td>
+                <td align="right">{{ number_format($jum_saldo, 2) }}</td>
             </tr>
 
             {{-- Akumulasi A/B --}}
             @php
                 if (in_array($kode, ['4.1', '5.1', '5.2'])) {
-                    $saldoA += $total_saldo;
-                    $saldoA_lalu += $total_bln_lalu;
+                    $saldoA += $jum_saldo;
+                    $saldoA_lalu += $jum_bulan_lalu;
                 } elseif (in_array($kode, ['4.2', '4.3', '5.3'])) {
-                    $saldoB += $total_saldo;
-                    $saldoB_lalu += $total_bln_lalu;
+                    $saldoB += $jum_saldo;
+                    $saldoB_lalu += $jum_bulan_lalu;
                 } elseif (in_array($kode, ['5.4'])) {
-                    $taksiran += $total_saldo;
-                    $taksiran_lalu += $total_bln_lalu;
+                    $taksiran += $jum_saldo;
+                    $taksiran_lalu += $jum_bulan_lalu;
                 }
             @endphp
         @endforeach
@@ -162,46 +172,46 @@
         {{-- Laba Setelah Pajak (sama dengan C) --}}
         <tr style="background: rgb(175, 175, 175); font-weight: bold;">
             <td align="left" height="16">C. Laba Rugi Setelah Taksiran Pajak (A + B)</td>
-            <td align="right">{{ number_format($totalC_lalu-$taksiran_lalu, 2) }}</td>
-            <td align="right">{{ number_format(($totalC - $taksiran) - ($totalC_lalu-$taksiran_lalu), 2) }}</td>
+            <td align="right">{{ number_format($totalC_lalu - $taksiran_lalu, 2) }}</td>
+            <td align="right">{{ number_format(($totalC - $taksiran) - ($totalC_lalu - $taksiran_lalu), 2) }}</td>
             <td align="right">{{ number_format($totalC - $taksiran, 2) }}</td>
         </tr>
     </table>
-                <div style="margin-top: 16px;"></div>
-                
-                <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
-                    style="font-size: 11px;">
-                    <tr>
-                        <td width="50%" align="center">
-                            <strong>Diperiksa Oleh : </strong>
-                            <p>&nbsp;</p>
-                            <p>&nbsp;</p>
-                            <p>&nbsp;</p>
-                            <p>&nbsp;</p>
-                            <p><u>Ardiansyah Asdar STP.MM</u></p>
-                            Ketua Dewan Pengawas
-                        </td>
-                        <td width="50%" align="center">
-                            <strong>Dilaporkan Oleh : </strong>
-                            <p>&nbsp;</p>
-                            <p>&nbsp;</p>
-                            <p>&nbsp;</p>
-                            <p>&nbsp;</p>
-                            <p><u>Basuki</u></p>
-                            Manajer
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center">
-                            <p>&nbsp;</p>
-                            <strong>Mengetahui/Menyetujui : </strong>
-                            <p>&nbsp;</p>
-                            <p>&nbsp;</p>
-                            <p>&nbsp;</p>
-                            <p>&nbsp;</p>
-                            <p><u>Eko Susanto</u></p>
-                            Ketua Koperasi
-                        </td>
-                    </tr>
-                </table>
+
+    <div style="margin-top: 16px;"></div>
+    
+    <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+        <tr>
+            <td width="50%" align="center">
+                <strong>Diperiksa Oleh : </strong>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p><u>Ardiansyah Asdar STP.MM</u></p>
+                Ketua Dewan Pengawas
+            </td>
+            <td width="50%" align="center">
+                <strong>Dilaporkan Oleh : </strong>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p><u>Basuki</u></p>
+                Manajer
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <p>&nbsp;</p>
+                <strong>Mengetahui/Menyetujui : </strong>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p><u>Eko Susanto</u></p>
+                Ketua Koperasi
+            </td>
+        </tr>
+    </table>
 @endsection
