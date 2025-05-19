@@ -171,7 +171,7 @@
     @endforeach
 
     {{-- Baris akun3 utama --}}
-    <tr style="background: {{ $warna2 }};">
+    <tr style="background: {{ $warna2 }}; font-weight: bold;">
         <td>{{ $lev3->kode_akun }}.</td>
         <td>{{ $lev3->nama_akun }}</td>
         @if ($total_saldo < 0)
