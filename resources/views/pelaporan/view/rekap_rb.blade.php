@@ -127,18 +127,20 @@
             </tr>
 
             {{-- Akumulasi A/B --}}
-            @php
-                if (in_array($kode, ['4.1', '5.1', '5.2'])) {
-                    $saldoA += $jum_saldo;
-                    $saldoA_lalu += $jum_bulan_lalu;
-                } elseif (in_array($kode, ['4.2', '4.3', '5.3'])) {
-                    $saldoB += $jum_saldo;
-                    $saldoB_lalu += $jum_bulan_lalu;
-                } elseif (in_array($kode, ['5.4'])) {
-                    $taksiran += $jum_saldo;
-                    $taksiran_lalu += $jum_bulan_lalu;
-                }
-            @endphp
+                @php
+                    $kepala = explode('.', $kode)[0];
+
+                    if (in_array($kode, ['4.1', '5.1', '5.2'])) {
+                        $saldoA += $kepala == '4' ? $jum_saldo : -$jum_saldo;
+                        $saldoA_lalu += $kepala == '4' ? $jum_bulan_lalu : -$jum_bulan_lalu;
+                    } elseif (in_array($kode, ['4.2', '4.3', '5.3'])) {
+                        $saldoB += $kepala == '4' ? $jum_saldo : -$jum_saldo;
+                        $saldoB_lalu += $kepala == '4' ? $jum_bulan_lalu : -$jum_bulan_lalu;
+                    } elseif ($kode == '5.4') {
+                        $taksiran -= $jum_saldo;
+                        $taksiran_lalu -= $jum_bulan_lalu;
+                    }
+                @endphp
         @endforeach
 
         {{-- Laba Rugi Operasional (A) --}}
