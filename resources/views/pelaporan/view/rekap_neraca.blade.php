@@ -159,13 +159,13 @@
             ];
 
             $total_saldo += $saldo;
-            $sum_akun1 += $total_saldo;
+            $sum_akun1 += $saldo;
 
             if($lev3->lev1 == 2){
-                $sum_liabilitas += $total_saldo;
+                $sum_liabilitas += $saldo;
             }
             if($lev3->lev1 == 3){
-                $sum_ekuitas += $total_saldo;
+                $sum_ekuitas += $saldo;
             }
         @endphp
     @endforeach
