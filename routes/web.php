@@ -138,6 +138,7 @@ Route::get('/pelaporan/mou', [PelaporanController::class, 'mou'])->middleware('a
 Route::get('/pelaporan/ts', [PelaporanController::class, 'ts'])->middleware('auth', 'is_aktif');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth', 'is_aktif');
+Route::get('/kosong', [DashboardController::class, 'keluar']);
 Route::get('/piutang_jasa', [DashboardController::class, 'piutang'])->middleware('auth', 'is_aktif');
 Route::get('/pelaporan/invoice/{invoice}', [PelaporanController::class, 'invoice']);
 Route::get('/simpan_saldo', [DashboardController::class, 'simpanSaldo'])->middleware('auth', 'is_aktif');

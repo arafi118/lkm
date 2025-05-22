@@ -117,6 +117,11 @@ class DashboardController extends Controller
         $data['nama_lkm'] = $kec->nama_kec;
         return view('dashboard.index')->with($data);
     }
+    public function keluar()
+    {
+        $data['title'] = "keluar";
+        return view('dashboard.keluar')->with($data);
+    }
 
     public function pinjaman()
     {
