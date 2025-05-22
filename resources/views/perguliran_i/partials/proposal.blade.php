@@ -163,7 +163,11 @@
                             </div>
                         </div>
                     </div>
-                    <button id="Simpan" class="mt-2 btn btn-primary float-end btn-sm">SIMPAN REKOM
+                    <button id="Simpan" class="mt-2 btn btn-primary float-end btn-sm"
+                @if (!in_array('perguliran.simpan_verifikator', Session::get('tombol', [])))
+                    disabled
+                @endif
+            >SIMPAN REKOM
                         VERIFIKATOR</button>
                 </div>
             </div>

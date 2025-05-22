@@ -226,11 +226,18 @@
 
                     <div class="card-body">
                         <button type="button" id="kembaliProposal" class="btn btn-info flex-grow-1 me-2"
-                            style="background-color: rgb(240, 148, 0);">
+                            style="background-color: rgb(240, 148, 0);"
+                    @if (!in_array('perguliran.balik_proposal', Session::get('tombol', [])))
+                        disabled
+                    @endif
+                >
                             <b><i class="fa fa-refresh"></i> &nbsp; KEMBALI KE PROPOSAL</b>
                         </button>
-                        <button type="button" id="Simpan" class="btn btn-secondary flex-grow-1 ms-2"
-                            style="background-color: rgb(112, 109, 109);">
+                        <button type="button" id="Simpan" class="btn btn-secondary flex-grow-1 ms-2" style="background-color: rgb(112, 109, 109);"
+                    @if (!in_array('perguliran.simpan_dana', Session::get('tombol', [])))
+                        disabled
+                    @endif
+                >
                             <b><i class="fa fa-search-plus"></i> &nbsp; SIMPAN KEPUTUSAN PENDANAAN</b>
                         </button>
                     </div>

@@ -236,12 +236,19 @@
             
             @if ($perguliran_i->status == 'A')
                 <div class="card-body ">
-                <button type="button" data-bs-toggle="modal" data-bs-target="#Rescedule"
-                    class="btn btn-info flex-grow-1 me-2" style="background-color: rgb(240, 148, 0);">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#Rescedule" class="btn btn-info flex-grow-1 me-2" style="background-color: rgb(240, 148, 0);"
+                    @if (!in_array('perguliran.resceduling', Session::get('tombol', [])))
+                        disabled
+                    @endif
+                >
                         <b><i class="fa fa-recycle"></i> &nbsp; Resceduling Pinjaman</b>
                     </button>
                     <button type="button" data-bs-toggle="modal" data-bs-target="#Penghapusan"
-                    class="btn btn-secondary flex-grow-1 ms-2" style="background-color: rgb(253, 5, 5);">
+                    class="btn btn-secondary flex-grow-1 ms-2" style="background-color: rgb(253, 5, 5);"
+                    @if (!in_array('perguliran.penghapusan', Session::get('tombol', [])))
+                        disabled
+                    @endif
+                >
                         <b><i class="fa fa-trash"></i> &nbsp; Penghapusan Pinjaman</b>
                     </button>
                 </div>
