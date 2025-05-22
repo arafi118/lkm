@@ -1,3 +1,7 @@
+@php
+    dd(session('tombol'));
+@endphp
+
 <form action="/perguliran_i/{{ $perguliran_i->id }}" method="post" id="FormInput">
     @csrf
     @method('PUT')

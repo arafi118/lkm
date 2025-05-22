@@ -128,6 +128,10 @@ class AuthController extends Controller
                             ->orderBy('sort', 'ASC')
                             ->orderBy('id', 'ASC')
                             ->get();
+                            
+                    $AksesTombol = explode(',', $user->akses_tombol);
+                    
+                    $MenuTombol = MenuTombol::whereNotIn('id', $AksesTombol)->pluck('akses')->toArray();
 
                     $angsuran = true;
                     if (in_array('19', $hak_akses) || in_array('21', $hak_akses)) {
@@ -145,6 +149,7 @@ class AuthController extends Controller
                         'lokasi' => $user->lokasi,
                         'lokasi_user' => $user->lokasi,
                         'menu' => $menu,
+                        'tombol' => $MenuTombol,
                         'icon' => $icon,
                         'angsuran' => $angsuran,
                     ]);
