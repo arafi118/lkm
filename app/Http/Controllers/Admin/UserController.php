@@ -70,7 +70,7 @@ class UserController extends Controller
         $data['title'] = 'Detail User ' . $user->namadepan . ' ' . $user->namabelakang;
         return view('admin.user.detail', $data);
     }
-
+    
     public function AksesTombol(Request $request, User $user)
     {
         if (count($request->akses_menu) > 0 && is_array($request->akses_menu)) {

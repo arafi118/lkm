@@ -57,8 +57,8 @@ Route::group(['prefix' => 'master', 'as' => 'master.', 'middleware' => 'master']
     Route::post('/kabupaten/laporan/preview/{kd_kab}', [AdminKabupatenController::class, 'preview']);
     
     Route::post('/users/akses_tombol/{user}', [AdminUserController::class, 'AksesTombol']);
-    Route::post('/users/hak_akses/{user}', [AdminUserController::class, 'HakAkses']);
 
+    Route::post('/users/hak_akses/{user}', [AdminUserController::class, 'HakAkses']);
     Route::resource('/users', AdminUserController::class);
 
     Route::get('/laporan', [AdminController::class, 'laporan']);
