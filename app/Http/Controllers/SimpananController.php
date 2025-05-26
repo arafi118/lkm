@@ -617,7 +617,7 @@ class SimpananController extends Controller
             $tgl_akhir = date("Y-m-d", strtotime($tgl_trans . " -1 day"));
         }
         $bulanTahun = \Carbon\Carbon::parse($tgl_trans)->translatedFormat('F Y');
-
+        
         // Hitung jumlah hari inklusif
         $datetime_awal  = new \DateTime($tgl_awal);
         $datetime_akhir = new \DateTime($tgl_akhir);
@@ -704,6 +704,7 @@ class SimpananController extends Controller
                                    ->where('rekening_kredit', $jenisSimpanan->rek_adm)
                                    ->where('id_simp', $simp->id)
                                    ->exists();
+                            
             if (!$bungaExists && $bunga > 0) {
                 $idmax++;
                 $sum_baru = $realSimpanan ? $realSimpanan->sum + $bunga : $bunga;
@@ -716,7 +717,7 @@ class SimpananController extends Controller
                 $transaksi->id_pinj = 0;
                 $transaksi->id_pinj_i = 0;
                 $transaksi->id_simp = $simp->id;
-                $transaksi->keterangan_transaksi = "Bunga ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulantahun;
+                $transaksi->keterangan_transaksi = "Bunga ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulanTahun;
                 $transaksi->relasi = $simp->anggota->namadepan;
                 $transaksi->jumlah = $bunga;
                 $transaksi->urutan = 0;
