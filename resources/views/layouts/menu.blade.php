@@ -1,3 +1,5 @@
+@if(Session::get('invoice'))
+@else
 @foreach ($parent_menu as $menu)
     @if (count($menu->child) > 0)
         @php
@@ -67,3 +69,4 @@
         @endif
     @endif
 @endforeach
+    @endif
