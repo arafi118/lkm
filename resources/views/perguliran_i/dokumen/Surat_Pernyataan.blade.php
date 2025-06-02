@@ -2,8 +2,10 @@
     use App\Utils\Tanggal;
 
     $jaminan = json_decode($pinkel->jaminan, true);
+    $wajib_pokok = $pinkel->alokasi / $pinkel->jangka;
+    $wajib_jasa = ($pinkel->pros_jasa * $pinkel->alokasi) / $pinkel->jangka;
+    $jumlah_angsuran = $wajib_pokok + $wajib_jasa;
 @endphp
-
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
@@ -108,7 +110,7 @@
             <td width="5"> &nbsp; </td>
             <td> Jumlah Angsuran </td>
             <td align="center"> : </td>
-            <td>Rp. {{ number_format($pinkel->alokasi, 2) }}
+            <td>Rp. {{ number_format($jumlah_angsuran, 2) }}
             </td>
         </tr>
         <tr>
@@ -199,21 +201,23 @@
                             <td width="100" align="center">&nbsp;</td>
                             <td width="10" align="center">&nbsp;</td>
                             <td width="100" align="center">
-								@php
-									$logoPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
-								@endphp
+                                @php
+                                    $logoPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
+                                @endphp
 
-								@if (file_exists($logoPath))
-									<img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
-								@else
-									<p>&nbsp;</p>
-									<p>&nbsp;</p>
-									<p>&nbsp;</p>
-								@endif
-							</td>
+                                @if (file_exists($logoPath))
+                                    <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70"
+                                        alt="{{ $kec->id }}">
+                                @else
+                                    <p>&nbsp;</p>
+                                    <p>&nbsp;</p>
+                                    <p>&nbsp;</p>
+                                @endif
+                            </td>
                         </tr>
                         <tr>
-                            <td width="100" align="center"> <b>{{ $mgr->namadepan }} {{ $mgr->namabelakang }}</b></td>
+                            <td width="100" align="center"> <b>{{ $mgr->namadepan }} {{ $mgr->namabelakang }}</b>
+                            </td>
                             <td width="10" align="center"> &nbsp; </td>
                             <td width="100" align="center"> <b>{{ $dir->namadepan }} {{ $dir->namabelakang }}</b>
                             </td>
