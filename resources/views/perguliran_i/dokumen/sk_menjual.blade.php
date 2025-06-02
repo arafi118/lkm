@@ -212,14 +212,35 @@
                                 {{ Tanggal::tglLatin(date('Y-m-d')) }}<br>
                                 Yang Memberi Kuasa/ <br>
                                 PIHAK PERTAMA,</td>
-                        </tr> <br> <br> <br> <br> <br><br><br><br>
-                        <tr>
-                            <td width="40" align="center"> &nbsp; </td>
-                            <td width="100" align="center">{{ $dir->namadepan }}
-                                {{ $dir->namabelakang }}</td>
-                            <td width="60" align="center"> &nbsp; </td>
-                            <td width="50" align="center" colspan="2"> {{ $pinkel->anggota->namadepan }}</td>
                         </tr>
+						<tr>
+							<td align="center">
+								@php
+									$logoPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
+								@endphp
+
+								@if (file_exists($logoPath))
+									<img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+								@else
+									<p>&nbsp;</p>
+									<p>&nbsp;</p>
+									<p>&nbsp;</p>
+								@endif
+							</td>
+							<td colspan="2" align="center">
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</td>
+						</tr>
+						<tr>
+							<td align="center" style="font-weight: bold;">
+								{{ $dir->namadepan }} {{ $dir->namabelakang }}
+							</td>
+							<td colspan="2" align="center" style="font-weight: bold;">
+								{{ $pinkel->anggota->namadepan }}
+							</td>
+						</tr>
                     </table>
                 </td>
             </tr>

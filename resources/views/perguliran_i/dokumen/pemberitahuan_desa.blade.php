@@ -132,10 +132,21 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" height="40">&nbsp;</td>
+                                    <td colspan="3" >
+										@php
+											$logoPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
+										@endphp
+
+										@if (file_exists($logoPath))
+											<img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+										@else
+											<p>&nbsp;</p>
+											<p>&nbsp;</p>
+											<p>&nbsp;</p>
+										@endif
+									</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">&nbsp;</td>
                                     <td align="center">
                                         <u>
                                             <b>{{ $dir->namadepan }} {{ $dir->namabelakang }}</b>

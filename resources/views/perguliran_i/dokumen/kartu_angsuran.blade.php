@@ -346,17 +346,34 @@
                 </td>
                 <td style="font-weight: bold; font-size: 12px;" width="350" align="center">Peminjam</td>
             </tr>
-            <tr>
-                <td colspan="2" height="50"></td>
-            </tr>
-            <tr style="font-weight: bold; font-size: 12px; text-transform: uppercase;">
-                <td width="350" align="center">
-                    <div>{{ $dir->namadepan }} {{ $dir->namabelakang }}</div>
-                </td>
-                <td width="350" align="center">
-                    {{ $nia->anggota->namadepan }}
-                </td>
-            </tr>
+        <tr>
+            <td align="center">
+                @php
+                    $logoPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
+                @endphp
+
+                @if (file_exists($logoPath))
+                    <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+                @else
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                @endif
+            </td>
+            <td colspan="2" align="center">
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" style="font-weight: bold;">
+                {{ $dir->namadepan }} {{ $dir->namabelakang }}
+            </td>
+            <td colspan="2" align="center" style="font-weight: bold;">
+                {{ $pinkel->anggota->namadepan }}
+            </td>
+        </tr>
             <tr>
                 <td colspan="3" style="font-weight: bold;" height="10">&nbsp;</td>
             </tr>

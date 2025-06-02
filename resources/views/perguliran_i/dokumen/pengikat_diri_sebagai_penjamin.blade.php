@@ -149,11 +149,32 @@
             <td align="center">Penjamin</td>
         </tr>
         <tr>
-            <td align="center" colspan="2" height="30">&nbsp;</td>
+            <td align="center">
+                @php
+                    $logoPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
+                @endphp
+
+                @if (file_exists($logoPath))
+                    <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+                @else
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                @endif
+            </td>
+            <td colspan="2" align="center">
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+            </td>
         </tr>
-        <tr style="font-weight: bold;">
-            <td align="center"> {{ $dir->namadepan }} {{ $dir->namabelakang }}</td>
-            <td align="center">{{ $pinkel->anggota->penjamin }}</td>
+        <tr>
+            <td align="center" style="font-weight: bold;">
+                {{ $dir->namadepan }} {{ $dir->namabelakang }}
+            </td>
+            <td colspan="2" align="center" style="font-weight: bold;">
+                {{ $pinkel->anggota->penjamin }}
+            </td>
         </tr>
     </table>
 @endsection

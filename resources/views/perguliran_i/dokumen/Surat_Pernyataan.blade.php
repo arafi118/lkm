@@ -194,7 +194,24 @@
                             <td width="10" align="center"> &nbsp; </td>
                             <td width="100" align="center"> Manager Unit Pembiayaan <br> {{ $kec->nama_lembaga_long }}
                             </td>
-                        </tr> <br> <br> <br> <br> <br><br><br><br>
+                        </tr>
+                        <tr>
+                            <td width="100" align="center">&nbsp;</td>
+                            <td width="10" align="center">&nbsp;</td>
+                            <td width="100" align="center">
+								@php
+									$logoPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
+								@endphp
+
+								@if (file_exists($logoPath))
+									<img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+								@else
+									<p>&nbsp;</p>
+									<p>&nbsp;</p>
+									<p>&nbsp;</p>
+								@endif
+							</td>
+                        </tr>
                         <tr>
                             <td width="100" align="center"> <b>{{ $mgr->namadepan }} {{ $mgr->namabelakang }}</b></td>
                             <td width="10" align="center"> &nbsp; </td>
