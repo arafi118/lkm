@@ -71,58 +71,70 @@
         </table>
 
         <table border="0" width="100%" style="font-size: 11px;">
-            <tr>
-                <td width="10%">&nbsp;</td>
-                <td width="10%">&nbsp;</td>
-                <td width="10%">&nbsp;</td>
-                <td width="10%">&nbsp;</td>
-                <td width="10%">&nbsp;</td>
-                <td width="10%">&nbsp;</td>
-                <td width="10%">&nbsp;</td>
-                <td width="10%">&nbsp;</td>
-                <td width="10%">&nbsp;</td>
-            </tr>
-            <tr>
-                <td colspan="6">&nbsp;</td>
-                <td colspan="3" align="center">
-                    {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}
-                </td>
-            </tr>
-            <tr>
-                <td align="center" colspan="3">
-                    Setuju Dibayarkan
-                </td>
-                <td align="center" colspan="3">
-                    Dikeluarkan Oleh
-                </td>
-                <td align="center" colspan="3">
-                    Diterima Oleh
-                </td>
-            </tr>
-            <tr>
-                <td align="center" colspan="3">
-                    {{ $kec->sebutan_level_1 }}
-                </td>
-                <td align="center" colspan="3">
-                    {{ $kec->sebutan_level_3 }}
-                </td>
-                <td align="center" colspan="3">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="9" height="55">&nbsp;</td>
-            </tr>
-            <tr>
-                <td align="center" colspan="3">
-                    <b>{{ $dir->namadepan }} {{ $dir->namabelakang }}</b>
-                </td>
-                <td align="center" colspan="3">
-                    <b>{{ $bend->namadepan }} {{ $bend->namabelakang }}</b>
-                </td>
-                <td align="center" colspan="3">
-                    <b>{{ $pinkel->anggota->namadepan }}</b>
-                </td>
-            </tr>
-        </table>
+    <tr>
+        <td width="10%">&nbsp;</td>
+        <td width="10%">&nbsp;</td>
+        <td width="10%">&nbsp;</td>
+        <td width="10%">&nbsp;</td>
+        <td width="10%">&nbsp;</td>
+        <td width="10%">&nbsp;</td>
+        <td width="10%">&nbsp;</td>
+        <td width="10%">&nbsp;</td>
+        <td width="10%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="6">&nbsp;</td>
+        <td colspan="3" align="center">
+            {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}
+        </td>
+    </tr>
+    <tr>
+        <td align="center" colspan="3">Setuju Dibayarkan</td>
+        <td align="center" colspan="3">Dikeluarkan Oleh</td>
+        <td align="center" colspan="3">Diterima Oleh</td>
+    </tr>
+    <tr>
+        <td align="center" colspan="3">{{ $kec->sebutan_level_1 }}</td>
+        <td align="center" colspan="3">{{ $kec->sebutan_level_3 }}</td>
+        <td align="center" colspan="3"></td>
+    </tr>
+    <tr>
+        <td align="center" colspan="3">
+            @php
+                $qrDirPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
+            @endphp
+
+            @if (file_exists($qrDirPath))
+                <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+            @else
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+            @endif
+        </td>
+        <td align="center" colspan="3">
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+        </td>
+        <td align="center" colspan="3">
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" colspan="3">
+            <b>{{ $dir->namadepan }} {{ $dir->namabelakang }}</b>
+        </td>
+        <td align="center" colspan="3">
+            <b>{{ $bend->namadepan }} {{ $bend->namabelakang }}</b>
+        </td>
+        <td align="center" colspan="3">
+            <b>{{ $pinkel->anggota->namadepan }}</b>
+        </td>
+    </tr>
+</table>
+
         </div>
     @endsection
