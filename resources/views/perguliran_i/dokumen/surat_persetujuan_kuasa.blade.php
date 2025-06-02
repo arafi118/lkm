@@ -141,24 +141,32 @@
             </td>
         </tr>
         <tr>
-            <td align="center"height="24" class="style9">&nbsp;</p>
-                <p>&nbsp;</p>
-                <p>
-                </p>
-            </td>
+            <td align="center">
+                @php
+                    $logoPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
+                @endphp
 
-            <td align="center" class="style9">
-                <p>&nbsp;</p>
-                <p>&nbsp;</p>
-                <p>{{ $dir->namadepan }} {{ $dir->namabelakang }}<br></p>
+                @if (file_exists($logoPath))
+                    <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+                @else
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                @endif
             </td>
-
-            <td align="center" class="style9">
+            <td colspan="2" align="center">
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
-                <p>{{ $pinkel->anggota->namadepan }}<br></p>
+                <p>&nbsp;</p>
             </td>
-
+        </tr>
+        <tr>
+            <td align="center" style="font-weight: bold;">
+                {{ $dir->namadepan }} {{ $dir->namabelakang }}
+            </td>
+            <td colspan="2" align="center" style="font-weight: bold;">
+                {{ $pinkel->anggota->namadepan }}
+            </td>
         </tr>
     </table>
 @endsection

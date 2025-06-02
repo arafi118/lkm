@@ -111,19 +111,49 @@
 
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
-            <td align="center" width="50%">&nbsp;</td>
-            <td align="center" width="50%">{{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}</td>
+            <td width="50%">&nbsp;</td>
+            <td width="25%">&nbsp;</td>
+            <td width="25%">&nbsp;</td>
         </tr>
         <tr>
-            <td align="center">{{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}</td>
-            <td align="center">Penjamin</td>
+            <td>&nbsp;</td>
+            <td align="center" colspan="2">
+                {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}
+            </td>
         </tr>
         <tr>
-            <td align="center" colspan="2" height="30">&nbsp;</td>
+            <td align="center">
+                {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
+            </td>
+            <td colspan="2" align="center">Penjamin</td>
         </tr>
-        <tr style="font-weight: bold;">
-            <td align="center"> {{ $dir->namadepan }} {{ $dir->namabelakang }}</td>
-            <td align="center">{{ $pinkel->anggota->penjamin }}</td>
+        <tr>
+            <td align="center">
+                @php
+                    $logoPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
+                @endphp
+
+                @if (file_exists($logoPath))
+                    <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+                @else
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                @endif
+            </td>
+            <td colspan="2" align="center">
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" style="font-weight: bold;">
+                {{ $dir->namadepan }} {{ $dir->namabelakang }}
+            </td>
+            <td colspan="2" align="center" style="font-weight: bold;">
+                {{ $pinkel->anggota->penjamin }}
+            </td>
         </tr>
     </table>
 @endsection

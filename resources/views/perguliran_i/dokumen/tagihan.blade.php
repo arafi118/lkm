@@ -187,19 +187,36 @@
         <tr>
             <td width="50%">&nbsp;</td>
             <td width="50%" align="center">
-                {{ $kec->nama_kec }}, {{ Tanggal::tglLatin(date('Y-m-d')) }}
+                {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_dana) }}
             </td>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td align="center">{{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}</td>
+            <td align="center">{{ $kec->sebutan_level_1 }}</td>
         </tr>
         <tr>
             <td colspan="2" height="40">&nbsp;</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
+            <td align="center">
+                @php
+                    $qrPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
+                @endphp
+
+                @if (file_exists($qrPath))
+                    <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+                @else
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
             <td align="center">{{ $dir->namadepan }} {{ $dir->namabelakang }}</td>
         </tr>
     </table>
+
 @endsection

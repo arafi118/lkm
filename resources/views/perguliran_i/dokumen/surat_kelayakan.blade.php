@@ -116,6 +116,7 @@
             </td>
         </tr>
     </table>
+
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
         <tr>
             <td colspan="2" height="24">&nbsp;</td>
@@ -135,7 +136,24 @@
         </tr>
         <tr>
             <td>&nbsp;</td>
+            <td align="center">
+                @php
+                    $qrPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
+                @endphp
+
+                @if (file_exists($qrPath))
+                    <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+                @else
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
             <td align="center">{{ $dir->namadepan }} {{ $dir->namabelakang }}</td>
         </tr>
     </table>
+
 @endsection
