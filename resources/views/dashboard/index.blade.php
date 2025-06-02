@@ -230,6 +230,11 @@
                 <div class="modal-footer">
                     <button type="button" tabindex="0" class="btn btn-primary"  id="logout">OK</button>
                 </div>
+                
+                <form action="/logout" method="post" id="formLogout">
+                    @csrf
+                </form>
+
             </div>
         </div>
     </div>
@@ -1088,5 +1093,16 @@
                 window.location.reload()
             }
         })
+        
+        $('#logout').click(function(e) {
+            e.preventDefault()
+
+            Swal.then((result) => {
+                if (result.isConfirmed) {
+                    $('#formLogout').submit()
+                }
+            })
+        })
+
     </script>
 @endsection
