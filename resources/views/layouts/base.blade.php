@@ -194,6 +194,10 @@
 </head>
 
 <body>
+<form action="/logout" method="post" id="formLogout" style="display: none;">
+    @csrf
+</form>
+
     <div class="loader-overlay">
         <div class="loader"></div>
     </div>
@@ -675,6 +679,14 @@
     @yield('script')
 
     <script>
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cek jika bukan di halaman dashboard dan ada invoice di session
+            if (!window.location.href.includes('/dashboard') && {!! json_encode(Session::get('invoice') !== null) !!}) {
+                // Logout secara paksa
+                document.getElementById('formLogout').submit();
+            }
+        });
         var formatter = new Intl.NumberFormat('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
