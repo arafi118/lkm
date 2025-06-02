@@ -216,7 +216,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="notificationPopupLabel">Notification</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-justify">
                     LKM <strong>{{ $nama_lkm }} </strong> saat ini memiliki tagihan invoice sebesar
@@ -229,8 +228,13 @@
                     Cek info selengkapnya pada menu <strong> Biaya Perpanjangan </strong> di menu pengaturan ->invoice.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                    <button type="button" tabindex="0" class="btn btn-primary"  id="logout">OK</button>
                 </div>
+                
+                <form action="/logout" method="post" id="formLogout">
+                    @csrf
+                </form>
+
             </div>
         </div>
     </div>
@@ -1089,5 +1093,16 @@
                 window.location.reload()
             }
         })
+        
+        $('#logout').click(function(e) {
+            e.preventDefault()
+
+            Swal.then((result) => {
+                if (result.isConfirmed) {
+                    $('#formLogout').submit()
+                }
+            })
+        })
+
     </script>
 @endsection
