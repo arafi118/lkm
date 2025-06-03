@@ -2,9 +2,13 @@
     use App\Utils\Tanggal;
 
     $jaminan = json_decode($pinkel->jaminan, true);
-    $wajib_pokok = $pinkel->alokasi / $pinkel->jangka;
-    $wajib_jasa = ($pinkel->pros_jasa * $pinkel->alokasi) / $pinkel->jangka;
-    $jumlah_angsuran = $wajib_pokok + $wajib_jasa;
+
+    foreach ($rencana['rencana'] as $rc) {
+        $pokok = $rc->wajib_pokok;
+        $jasa = $rc->wajib_jasa;
+
+        $jumlah_angsuran = $pokok + $jasa;
+    }
 @endphp
 @extends('perguliran_i.dokumen.layout.base')
 
@@ -105,6 +109,20 @@
             <td width="90"> Harga </td>
             <td width="10" align="center"> : </td>
             <td>Rp. {{ number_format($pinkel->harga, 2) }} </td>
+        </tr>
+        <tr>
+            <td width="5"> &nbsp; </td>
+            <td>Angsuran Pokok</td>
+            <td align="center"> : </td>
+            <td>Rp. {{ number_format($pokok, 2) }}
+            </td>
+        </tr>
+        <tr>
+            <td width="5"> &nbsp; </td>
+            <td>Angsuran Jasa</td>
+            <td align="center"> : </td>
+            <td>Rp. {{ number_format($jasa, 2) }}
+            </td>
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>

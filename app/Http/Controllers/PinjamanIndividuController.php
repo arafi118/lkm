@@ -2624,10 +2624,15 @@ class PinjamanIndividuController extends Controller
         ])->first();
 
         $data['real'] = RealAngsuranI::where('loan_id', $id)->orderBy('tgl_transaksi', 'DESC')->orderBy('id', 'DESC')->first();
-        $data['ra'] = RencanaAngsuranI::where([
-            ['loan_id', $id],
-            ['jatuh_tempo', '<=', date('Y-m-d')]
-        ])->orderBy('jatuh_tempo', 'DESC')->first();
+
+
+        $data['ra'] = RencanaAngsuranI::where('loan_id', $id) // SELECT * FROM rencana_angsuran_i_279 WHERE loan_id='80' 
+            ->whereDate('jatuh_tempo', '<=', date('Y-m-d')) // AND jatuh_tempo <= '2025-06-02' 
+            ->where('angsuran_ke', '!=', 0) // AND angsuran_ke != '0';
+            ->orderBy('jatuh_tempo', 'asc')
+            ->first();
+
+        $data['rencana'] = collect($this->generate($id)->getData());
 
         $data['dir'] = User::where([
             ['level', '1'],
