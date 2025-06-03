@@ -371,7 +371,7 @@
                 {{ $dir->namadepan }} {{ $dir->namabelakang }}
             </td>
             <td colspan="2" align="center" style="font-weight: bold;">
-                {{ $pinkel->anggota->namadepan }}
+                {{ $nia->anggota->namadepan }}
             </td>
         </tr>
             <tr>
