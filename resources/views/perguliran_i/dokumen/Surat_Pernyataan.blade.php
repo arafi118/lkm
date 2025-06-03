@@ -159,7 +159,7 @@
                 @elseif ($jaminan['jenis_jaminan'] == '4')
                     Nomor Jaminan: {{ $jaminan['nama_jaminan'] ?? 0 }},
                     Keterangan: {{ $jaminan['keterangan'] ?? 0 }},
-                    Nilai Jaminan: {{ number_format($jaminan['nilai_jaminan'] ?? 0) }},
+                    Nilai Jaminan: {{ ($jaminan['nilai_jaminan'] ?? 0) }},
                 @else
                     Nomor Sertifikat: {{ $jaminan['nomor_sertifikat'] ?? 0 }},
                     Nama jaminan: {{ $jaminan['nama_pemilik'] ?? 0 }},
