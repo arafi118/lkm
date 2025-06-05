@@ -1,4 +1,5 @@
 <form action="/perguliran/{{ $perguliran->id }}" method="post" id="FormInput">
+    <input type="hidden" id="no_spk" name="no_spk" value="0">
     @csrf
     @method('PUT')
 

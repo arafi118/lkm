@@ -772,7 +772,7 @@ class PinjamanIndividuController extends Controller
                 'sistem_angsuran_pokok' => 'required',
                 'sistem_angsuran_jasa' => 'required',
                 'tgl_cair' => 'required',
-                // 'nomor_spk' => 'required'
+                'nomor_spk' => 'required'
             ];
 
             if ($request->nomor_spk != $perguliran_i->spk_no) {
