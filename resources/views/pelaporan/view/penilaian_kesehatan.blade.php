@@ -528,7 +528,12 @@
                     style="font-size: 11px;">
                     <tr style="font-weight: bold;" class="break">
                         <td class="t l b" width="50%">
-                            Komulatif skor dalam parameter {{ ucwords(strtolower($kec->nama_lembaga_sort)) }} dengan usaha utama LKM
+                            Komulatif skor dalam parameter {{ ucwords(strtolower($kec->nama_lembaga_sort)) }} dengan usaha utama
+                            @if(in_array(Session::get('lokasi'), [351, 352, 353, 354]))
+                                Koperasi
+                            @else
+                                LKM
+                            @endif
                         </td>
                         <td class="t l b" align="center" width="10%">{{ '> 87.5 - 100' }}</td>
                         <td class="t l b" align="center" width="10%">{{ '> 62.5 - 87.5' }}</td>
