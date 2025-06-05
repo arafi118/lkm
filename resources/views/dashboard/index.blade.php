@@ -1094,15 +1094,6 @@
             }
         })
         
-        $('#logout').click(function(e) {
-            e.preventDefault()
-
-            Swal.then((result) => {
-                if (result.isConfirmed) {
-                    $('#formLogout').submit()
-                }
-            })
-        })
 
     </script>
 @endsection
