@@ -205,7 +205,7 @@
                         ({{ $keuangan->terbilang($pinkel->alokasi * ($pinkel->pros_jasa / $pinkel->jangka / 100)) }}
                         Rupiah)
                     </b>
-                    setiap bulan, selama {{ $pinkel->jangka }} bulan,
+                    setiap minggu, selama {{ $pinkel->jangka }} minggu,
                     yang dimulai pada {{ Tanggal::namaHari($pinkel->tgl_cair) }},
                     {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_cair)->translatedFormat('d F Y') }} dan
                     sampai target pelunasan, sebagaimana jadwal angsuran terlampir.
