@@ -332,7 +332,7 @@
 
         <tr>
             <td class="t l b" align="center" rowspan="2">3</td>
-            <td class="t l b" rowspan="2" align="center">Rasio Laba Bersih Terhadap Kekayaan Bumdesma</td>
+            <td class="t l b" rowspan="2" align="center">Rasio Laba Bersih Terhadap Kekayaan {{ ucwords(strtolower($kec->nama_lembaga_sort)) }}</td>
             <td class="t l b">
                 <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
                     <tr>
@@ -430,7 +430,7 @@
 
         <tr>
             <td class="t l b" align="center" rowspan="2">5</td>
-            <td class="t l b" rowspan="2" align="center">Rasio Saldo Piutang Terhadap Kekayaan Bumdesma Non Investasi
+            <td class="t l b" rowspan="2" align="center">Rasio Saldo Piutang Terhadap Kekayaan {{ ucwords(strtolower($kec->nama_lembaga_sort)) }} Non Investasi
             </td>
             <td class="t l b">
                 <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
@@ -475,7 +475,7 @@
 
         <tr>
             <td class="t l b" align="center" rowspan="2">6</td>
-            <td class="t l b" rowspan="2" align="center">Rasio Kekayaan Bersih Budesma</td>
+            <td class="t l b" rowspan="2" align="center">Rasio Kekayaan Bersih {{ ucwords(strtolower($kec->nama_lembaga_sort)) }}</td>
             <td class="t l b">
                 <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
                     <tr>
@@ -487,7 +487,7 @@
                         <td align="right">{{ number_format($tk['sum_kolek']) }}</td>
                     </tr>
                     <tr>
-                        <td>c. Modal disetor bumdesma </td>
+                        <td>c. Modal disetor {{ ucwords(strtolower($kec->nama_lembaga_sort)) }} </td>
                         <td align="right">{{ number_format($modal_awal) }}</td>
                     </tr>
                 </table>
@@ -528,7 +528,12 @@
                     style="font-size: 11px;">
                     <tr style="font-weight: bold;" class="break">
                         <td class="t l b" width="50%">
-                            Komulatif skor dalam parameter Bumdesma dengan usaha utama DBM
+                            Komulatif skor dalam parameter {{ ucwords(strtolower($kec->nama_lembaga_sort)) }} dengan usaha utama
+                            @if(in_array(Session::get('lokasi'), [351, 352, 353, 354]))
+                                Koperasi
+                            @else
+                                LKM
+                            @endif
                         </td>
                         <td class="t l b" align="center" width="10%">{{ '> 87.5 - 100' }}</td>
                         <td class="t l b" align="center" width="10%">{{ '> 62.5 - 87.5' }}</td>

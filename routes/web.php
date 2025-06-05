@@ -333,7 +333,7 @@ Route::get('/transaksi/dokumen/bkk/{id}', [TransaksiController::class, 'bkk'])->
 Route::get('/transaksi/dokumen/bkm/{id}', [TransaksiController::class, 'bkm'])->middleware('auth', 'is_aktif');
 Route::get('/transaksi/dokumen/bm/{id}', [TransaksiController::class, 'bm'])->middleware('auth', 'is_aktif');
 
-Route::get('/transaksi/dokumen/struk_individu/{id}', [TransaksiController::class, 'strukIndividu'])->middleware('auth', 'is_aktif');
+Route::get('/transaksi/dokumen/struk_individu/{id}', [TransaksiController::class, 'struk'])->middleware('auth', 'is_aktif');
 Route::get('/transaksi/dokumen/struk_matrix_individu/{id}', [TransaksiController::class, 'strukMatrixIndividu'])->middleware('auth', 'is_aktif');
 Route::get('/transaksi/dokumen/struk_thermal_individu/{id}', [TransaksiController::class, 'strukThermalIndividu'])->middleware('auth', 'is_aktif');
 Route::post('/transaksi/dokumen/cetak', [TransaksiController::class, 'cetak'])->middleware('auth', 'is_aktif');
@@ -406,6 +406,14 @@ Route::get('/cetak_koran/{simpanan}', [SimpananController::class, 'koran'])->mid
 
 Route::get('/cetak_buku/{idt}', [SimpananController::class, 'cetakPadaBuku'])->middleware('auth');
 Route::get('/cetak_kuitansi/{idt}', [SimpananController::class, 'cetakKwitansi'])->middleware('auth');
+
+Route::get('/qr/{filename}', function ($filename) {
+    $path = storage_path('app/public/qr/' . $filename);
+    if (!file_exists($path)) {
+        abort(404);
+    }
+    return response()->file($path);
+});
 
 Route::get('/simpanan/get-transaksi', [SimpananController::class, 'getTransaksi'])->middleware('auth', 'is_aktif');
 

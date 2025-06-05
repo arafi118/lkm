@@ -68,13 +68,11 @@
 @foreach ($real->trx as $trx)
     @php
         $keterangan .= $trx->keterangan_transaksi . '<br>';
-        if (
-            $trx->rekening_kredit == '4.1.01.04' ||
-            $trx->rekening_kredit == '4.1.01.05' ||
-            $trx->rekening_kredit == '4.1.01.06'
-        ) {
-            $denda += $trx->jumlah;
-        }
+            if (
+                str_starts_with($trx->rekening_kredit, '4.1.02.')
+            ) {
+                $denda += $trx->jumlah;
+            }
 
         $no_kuitansi .= $trx->idt . '/';
 

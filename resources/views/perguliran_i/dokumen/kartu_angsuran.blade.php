@@ -351,12 +351,12 @@
                 @php
                     $logoPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
                 @endphp
-
+                
                 @if (file_exists($logoPath))
-                    <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+                    <img src="/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
                 @else
                     <p>&nbsp;</p>
-                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>a
                     <p>&nbsp;</p>
                 @endif
             </td>
@@ -371,7 +371,7 @@
                 {{ $dir->namadepan }} {{ $dir->namabelakang }}
             </td>
             <td colspan="2" align="center" style="font-weight: bold;">
-                {{ $pinkel->anggota->namadepan }}
+                {{ $nia->anggota->namadepan }}
             </td>
         </tr>
             <tr>
