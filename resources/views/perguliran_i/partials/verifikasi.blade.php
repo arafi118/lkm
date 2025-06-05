@@ -214,7 +214,7 @@
                                 <small class="text-danger" id="msg_depe"></small>
                             </div>
                         </div>
-                        <div class="col-md-4 d-none">
+                        <div class="col-md-4">
                             <div class="position-relative mb-3">
                                 <label for="nomor_spk" class="form-label">Nomor SPK</label>
                                 <input autocomplete="off" type="text" name="nomor_spk" id="nomor_spk"

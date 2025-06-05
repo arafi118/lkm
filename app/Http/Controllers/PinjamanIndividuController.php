@@ -759,7 +759,7 @@ class PinjamanIndividuController extends Controller
                 'sistem_angsuran_jasa',
                 'tgl_cair',
                 'depe',
-                // 'nomor_spk'
+                'nomor_spk'
             ]);
 
             $table = 'pinjaman_anggota_' . Session::get('lokasi');
@@ -772,12 +772,12 @@ class PinjamanIndividuController extends Controller
                 'sistem_angsuran_pokok' => 'required',
                 'sistem_angsuran_jasa' => 'required',
                 'tgl_cair' => 'required',
-                // 'nomor_spk' => 'required'
+                'nomor_spk' => 'required'
             ];
 
-            // if ($request->nomor_spk != $perguliran_i->spk_no) {
-            //     $validate['nomor_spk'] = 'required|unique:' . $table . ',spk_no';
-            // }
+            if ($request->nomor_spk != $perguliran_i->spk_no) {
+                $validate['nomor_spk'] = 'required|unique:' . $table . ',spk_no';
+            }
 
             $validate = Validator::make($data, $validate);
         } elseif ($request->status == 'A') {
@@ -944,7 +944,7 @@ class PinjamanIndividuController extends Controller
                 'sistem_angsuran' => $data['sistem_angsuran_pokok'],
                 'sa_jasa' => $data['sistem_angsuran_jasa'],
                 'tgl_cair' => Tanggal::tglNasional($data['tgl_cair']),
-                // 'spk_no' => $data['nomor_spk'],
+                'spk_no' => $data['nomor_spk'],
                 'alokasi' => intval(str_replace(',', '', str_replace('.00', '', $data[$harga]))) - intval(str_replace(',', '', str_replace('.00', '', $data['depe']))),
                 'depe' => str_replace(',', '', str_replace('.00', '', $data['depe'])),
                 // 'depe' => str_replace(',', '', str_replace('.00', '', $data[$harga])) * ($request->depe / 100),
