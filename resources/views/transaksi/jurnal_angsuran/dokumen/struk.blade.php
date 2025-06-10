@@ -291,7 +291,9 @@
                 </div>
             </th>
             <th valign="top">
-                <div align="center" class="bottom">&nbsp;</div>
+                <div align="center" class="bottom">
+                    {{ $trx->relasi }}
+                </div>
             </th>
         </tr>
         <tr>
@@ -299,5 +301,5 @@
         </tr>
     </table>
 
-    <title>Struk Angsuran Kelompok {{ $pinkel->anggota->nama_anggota }} &mdash; {{ $pinkel->id }}</title>
+    <title>Struk Angsuran {{ $pinkel->anggota->nama_anggota }} &mdash; {{ $pinkel->id }}</title>
 </body>
