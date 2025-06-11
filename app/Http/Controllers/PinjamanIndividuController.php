@@ -2839,6 +2839,7 @@ class PinjamanIndividuController extends Controller
             $ra[$j]['jasa'] = $angsuran_jasa;
         }
 
+        $sum_angsuran_pokok = 0;
         for ($i = $index; $i < $jumlah_angsuran; $i++) {
             $sisa = $i % $sistem_pokok;
             $ke = $i / $sistem_pokok;
@@ -2846,14 +2847,15 @@ class PinjamanIndividuController extends Controller
             $wajib_pokok = Keuangan::pembulatan($alokasi / $tempo_pokok, (string) $kec->pembulatan);
             $sum_pokok = $wajib_pokok * ($tempo_pokok - 1);
 
-            if ($sisa == 0 and $ke != $tempo_pokok) {
+            if ($sisa == 0 and $ke != $tempo_pokok and ($sum_angsuran_pokok + $wajib_pokok) < $alokasi) {
                 $angsuran_pokok = $wajib_pokok;
-            } elseif ($sisa == 0 and $ke == $tempo_pokok) {
+            } elseif ($sisa == 0 and ($ke == $tempo_pokok || ($sum_angsuran_pokok + $wajib_pokok) >= $alokasi)) {
                 $angsuran_pokok = $alokasi - $sum_pokok;
             } else {
                 $angsuran_pokok = 0;
             }
 
+            $sum_angsuran_pokok += $angsuran_pokok;
             $ra[$i]['pokok'] = $angsuran_pokok;
         }
 

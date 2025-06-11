@@ -32,6 +32,11 @@
 
     $sum_pokok = 0;
     $sum_jasa = 0;
+
+    $jenisAngsuran = 'Bulan';
+    if (in_array($pinkel->sistem_angsuran, ['12', '25'])) {
+        $jenisAngsuran = 'Minggu';
+    }
 @endphp
 
 @extends('perguliran_i.dokumen.layout.base')
@@ -59,7 +64,7 @@
             <td width="90">Jangka Waktu</td>
             <td width="5" align="center">:</td>
             <td>
-                <b>{{ $pinkel->jangka }} Bulan</b>
+                <b>{{ $pinkel->jangka }} {{ $jenisAngsuran }}</b>
             </td>
         </tr>
         <tr>
@@ -95,7 +100,7 @@
             <td>Prosentase Jasa</td>
             <td align="center">:</td>
             <td>
-                <b>{{ round($pinkel->pros_jasa / $pinkel->jangka, 2) }}% per bulan</b>
+                <b>{{ round($pinkel->pros_jasa / $pinkel->jangka, 2) }}% per {{ $jenisAngsuran }}</b>
             </td>
         </tr>
         <tr>
@@ -157,23 +162,23 @@
                         <td class="l t b r" width="13%" align="right">{{ number_format($saldo_jasa) }}</td>
                     </tr>
                 </table>
-                    <br><br>
+                <br><br>
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
                     style="font-size: 11px;">
-                   
+
                     <tr>
                         <td width="55%">&nbsp;</td>
                         <td align="center">
                             {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($tgl) }}
                         </td>
                     </tr>
-                   
+
                     <tr>
                         <td width="55%">&nbsp;</td>
                         <td align="center">
                             Nasabah
                         </td>
-                        
+
                     </tr>
                     <tr>
                         <td width="55%">&nbsp;</td>
