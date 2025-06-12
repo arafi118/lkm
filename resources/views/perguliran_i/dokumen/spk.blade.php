@@ -392,7 +392,8 @@
                             </b> .
                         </li>
                         <li>
-                            Agunan pengganti wajib berupa aset yang <b>Sah</b>.
+                            Agunan pengganti wajib berupa aset yang <b>Sah</b> dimiliki oleh pihak kedua dan tidak
+                            sedang dalam sengketa.
                         </li>
                     </ol>
                 </div>
