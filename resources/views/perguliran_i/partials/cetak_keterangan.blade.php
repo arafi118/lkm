@@ -78,7 +78,7 @@
                     </tr>
                 </table>
 
-                Dengan rincian target dan pembayaran :
+                Dengan rincian target dan pembayaran sebagaimana tabel berikut :
                 <table class="table f-12">
                     <thead class="bg-light">
                         <tr>
@@ -112,7 +112,7 @@
                         <img width="100%" src="/assets/img/lunas.png">
                     </div>
                     <div class="col-6 d-flex align-items-center">
-                        <div class="f-12 font-primary">Pinjaman tersebut diatas telah kami nyatakan LUNAS dan Surat
+                        <div class="f-12 font-primary">Dinyatakan LUNAS dan Surat
                             Perjanjian Kredit (SPK) nomor {{ $perguliran_i->spk_no }} tanggal
                             {{ Tanggal::tglLatin($perguliran_i->tgl_cair) }} dinyatakan
                             selesai beserta seluruh hak
