@@ -125,14 +125,14 @@
 
     <body>
         <style>
-            header {
+            head {
                 position: relative;
                 top: -30px;
                 left: 0px;
                 right: 0px;
             }
 
-            main {
+            div.spk {
                 position: relative;
                 font-size: 12px;
                 padding-bottom: 37.79px;
@@ -142,7 +142,8 @@
                 content: counter(page);
             }
         </style>
-        <header>
+
+        <head>
             <table width="100%" style="border-bottom: 1px double #000; border-width: 4px;">
                 <tr>
                     <td width="70">
@@ -160,15 +161,12 @@
                         <div style="font-size: 10px; color: grey;">
                             <i>{{ $info }}</i>
                         </div>
-                        <div style="font-size: 10px; color: grey;">
-                            <i>{{ $email }}</i>
-                        </div>
                     </td>
                 </tr>
             </table>
-        </header>
+        </head>
 
-        <main>
+        <div class="spk">
             <style>
                 /* styles.css */
                 .centered-text {
@@ -394,8 +392,8 @@
                 </div>
             </div>
             <div style="text-align: center;">
-                <b class="centered-text"> PASAL 3</b>
                 <div style="font-size: 12px; font-weight: bold;">
+                    <div><b class="centered-text"> PASAL 3</b></div>
                     Pengalihan Kuasa Khusus atas Agunan
                 </div>
                 <ol class="centered-text">
@@ -499,7 +497,7 @@
                     $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
                 }
             </script>
-        </main>
+        </div>
 
     </body>
 
