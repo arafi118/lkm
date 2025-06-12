@@ -56,7 +56,7 @@
                 Dengan mempertimbangkan Standar Operasional Prosedur (SOP) yang berlaku, dengan ini Saya selaku
                 {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
                 pada hari ini
-                {{ Tanggal::tglLatin($perguliran_i->tgl_lunas != $perguliran_i->tgl_cair ? $perguliran_i->tgl_lunas : date('Y-m-d')) }}
+                {{ Tanggal::tglLatin($real->tgl_transaksi ?: date('Y-m-d')) }}
                 menyatakan dengan
                 sebenar-benarnya bahwa :
                 <table class="table p-0 mb-3">
