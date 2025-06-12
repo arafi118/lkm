@@ -331,6 +331,12 @@
                         {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_cair)->translatedFormat('d F Y') }} dan
                         sampai target pelunasan, sebagaimana jadwal angsuran terlampir.
                     </li>
+                    <li>
+                        Pihak Kedua berkewajiban membayar biaya administrasi sebesar 1% kali kredit yang dicairkan.
+                    </li>
+                    <li>
+                        Pihak Kedua berkewajiban membayar biaya pelayanan sebesar 1% kali kredit yang dicairkan.
+                    </li>
                 </ol>
             </div>
 
