@@ -73,7 +73,7 @@
                     <tr>
                         <td>Jenis Pinjaman</td>
                         <td>: {{ $perguliran_i->jpp->nama_jpp }}</td>
-                        <td>Sistem</td>
+                        <td>Sistem Angsuran</td>
                         <td>{{ $perguliran_i->jangka }} bulan / {{ $perguliran_i->sis_pokok->nama_sistem }}</td>
                     </tr>
                 </table>
