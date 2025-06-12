@@ -59,13 +59,13 @@
                 sebenar-benarnya bahwa :
                 <table class="table p-0 mb-3">
                     <tr class="p-1">
-                        <td>Nama Pemanfaat</td>
+                        <td>Nama Nasabah</td>
                         <td>: {{ $perguliran_i->anggota->namadepan }}</td>
                         <td>Alokasi</td>
                         <td>{{ number_format($perguliran_i->alokasi) }}</td>
                     </tr>
                     <tr>
-                        <td>Desa</td>
+                        <td>Alamat</td>
                         <td>: {{ $perguliran_i->anggota->d->nama_desa }}</td>
                         <td>Jasa</td>
                         <td>{{ $perguliran_i->pros_jasa }}%</td>
