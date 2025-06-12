@@ -16,7 +16,7 @@
 @section('content')
     @php
         $saldo_pokok = $ra->target_pokok - $real->sum_pokok;
-        $saldo_jasa = $ra->target_jasa - $real->sum_jasa;
+        $saldo_jasa = $ra_real->target_jasa - $real->sum_jasa;
 
         $keterangan1 = 'Belum Lunas';
         $keterangan2 = 'Belum Lunas';
@@ -137,7 +137,7 @@
                                         type="button">
                                         <i class="fa fa-print"></i> Cetak Keterangan Pelunasan
                                     </button>
-                                    @if ($is_dir )
+                                    @if ($is_dir)
                                         <button class="btn btn-danger btn-sm" type="button" id="TombolLunaskan" disabled>
                                             <i class="fa fa-gavel"></i> Validasi Lunas
                                         </button>
