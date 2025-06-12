@@ -33,7 +33,7 @@
 
 @php
     $saldo_pokok = $ra->target_pokok - $real->sum_pokok;
-    $saldo_jasa = $ra->target_jasa - $real->sum_jasa;
+    $saldo_jasa = $ra_real->target_jasa - $real->sum_jasa;
 
     $keterangan1 = 'Belum Lunas';
     $keterangan2 = 'Belum Lunas';
@@ -52,7 +52,7 @@
         <div class="card mt-3 text-sm shadow-none border-1">
             <div class="card-body">
                 Dengan mempertimbangkan Standar Operasional Prosedur (SOP) yang berlaku, dengan ini Saya selaku
-                {{ $kec->sebutan_level_1 }},{{$kec->nama_lembaga_sort}}
+                {{ $kec->sebutan_level_1 }},{{ $kec->nama_lembaga_sort }}
                 menyatakan dengan sebenar-benarnya bahwa :
                 <table class="table p-0 mb-3">
                     <tr class="p-1">
@@ -96,7 +96,7 @@
                         </tr>
                         <tr>
                             <td>Jasa</td>
-                            <td>{{ number_format($ra->target_jasa) }}</td>
+                            <td>{{ number_format($ra_real->target_jasa) }}</td>
                             <td>{{ number_format($real->sum_jasa) }}</td>
                             <td>{{ number_format($saldo_jasa) }}</td>
                             <td>{{ $keterangan2 }}</td>

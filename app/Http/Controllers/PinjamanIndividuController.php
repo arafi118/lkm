@@ -586,7 +586,7 @@ class PinjamanIndividuController extends Controller
         $real = RealAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('tgl_transaksi', 'DESC')->orderBy('id', 'DESC')->first();
         $ra = RencanaAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('jatuh_tempo', 'DESC')->first();
         $ra_real = RencanaAngsuranI::where('loan_id', $perguliran_i->id)->where('jatuh_tempo', '<=', $real->tgl_transaksi)->orderBy('jatuh_tempo', 'DESC')->first();
-        return view('perguliran_i.partials.lunas')->with(compact('title', 'perguliran_i', 'real', 'ra','ra_real', 'kec'));
+        return view('perguliran_i.partials.lunas')->with(compact('title', 'perguliran_i', 'real', 'ra', 'ra_real', 'kec'));
     }
 
     public function keterangan(PinjamanIndividu $perguliran_i)
@@ -594,6 +594,7 @@ class PinjamanIndividuController extends Controller
         $title = 'Cetak Keterangan Pelunasan ' . $perguliran_i->anggota->namadepan;
         $real = RealAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('tgl_transaksi', 'DESC')->orderBy('id', 'DESC')->first();
         $ra = RencanaAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('jatuh_tempo', 'DESC')->first();
+        $ra_real = RencanaAngsuranI::where('loan_id', $perguliran_i->id)->where('jatuh_tempo', '<=', $real->tgl_transaksi)->orderBy('jatuh_tempo', 'DESC')->first();
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $dir = User::where([
             ['lokasi', Session::get('lokasi')],
@@ -601,7 +602,7 @@ class PinjamanIndividuController extends Controller
             ['jabatan', '1']
         ])->first();
 
-        return view('perguliran_i.partials.cetak_keterangan')->with(compact('title', 'perguliran_i', 'real', 'ra', 'kec', 'dir'));
+        return view('perguliran_i.partials.cetak_keterangan')->with(compact('title', 'perguliran_i', 'real', 'ra', 'ra_real', 'kec', 'dir'));
     }
 
     /**
