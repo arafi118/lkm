@@ -1883,7 +1883,12 @@ class PinjamanIndividuController extends Controller
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
         $data['judul'] = 'Surat Perjanjian Kredit (Umum) (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
-        $view = view('perguliran_i.dokumen.spk', $data)->render();
+
+        if (Session::get('lokasi') == '15' || Session::get('lokasi') == '1') {
+            $view = view('perguliran_i.dokumen.spk_15', $data)->render();
+        } else {
+            $view = view('perguliran_i.dokumen.spk', $data)->render();
+        }
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
