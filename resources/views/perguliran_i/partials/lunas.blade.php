@@ -107,7 +107,7 @@
                                 </tr>
                                 <tr>
                                     <td>Jasa</td>
-                                    <td>{{ number_format($ra->target_jasa) }}</td>
+                                    <td>{{ number_format($ra_real->target_jasa) }}</td>
                                     <td>{{ number_format($real->sum_jasa) }}</td>
                                     <td>{{ number_format($saldo_jasa) }}</td>
                                     <td>{{ $keterangan2 }}</td>
