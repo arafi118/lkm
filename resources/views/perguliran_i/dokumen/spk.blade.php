@@ -81,7 +81,8 @@
         </tr>
     </table>
     <div class="centered-text">
-        Dalam hal ini bertindak untuk dan atas nama Pengurus {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
+        Dalam hal ini bertindak untuk dan atas nama {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
+        {{ $kec->sebutan_kec }}
         {{ $kec->nama_kec }} selaku pengelola pelayanan
         kredit untuk {{ $pinkel->jpp->deskripsi_jpp }}
         ({{ $pinkel->jpp->nama_jpp }}) di {{ $kec->sebutan_kec }}
