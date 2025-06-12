@@ -115,7 +115,9 @@
                     </div>
                     <div class="col-6 d-flex align-items-center">
                         <div class="f-12 font-primary">Dinyatakan LUNAS dan Surat
-                            Perjanjian Kredit (SPK) nomor {{ $perguliran_i->spk_no }} tanggal
+                            Perjanjian Kredit (SPK) nomor
+                            {{ $perguliran_i->spk_no != '0' ? $perguliran_i->spk_no : '..........................................' }}
+                            tanggal
                             {{ Tanggal::tglLatin($perguliran_i->tgl_cair) }} dinyatakan
                             selesai beserta seluruh hak
                             dan kewajibannya.</div>
