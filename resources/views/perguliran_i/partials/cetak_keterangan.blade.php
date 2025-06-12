@@ -78,7 +78,7 @@
                     </tr>
                 </table>
 
-                REKAPITULASI
+                Dengan rincian target dan pembayaran :
                 <table class="table f-12">
                     <thead class="bg-light">
                         <tr>
