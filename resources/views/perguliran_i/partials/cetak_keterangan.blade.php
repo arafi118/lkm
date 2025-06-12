@@ -71,7 +71,7 @@
                         <td>{{ $perguliran_i->pros_jasa }}%</td>
                     </tr>
                     <tr>
-                        <td>Jenis Pinjaman</td>
+                        <td>Jenis Piutang</td>
                         <td>: {{ $perguliran_i->jpp->nama_jpp }}</td>
                         <td>Sistem Angsuran</td>
                         <td>{{ $perguliran_i->jangka }} bulan / {{ $perguliran_i->sis_pokok->nama_sistem }}</td>
