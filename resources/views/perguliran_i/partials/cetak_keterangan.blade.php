@@ -106,7 +106,7 @@
                         </tr>
                     </tbody>
                 </table>
-                \
+
                 <div class="row f-12">
                     <div class="col-3 relative d-flex align-items-center">
                         <img width="100%" src="/assets/img/lunas.png">
