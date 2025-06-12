@@ -100,7 +100,7 @@ class Pinjaman
                 '{kabag_keuangan}' => $kec->sebutan_level_3,
                 '{verifikator}' => $kec->nama_tv_long,
                 '{pengawas}' => $kec->nama_bp_long,
-                '{ketua}' => (!$individu) ? $pinkel->kelompok->ketua : '',
+                '{ketua}' => (!$individu) ? $pinkel->kelompok->ketua : $pinkel->anggota->namadepan,
                 '{sekretaris}' => (!$individu) ? $pinkel->kelompok->sekretaris : '',
                 '{bendahara}' => (!$individu) ? $pinkel->kelompok->bendahara : '',
                 '{kades}' => $desa->kades,
