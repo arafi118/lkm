@@ -433,7 +433,7 @@
                 </ol>
             </div>
             <div style="text-align: center;">
-                <b class="centered-text"> PASAL 6 </b>
+                <b class="centered-text"> PASAL 4</b>
 
                 <div style="font-size: 12px; font-weight: bold;"> Penyelesaian Perselisihan </div>
                 <ol class="centered-text">
@@ -453,7 +453,7 @@
                 </ol>
             </div>
             <div style="text-align: center;">
-                <b class="centered-text"> PASAL 7 </b>
+                <b class="centered-text"> PASAL 5 </b>
                 <div style="font-size: 12px; font-weight: bold;"> Lain - Lain
                 </div>
                 <div class="centered-text">
@@ -467,7 +467,7 @@
                 </div>
             </div>
             <div style="text-align: center;">
-                <b class="centered-text"> PASAL 8 </b>
+                <b class="centered-text"> PASAL 6 </b>
                 <div style="font-size: 12px; font-weight: bold;"> Penyelesaian Perselisihan</div>
                 <div class="centered-text">
                     Perjanjian Utang Piutang uang ini dibuat rangkap 2 (dua) di atas kertas bermaterai
