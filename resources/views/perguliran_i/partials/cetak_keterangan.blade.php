@@ -32,6 +32,8 @@
 </head>
 
 @php
+    use App\Utils\Tanggal;
+
     $saldo_pokok = $ra->target_pokok - $real->sum_pokok;
     $saldo_jasa = $ra_real->target_jasa - $real->sum_jasa;
 
@@ -52,8 +54,9 @@
         <div class="card mt-3 text-sm shadow-none border-1">
             <div class="card-body">
                 Dengan mempertimbangkan Standar Operasional Prosedur (SOP) yang berlaku, dengan ini Saya selaku
-                {{ $kec->sebutan_level_1 }},{{ $kec->nama_lembaga_sort }}
-                menyatakan dengan sebenar-benarnya bahwa :
+                {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
+                pada hari ini {{ Tanggal::tglLatin($perguliran_i->tgl_lunas ?: date('Y-m-d')) }} menyatakan dengan
+                sebenar-benarnya bahwa :
                 <table class="table p-0 mb-3">
                     <tr class="p-1">
                         <td>Nama Pemanfaat</td>
