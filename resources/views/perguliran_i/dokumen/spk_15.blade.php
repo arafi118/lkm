@@ -236,7 +236,7 @@
             kredit untuk {{ $pinkel->jpp->deskripsi_jpp }}
             ({{ $pinkel->jpp->nama_jpp }}) di {{ $kec->sebutan_kec }}
             {{ $kec->nama_kec }}, Selanjutnya disebut
-            <b> Pihak Pertama </b> , dan
+            <b> Pihak Pertama </b>
         </div>
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
             <tr>
