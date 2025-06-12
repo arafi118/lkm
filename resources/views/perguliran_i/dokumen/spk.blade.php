@@ -171,9 +171,12 @@
             {{-- @if ($redaksi_spk)
         {!! json_decode($redaksi_spk, true) !!}
         @endif --}}
-            <li>
-                {{ str_replace('"', '', stripslashes(strip_tags($kec->redaksi_spk))) }}
-            </li>
+
+            @if (strlen($kec->redaksi_spk) > 20)
+                <li>
+                    {{ str_replace('"', '', stripslashes(strip_tags($kec->redaksi_spk))) }}
+                </li>
+            @endif
         </ol>
     </div>
     <br>
