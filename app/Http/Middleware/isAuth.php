@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use Auth;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +15,7 @@ class isAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() || auth()->guard('master')->check() auth()->guard('rekap')->check() || auth()->guard('kab')->check()) {
+        if (auth()->check() || auth()->guard('master')->check() || auth()->guard('rekap')->check() || auth()->guard('kab')->check()) {
             return $next($request);
         }
 

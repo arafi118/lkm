@@ -227,8 +227,7 @@
 @endsection
 
 @section('script')
-    <script src="https://cdn.tiny.cloud/1/rhedf7n960hbva1kt51t8gz54xlm2ad7q87fp5p3l9w3nehg/tinymce/7/tinymce.min.js"
-        referrerpolicy="origin"></script>
+    <script src="/vendor/ckeditor/ckeditor.js"></script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script> --}}
 
     <script>
@@ -238,6 +237,8 @@
         const pesan = $('#Pesan')
         var scan = 0
         var connect = 0
+
+        CKEDITOR.replace('editor_spk');
 
         $(document).on('click', '#ScanWA', function(e) {
             e.preventDefault()
@@ -331,18 +332,12 @@
         var bulan = "{{ date('m') }}"
 
         $(".money").maskMoney();
-        tinymce.init({
-            selector: '#spk',
-            menubar: false,
-            plugins: 'fullscreen',
-            toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | fullscreen'
-        });
 
         $(document).on('click', '.btn-simpan', async function(e) {
             e.preventDefault()
 
             if ($(this).attr('id') == 'SimpanSPK') {
-                await $('#spk').val(quill.container.firstChild.innerHTML)
+                $('#spk').val(CKEDITOR.instances.editor_spk.getData())
             }
 
             var form = $($(this).attr('data-target'))

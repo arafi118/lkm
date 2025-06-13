@@ -35,10 +35,7 @@
         .hidden {
             display: none;
         }
-    </style>
 
-
-    <style>
         .loader {
             position: fixed;
             top: 50%;
@@ -61,6 +58,10 @@
 
         .hidden {
             display: none;
+        }
+
+        .cke_notifications_area {
+            display: none
         }
     </style>
 
