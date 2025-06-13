@@ -189,14 +189,45 @@
             /* Posisikan elemen di sebelah kanan */
             /* Tambahan gaya lainnya sesuai kebutuhan */
         }
+
+        .app-theme-white .app-sidebar {
+            background: unset !important;
+        }
+
+        .app-sidebar.sidebar-shadow {
+            box-shadow: unset !important;
+        }
+
+        .fixed-sidebar .app-main .app-main__outer {
+            z-index: unset !important;
+        }
+
+        .fixed-header .app-main {
+            padding-top: unset !important;
+            margin-top: 60px !important;
+        }
+
+        .app-sidebar {
+            margin-top: unset !important;
+            padding-top: 1.5rem !important;
+        }
+
+        .app-sidebar .scrollbar-sidebar {
+            background: var(--bs-body-bg) !important;
+            border-top-right-radius: 0.375rem !important;
+        }
+
+        .app-header {
+            z-index: 8 !important;
+        }
     </style>
 
 </head>
 
 <body>
-<form action="/logout" method="post" id="formLogout" style="display: none;">
-    @csrf
-</form>
+    <form action="/logout" method="post" id="formLogout" style="display: none;">
+        @csrf
+    </form>
 
     <div class="loader-overlay">
         <div class="loader"></div>
@@ -679,7 +710,6 @@
     @yield('script')
 
     <script>
-    
         document.addEventListener('DOMContentLoaded', function() {
             // Cek jika bukan di halaman dashboard dan ada invoice di session
             if (!window.location.href.includes('/dashboard') && {!! json_encode(Session::get('invoice') !== null) !!}) {
