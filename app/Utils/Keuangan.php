@@ -82,6 +82,7 @@ class Keuangan
 
     public function penyebut($nilai)
     {
+        $nilai = str_replace(',', '', $nilai);
         $nilai = abs($nilai);
         $huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
         $temp = "";
