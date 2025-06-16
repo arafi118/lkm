@@ -32,8 +32,10 @@
 </head>
 
 @php
+    use App\Utils\Tanggal;
+
     $saldo_pokok = $ra->target_pokok - $real->sum_pokok;
-    $saldo_jasa = $ra->target_jasa - $real->sum_jasa;
+    $saldo_jasa = $ra_real->target_jasa - $real->sum_jasa;
 
     $keterangan1 = 'Belum Lunas';
     $keterangan2 = 'Belum Lunas';
@@ -52,30 +54,33 @@
         <div class="card mt-3 text-sm shadow-none border-1">
             <div class="card-body">
                 Dengan mempertimbangkan Standar Operasional Prosedur (SOP) yang berlaku, dengan ini Saya selaku
-                {{ $kec->sebutan_level_1 }},{{$kec->nama_lembaga_sort}}
-                menyatakan dengan sebenar-benarnya bahwa :
+                {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
+                pada hari ini
+                {{ Tanggal::tglLatin($perguliran_i->tgl_lunas != $perguliran_i->tgl_cair ? $perguliran_i->tgl_lunas : date('Y-m-d')) }}
+                menyatakan dengan
+                sebenar-benarnya bahwa :
                 <table class="table p-0 mb-3">
                     <tr class="p-1">
-                        <td>Nama Pemanfaat</td>
+                        <td>Nama Nasabah</td>
                         <td>: {{ $perguliran_i->anggota->namadepan }}</td>
                         <td>Alokasi</td>
                         <td>{{ number_format($perguliran_i->alokasi) }}</td>
                     </tr>
                     <tr>
-                        <td>Desa</td>
+                        <td>Alamat</td>
                         <td>: {{ $perguliran_i->anggota->d->nama_desa }}</td>
                         <td>Jasa</td>
                         <td>{{ $perguliran_i->pros_jasa }}%</td>
                     </tr>
                     <tr>
-                        <td>Jenis Pinjaman</td>
+                        <td>Jenis Piutang</td>
                         <td>: {{ $perguliran_i->jpp->nama_jpp }}</td>
-                        <td>Sistem</td>
+                        <td>Sistem Angsuran</td>
                         <td>{{ $perguliran_i->jangka }} bulan / {{ $perguliran_i->sis_pokok->nama_sistem }}</td>
                     </tr>
                 </table>
 
-                REKAPITULASI
+                Dengan rincian target dan pembayaran sebagaimana tabel berikut :
                 <table class="table f-12">
                     <thead class="bg-light">
                         <tr>
@@ -96,21 +101,23 @@
                         </tr>
                         <tr>
                             <td>Jasa</td>
-                            <td>{{ number_format($ra->target_jasa) }}</td>
+                            <td>{{ number_format($ra_real->target_jasa) }}</td>
                             <td>{{ number_format($real->sum_jasa) }}</td>
                             <td>{{ number_format($saldo_jasa) }}</td>
                             <td>{{ $keterangan2 }}</td>
                         </tr>
                     </tbody>
                 </table>
-                \
+
                 <div class="row f-12">
                     <div class="col-3 relative d-flex align-items-center">
                         <img width="100%" src="/assets/img/lunas.png">
                     </div>
                     <div class="col-6 d-flex align-items-center">
-                        <div class="f-12 font-primary">Pinjaman tersebut diatas telah kami nyatakan LUNAS dan Surat
-                            Perjanjian Kredit (SPK) nomor {{ $perguliran_i->spk_no }} tanggal
+                        <div class="f-12 font-primary">Dinyatakan LUNAS dan Surat
+                            Perjanjian Kredit (SPK) nomor
+                            {{ $perguliran_i->spk_no != '0' ? $perguliran_i->spk_no : '..............................................' }}
+                            tanggal
                             {{ Tanggal::tglLatin($perguliran_i->tgl_cair) }} dinyatakan
                             selesai beserta seluruh hak
                             dan kewajibannya.</div>

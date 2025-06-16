@@ -71,7 +71,7 @@
             <td width="5"> &nbsp; </td>
             <td> NIK </td>
             <td align="center"> : </td>
-            <td> {{ $pinkel->anggota->nik }} </td>
+            <td> {{ $dir->nik }} </td>
         </tr>
         <tr>
             <td width="5"> &nbsp; </td>

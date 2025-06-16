@@ -21,6 +21,22 @@
 @extends('perguliran.dokumen.layout.base')
 
 @section('content')
+    <style>
+        table {
+            page-break-inside: auto;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        /* Untuk div atau paragraph panjang */
+        div,
+        p {
+            page-break-inside: avoid;
+        }
+    </style>
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
             <td colspan="3" align="center">
@@ -137,9 +153,9 @@
                 {{ Tanggal::tglLatin($pinkel->tgl_proposal) }}.
             </li>
             <li>
-                Pihak Kedua dan Pemberi kuasa, menyatakan telah menerima uang dengan jumlah sebagaimana yang
+                Pihak Kedua menyatakan telah menerima uang dengan jumlah sebagaimana yang
                 tertulis pada ayat 1 diatas., dan telah diterima oleh para anggota pemanfaat sesuai kelayakan kredit
-                masing-masing anggota pemanfaat yang dibuktikan secara sah dengan daftar penerima dana terlampir,
+                anggota pemanfaat yang dibuktikan secara sah dengan penerima dana terlampir,
                 dan sekaligus berlaku sebagai Surat Pengakuan Hutang, baik bagi setiap anggota penerima manfaat
                 maupun secara kelompok dalam pernyataan ketaatan tanggung-renteng.
             </li>

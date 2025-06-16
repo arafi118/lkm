@@ -317,15 +317,11 @@ class SopController extends Controller
         $validate = Validator::make($data, [
             'spk' => 'required'
         ]);
-
         if ($validate->fails()) {
             return response()->json($validate->errors(), Response::HTTP_MOVED_PERMANENTLY);
         }
 
-        $data['spk'] = str_replace('<ol>', '', $data['spk']);
-        $data['spk'] = str_replace('</ol>', '', $data['spk']);
         $spk = json_encode($data['spk']);
-
         $kecamatan = Kecamatan::where('id', $kec->id)->update([
             'redaksi_spk' => $spk
         ]);

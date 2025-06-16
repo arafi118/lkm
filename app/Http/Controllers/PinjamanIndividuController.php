@@ -585,7 +585,8 @@ class PinjamanIndividuController extends Controller
         $title = 'Detal Pinjaman anggota ' . $perguliran_i->anggota->namadepan;
         $real = RealAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('tgl_transaksi', 'DESC')->orderBy('id', 'DESC')->first();
         $ra = RencanaAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('jatuh_tempo', 'DESC')->first();
-        return view('perguliran_i.partials.lunas')->with(compact('title', 'perguliran_i', 'real', 'ra', 'kec'));
+        $ra_real = RencanaAngsuranI::where('loan_id', $perguliran_i->id)->where('jatuh_tempo', '<=', $real->tgl_transaksi)->orderBy('jatuh_tempo', 'DESC')->first();
+        return view('perguliran_i.partials.lunas')->with(compact('title', 'perguliran_i', 'real', 'ra', 'ra_real', 'kec'));
     }
 
     public function keterangan(PinjamanIndividu $perguliran_i)
@@ -593,6 +594,7 @@ class PinjamanIndividuController extends Controller
         $title = 'Cetak Keterangan Pelunasan ' . $perguliran_i->anggota->namadepan;
         $real = RealAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('tgl_transaksi', 'DESC')->orderBy('id', 'DESC')->first();
         $ra = RencanaAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('jatuh_tempo', 'DESC')->first();
+        $ra_real = RencanaAngsuranI::where('loan_id', $perguliran_i->id)->where('jatuh_tempo', '<=', $real->tgl_transaksi)->orderBy('jatuh_tempo', 'DESC')->first();
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $dir = User::where([
             ['lokasi', Session::get('lokasi')],
@@ -600,7 +602,7 @@ class PinjamanIndividuController extends Controller
             ['jabatan', '1']
         ])->first();
 
-        return view('perguliran_i.partials.cetak_keterangan')->with(compact('title', 'perguliran_i', 'real', 'ra', 'kec', 'dir'));
+        return view('perguliran_i.partials.cetak_keterangan')->with(compact('title', 'perguliran_i', 'real', 'ra', 'ra_real', 'kec', 'dir'));
     }
 
     /**
@@ -1881,7 +1883,12 @@ class PinjamanIndividuController extends Controller
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
         $data['judul'] = 'Surat Perjanjian Kredit (Umum) (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
-        $view = view('perguliran_i.dokumen.spk', $data)->render();
+        if (Session::get('lokasi') == '15' || Session::get('lokasi') == '1') {
+            $data['redaksi_spk'] = Pinjaman::spk($data['kec']->redaksi_spk, $data);
+            $view = view('perguliran_i.dokumen.spk_15', $data)->render();
+        } else {
+            $view = view('perguliran_i.dokumen.spk', $data)->render();
+        }
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
