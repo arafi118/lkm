@@ -35,7 +35,7 @@ class AuthController extends Controller
             request()->server('SERVER_NAME') === 'localhost' ||
             str_ends_with(request()->server('SERVER_NAME'), '.test')) {
                     $kec = Kecamatan::where('id', self::ID_KEC)->with('kabupaten')->first();
-                    //$pus = Rekap::where('id', 1)->first();return redirect('/rekap');
+                    $pus = Rekap::where('id', 1)->first();return redirect('/rekap');
         } else {
             $kec = Kecamatan::where('web_kec', explode('//', request()->url(''))[1])
                 ->orWhere('web_alternatif', explode('//', request()->url(''))[1])

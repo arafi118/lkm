@@ -110,6 +110,8 @@
     <script defer src="/assets/scripts/chart_js.js"></script>
 
     <link rel="stylesheet" href="/assets/css/pace.css?v=1716515606">
+    
+    @yield('style')
     <style>
         .dataTables_paginate.paging_simple_numbers {
             display: flex !important;
