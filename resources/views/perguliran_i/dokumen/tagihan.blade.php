@@ -187,15 +187,14 @@
         <tr>
             <td width="50%">&nbsp;</td>
             <td width="50%" align="center">
-                {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_dana) }}
+                {{ $kec->nama_kec }}, {{ Tanggal::tglLatin(now()->toDateString()) }}
+
+
             </td>
         </tr>
         <tr>
             <td>&nbsp;</td>
             <td align="center">{{ $kec->sebutan_level_1 }}</td>
-        </tr>
-        <tr>
-            <td colspan="2" height="40">&nbsp;</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
