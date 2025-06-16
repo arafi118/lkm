@@ -1,4 +1,3 @@
-
 <form action="/pengaturan/simpanan/{{ $kec->id }}" method="post" id="FormSimpanan">
     @csrf
     @method('PUT')
@@ -7,7 +6,8 @@
             <div class="position-relative mb-3">
                 <label for="hitung_bunga" class="form-label">Jenis Perhitungan Bunga</label>
                 <select class="form-control" name="hitung_bunga" id="hitung_bunga">
-                    <option {{ $kec->hitung_bunga == '0' ? 'selected' : '' }} value="0">Silakan Pilih Perhitungan</option>
+                    <option {{ $kec->hitung_bunga == '0' ? 'selected' : '' }} value="0">Silakan Pilih Perhitungan
+                    </option>
                     <option {{ $kec->hitung_bunga == '1' ? 'selected' : '' }} value="1">Saldo Terakhir</option>
                     <option {{ $kec->hitung_bunga == '2' ? 'selected' : '' }} value="2">Saldo Terendah</option>
                     <option {{ $kec->hitung_bunga == '3' ? 'selected' : '' }} value="3">Saldo Rata-rata</option>
@@ -75,7 +75,8 @@
 </form>
 
 <div class="d-flex justify-content-end">
-    <button type="button" id="SimpanSimpanan" data-target="#FormSimpanan" class="btn btn-secondary mb-0 btn-simpan">
+    <button type="button" id="SimpanSimpanan" data-target="#FormSimpanan"
+        class="btn btn-sm btn-dark mb-0 btn-simpan">
         Simpan Perubahan
     </button>
 </div>

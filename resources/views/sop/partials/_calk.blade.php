@@ -101,6 +101,6 @@
 
     <div class="d-flex justify-content-end">
         <button type="button" id="SimpanCalk" data-target="#formCalk"
-            class="btn btn-sm btn-github mb-0 btn-simpan">Simpan Perubahan</button>
+            class="btn btn-sm btn-dark mb-0 btn-simpan">Simpan Perubahan</button>
     </div>
 </form>

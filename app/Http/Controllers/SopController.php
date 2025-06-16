@@ -25,9 +25,11 @@ class SopController extends Controller
 
         $kec = Kecamatan::where('id', Session::get('lokasi'))->with('ttd')->first();
         $token = "LKM-" . str_replace('.', '', $kec->kd_kec) . '-' . str_pad($kec->id, 4, '0', STR_PAD_LEFT);
+        $keywordSPK = Pinjaman::spk();
+        $fungsiSPK = Pinjaman::fungsi();
 
         $title = "Personalisasi SOP";
-        return view('sop.index')->with(compact('title', 'kec', 'api', 'token'));
+        return view('sop.index')->with(compact('title', 'kec', 'api', 'token', 'keywordSPK', 'fungsiSPK'));
     }
 
     public function users()

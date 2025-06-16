@@ -63,6 +63,10 @@
         .cke_notifications_area {
             display: none
         }
+
+        .modal-dialog {
+            box-shadow: unset !important;
+        }
     </style>
 
     <meta charset="utf-8">

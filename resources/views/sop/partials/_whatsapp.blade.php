@@ -30,7 +30,7 @@
     @endif
     &nbsp;
     <button type="button" id="SimpanWhatsapp" data-target="#FormScanWhatsapp"
-        class="btn btn-secondary mb-0 btn-simpan">
+        class="btn btn-sm btn-dark mb-0 btn-simpan">
         Simpan Perubahan
     </button>
 </div>

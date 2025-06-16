@@ -106,9 +106,11 @@
         <div class="col-md-6">
             <div class="position-relative mb-3">
                 <label class="form-label"for="hak_kredit">Jumlah Maksimal Kredit (Per Pelanggan)</label><br>
-                <input type="radio" id="hak_kredit" name="hak_kredit" value="1" {{ $kec->hak_kredit == 1 ? 'checked' : '' }}>
+                <input type="radio" id="hak_kredit" name="hak_kredit" value="1"
+                    {{ $kec->hak_kredit == 1 ? 'checked' : '' }}>
                 <label>Hanya satu</label><br>
-                <input type="radio" id="hak_kredit" name="hak_kredit" value="2" {{ $kec->hak_kredit == 2 ? 'checked' : '' }}>
+                <input type="radio" id="hak_kredit" name="hak_kredit" value="2"
+                    {{ $kec->hak_kredit == 2 ? 'checked' : '' }}>
                 <label>Lebih dari satu</label><br><br>
             </div>
         </div>
@@ -117,18 +119,22 @@
         <div class="col-md-6">
             <div class="position-relative mb-3">
                 <label class="form-label" for="hit_fee_agen">Rumus Fee Agen</label><br>
-                <input type="radio" id="hit_fee_agen" name="hit_fee_agen" value="1" {{ $kec->hit_fee_agen == 1 ? 'checked' : '' }}>
+                <input type="radio" id="hit_fee_agen" name="hit_fee_agen" value="1"
+                    {{ $kec->hit_fee_agen == 1 ? 'checked' : '' }}>
                 <label> Rumus 1 (Pros % Fee x Harga Barang)</label><br>
-                <input type="radio" id="hit_fee_agen" name="hit_fee_agen" value="2" {{ $kec->hit_fee_agen == 2 ? 'checked' : '' }}>
+                <input type="radio" id="hit_fee_agen" name="hit_fee_agen" value="2"
+                    {{ $kec->hit_fee_agen == 2 ? 'checked' : '' }}>
                 <label> Rumus 2 (Pros % Fee x Total Jasa)</label><br><br>
             </div>
         </div>
         <div class="col-md-6">
             <div class="position-relative mb-3">
                 <label class="form-label" for="jdwl_angsuran">Jenis Angsuran</label><br>
-                <input type="radio" id="jdwl_angsuran" name="jdwl_angsuran" value="1" {{ $kec->jdwl_angsuran == 1 ? 'checked' : '' }}>
+                <input type="radio" id="jdwl_angsuran" name="jdwl_angsuran" value="1"
+                    {{ $kec->jdwl_angsuran == 1 ? 'checked' : '' }}>
                 <label> Angsuran di Awal</label><br>
-                <input type="radio" id="jdwl_angsuran" name="jdwl_angsuran" value="2" {{ $kec->jdwl_angsuran == 2 ? 'checked' : '' }}>
+                <input type="radio" id="jdwl_angsuran" name="jdwl_angsuran" value="2"
+                    {{ $kec->jdwl_angsuran == 2 ? 'checked' : '' }}>
                 <label> Angsuran di Akhir Periode</label><br><br>
             </div>
         </div>
@@ -136,7 +142,8 @@
 </form>
 
 <div class="d-flex justify-content-end">
-    <button type="button" id="SimpanPinjaman" data-target="#FormPinjaman" class="btn btn-secondary mb-0 btn-simpan">
+    <button type="button" id="SimpanPinjaman" data-target="#FormPinjaman"
+        class="btn btn-sm btn-dark mb-0 btn-simpan">
         Simpan Perubahan
     </button>
 </div>

@@ -43,7 +43,7 @@
 </form>
 
 <div class="d-flex justify-content-end">
-    <button type="button" id="SimpanAsuransi" data-target="#FormAsuransi" class="btn btn-secondary mb-0 btn-simpan">
+    <button type="button" id="SimpanAsuransi" data-target="#FormAsuransi" class="btn btn-sm btn-dark mb-0 btn-simpan">
         Simpan Perubahan
     </button>
 </div>

@@ -134,61 +134,7 @@ class Pinjaman
 
     public static function spk($text = false, $data = [])
     {
-        $keywordReplacer = [
-            '{nomor_spk}' => [
-                'desc' => 'Menampilkan Nomor SPK',
-                'value' => (isset($data['pinkel'])) ? $data['pinkel']->spk_no : '',
-            ],
-            '{nama_lembaga}' => [
-                'desc' => 'Menampilkan Nama Lembaga Usaha',
-                'value' => (isset($data['kec'])) ? ucwords($data['kec']->nama_lembaga_sort) : '',
-            ],
-            '{nama_kecamatan}' => [
-                'desc' => 'Menampilkan Nama Kecamatan',
-                'value' => (isset($data['kec'])) ? ucwords($data['kec']->nama_kec) : '',
-            ],
-            '{sebutan_kepala_lembaga}' => [
-                'desc' => 'Menampilkan Sebutan Kepala Lembaga',
-                'value' => (isset($data['kec'])) ? ucwords($data['kec']->sebutan_level_1) : '',
-            ],
-            '{nama_peminjam}' => [
-                'desc' => 'Menampilkan Nama Peminjam',
-                'value' => (isset($data['pinkel'])) ? ucwords($data['pinkel']->anggota->namadepan) : '',
-            ],
-            '{jenis_kelamin}' => [
-                'desc' => 'Menampilkan Jenis Kelamin (L/P) Peminjam',
-                'value' => (isset($data['pinkel'])) ? ucwords($data['pinkel']->anggota->jk) : '',
-            ],
-            '{tempat_lahir}' => [
-                'desc' => 'Menampilkan Tempat Lahir Peminjam',
-                'value' => (isset($data['pinkel'])) ? ucwords($data['pinkel']->anggota->tempat_lahir) : '',
-            ],
-            '{tanggal_lahir}' => [
-                'desc' => 'Menampilkan Tanggal Lahir Peminjam',
-                'value' => (isset($data['pinkel'])) ? ucwords(Tanggal::tglLatin($data['pinkel']->anggota->tgl_lahir)) : '',
-            ],
-            '{nik_peminjam}' => [
-                'desc' => 'Menampilkan NIK Peminjam',
-                'value' => (isset($data['pinkel'])) ? $data['pinkel']->anggota->nik : '',
-            ],
-            '{alamat_peminjam}' => [
-                'desc' => 'Menampilkan Alamat Peminjam',
-                'value' => (isset($data['pinkel'])) ? $data['pinkel']->anggota->alamat : '',
-            ],
-            '{tanggal_cair}' => [
-                'desc' => 'Menampilkan Tanggal Cair Pinjaman',
-                'value' => (isset($data['pinkel'])) ? ucwords(Tanggal::tglLatin($data['pinkel']->tgl_cair)) : '',
-            ],
-            '{alokasi}' => [
-                'desc' => 'Menampilkan Alokasi Pinjaman',
-                'value' => (isset($data['pinkel'])) ? $data['pinkel']->alokasi : '',
-            ],
-            '{jangka}' => [
-                'desc' => 'Menampilkan Jangka/Tempo Pinjaman (bulan)',
-                'value' => (isset($data['pinkel'])) ? $data['pinkel']->jangka : '',
-            ],
-        ];
-
+        $keywordReplacer = self::keywordReplacer($data);
         if ($text === false) {
             return $keywordReplacer;
         }
@@ -239,7 +185,7 @@ class Pinjaman
         }
 
         $textReplacer = self::keyReplacer($input, true);
-        $text = $keuangan->terbilang(self::replacement($input, $textReplacer)) . ' Rupiah';
+        $text = $keuangan->terbilang(self::replacement($input, $textReplacer));
 
         return str_replace('  ', ' ', $text);
     }
@@ -290,5 +236,186 @@ class Pinjaman
     {
         $text = strtr($text, $textReplacer);
         return $text;
+    }
+
+    private function jaminan($id = null)
+    {
+        $jaminan = [
+            [
+                'id' => '1',
+                'nama' => 'Surat Tanah',
+            ],
+            [
+                'id' => '2',
+                'nama' => 'BPKB',
+            ],
+            [
+                'id' => '3',
+                'nama' => 'SK. Pegawai',
+            ],
+            [
+                'id' => '4',
+                'nama' => 'Lain Lain',
+            ],
+            [
+                'id' => '5',
+                'nama' => 'Surat Tanah dan Bangunan (SHM)',
+            ],
+        ];
+
+        if ($id) {
+            return $jaminan[$id - 1]['nama'];
+        }
+
+        return $jaminan;
+    }
+
+    private static function keywordReplacer($data = [])
+    {
+        $nama_jaminan = '';
+        $keterangan_jaminan = '';
+        $nilai_jaminan = '';
+        $jenis_jaminan = '';
+        if (isset($data['pinkel'])) {
+            $jaminan = json_decode($data['pinkel']->jaminan, true);
+            if ($jaminan) {
+                $nama_jaminan = $jaminan['nama_jaminan'];
+                $keterangan_jaminan = $jaminan['keterangan'];
+                $nilai_jaminan = $jaminan['nilai_jaminan'];
+                $jenis_jaminan = $jaminan['jenis_jaminan'];
+            }
+        }
+
+        $keywordReplacer = [
+            '{nomor_spk}' => [
+                'desc' => 'Menampilkan Nomor SPK',
+                'value' => (isset($data['pinkel'])) ? $data['pinkel']->spk_no : '',
+            ],
+            '{nama_lembaga}' => [
+                'desc' => 'Menampilkan Nama Lembaga Usaha',
+                'value' => (isset($data['kec'])) ? ucwords($data['kec']->nama_lembaga_sort) : '',
+            ],
+            '{nama_kecamatan}' => [
+                'desc' => 'Menampilkan Nama Kecamatan',
+                'value' => (isset($data['kec'])) ? ucwords($data['kec']->nama_kec) : '',
+            ],
+            '{sebutan_kepala_lembaga}' => [
+                'desc' => 'Menampilkan Sebutan Kepala Lembaga',
+                'value' => (isset($data['kec'])) ? ucwords($data['kec']->sebutan_level_1) : '',
+            ],
+            '{nama_peminjam}' => [
+                'desc' => 'Menampilkan Nama Peminjam',
+                'value' => (isset($data['pinkel'])) ? ucwords($data['pinkel']->anggota->namadepan) : '',
+            ],
+            '{jenis_kelamin}' => [
+                'desc' => 'Menampilkan Jenis Kelamin (L/P) Peminjam',
+                'value' => (isset($data['pinkel'])) ? ucwords($data['pinkel']->anggota->jk) : '',
+            ],
+            '{tempat_lahir}' => [
+                'desc' => 'Menampilkan Tempat Lahir Peminjam',
+                'value' => (isset($data['pinkel'])) ? ucwords($data['pinkel']->anggota->tempat_lahir) : '',
+            ],
+            '{tanggal_lahir}' => [
+                'desc' => 'Menampilkan Tanggal Lahir Peminjam',
+                'value' => (isset($data['pinkel'])) ? ucwords(Tanggal::tglLatin($data['pinkel']->anggota->tgl_lahir)) : '',
+            ],
+            '{nik_peminjam}' => [
+                'desc' => 'Menampilkan NIK Peminjam',
+                'value' => (isset($data['pinkel'])) ? $data['pinkel']->anggota->nik : '',
+            ],
+            '{alamat_peminjam}' => [
+                'desc' => 'Menampilkan Alamat Peminjam',
+                'value' => (isset($data['pinkel'])) ? $data['pinkel']->anggota->alamat : '',
+            ],
+            '{nama_jaminan}' => [
+                'desc' => 'Menampilkan Nama Jaminan Peminjam',
+                'value' => $nama_jaminan,
+            ],
+            '{keterangan_jaminan}' => [
+                'desc' => 'Menampilkan Keterangan Jaminan',
+                'value' => $keterangan_jaminan,
+            ],
+            '{nilai_jaminan}' => [
+                'desc' => 'Menampilkan Nilai Jual Jaminan',
+                'value' => $nilai_jaminan,
+            ],
+            '{nilai_jaminan}' => [
+                'desc' => 'Menampilkan Nilai Jual Jaminan',
+                'value' => $nilai_jaminan,
+            ],
+            '{jenis_jaminan}' => [
+                'desc' => 'Menampilkan Jenis Jaminan Peminjam',
+                'value' => $jenis_jaminan,
+            ],
+            '{tanggal_proposal}' => [
+                'desc' => 'Menampilkan Tanggal Proposal/Pengajuan Pinjaman',
+                'value' => (isset($data['pinkel'])) ? ucwords(Tanggal::tglLatin($data['pinkel']->tgl_proposal)) : '',
+            ],
+            '{tanggal_verifikasi}' => [
+                'desc' => 'Menampilkan Tanggal Verifikasi Pinjaman',
+                'value' => (isset($data['pinkel'])) ? ucwords(Tanggal::tglLatin($data['pinkel']->tgl_verifikasi)) : '',
+            ],
+            '{tanggal_waiting}' => [
+                'desc' => 'Menampilkan Tanggal Waiting/Pendanaan Pinjaman',
+                'value' => (isset($data['pinkel'])) ? ucwords(Tanggal::tglLatin($data['pinkel']->tgl_tunggu)) : '',
+            ],
+            '{tanggal_cair}' => [
+                'desc' => 'Menampilkan Tanggal Cair Pinjaman',
+                'value' => (isset($data['pinkel'])) ? ucwords(Tanggal::tglLatin($data['pinkel']->tgl_cair)) : '',
+            ],
+            '{proposal}' => [
+                'desc' => 'Menampilkan Proposal/Pengajuan Pinjaman (10,000,000.00)',
+                'value' => (isset($data['pinkel'])) ? $data['pinkel']->proposal : '',
+            ],
+            '{verifikasi}' => [
+                'desc' => 'Menampilkan Rekom Verifikator (10,000,000.00)',
+                'value' => (isset($data['pinkel'])) ? $data['pinkel']->verifikasi : '',
+            ],
+            '{alokasi}' => [
+                'desc' => 'Menampilkan Alokasi Pinjaman (10,000,000.00)',
+                'value' => (isset($data['pinkel'])) ? $data['pinkel']->alokasi : '',
+            ],
+            '{jangka}' => [
+                'desc' => 'Menampilkan Jangka/Tempo Pinjaman (bulan)',
+                'value' => (isset($data['pinkel'])) ? $data['pinkel']->jangka : '',
+            ],
+        ];
+
+        return $keywordReplacer;
+    }
+
+    public static function fungsi()
+    {
+        $keuangan = new Keuangan;
+
+        $today = date('Y-m-d');
+        $tanggal = date('d/m/Y');
+        $nama_hari = Tanggal::namaHari($today);
+
+        $tanggal_latin = $keuangan->terbilang(Tanggal::hari($today));
+        $nama_bulan = Tanggal::namaBulan($today);
+        $tahun_latin = $keuangan->terbilang(Tanggal::tahun($today));
+        $tanggal_latin = $tanggal_latin . ' bulan ' . $nama_bulan . ' tahun ' . $tahun_latin;
+
+        $fungsi = [
+            'Terbilang' => [
+                'fungsi' => '{=terbilang(...)}',
+                'desc' => 'Merubah angka menjadi teks. Contoh : <code>{=terbilang(1000000)}</code> akan menghasilkan teks <code>Satu Juta</code>',
+            ],
+            'Tanggal' => [
+                'fungsi' => '{=tanggal_latin(...)}',
+                'desc' => 'Menampilkan tanggal dalam format teks. Contoh : <code>{=tanggal_latin(' . $tanggal . ')}</code> akan menghasilkan teks <code>' . $tanggal_latin . '</code>',
+            ],
+            'Hari' => [
+                'fungsi' => '{=hari(...)}',
+                'desc' => 'Menampilkan nama hari pada suatu tanggal. Contoh : <code>{=hari(' . $tanggal . ')}</code> akan menghasilkan teks <code>' . $nama_hari . '</code>',
+            ],
+            'Aritmatika' => [
+                'fungsi' => '{=(...)}',
+                'desc' => 'Melakukan operasi hitung aritmatika (+, -, *, /). Contoh : <code>{=(10000*(10/100))}</code> akan menghasilkan angka <code>1000</code>',
+            ]
+        ];
+
+        return $fungsi;
     }
 }

@@ -59,7 +59,8 @@
  </form>
 
  <div class="d-flex justify-content-end">
-     <button type="button" id="SimpanPengelola" data-target="#FormPengelola" class="btn btn-secondary mb-0 btn-simpan">
+     <button type="button" id="SimpanPengelola" data-target="#FormPengelola"
+         class="btn btn-sm btn-dark mb-0 btn-simpan">
          Simpan Perubahan
      </button>
  </div>
