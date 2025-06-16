@@ -187,7 +187,8 @@
         <tr>
             <td width="50%">&nbsp;</td>
             <td width="50%" align="center">
-                {{ $kec->nama_kec }}, {{ Tanggal::tglLatin(now()) }}
+                {{ $kec->nama_kec }}, {{ Tanggal::tglLatin(now()->toDateString()) }}
+
 
             </td>
         </tr>
