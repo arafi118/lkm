@@ -347,6 +347,10 @@ class Pinjaman
             //     'desc' => 'Menampilkan Jenis Jaminan Nasabah',
             //     'value' => $jenis_jaminan,
             // ],
+            '{jenis_pinjaman}' => [
+                'desc' => 'Menampilkan Jenis Produk Pinjaman',
+                'value' => (isset($data['pinkel'])) ? $data['pinkel']->jpp->deskripsi_jpp . ' (' . $data['pinkel']->jpp->nama_jpp . ')' : '',
+            ],
             '{tanggal_proposal}' => [
                 'desc' => 'Menampilkan Tanggal Proposal/Pengajuan Pinjaman',
                 'value' => (isset($data['pinkel'])) ? ucwords(Tanggal::tglLatin($data['pinkel']->tgl_proposal)) : '',
@@ -378,6 +382,10 @@ class Pinjaman
             '{jangka}' => [
                 'desc' => 'Menampilkan Jangka/Tempo Pinjaman (bulan)',
                 'value' => (isset($data['pinkel'])) ? $data['pinkel']->jangka : '',
+            ],
+            '{today}' => [
+                'desc' => 'Menampilkan Tanggal Hari Ini',
+                'value' => ucwords(Tanggal::tglLatin(date('Y-m-d'))),
             ],
         ];
 
