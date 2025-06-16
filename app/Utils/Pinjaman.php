@@ -173,7 +173,7 @@ class Pinjaman
         $textReplacer = self::keyReplacer($input, true);
         $math = self::replacement($input, $textReplacer);
 
-        return eval('return ' . $math . ';');
+        return number_format(eval('return ' . $math . ';'), 2);
     }
 
     private static function terbilang($input)
@@ -272,19 +272,19 @@ class Pinjaman
 
     private static function keywordReplacer($data = [])
     {
-        $nama_jaminan = '';
-        $keterangan_jaminan = '';
-        $nilai_jaminan = '';
-        $jenis_jaminan = '';
-        if (isset($data['pinkel'])) {
-            $jaminan = json_decode($data['pinkel']->jaminan, true);
-            if ($jaminan) {
-                $nama_jaminan = $jaminan['nama_jaminan'];
-                $keterangan_jaminan = $jaminan['keterangan'];
-                $nilai_jaminan = $jaminan['nilai_jaminan'];
-                $jenis_jaminan = $jaminan['jenis_jaminan'];
-            }
-        }
+        // $nama_jaminan = '';
+        // $keterangan_jaminan = '';
+        // $nilai_jaminan = '';
+        // $jenis_jaminan = '';
+        // if (isset($data['pinkel'])) {
+        //     $jaminan = json_decode($data['pinkel']->jaminan, true);
+        //     if ($jaminan) {
+        //         $nama_jaminan = $jaminan['nama_jaminan'];
+        //         $keterangan_jaminan = $jaminan['keterangan'];
+        //         $nilai_jaminan = $jaminan['nilai_jaminan'];
+        //         $jenis_jaminan = $jaminan['jenis_jaminan'];
+        //     }
+        // }
 
         $keywordReplacer = [
             '{nomor_spk}' => [
@@ -303,50 +303,50 @@ class Pinjaman
                 'desc' => 'Menampilkan Sebutan Kepala Lembaga',
                 'value' => (isset($data['kec'])) ? ucwords($data['kec']->sebutan_level_1) : '',
             ],
-            '{nama_peminjam}' => [
-                'desc' => 'Menampilkan Nama Peminjam',
+            '{nama_nasabah}' => [
+                'desc' => 'Menampilkan Nama Nasabah',
                 'value' => (isset($data['pinkel'])) ? ucwords($data['pinkel']->anggota->namadepan) : '',
             ],
             '{jenis_kelamin}' => [
-                'desc' => 'Menampilkan Jenis Kelamin (L/P) Peminjam',
+                'desc' => 'Menampilkan Jenis Kelamin (L/P) Nasabah',
                 'value' => (isset($data['pinkel'])) ? ucwords($data['pinkel']->anggota->jk) : '',
             ],
             '{tempat_lahir}' => [
-                'desc' => 'Menampilkan Tempat Lahir Peminjam',
+                'desc' => 'Menampilkan Tempat Lahir Nasabah',
                 'value' => (isset($data['pinkel'])) ? ucwords($data['pinkel']->anggota->tempat_lahir) : '',
             ],
             '{tanggal_lahir}' => [
-                'desc' => 'Menampilkan Tanggal Lahir Peminjam',
+                'desc' => 'Menampilkan Tanggal Lahir Nasabah',
                 'value' => (isset($data['pinkel'])) ? ucwords(Tanggal::tglLatin($data['pinkel']->anggota->tgl_lahir)) : '',
             ],
-            '{nik_peminjam}' => [
-                'desc' => 'Menampilkan NIK Peminjam',
+            '{nik_nasabah}' => [
+                'desc' => 'Menampilkan NIK Nasabah',
                 'value' => (isset($data['pinkel'])) ? $data['pinkel']->anggota->nik : '',
             ],
-            '{alamat_peminjam}' => [
-                'desc' => 'Menampilkan Alamat Peminjam',
+            '{alamat_nasabah}' => [
+                'desc' => 'Menampilkan Alamat Nasabah',
                 'value' => (isset($data['pinkel'])) ? $data['pinkel']->anggota->alamat : '',
             ],
-            '{nama_jaminan}' => [
-                'desc' => 'Menampilkan Nama Jaminan Peminjam',
-                'value' => $nama_jaminan,
-            ],
-            '{keterangan_jaminan}' => [
-                'desc' => 'Menampilkan Keterangan Jaminan',
-                'value' => $keterangan_jaminan,
-            ],
-            '{nilai_jaminan}' => [
-                'desc' => 'Menampilkan Nilai Jual Jaminan',
-                'value' => $nilai_jaminan,
-            ],
-            '{nilai_jaminan}' => [
-                'desc' => 'Menampilkan Nilai Jual Jaminan',
-                'value' => $nilai_jaminan,
-            ],
-            '{jenis_jaminan}' => [
-                'desc' => 'Menampilkan Jenis Jaminan Peminjam',
-                'value' => $jenis_jaminan,
-            ],
+            // '{nama_jaminan}' => [
+            //     'desc' => 'Menampilkan Nama Jaminan Nasabah',
+            //     'value' => $nama_jaminan,
+            // ],
+            // '{keterangan_jaminan}' => [
+            //     'desc' => 'Menampilkan Keterangan Jaminan',
+            //     'value' => $keterangan_jaminan,
+            // ],
+            // '{nilai_jaminan}' => [
+            //     'desc' => 'Menampilkan Nilai Jual Jaminan',
+            //     'value' => $nilai_jaminan,
+            // ],
+            // '{nilai_jaminan}' => [
+            //     'desc' => 'Menampilkan Nilai Jual Jaminan',
+            //     'value' => $nilai_jaminan,
+            // ],
+            // '{jenis_jaminan}' => [
+            //     'desc' => 'Menampilkan Jenis Jaminan Nasabah',
+            //     'value' => $jenis_jaminan,
+            // ],
             '{tanggal_proposal}' => [
                 'desc' => 'Menampilkan Tanggal Proposal/Pengajuan Pinjaman',
                 'value' => (isset($data['pinkel'])) ? ucwords(Tanggal::tglLatin($data['pinkel']->tgl_proposal)) : '',
