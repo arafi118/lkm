@@ -221,10 +221,6 @@
             background: var(--bs-body-bg) !important;
             border-top-right-radius: 0.375rem !important;
         }
-
-        .app-header {
-            z-index: 8 !important;
-        }
     </style>
 
 </head>
