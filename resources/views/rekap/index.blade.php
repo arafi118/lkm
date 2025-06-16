@@ -42,7 +42,7 @@
                                         1233 Total Simpanan
                                     </div>
                                     <div class="widget-numbers text-warning" style="font-size: 17px;">
-                                        1213 Pra Anggota
+                                        1213 Calon Anggota
                                     </div>
                                     <div class="widget-numbers text-success" style="font-size: 17px;">
                                         23 Anggota
