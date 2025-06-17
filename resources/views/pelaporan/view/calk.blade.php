@@ -345,7 +345,7 @@
         </li>
         <li style="margin-top: 12px;">
             <div style="text-transform: uppercase;">
-                Ketentuan Pembagian Laba :
+                Ketentuan Pembagian SHU :
             </div>
             <div>
                 Pembagian laba yang diperoleh dalam satu tahun buku dialokasikan
@@ -360,7 +360,7 @@
                     Dividen
                 </li>
                 <li>
-                    Alokasi lain yang diputuskan dalam rapat pertangung jawaban dan/atau rapat umum pemegang saham (RUPS).
+                    Alokasi lain yang diputuskan dalam rapat pertangung jawaban dan/atau Rapat Anggota Tahunan (RAT).
                 </li>
             </ol>
         </li>
