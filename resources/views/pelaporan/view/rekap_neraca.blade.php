@@ -8,7 +8,7 @@
 @section('content')
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
-            <td colspan="3" align="center">
+            <td colspan="5" align="center">
                 <div style="font-size: 18px;">
                     <b>NERACA</b>
                 </div>
@@ -18,17 +18,17 @@
             </td>
         </tr>
         <tr>
-            <td colspan="3" height="3"></td>
+            <td colspan="5" height="3"></td>
         </tr>
         <tr style="background: #000; color: #fff;">
             <td width="10%">Kode</td>
             <td width="45%">Nama Akun</td>
-            <td align="center" width="15%">Saldo s.d. Tahun Lalu</td>
+            <td align="center" width="15%">Saldo Tahun Lalu</td>
             <td align="center" width="15%">Saldo Tahun ini</td>
-            <td align="center" width="15%">Saldo s.d. Tahun ini</td>
+            <td align="center" width="15%">Total Saldo</td>
         </tr>
         <tr>
-            <td colspan="3" height="1"></td>
+            <td colspan="5" height="1"></td>
         </tr>
 
         @foreach ($akun1 as $lev1)
@@ -36,14 +36,14 @@
                 $sum_akun1 = 0;
             @endphp
             <tr style="background: rgb(74, 74, 74); color: #fff;">
-                <td height="20" colspan="3" align="center">
+                <td height="20" colspan="5" align="center">
                     <b>{{ $lev1->kode_akun }}. {{ $lev1->nama_akun }}</b>
                 </td>
             </tr>
             @foreach ($lev1->akun2 as $lev2)
                 <tr style="background: rgb(167, 167, 167); font-weight: bold;">
                     <td>{{ $lev2->kode_akun }}.</td>
-                    <td colspan="2">{{ $lev2->nama_akun }}</td>
+                    <td colspan="4">{{ $lev2->nama_akun }}</td>
                 </tr>
                 @php
                     $akun3 = DB::table('akun_level_3')->where('parent_id', $lev2->id)->get();
@@ -62,6 +62,7 @@
         $bulan = ltrim($bulan, '0');
 
         $total_saldo_awal  = 0;
+        $total_saldo_akhir  = 0;
         $total_saldo = 0;
         $per_lokasi_saldo = [];
     @endphp
@@ -148,10 +149,12 @@
 
                 if ($lev3->lev1 == 1 || $lev3->lev1 == '5') {
                     $saldo_awal = $awal_debit - $awal_kredit;
-                    $saldo = $saldo_awal + ($saldo_debit - $saldo_kredit);
+                    $saldo = $saldo_debit - $saldo_kredit;
+                    $saldo_akhir = $saldo_awal + $saldo;
                 } else {
                     $saldo_awal = $awal_kredit - $awal_debit;
-                    $saldo = $saldo_awal + ($saldo_kredit - $saldo_debit);
+                    $saldo = $saldo_kredit - $saldo_debit;
+                    $saldo_akhir = $saldo_awal + $saldo;
                 }
             }
 
@@ -160,9 +163,11 @@
                 'nama_kec' => $kecamatan->nama_kec,
                 'saldo_awal' => $saldo_awal,
                 'saldo' => $saldo,
+                'saldo_akhir' => $saldo_akhir,
             ];
 
             $total_saldo_awal += $saldo_awal;
+            $total_saldo_akhir += $saldo_akhir;
             $total_saldo += $saldo;
             $sum_akun1 += $saldo;
 
@@ -179,11 +184,16 @@
     <tr style="background: {{ $warna2 }}; font-weight: bold;">
         <td>{{ $lev3->kode_akun }}.</td>
         <td>{{ $lev3->nama_akun }}</td>
-        @if ($total_saldo < 0)
-            <td align="right">({{ number_format(abs($total_saldo),2) }})</td>
-        @else
-            <td align="right">{{ number_format($total_saldo,2) }}</td>
-        @endif
+        <td align="right">
+            {{ $total_saldo_awal < 0 ? '(' . number_format(abs($total_saldo_awal), 2) . ')' : number_format($total_saldo_awal, 2) }}
+        </td>
+        <td align="right">
+            {{ $total_saldo < 0 ? '(' . number_format(abs($total_saldo), 2) . ')' : number_format($total_saldo, 2) }}
+        </td>
+        <td align="right">
+            {{ $total_saldo_akhir < 0 ? '(' . number_format(abs($total_saldo_akhir), 2) . ')' : number_format($total_saldo_akhir, 2) }}
+        </td>
+
     </tr>
 
     {{-- Baris per lokasi --}}
@@ -194,13 +204,15 @@
         <tr style="background: {{ $bg }};">
             <td></td>
             <td>{{ $lev3->nama_akun }} di {{ $lokasi->nama_kec }}</td>
-                <td align="right">
-                    {{
-                        $lokasi->saldo < 0 ?
-                        '(' . number_format(abs($lokasi->saldo), 2) . ')' :
-                        number_format($lokasi->saldo, 2)
-                    }}
-                </td>
+            <td align="right">
+                {{ $lokasi->saldo_awal < 0 ? '(' . number_format(abs($lokasi->saldo_awal), 2) . ')' : number_format($lokasi->saldo_awal, 2) }}
+            </td>
+            <td align="right">
+                {{ $lokasi->saldo < 0 ? '(' . number_format(abs($lokasi->saldo), 2) . ')' : number_format($lokasi->saldo, 2) }}
+            </td>
+            <td align="right">
+                {{ $lokasi->saldo_akhir < 0 ? '(' . number_format(abs($lokasi->saldo_akhir), 2) . ')' : number_format($lokasi->saldo_akhir, 2) }}
+            </td>
         </tr>
     @endforeach
 @endforeach
@@ -209,18 +221,18 @@
 
             @endforeach
             <tr style="background: rgb(167, 167, 167); font-weight: bold;">
-                <td height="15" colspan="2" align="left">
+                <td height="15" colspan="4" align="left">
                     <b>Jumlah {{ $lev1->nama_akun }}</b>
                 </td>
                 <td align="right">{{ number_format($sum_akun1, 2) }}</td>
             </tr>
             <tr>
-                <td colspan="3" height="1"></td>
+                <td colspan="5" height="1"></td>
             </tr>
         @endforeach
 
         <tr>
-            <td colspan="3" style="padding: 0px !important;">
+            <td colspan="5" style="padding: 0px !important;">
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
                     style="font-size: 11px;">
                     <tr style="background: rgb(167, 167, 167); font-weight: bold;">
@@ -256,7 +268,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" align="center">
+                        <td colspan="4" align="center">
                             <p>&nbsp;</p>
                             <strong>Mengetahui/Menyetujui : </strong>
                             <p>&nbsp;</p>
