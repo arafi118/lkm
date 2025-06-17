@@ -84,7 +84,7 @@
                             </li>
                         </ul>
                         <button type="button"
-                            data-action="/perguliran_i/dokumen/kartu_angsuran/{{ $real_i->loan_id }}"
+                            data-action="/perguliran_i/dokumen/kartu_angsuran/{{ $real_i->loan_id }}/{{ $real_i->id }}"
                             class="btn btn-github btn-icon-only btn-tooltip btn-link" data-bs-toggle="tooltip"
                             data-bs-placement="top" title="kartu angsuran" data-container="body" data-animation="true">
                             <span class="btn-inner--icon"><i class="fas fa-file-invoice"></i></span>
