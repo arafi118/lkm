@@ -22,8 +22,10 @@
         </tr>
         <tr style="background: #000; color: #fff;">
             <td width="10%">Kode</td>
-            <td width="70%">Nama Akun</td>
-            <td align="right" width="20%">Saldo</td>
+            <td width="45%">Nama Akun</td>
+            <td align="center" width="15%">Saldo s.d. Tahun Lalu</td>
+            <td align="center" width="15%">Saldo Tahun ini</td>
+            <td align="center" width="15%">Saldo s.d. Tahun ini</td>
         </tr>
         <tr>
             <td colspan="3" height="1"></td>
@@ -59,6 +61,7 @@
         $tahun = 2025;
         $bulan = ltrim($bulan, '0');
 
+        $total_saldo_awal  = 0;
         $total_saldo = 0;
         $per_lokasi_saldo = [];
     @endphp
@@ -155,9 +158,11 @@
             // Simpan saldo per lokasi
             $per_lokasi_saldo[] = (object) [
                 'nama_kec' => $kecamatan->nama_kec,
+                'saldo_awal' => $saldo_awal,
                 'saldo' => $saldo,
             ];
 
+            $total_saldo_awal += $saldo_awal;
             $total_saldo += $saldo;
             $sum_akun1 += $saldo;
 
@@ -189,11 +194,13 @@
         <tr style="background: {{ $bg }};">
             <td></td>
             <td>{{ $lev3->nama_akun }} di {{ $lokasi->nama_kec }}</td>
-            @if ($lokasi->saldo < 0)
-                <td align="right">({{ number_format(abs($lokasi->saldo),2) }})</td>
-            @else
-                <td align="right">{{ number_format($lokasi->saldo,2) }}</td>
-            @endif
+                <td align="right">
+                    {{
+                        $lokasi->saldo < 0 ?
+                        '(' . number_format(abs($lokasi->saldo), 2) . ')' :
+                        number_format($lokasi->saldo, 2)
+                    }}
+                </td>
         </tr>
     @endforeach
 @endforeach
