@@ -95,9 +95,9 @@
                     </tr>
                     <tr>
                         <td>4.</td>
-                        <td>Jumlah Permohonan</td>
+                        <td>Nilai Kelayakan</td>
                         <td>:</td>
-                        <td>Rp {{ number_format($pinkel->proposal) }}</td>
+                        <td>Rp {{ number_format($pinkel->alokasi) }}</td>
                     </tr>
                 </table>
 
