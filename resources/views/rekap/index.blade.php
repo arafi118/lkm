@@ -21,7 +21,7 @@
 
         <div class="app-page-title">
             <div class="row">
-                <div class="col-md-6 col-xl-3">
+                <div class="col-md-6 col-xl-4">
                     <div class="card mb-3 widget-content">
                         <div class="widget-content-outer p-3">
                             <div class="widget-content-wrapper" id="btnAktif">
@@ -33,7 +33,7 @@
                                         </span>
                                         <div class="dropdown text-end">
 
-                                            <div class="widget-numbers text-secondary" style="font-size: 17px;">
+                                            <div class="widget-numbers text-primary" style="font-size: 17px;">
                                                 <strong>{{$total->anggota}}</strong> Total Penduduk
                                             </div>
 
@@ -60,7 +60,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3">
+                <div class="col-md-6 col-xl-4">
                     <div class="card mb-3 widget-content">
                         <div class="widget-content-outer p-3">
                             <div class="widget-content-wrapper" id="btnAktif">
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3">
+                <div class="col-md-6 col-xl-4">
                     <div class="card mb-3 widget-content">
                         <div class="widget-content-outer p-3">
                             <div class="widget-content-wrapper" id="btnAktif">
@@ -124,66 +124,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3">
-                    <div class="card mb-3 widget-content">
-                        <div class="widget-content-outer p-3">
-                            <div class="widget-content-wrapper" id="btnAktif">
-                                <div class="widget-content-left">
-                                    <div class="widget-heading"
-                                        style="display: flex; justify-content: space-between; align-items: right; font-size: 11px;">
-                                        <span>
-                                            <h6><b>Jatuh Tempo</b></h6>
-                                        </span>
-                                        <div class="dropdown text-end">
-                                            <span class="text-xs text-secondary">&nbsp;&nbsp; {{ date('d/m/y') }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="widget-content-right">
-                                    <!-- foreach --><b>
-                                    <div class="d-flex justify-content-end">
-                                        <div class="widget-numbers text-danger" style="font-size: 17px;">
-                                            1231 hari ini
-                                        </div>
-                                    </div>
-                                    </div></b>
-                                    <div class="widget-numbers text-success" style="font-size: 17px;">
-                                        <strong>3434</strong> <span class=" text-secondary">tunggakan</span>
-                                    </div>
-                                    <div class="widget-numbers text-github" style="font-size: 17px;">
-                                        &nbsp;
-                                    </div>
-                                    <!-- endforeach -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6 col-lg-4">
-                <div class="main-card mb-3 card">
-                    <div class="card-body">
-                        <h5 class="card-title">Angsuran Hari Ini</h5>
+                <div class="main-card mb-3 card h-100">
+                    <div class="card-body h-100">
+                        <h5 class="card-title">Surplus Hari Ini</h5>
                         <div class="card-body pb-0 p-3 pt-0 mt-4">
                             <canvas id="myChart" width="200" height="200"></canvas>
                         </div>
                         <div class="card-footer pt-0 pb-2 p-3 d-flex align-items-center justify-content-between">
-                            <div class="w-60">
-                                <div class="text-sm">
-                                    Total Ang.Pokok: <b>Rp. <span id="total_angsur_pokok"></span></b>
-                                </div>
-                            </div>
-                            <div class="w-60">
-                                <div class="text-sm">
-                                    Total Ang.Jasa: <b>Rp. <span id="total_angsur_jasa"></span></b>
-                                </div>
-                            </div>
-                            {{-- <div class="w-40 d-flex justify-content-end">
-                                        <button type="button" id="btnDetailAngsuran" class="btn btn-outline-secondary">Detail</button>
-                                    </div> --}}
                         </div>
 
                     </div>
@@ -221,53 +173,6 @@
             </div>
         </div>
     </div>
-    @php
-        $p = [
-            '1' => 12500000,
-            '2' => 9800000,
-            '3' => 15300000,
-            '4' => 7200000,
-            '5' => 18500000,
-            '6' => 11200000,
-            '7' => 14300000,
-            '8' => 6700000,
-            '9' => 9200000,
-            '10' => 16400000,
-            '11' => 13800000,
-            '12' => 20500000
-        ];
-        // Monthly balance data (in millions)
-        $b = [
-            '1' => 125,   // 125 juta
-            '2' => 98,    // 98 juta
-            '3' => 153,   // 153 juta
-            '4' => 72,    // 72 juta
-            '5' => 185,   // 185 juta
-            '6' => 112,   // 112 juta
-            '7' => 143,   // 143 juta
-            '8' => 67,    // 67 juta
-            '9' => 92,    // 92 juta
-            '10' => 164,  // 164 juta
-            '11' => 138,  // 138 juta
-            '12' => 205   // 205 juta
-        ];
-
-        // Surplus data (in millions)
-        $surplus = [
-            '1' => 15,    // 15 juta surplus
-            '2' => -5,    // 5 juta defisit
-            '3' => 23,    // 23 juta surplus
-            '4' => -12,   // 12 juta defisit
-            '5' => 35,    // 35 juta surplus
-            '6' => 8,     // 8 juta surplus
-            '7' => 19,    // 19 juta surplus
-            '8' => -8,    // 8 juta defisit
-            '9' => 4,     // 4 juta surplus
-            '10' => 28,   // 28 juta surplus
-            '11' => 13,   // 13 juta surplus
-            '12' => 42    // 42 juta surplus
-        ];
-    @endphp
     <textarea name="msgInvoice" id="msgInvoice" class="d-none">{{ Session::get('msg') }}</textarea>
     <form action="/pelaporan/preview" method="post" id="FormLaporanDashboard" target="_blank">
         @csrf
@@ -646,6 +551,12 @@
 @endsection
 
 @section('script')
+    @php
+        $surplus_pie_label = collect($saldo_kec)->pluck('nama')->toArray();
+        $surplus_pie_data = collect($saldo_kec)->pluck('surplus')->toArray();
+        $pendapatan = collect($saldo_kec)->pluck('laba_rugi.pendapatan')->toArray();
+        $biaya      = collect($saldo_kec)->pluck('laba_rugi.biaya')->toArray();
+    @endphp
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const triggerButton = document.getElementById('triggerPopup');
@@ -914,102 +825,25 @@
 
         // Line chart
         new Chart(ctx1, {
-            type: "line",
+            type: "bar",
             data: {
-                labels: [
-                    "Jan",
-                    "Feb",
-                    "Mar",
-                    "Apr",
-                    "Mei",
-                    "Jun",
-                    "Jul",
-                    "Agu",
-                    "Sep",
-                    "Okt",
-                    "Nov",
-                    "Des",
-                ],
+                labels: @json($surplus_pie_label),
                 datasets: [{
                         label: "Pendapatan",
-                        tension: 0,
-                        pointRadius: 5,
-                        pointBackgroundColor: "#4CAF50",
-                        pointBorderColor: "transparent",
-                        borderColor: "#4CAF50",
-                        borderWidth: 2,
-                        backgroundColor: "transparent",
-                        fill: true,
-                        data: [
-                            "{{ $p['1'] }}",
-                            "{{ $p['2'] }}",
-                            "{{ $p['3'] }}",
-                            "{{ $p['4'] }}",
-                            "{{ $p['5'] }}",
-                            "{{ $p['6'] }}",
-                            "{{ $p['7'] }}",
-                            "{{ $p['8'] }}",
-                            "{{ $p['9'] }}",
-                            "{{ $p['10'] }}",
-                            "{{ $p['11'] }}",
-                            "{{ $p['12'] }}"
-                        ],
-                        maxBarThickness: 6
+                        backgroundColor: "#4CAF50",
+                        borderWidth: 1,
+                        data: @json($pendapatan),
+                    },{
+                        label: "Surplus",
+                        backgroundColor: "#1A73E8",
+                        borderWidth: 1,
+                        data: @json($surplus_pie_data),
+                    },{
+                        label: "Biaya",
+                        backgroundColor: "#e91e63",
+                        borderWidth: 1,
+                        data: @json($biaya),
                     },
-                    {
-                        label: "Beban",
-                        tension: 0,
-                        borderWidth: 0,
-                        pointRadius: 5,
-                        pointBackgroundColor: "#fb8c00",
-                        pointBorderColor: "transparent",
-                        borderColor: "#fb8c00",
-                        borderWidth: 2,
-                        backgroundColor: "transparent",
-                        fill: true,
-                        data: [
-                            "{{ $b['1'] }}",
-                            "{{ $b['2'] }}",
-                            "{{ $b['3'] }}",
-                            "{{ $b['4'] }}",
-                            "{{ $b['5'] }}",
-                            "{{ $b['6'] }}",
-                            "{{ $b['7'] }}",
-                            "{{ $b['8'] }}",
-                            "{{ $b['9'] }}",
-                            "{{ $b['10'] }}",
-                            "{{ $b['11'] }}",
-                            "{{ $b['12'] }}"
-                        ],
-                        maxBarThickness: 6
-                    },
-                    {
-                        label: "Laba",
-                        tension: 0,
-                        borderWidth: 0,
-                        pointRadius: 5,
-                        pointBackgroundColor: "#1A73E8",
-                        pointBorderColor: "transparent",
-                        borderColor: "#1A73E8",
-                        borderWidth: 2,
-                        backgroundColor: "transparent",
-                        fill: true,
-                        data: [
-                            "{{ $surplus['1'] }}",
-                            "{{ $surplus['2'] }}",
-                            "{{ $surplus['3'] }}",
-                            "{{ $surplus['4'] }}",
-                            "{{ $surplus['5'] }}",
-                            "{{ $surplus['6'] }}",
-                            "{{ $surplus['7'] }}",
-                            "{{ $surplus['8'] }}",
-                            "{{ $surplus['9'] }}",
-                            "{{ $surplus['10'] }}",
-                            "{{ $surplus['11'] }}",
-                            "{{ $surplus['12'] }}"
-                        ],
-                        maxBarThickness: 6
-                    }
                 ],
             },
             options: {
@@ -1076,41 +910,24 @@
         // Pie chart
         var myChart = new Chart(ctx2, {
             type: 'pie',
-            data: {
-                labels: [
-                    'Umum',
-                    'Kendaraan',
-                    'Elektronik',
-                    'PRT',
-                    'Lain-lain',
-                ],
+            data: { 
+                labels: @json($surplus_pie_label),
                 datasets: [{
                     label: 'Projects',
                     backgroundColor: [
                         '#1a73e8',
                         '#4caf50',
                         '#344767',
-                        '#7b809a',
+                        '#fb8c00',
                         '#f44335',
                         '#1a73e8',
                         '#4caf50',
                         '#344767',
-                        '#7b809a',
+                        '#fb8c00',
                         '#f44335',
                     ],
                     borderWidth: 1,
-                    data: [
-                        "{{ 2134 }}",
-                        "{{ 234 }}",
-                        "{{ 123 }}",
-                        "{{ 4356 }}",
-                        "{{ 67 }}",
-                        "{{ 346 }}",
-                        "{{ 457 }}",
-                        "{{ 568 }}",
-                        "{{ 346 }}",
-                        "{{ 2345 }}",
-                    ],
+                    data: @json($surplus_pie_data),
                     fill: false
                 }]
             },
@@ -1132,16 +949,6 @@
                 }
             }
         });
-
-        var total_angsur_pokok =
-            "23452"
-
-        $('#total_angsur_pokok').html(formatter.format(total_angsur_pokok))
-
-        var total_angsur_jasa =
-            "3425"
-
-        $('#total_angsur_jasa').html(formatter.format(total_angsur_jasa))
 
         let childWindow, loading;
         $(document).on('click', '#simpanSaldo', function(e) {
