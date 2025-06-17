@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Rekap;
 
 use App\Http\Controllers\Controller;
+use App\Models\Anggota;
 use App\Models\JenisLaporan;
-use App\Models\Rekap;
 use App\Models\Kecamatan;
-use App\Models\Rekening;
-use App\Models\Wilayah;
 use App\Utils\Keuangan;
+use App\Models\PinjamanIndividu;
+use App\Models\RealSimpanan;
+use App\Models\Rekap;
+use App\Models\Rekening;
+use App\Models\Simpanan;
+use App\Models\Wilayah;
 use Illuminate\Http\Request;
 use Session;
 
@@ -30,6 +34,18 @@ class RekapController extends Controller
                                         ->select('id', 'kd_kec as kode', 'nama_kec as nama')
                                         ->orderBy('nama_kec', 'ASC')
                                         ->get();
+            $total = new \stdClass();
+            $total->total_a = 0;
+            $total->anggota = 0;
+            $total->total_p = 0;
+            $total->total_v = 0;
+            $total->total_w = 0;
+
+            $total->total_1 = 0;
+            $total->total_2 = 0;
+            $total->total_21 = 0;
+            $total->total_3 = 0;
+            $total->total_t = 0;
 
         foreach ($kecamatan as $wl) {
             $saldo_kec[$wl->kode] = [
@@ -42,8 +58,45 @@ class RekapController extends Controller
                 'surplus' => 0,
                 'used_dbm' => false
             ];
-            if ($wl->kec) {
-                Session::put('lokasi', $wl->kec->id);
+
+            if ($wl->kode) {
+                Session::put('lokasi', $wl->id);
+                
+                $angg       = Anggota::count();
+
+                $pinj_i   = PinjamanIndividu::where('jenis_pinjaman', 'I');
+                $angg       = Anggota::count();
+                $jumlah_a = $pinj_i->where('status', 'A')->count();
+                $jumlah_p = $pinj_i->where('status', 'P')->count();
+                $jumlah_v = $pinj_i->where('status', 'V')->count();
+                $jumlah_w = $pinj_i->where('status', 'W')->count();
+
+                $total->total_a += $jumlah_a;
+                $total->anggota += $angg;
+                $total->total_p += $jumlah_p;
+                $total->total_v += $jumlah_v;
+                $total->total_w += $jumlah_w;
+
+                $startDate = \Carbon\Carbon::now()->subMonth();
+                $simp     = Simpanan::where('status', 'A')
+                            ->with('realSimpananTerbesar')->get();
+                $jumlah_1 = $simp->where('jenis_simpanan', '1')->count();
+                $jumlah_2 = $simp->where('jenis_simpanan', '2')->count();
+                $jumlah_21 = $simp->filter(function ($item) use ($startDate) {
+                    return $item->jenis_simpanan == '2'
+                        && $item->realSimpananTerbesar
+                        && $item->realSimpananTerbesar->tgl_transaksi >= $startDate;
+                })->count();
+
+                $jumlah_3 = $simp->where('jenis_simpanan', '3')->count();
+                $jumlah_t = $simp->count();
+
+                $total->total_1 += $jumlah_1;
+                $total->total_2 += $jumlah_2;
+                $total->total_21 += $jumlah_21;
+                $total->total_3 += $jumlah_3;
+                $total->total_t += $jumlah_t;
+
                 $laba_rugi = Rekening::where('lev1', '>=', '4')->with([
                     'kom_saldo' => function ($query) use ($tahun, $bulan) {
                         $query->where('tahun', $tahun)->where(function ($query) use ($bulan) {
@@ -79,7 +132,7 @@ class RekapController extends Controller
             }
         }
         $title = Session::get('nama_rekap') . ' Page';
-        return view('rekap.index')->with(compact('title', 'saldo_kec', 'keuangan'));
+        return view('rekap.index')->with(compact('title', 'saldo_kec','total', 'keuangan'));
     }
 
     public function tandaTangan()
@@ -157,6 +210,13 @@ class RekapController extends Controller
                 'urut' => 2,
                 'nama_laporan' => 'Laba Rugi',
                 'file' => 'rekap_rb',
+                'awal_tahun' => 0,
+            ],
+            (object)[
+                'id' => 3,
+                'urut' => 3,
+                'nama_laporan' => 'Laporan Keuangan',
+                'file' => 'rekap_calk',
                 'awal_tahun' => 0,
             ],
         ]);

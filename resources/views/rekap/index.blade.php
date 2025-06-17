@@ -21,7 +21,46 @@
 
         <div class="app-page-title">
             <div class="row">
-                <div class="col-md-6 col-xl-4">
+                <div class="col-md-6 col-xl-3">
+                    <div class="card mb-3 widget-content">
+                        <div class="widget-content-outer p-3">
+                            <div class="widget-content-wrapper" id="btnAktif">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading"
+                                        style="display: flex; justify-content: space-between; align-items: right; font-size: 11px;">
+                                        <span>
+                                            <h6><b>Keanggotaan</b></h6>
+                                        </span>
+                                        <div class="dropdown text-end">
+
+                                            <div class="widget-numbers text-secondary" style="font-size: 17px;">
+                                                <strong>{{$total->anggota}}</strong> Total Penduduk
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-content-right">
+                                    <!-- foreach -->
+                                    @php
+                                    $calon = $total->anggota - $total->total_2;
+                                    @endphp
+                                    <div class="widget-numbers text-secondary" style="font-size: 17px;">
+                                        <strong>{{$calon}}</strong> Calon Anggota
+                                    </div>
+                                    <div class="widget-numbers" style="font-size: 17px;">
+                                        <strong class="text-warning">{{$total->total_2}}</strong> Total Anggota
+                                    </div>
+                                    <div class="widget-numbers text-success" style="font-size: 17px;">
+                                        <strong>{{$total->total_21}}</strong> Anggota Aktif s.d. hari ini
+                                    </div>
+                                    <!-- endforeach -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3">
                     <div class="card mb-3 widget-content">
                         <div class="widget-content-outer p-3">
                             <div class="widget-content-wrapper" id="btnAktif">
@@ -37,23 +76,23 @@
                                     </div>
                                 </div>
                                 <div class="widget-content-right">
-                                    <!-- foreach --><b>
-                                    <div class="widget-numbers text-github" style="font-size: 17px;">
-                                        1233 Total Simpanan
+                                    <!-- foreach -->
+                                    <div class="widget-numbers text-secondary" style="font-size: 17px;">
+                                        <strong>{{$total->total_t}}</strong> Total Simpanan
                                     </div>
-                                    <div class="widget-numbers text-warning" style="font-size: 17px;">
-                                        1213 Calon Anggota
+                                    <div class="widget-numbers" style="font-size: 17px;">
+                                        <strong class="text-warning">{{$total->total_1}}</strong> Simpanan Umum
                                     </div>
                                     <div class="widget-numbers text-success" style="font-size: 17px;">
-                                        23 Anggota
+                                        <strong>{{$total->total_2}}</strong> Simpanan Pokok
                                     </div>
-                                    <!-- endforeach --></b>
+                                    <!-- endforeach -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-4">
+                <div class="col-md-6 col-xl-3">
                     <div class="card mb-3 widget-content">
                         <div class="widget-content-outer p-3">
                             <div class="widget-content-wrapper" id="btnAktif">
@@ -71,13 +110,13 @@
                                 <div class="widget-content-right">
                                     <!-- foreach --><b>
                                     <div class="widget-numbers text-github" style="font-size: 17px;">
-                                        34 Proposal
+                                        {{$total->total_p}} Proposal
                                     </div>
                                     <div class="widget-numbers text-warning" style="font-size: 17px;">
-                                        6 Verifikasi
+                                        {{$total->total_v}} Verifikasi
                                     </div>
                                     <div class="widget-numbers text-success" style="font-size: 17px;">
-                                        3434 Aktif
+                                        {{$total->total_a}} Aktif
                                     </div>
                                     <!-- endforeach --></b>
                                 </div>
@@ -85,68 +124,41 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-4">
+                <div class="col-md-6 col-xl-3">
                     <div class="card mb-3 widget-content">
                         <div class="widget-content-outer p-3">
-                            <div class="widget-content-wrapper" id="btnWaktu">
+                            <div class="widget-content-wrapper" id="btnAktif">
                                 <div class="widget-content-left">
                                     <div class="widget-heading"
                                         style="display: flex; justify-content: space-between; align-items: right; font-size: 11px;">
+                                        <span>
+                                            <h6><b>Jatuh Tempo</b></h6>
+                                        </span>
                                         <div class="dropdown text-end">
-                                            <!-- Empty for alignment -->
+                                            <span class="text-xs text-secondary">&nbsp;&nbsp; {{ date('d/m/y') }}</span>
                                         </div>
                                     </div>
-                                    <div class="widget-subheading pt-2">
-                                        <span class="text-sm text-end text-primary font-weight-bolder mt-auto mb-0">
-                                            <i class="fas fa-calendar-day me-1"></i>
-                                            <span id="current-date">Senin, 17 Juni 2024</span>
-                                        </span>
+                                </div>
+                                <div class="widget-content-right">
+                                    <!-- foreach --><b>
+                                    <div class="d-flex justify-content-end">
+                                        <div class="widget-numbers text-danger" style="font-size: 17px;">
+                                            1231 hari ini
+                                        </div>
                                     </div>
-                                    <div class="widget-subheading pt-2">
-                                        <span class="text-sm text-end text-info font-weight-bolder mt-auto mb-0">
-                                            <i class="fas fa-clock me-1"></i>
-                                            <span id="current-time">14:30:45</span>
-                                        </span>
+                                    </div></b>
+                                    <div class="widget-numbers text-success" style="font-size: 17px;">
+                                        <strong>3434</strong> <span class=" text-secondary">tunggakan</span>
                                     </div>
-                                    <div class="widget-subheading pt-2">
-                                        <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
-                                            <i class="fas fa-calendar-week me-1"></i>
-                                            Minggu ke-25
-                                        </span>
+                                    <div class="widget-numbers text-github" style="font-size: 17px;">
+                                        &nbsp;
                                     </div>
+                                    <!-- endforeach -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <script>
-                    // Function to update time and date
-                    function updateDateTime() {
-                        const now = new Date();
-        
-                        // Format date: Monday, 17 June 2024
-                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                        document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', options);
-        
-                        // Format time: 14:30:45
-                        const time = now.toLocaleTimeString('id-ID');
-                        document.getElementById('current-time').textContent = time;
-        
-                        // Calculate week number
-                        const firstDayOfYear = new Date(now.getFullYear(), 0, 1);
-                        const pastDaysOfYear = (now - firstDayOfYear) / 86400000;
-                        const weekNumber = Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
-        
-                        // Update week number in the DOM if needed
-                        document.querySelector('.widget-subheading:last-child span').innerHTML = 
-                            `<i class="fas fa-calendar-week me-1"></i> Minggu ke-${weekNumber}`;
-                    }
-
-                    // Update immediately and then every second
-                    updateDateTime();
-                    setInterval(updateDateTime, 1000);
-                </script>
             </div>
         </div>
 
