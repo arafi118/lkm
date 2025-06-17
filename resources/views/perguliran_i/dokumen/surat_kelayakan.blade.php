@@ -79,13 +79,12 @@
                         <td width="5">:</td>
                         <td>{{ $pinkel->anggota->namadepan }}</td>
                     </tr>
-                    <tr> 
+                    <tr>
                         <td>2.</td>
                         <td>Alamat</td>
                         <td>:</td>
                         <td>
-                            {{ $pinkel->anggota->alamat_Anggota }}
-                            {{ $pinkel->anggota->d->sebutan_desa->sebutan_kades }} {{ $pinkel->anggota->d->nama_desa }}
+                            {{ $pinkel->anggota->alamat }}
                         </td>
                     </tr>
                     <tr>
@@ -96,9 +95,9 @@
                     </tr>
                     <tr>
                         <td>4.</td>
-                        <td>Jumlah Permohonan</td>
+                        <td>Nilai Kelayakan</td>
                         <td>:</td>
-                        <td>Rp {{ number_format($pinkel->proposal) }}</td>
+                        <td>Rp {{ number_format($pinkel->alokasi) }}</td>
                     </tr>
                 </table>
 
@@ -142,7 +141,8 @@
                 @endphp
 
                 @if (file_exists($qrPath))
-                    <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+                    <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70"
+                        alt="{{ $kec->id }}">
                 @else
                     <p>&nbsp;</p>
                     <p>&nbsp;</p>
@@ -155,5 +155,4 @@
             <td align="center">{{ $dir->namadepan }} {{ $dir->namabelakang }}</td>
         </tr>
     </table>
-
 @endsection

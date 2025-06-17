@@ -228,9 +228,9 @@
                     Cek info selengkapnya pada menu <strong> Biaya Perpanjangan </strong> di menu pengaturan ->invoice.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" tabindex="0" class="btn btn-primary"  id="logout">OK</button>
+                    <button type="button" tabindex="0" class="btn btn-primary" id="logout">OK</button>
                 </div>
-                
+
                 <form action="/logout" method="post" id="formLogout">
                     @csrf
                 </form>
@@ -295,12 +295,19 @@
                             <div class="tab-pane fade" id="menunggak" role="tabpanel" aria-labelledby="menunggak">
                                 <div class="card">
                                     <div class="card-body">
+                                        <form action="/perguliran_i/dokumen?status=A" target="_blank" method="post"
+                                            id="formTagihan">
+                                            @csrf
+
+                                            <input type="hidden" name="id" id="tagihan_id">
+                                            <input type="hidden" name="report" value="suratTagihan#pdf">
+                                        </form>
+
                                         <div class="table-responsive">
                                             <table class="table table-striped midle" width="100%">
                                                 <thead>
                                                     <tr>
                                                         <td align="center">No</td>
-                                                        <td align="center">Load ID</td>
                                                         <td align="center">Tanggal Cair</td>
                                                         <td align="center">Nama Pemohon</td>
                                                         <td align="center">Desa</td>
@@ -309,6 +316,7 @@
                                                         <td align="center">Tunggakan Jasa</td>
                                                         <td align="center">Jumlah</td>
                                                         <td align="center">Keterangan</td>
+                                                        <th align="center">Tagihan</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="TbMenunggak"></tbody>
@@ -768,6 +776,15 @@
             setLaporan('5', $('#aktif').attr('aria-controls'))
         })
 
+        $(document).on('click', '.btn-cetak-tagihan', function(e) {
+            e.preventDefault()
+
+            var id = $(this).attr('data-id')
+            $('#tagihan_id').val(id)
+
+            $('#formTagihan').submit()
+        })
+
         $(document).on('click', 'div.nav-wrapper div.d-flex button', function() {
             var a = $(this)
 
@@ -1093,7 +1110,5 @@
                 window.location.reload()
             }
         })
-        
-
     </script>
 @endsection

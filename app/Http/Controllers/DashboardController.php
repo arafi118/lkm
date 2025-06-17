@@ -103,7 +103,7 @@ class DashboardController extends Controller
             ['lokasi', Session::get('lokasi')],
             ['status', 'UNPAID']
         ])
-        ->where('tgl_lunas', '<=', $today)->count();
+            ->where('tgl_lunas', '<=', $today)->count();
         $data['jumlah_unpaid'] = $unpaidInvoice;
         $data['user'] = auth()->user();
         $data['saldo'] = $this->_saldo($tgl);
@@ -516,15 +516,15 @@ class DashboardController extends Controller
                 $table .= '<tr>';
 
                 $table .= '<td align="center">' . $no++ . '</td>';
-                $table .= '<td align="centar">' . $pinj_anggota->id . '</td>';
                 $table .= '<td align="centar">' . Tanggal::tglIndo($pinj_anggota->tgl_cair) . '</td>';
-                $table .= '<td align="centar">' . $pinj_anggota->anggota->namadepan . '</td>';
+                $table .= '<td align="centar">' . $pinj_anggota->anggota->namadepan . ' (' . $pinj_anggota->id . ')</td>';
                 $table .= '<td align="centar">' . $pinj_anggota->anggota->d->nama_desa . '</td>';
                 $table .= '<td align="right">' . number_format($pinj_anggota->alokasi) . '</td>';
                 $table .= '<td align="right">' . number_format($tunggakan_pokok) . '</td>';
                 $table .= '<td align="right">' . number_format($tunggakan_jasa) . '</td>';
                 $table .= '<td align="right">' . number_format($totaltunggakan_pokok_jasa) . '</td>';
                 $table .= '<td align="centar">' . $pinj_anggota->catatan_verifikasi . '</td>';
+                $table .= '<td align="centar"><button type="button" class="btn btn-sm btn-info btn-cetak-tagihan" data-id="' . $pinj_anggota->id . '"><i class="fas fa-file"></i></button></td>';
                 $table .= '</tr>';
             }
         }
