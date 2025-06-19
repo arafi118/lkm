@@ -399,8 +399,8 @@
                 </table>
             </td>
             <td class="t l b" rowspan="2">
-                <div>{{ 'R < 60% skor 10' }}</div>
-                <div>{{ 'R < 65% skor 8.75' }}</div>
+                <div>{{ 'R < 30% skor 10' }}</div>
+                <div>{{ 'R < 35% skor 8.75' }}</div>
             </td>
             <td class="t l b" rowspan="2">
                 <div>{{ 'R < 70% skor 5.75' }}</div>

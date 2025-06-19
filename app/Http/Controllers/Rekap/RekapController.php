@@ -207,6 +207,13 @@ class RekapController extends Controller
                 'awal_tahun' => 0,
             ],
             (object)[
+                'id' => 5,
+                'urut' => 1,
+                'nama_laporan' => 'Neraca Rekap',
+                'file' => 'rekap_neraca2',
+                'awal_tahun' => 0,
+            ],
+            (object)[
                 'id' => 2,
                 'urut' => 2,
                 'nama_laporan' => 'Laba Rugi',
@@ -216,7 +223,7 @@ class RekapController extends Controller
             (object)[
                 'id' => 3,
                 'urut' => 3,
-                'nama_laporan' => 'Laporan Keuangan',
+                'nama_laporan' => 'Catatan Atas Laporan Keuangan',
                 'file' => 'rekap_calk',
                 'awal_tahun' => 0,
             ],

@@ -1,17 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\app",
-    "\\app\\Http",
-    "\\app\\Http\\Controllers",
-    "\\app\\Http\\Controllers\\Rekap",
-    "\\resources",
-    "\\resources\\views",
-    "\\resources\\views\\dashboard",
-    "\\resources\\views\\kabupaten",
-    "\\resources\\views\\rekap",
-    "\\resources\\views\\rekap\\layout"
+    ""
   ],
-  "SelectedNode": "\\resources\\views\\rekap\\layout",
+  "SelectedNode": "\\G:\\laragon\\www\\lkm",
   "PreviewInSolutionExplorer": false
 }
