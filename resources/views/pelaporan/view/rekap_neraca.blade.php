@@ -8,7 +8,7 @@
 @section('content')
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
-            <td colspan="3" align="center">
+            <td colspan="4" align="center">
                 <div style="font-size: 18px;">
                     <b>NERACA</b>
                 </div>
