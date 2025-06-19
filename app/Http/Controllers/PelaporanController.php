@@ -196,7 +196,7 @@ class PelaporanController extends Controller
             'type'
         ]);
         
-        if ($data['laporan'] == 'rekap_neraca' || $data['laporan'] == 'rekap_rb' ) {
+        if (strpos($data['laporan'], 'rekap_')=== 0) {
             $lokasi_ids = session('rekapan'); 
             $lokasi_ids = explode(',', $lokasi_ids);
             $lokasi_ids = array_map('trim', $lokasi_ids);
@@ -4137,7 +4137,7 @@ class PelaporanController extends Controller
                         ->orderBy('nama_kec', 'ASC')
                         ->get();
         foreach ($kecamatan as $wl) {
-
+            Session::put('lokasi', $wl->id);
             $tgl = $thn . '-' . $bln . '-' . $hari;
             $data['tgl'] = Tanggal::tahun($tgl);
             $data['nama_tgl'] = 'Tahun ' . $thn;
