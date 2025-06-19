@@ -223,7 +223,7 @@ class RekapController extends Controller
             (object)[
                 'id' => 3,
                 'urut' => 3,
-                'nama_laporan' => 'Laporan Keuangan',
+                'nama_laporan' => 'Catatan Atas Laporan Keuangan',
                 'file' => 'rekap_calk',
                 'awal_tahun' => 0,
             ],

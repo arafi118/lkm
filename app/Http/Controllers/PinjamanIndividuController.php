@@ -865,7 +865,7 @@ class PinjamanIndividuController extends Controller
                 'id_supplier' => $data['supplier'],
                 'status' => 'A'
             ];
-
+            $jumlah_pencairan = $alokasi_pinjaman+$depe;
             // Transaksi [Warning]
             $keterangan = 'Pencairan Kredit ' . $perguliran_i->anggota->namadepan . '-' . $perguliran_i->id;
             $keterangan .= ' (' . $perguliran_i->jpp->nama_jpp . ')';
@@ -879,7 +879,7 @@ class PinjamanIndividuController extends Controller
                 'id_pinj_i' => $perguliran_i->id,
                 'keterangan_transaksi' => (string) $keterangan,
                 'relasi' => (string) $perguliran_i->anggota->namadepan . " [" . $perguliran_i->id . "]",
-                'jumlah' => intval($alokasi_pinjaman),
+                'jumlah' => intval($jumlah_pencairan),
                 'urutan' => '0',
                 'id_user' => auth()->user()->id,
             ]);
