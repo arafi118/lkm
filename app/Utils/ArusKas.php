@@ -53,6 +53,9 @@ class ArusKas
 
   public static function arusKas($tgl_awal_bulan, $tgl_akhir_bulan)
   {
+    self::$rekDebit = [];
+    self::$rekKredit = [];
+
     $transaksiBulanan = self::getTransaksiBulanan($tgl_awal_bulan, $tgl_akhir_bulan);
     $akun1 = $transaksiBulanan['akun1'];
     $akun2 = $transaksiBulanan['akun2'];

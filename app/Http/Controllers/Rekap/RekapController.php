@@ -230,8 +230,15 @@ class RekapController extends Controller
             (object)[
                 'id' => 4,
                 'urut' => 4,
-                'nama_laporan' => 'Arus Kas',
-                'file' => 'rekap_arus_kas',
+                'nama_laporan' => 'Arus Kas V1',
+                'file' => 'rekap_arus_kas_v1',
+                'awal_tahun' => 0,
+            ],
+            (object)[
+                'id' => 5,
+                'urut' => 5,
+                'nama_laporan' => 'Arus Kas V2',
+                'file' => 'rekap_arus_kas_v2',
                 'awal_tahun' => 0,
             ],
         ]);

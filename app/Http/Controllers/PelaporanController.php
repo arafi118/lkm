@@ -4080,7 +4080,7 @@ class PelaporanController extends Controller
         $data['keuangan'] = new Keuangan;
     }
 
-    private function rekap_arus_kas(array $data)
+    private function rekap_arus_kas_v1(array $data)
     {
         $keuangan = new Keuangan;
 
@@ -4134,7 +4134,71 @@ class PelaporanController extends Controller
 
         $data['arus_kas'][0] = reset($data['arus_kas']);
         $data['keuangan'] = $keuangan;
-        $view = view('pelaporan.view.rekap_arus_kas', $data)->render();
+        $view = view('pelaporan.view.rekap_arus_kas_v1', $data)->render();
+
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view);
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
+
+    private function rekap_arus_kas_v2(array $data)
+    {
+        $keuangan = new Keuangan;
+
+        $thn = $data['tahun'];
+        $bln = $data['bulan'];
+        $hari = $data['hari'];
+
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
+        $data['tgl'] = Tanggal::tahun($tgl);
+        $data['jenis'] = 'Tahunan';
+        $tgl_lalu = ($thn - 1) . '-00-00';
+        if ($data['bulanan']) {
+            $data['sub_judul'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+            $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+            $data['jenis'] = 'Bulanan';
+
+            $bulan_lalu = $bln - 1;
+            if ($bulan_lalu <= 0) {
+                $bulan_lalu = 12;
+                $thn -= 1;
+            }
+
+            $tgl_lalu = $thn . '-' . $bulan_lalu . '-' . date('t', strtotime($thn . '-' . $bulan_lalu . '-01'));
+        }
+
+        $data['keuangan'] = $keuangan;
+
+        $data['tgl_awal'] = date('Y-m', strtotime($data['tgl_kondisi'])) . '-01';
+        $tanggal = explode('-', $data['tgl_kondisi']);
+        $thn = $tanggal[0];
+        $bln = $tanggal[1];
+        $tgl = $tanggal[2];
+
+        $Lokasi = [];
+        $daftarLokasi = explode(',', Session::get('rekapan'));
+        foreach ($daftarLokasi as $lokasi) {
+            $Lokasi[] = trim($lokasi);
+        }
+
+        $data['kecamatan'] = [];
+        $kecamatan = DB::table('kecamatan')->whereIn('id', $Lokasi)->get();
+        foreach ($kecamatan as $kec) {
+            $data['kecamatan'][$kec->id] = $kec;
+            Session::put('lokasi', $kec->id);
+
+            $data['saldo_bulan_lalu'][$kec->id] = $keuangan->saldoKas($tgl_lalu);
+            $data['arus_kas'][$kec->id] = UtilsArusKas::arusKas($data['tgl_awal'], $data['tgl_kondisi']);
+        }
+
+        $data['arus_kas'][0] = reset($data['arus_kas']);
+        $data['keuangan'] = $keuangan;
+        $view = view('pelaporan.view.rekap_arus_kas_v2', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
