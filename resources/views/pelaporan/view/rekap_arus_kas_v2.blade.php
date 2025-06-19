@@ -20,11 +20,7 @@
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr style="background: rgb(200, 200, 200)">
             <th colspan="2">Nama Akun</th>
-            @foreach ($kecamatan as $kec)
-                <th width="15%">
-                    {{ ucwords(trim(str_replace('cabang', '', strtolower($kec->nama_kec)))) }}
-                </th>
-            @endforeach
+            <th>Jumlah</th>
         </tr>
 
         @php
@@ -32,6 +28,9 @@
             foreach ($kecamatan as $kec) {
                 $kenaikanPenurunanKas[$kec->id] = 0;
             }
+
+            $sum_saldo_bulan_lalu = 0;
+            $sumKenaikanPenurunanKas = 0;
         @endphp
         @foreach ($arus_kas[0] as $ak_key => $ak)
             @php
@@ -51,40 +50,53 @@
             <tr style="background: rgb(74, 74, 74); color: #fff; font-weight: bold;">
                 <td width="5%" align="center"></td>
                 <td>{{ $ak['nama_akun'] }}</td>
-                @foreach ($kecamatan as $kec)
-                    <td>
-                        @if ($nomor == 1)
-                            {{ number_format($saldo_bulan_lalu[$kec->id], 2) }}
-                        @endif
 
-                        @if (str_contains($ak['nama_akun'], 'KENAIKAN'))
-                            {{ number_format($kenaikanPenurunanKas[$kec->id], 2) }}
-                        @endif
+                <td width="15%">
+                    @if ($nomor == 1)
+                        @foreach ($kecamatan as $kec)
+                            @php
+                                $sum_saldo_bulan_lalu += $saldo_bulan_lalu[$kec->id];
+                            @endphp
+                        @endforeach
+                        {{ number_format($sum_saldo_bulan_lalu, 2) }}
+                    @endif
 
-                        @if (str_contains($ak['nama_akun'], 'SALDO AKHIR'))
-                            {{ number_format($saldo_bulan_lalu[$kec->id] + $kenaikanPenurunanKas[$kec->id], 2) }}
-                        @endif
-                    </td>
-                @endforeach
+                    @if (str_contains($ak['nama_akun'], 'KENAIKAN'))
+                        @foreach ($kecamatan as $kec)
+                            @php
+                                $sumKenaikanPenurunanKas += $kenaikanPenurunanKas[$kec->id];
+                            @endphp
+                        @endforeach
+                        {{ number_format($sumKenaikanPenurunanKas, 2) }}
+                    @endif
+
+                    @if (str_contains($ak['nama_akun'], 'SALDO AKHIR'))
+                        {{ number_format($sum_saldo_bulan_lalu + $sumKenaikanPenurunanKas, 2) }}
+                    @endif
+                </td>
             </tr>
 
             @foreach ($ak['child'] as $child_key => $child)
                 <tr style="background: rgb(167, 167, 167); font-weight: bold;">
                     <td align="center"></td>
                     <td>{{ $child['nama_akun'] }}</td>
-                    @foreach ($kecamatan as $kec)
-                        @php
-                            $childKec = $arus_kas[$kec->id][$ak_key]['child'][$child_key];
-                        @endphp
-                        <td>
-                            @if (str_contains($child['nama_akun'], 'A-B'))
-                                {{ number_format($childKec['saldo'], 2) }}
+
+                    <td>
+                        @if (str_contains($child['nama_akun'], 'A-B'))
+                            @php
+                                $sumSaldoChildKec = 0;
+                            @endphp
+                            @foreach ($kecamatan as $kec)
                                 @php
+                                    $childKec = $arus_kas[$kec->id][$ak_key]['child'][$child_key];
+
+                                    $sumSaldoChildKec += $childKec['saldo'];
                                     $kenaikanPenurunanKas[$kec->id] += $childKec['saldo'];
                                 @endphp
-                            @endif
-                        </td>
-                    @endforeach
+                            @endforeach
+                            {{ number_format($sumSaldoChildKec, 2) }}
+                        @endif
+                    </td>
                 </tr>
 
                 @foreach ($child['child'] as $subchild_key => $subchild)
@@ -104,20 +116,38 @@
                     <tr style="{!! $subchild['child'] ? 'background: rgb(167, 167, 167); font-weight: bold;' : $style !!}">
                         <td align="center"></td>
                         <td>{{ $subchild['nama_akun'] }}</td>
-                        @foreach ($kecamatan as $kec)
-                            @php
-                                $childKec = $arus_kas[$kec->id][$ak_key]['child'][$child_key];
-                                $subchildKec =
-                                    $arus_kas[$kec->id][$ak_key]['child'][$child_key]['child'][$subchild_key];
-                            @endphp
-                            <td>
-                                @if ($endChild['nomor'] == $subchild['nomor'] && !$subchild['child'])
-                                    {{ number_format($childKec['saldo'], 2) }}
-                                @else
-                                    {{ $subchild['child'] ? '' : number_format($subchildKec['saldo'], 2) }}
-                                @endif
-                            </td>
-                        @endforeach
+
+                        <td>
+                            @if ($endChild['nomor'] == $subchild['nomor'] && !$subchild['child'])
+                                @php
+                                    $sumSaldoChildKec = 0;
+                                @endphp
+                                @foreach ($kecamatan as $kec)
+                                    @php
+                                        $childKec = $arus_kas[$kec->id][$ak_key]['child'][$child_key];
+                                        $subchildKec =
+                                            $arus_kas[$kec->id][$ak_key]['child'][$child_key]['child'][$subchild_key];
+
+                                        $sumSaldoChildKec += $childKec['saldo'];
+                                    @endphp
+                                @endforeach
+                                {{ number_format($sumSaldoChildKec, 2) }}
+                            @else
+                                @php
+                                    $sumSaldoSubChildKec = 0;
+                                @endphp
+                                @foreach ($kecamatan as $kec)
+                                    @php
+                                        $childKec = $arus_kas[$kec->id][$ak_key]['child'][$child_key];
+                                        $subchildKec =
+                                            $arus_kas[$kec->id][$ak_key]['child'][$child_key]['child'][$subchild_key];
+
+                                        $sumSaldoSubChildKec += $subchildKec['saldo'];
+                                    @endphp
+                                @endforeach
+                                {{ $subchild['child'] ? '' : number_format($sumSaldoSubChildKec, 2) }}
+                            @endif
+                        </td>
                     </tr>
 
                     @foreach ($subchild['child'] as $lastchild_key => $lastchild)
@@ -137,23 +167,41 @@
                         <tr style="{{ $style }}">
                             <td align="center"></td>
                             <td>{{ $lastchild['nama_akun'] }}</td>
-                            @foreach ($kecamatan as $kec)
-                                @php
-                                    $subchildKec =
-                                        $arus_kas[$kec->id][$ak_key]['child'][$child_key]['child'][$subchild_key];
-                                    $lastchildKec =
-                                        $arus_kas[$kec->id][$ak_key]['child'][$child_key]['child'][$subchild_key][
-                                            'child'
-                                        ][$lastchild_key];
-                                @endphp
-                                <td>
-                                    @if ($endChild['nomor'] == $lastchild['nomor'])
-                                        {{ number_format($subchildKec['saldo'], 2) }}
-                                    @else
-                                        {{ number_format($lastchildKec['saldo'], 2) }}
-                                    @endif
-                                </td>
-                            @endforeach
+
+                            <td>
+                                @if ($endChild['nomor'] == $lastchild['nomor'])
+                                    @php
+                                        $sumSaldoSubChildKec = 0;
+                                    @endphp
+                                    @foreach ($kecamatan as $kec)
+                                        @php
+                                            $subchildKec =
+                                                $arus_kas[$kec->id][$ak_key]['child'][$child_key]['child'][
+                                                    $subchild_key
+                                                ];
+
+                                            $sumSaldoSubChildKec += $subchildKec['saldo'];
+                                        @endphp
+                                    @endforeach
+                                    {{ number_format($sumSaldoSubChildKec, 2) }}
+                                @else
+                                    @php
+                                        $sumSaldoSubChildKec = 0;
+                                        $sumSaldoLastChildKec = 0;
+                                    @endphp
+                                    @foreach ($kecamatan as $kec)
+                                        @php
+                                            $lastchildKec =
+                                                $arus_kas[$kec->id][$ak_key]['child'][$child_key]['child'][
+                                                    $subchild_key
+                                                ]['child'][$lastchild_key];
+
+                                            $sumSaldoLastChildKec += $lastchildKec['saldo'];
+                                        @endphp
+                                    @endforeach
+                                    {{ number_format($sumSaldoLastChildKec, 2) }}
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 @endforeach

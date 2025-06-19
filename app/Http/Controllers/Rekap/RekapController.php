@@ -202,22 +202,29 @@ class RekapController extends Controller
             (object)[
                 'id' => 1,
                 'urut' => 1,
-                'nama_laporan' => 'Neraca',
+                'nama_laporan' => 'Neraca V1',
                 'file' => 'rekap_neraca',
                 'awal_tahun' => 0,
             ],
             (object)[
                 'id' => 5,
                 'urut' => 1,
-                'nama_laporan' => 'Neraca Rekap',
+                'nama_laporan' => 'Neraca V2',
                 'file' => 'rekap_neraca2',
                 'awal_tahun' => 0,
             ],
             (object)[
                 'id' => 2,
                 'urut' => 2,
-                'nama_laporan' => 'Laba Rugi',
+                'nama_laporan' => 'Laba Rugi V1',
                 'file' => 'rekap_rb',
+                'awal_tahun' => 0,
+            ],
+            (object)[
+                'id' => 6,
+                'urut' => 2,
+                'nama_laporan' => 'Laba Rugi V2',
+                'file' => 'rekap_rb2',
                 'awal_tahun' => 0,
             ],
             (object)[

@@ -3996,6 +3996,53 @@ class PelaporanController extends Controller
         }
     }
 
+    private function rekap_rb2(array $data)
+    {
+        $keuangan = new Keuangan;
+
+        $thn = $data['tahun'];
+        $bln = $data['bulan'];
+        $hari = ($data['hari']);
+        $awal_tahun = $thn . '-01-01';
+
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['sub_judul'] = 'Periode ' . Tanggal::tglLatin($thn . '-' . $bln . '-01') . ' S.D ' . Tanggal::tglLatin($data['tgl_kondisi']);
+        $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+        $data['bulan_lalu'] = date('Y-m-t', strtotime('-1 month', strtotime($thn . '-' . $bln . '-10')));
+        $data['header_lalu'] = 'Bulan Lalu';
+        $data['header_sekarang'] = 'Bulan Ini';
+        $jenis = 'Bulanan';
+
+        $Lokasi = [];
+        $daftarLokasi = explode(',', Session::get('rekapan'));
+        foreach ($daftarLokasi as $lokasi) {
+            $Lokasi[] = trim($lokasi);
+        }
+
+        $kecamatan = DB::table('kecamatan')->whereIn('id', $Lokasi)->get();
+        foreach ($kecamatan as $kec) {
+            $data['kecamatan'][$kec->id] = $kec;
+            Session::put('lokasi', $kec->id);
+
+            $data['laba_rugi'][$kec->id] = $keuangan->rekening_laba_rugi($data['tgl_kondisi']);
+            $pph = $keuangan->pph($data['tgl_kondisi'], $jenis);
+            $data['pph'][$kec->id] = [
+                'bulan_lalu' => $pph['bulan_lalu'],
+                'sekarang' => $pph['bulan_ini']
+            ];
+        }
+        $data['laba_rugi'][0] = reset($data['laba_rugi']);
+
+        $view = view('pelaporan.view.rekap_rb2', $data)->render();
+
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view);
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
+
     private function rekap_modal(array $data)
     {
         $keuangan = new Keuangan;
@@ -4123,7 +4170,7 @@ class PelaporanController extends Controller
         $hari = $data['hari'];
 
         $tgl = $thn . '-' . $bln . '-' . $hari;
-
+        $data['tgl_awal'] = date('Y-m', strtotime($data['tgl_kondisi'])) . '-01';
 
         $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
         $data['tgl'] = Tanggal::tahun($tgl);

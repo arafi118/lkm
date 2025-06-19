@@ -44,19 +44,17 @@
             @endphp
             @foreach ($p['rek'] as $key_rek => $rek)
                 @php
+                    $bg = 'rgb(230, 230, 230)';
+                    if ($loop->iteration % 2 == 0) {
+                        $bg = 'rgb(255, 255, 255)';
+                    }
+
                     $sum_bulan_lalu = 0;
                     $sum_saldo = 0;
-                    $pendapatan_lokasi = [];
                     foreach ($kecamatan as $kec) {
                         $pendapatan = $laba_rugi[$kec->id]['pendapatan'][$key_pendapatan]['rek'][$key_rek];
                         $sum_bulan_lalu += $pendapatan['saldo_bln_lalu'];
                         $sum_saldo += $pendapatan['saldo'];
-
-                        $pendapatan_lokasi[] = [
-                            'nama_akun' => $rek['nama_akun'] . ' ' . $kec->nama_kec,
-                            'saldo_bulan_lalu' => $pendapatan['saldo_bln_lalu'],
-                            'saldo' => $pendapatan['saldo'],
-                        ];
                     }
 
                     $jumlah_bulan_lalu += $sum_bulan_lalu;
@@ -66,21 +64,12 @@
                     $total_saldo1 += $sum_saldo;
                 @endphp
 
-                <tr style="background: rgb(230, 230, 230)">
+                <tr style="background: {{ $bg }}">
                     <td align="left">{{ $rek['kode_akun'] }}. {{ $rek['nama_akun'] }}</td>
                     <td align="right">{{ number_format($sum_bulan_lalu, 2) }}</td>
                     <td align="right">{{ number_format($sum_saldo - $sum_bulan_lalu, 2) }}</td>
                     <td align="right">{{ number_format($sum_saldo, 2) }}</td>
                 </tr>
-
-                @foreach ($pendapatan_lokasi as $lokasi)
-                    <tr>
-                        <td align="left" style="padding-left: 24px !important;">{{ $lokasi['nama_akun'] }}</td>
-                        <td align="right">{{ number_format($lokasi['saldo_bulan_lalu'], 2) }}</td>
-                        <td align="right">{{ number_format($lokasi['saldo'] - $lokasi['saldo_bulan_lalu'], 2) }}</td>
-                        <td align="right">{{ number_format($lokasi['saldo'], 2) }}</td>
-                    </tr>
-                @endforeach
             @endforeach
 
             <tr style="background: rgb(150, 150, 150); font-weight: bold;">
@@ -116,17 +105,10 @@
 
                     $sum_bulan_lalu = 0;
                     $sum_saldo = 0;
-                    $beban_lokasi = [];
                     foreach ($kecamatan as $kec) {
                         $beban = $laba_rugi[$kec->id]['beban'][$key_beban]['rek'][$key_rek];
                         $sum_bulan_lalu += $beban['saldo_bln_lalu'];
                         $sum_saldo += $beban['saldo'];
-
-                        $beban_lokasi[] = [
-                            'nama_akun' => $rek['nama_akun'] . ' ' . $kec->nama_kec,
-                            'saldo_bulan_lalu' => $beban['saldo_bln_lalu'],
-                            'saldo' => $beban['saldo'],
-                        ];
                     }
 
                     $jumlah_bulan_lalu += $sum_bulan_lalu;
@@ -142,15 +124,6 @@
                     <td align="right">{{ number_format($sum_saldo - $sum_bulan_lalu, 2) }}</td>
                     <td align="right">{{ number_format($sum_saldo, 2) }}</td>
                 </tr>
-
-                @foreach ($beban_lokasi as $lokasi)
-                    <tr>
-                        <td align="left" style="padding-left: 24px !important;">{{ $lokasi['nama_akun'] }}</td>
-                        <td align="right">{{ number_format($lokasi['saldo_bulan_lalu'], 2) }}</td>
-                        <td align="right">{{ number_format($lokasi['saldo'] - $lokasi['saldo_bulan_lalu'], 2) }}</td>
-                        <td align="right">{{ number_format($lokasi['saldo'], 2) }}</td>
-                    </tr>
-                @endforeach
             @endforeach
 
             <tr style="background: rgb(150, 150, 150); font-weight: bold;">
@@ -186,18 +159,11 @@
 
                     $sum_bulan_lalu = 0;
                     $sum_saldo = 0;
-                    $pendapatan_non_ops_lokasi = [];
                     foreach ($kecamatan as $kec) {
                         $pendapatan_non_ops =
                             $laba_rugi[$kec->id]['pendapatan_non_ops'][$key_pendapatan_non_ops]['rek'][$key_rek];
                         $sum_bulan_lalu += $pendapatan_non_ops['saldo_bln_lalu'];
                         $sum_saldo += $pendapatan_non_ops['saldo'];
-
-                        $pendapatan_non_ops_lokasi[] = [
-                            'nama_akun' => $rek['nama_akun'] . ' ' . $kec->nama_kec,
-                            'saldo_bulan_lalu' => $pendapatan_non_ops['saldo_bln_lalu'],
-                            'saldo' => $pendapatan_non_ops['saldo'],
-                        ];
                     }
 
                     $jumlah_bulan_lalu += $sum_bulan_lalu;
@@ -213,15 +179,6 @@
                     <td align="right">{{ number_format($sum_saldo - $sum_bulan_lalu, 2) }}</td>
                     <td align="right">{{ number_format($sum_saldo, 2) }}</td>
                 </tr>
-
-                @foreach ($pendapatan_non_ops_lokasi as $lokasi)
-                    <tr>
-                        <td align="left" style="padding-left: 24px !important;">{{ $lokasi['nama_akun'] }}</td>
-                        <td align="right">{{ number_format($lokasi['saldo_bulan_lalu'], 2) }}</td>
-                        <td align="right">{{ number_format($lokasi['saldo'] - $lokasi['saldo_bulan_lalu'], 2) }}</td>
-                        <td align="right">{{ number_format($lokasi['saldo'], 2) }}</td>
-                    </tr>
-                @endforeach
             @endforeach
 
             <tr style="background: rgb(150, 150, 150); font-weight: bold;">
@@ -250,17 +207,10 @@
 
                     $sum_bulan_lalu = 0;
                     $sum_saldo = 0;
-                    $beban_non_ops_lokasi = [];
                     foreach ($kecamatan as $kec) {
                         $beban_non_ops = $laba_rugi[$kec->id]['beban_non_ops'][$key_beban_non_ops]['rek'][$key_rek];
                         $sum_bulan_lalu += $beban_non_ops['saldo_bln_lalu'];
                         $sum_saldo += $beban_non_ops['saldo'];
-
-                        $beban_non_ops_lokasi[] = [
-                            'nama_akun' => $rek['nama_akun'] . ' ' . $kec->nama_kec,
-                            'saldo_bulan_lalu' => $beban_non_ops['saldo_bln_lalu'],
-                            'saldo' => $beban_non_ops['saldo'],
-                        ];
                     }
 
                     $jumlah_bulan_lalu += $sum_bulan_lalu;
@@ -276,15 +226,6 @@
                     <td align="right">{{ number_format($sum_saldo - $sum_bulan_lalu, 2) }}</td>
                     <td align="right">{{ number_format($sum_saldo, 2) }}</td>
                 </tr>
-
-                @foreach ($beban_non_ops_lokasi as $lokasi)
-                    <tr>
-                        <td align="left" style="padding-left: 24px !important;">{{ $lokasi['nama_akun'] }}</td>
-                        <td align="right">{{ number_format($lokasi['saldo_bulan_lalu'], 2) }}</td>
-                        <td align="right">{{ number_format($lokasi['saldo'] - $lokasi['saldo_bulan_lalu'], 2) }}</td>
-                        <td align="right">{{ number_format($lokasi['saldo'], 2) }}</td>
-                    </tr>
-                @endforeach
             @endforeach
 
             <tr style="background: rgb(150, 150, 150); font-weight: bold;">
@@ -326,17 +267,10 @@
         @php
             $sum_pph_bulan_lalu = 0;
             $sum_pph = 0;
-            $saldo_pph_lokasi = [];
             foreach ($kecamatan as $kec) {
                 $saldo_pph = $pph[$kec->id];
                 $sum_pph_bulan_lalu += $saldo_pph['bulan_lalu'];
                 $sum_pph += $saldo_pph['sekarang'];
-
-                $saldo_pph_lokasi[] = [
-                    'nama_akun' => $rek['nama_akun'] . ' ' . $kec->nama_kec,
-                    'saldo_bulan_lalu' => $saldo_pph['bulan_lalu'],
-                    'saldo' => $saldo_pph['sekarang'],
-                ];
             }
         @endphp
 
@@ -346,15 +280,6 @@
             <td align="right">{{ number_format($sum_pph - $sum_pph_bulan_lalu, 2) }}</td>
             <td align="right">{{ number_format($sum_pph, 2) }}</td>
         </tr>
-
-        @foreach ($saldo_pph_lokasi as $lokasi)
-            <tr>
-                <td align="left" style="padding-left: 24px !important;">{{ $lokasi['nama_akun'] }}</td>
-                <td align="right">{{ number_format($lokasi['saldo_bulan_lalu'], 2) }}</td>
-                <td align="right">{{ number_format($lokasi['saldo'] - $lokasi['saldo_bulan_lalu'], 2) }}</td>
-                <td align="right">{{ number_format($lokasi['saldo'], 2) }}</td>
-            </tr>
-        @endforeach
 
         <tr>
             <td colspan="4" height="2"></td>
