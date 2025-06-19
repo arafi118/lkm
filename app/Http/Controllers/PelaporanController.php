@@ -1564,13 +1564,21 @@ class PelaporanController extends Controller
         }
 
         $data['keuangan'] = $keuangan;
-        $data['rekening'] = Rekening::where('lev1', '3')->with([
+        $data['rekening'] = Rekening::where('lev1', '3')->where('lev2', '1')->with([
             'kom_saldo' => function ($query) use ($data) {
                 $query->where('tahun', $data['tahun'])->where(function ($query) use ($data) {
                     $query->where('bulan', '0')->orwhere('bulan', $data['bulan']);
                 });
             }
-        ])->orderBy('lev1')->orderBy('lev2')->orderBy('nama_akun')->get();
+        ])->orderBy('lev1')->orderBy('lev2')->orderBy('lev3', 'DESC')->orderBy('nama_akun')->get();
+
+        $data['rekening2'] = Rekening::where('lev1', '3')->where('lev2', '2')->with([
+            'kom_saldo' => function ($query) use ($data) {
+                $query->where('tahun', $data['tahun'])->where(function ($query) use ($data) {
+                    $query->where('bulan', '0')->orwhere('bulan', $data['bulan']);
+                });
+            }
+        ])->get();
 
         $view = view('pelaporan.view.perubahan_modal', $data)->render();
         if ($data['type'] == 'pdf') {
@@ -4098,17 +4106,27 @@ class PelaporanController extends Controller
             $data['kecamatan'][$kec->id] = $kec;
             Session::put('lokasi', $kec->id);
 
-            $data['rekening'][$kec->id] = Rekening::where('lev1', '3')->with([
+            $data['rekening'][$kec->id] = Rekening::where('lev1', '3')->where('lev2', '1')->with([
                 'kom_saldo' => function ($query) use ($data) {
                     $query->where('tahun', $data['tahun'])->where(function ($query) use ($data) {
                         $query->where('bulan', '0')->orwhere('bulan', $data['bulan']);
                     });
                 }
-            ])->orderBy('lev1')->orderBy('lev2')->orderBy('nama_akun')->get();
+            ])->orderBy('lev1')->orderBy('lev2')->orderBy('lev3', 'DESC')->orderBy('nama_akun')->get();
+
+            $data['rekening2'][$kec->id] = Rekening::where('lev1', '3')->where('lev2', '2')->with([
+                'kom_saldo' => function ($query) use ($data) {
+                    $query->where('tahun', $data['tahun'])->where(function ($query) use ($data) {
+                        $query->where('bulan', '0')->orwhere('bulan', $data['bulan']);
+                    });
+                }
+            ])->get();
+
             $data['laba_rugi'][$kec->id] = $keuangan->laba_rugi($data['tgl_kondisi']);
         }
         $data['laba_rugi'][0] = reset($data['laba_rugi']);
         $data['rekening'][0] = reset($data['rekening']);
+        $data['rekening2'][0] = reset($data['rekening2']);
 
         $view = view('pelaporan.view.rekap_perubahan_modal', $data)->render();
         if ($data['type'] == 'pdf') {
