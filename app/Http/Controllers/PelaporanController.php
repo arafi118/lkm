@@ -1570,10 +1570,9 @@ class PelaporanController extends Controller
                     $query->where('bulan', '0')->orwhere('bulan', $data['bulan']);
                 });
             }
-        ])->get();
+        ])->orderBy('lev1')->orderBy('lev2')->orderBy('nama_akun')->get();
 
         $view = view('pelaporan.view.perubahan_modal', $data)->render();
-
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
             return $pdf->stream();

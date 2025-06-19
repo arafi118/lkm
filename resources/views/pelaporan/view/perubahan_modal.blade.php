@@ -1,6 +1,3 @@
-@php
-    $t_saldo = 0;
-@endphp
 @extends('pelaporan.layout.base')
 
 @section('content')
@@ -29,7 +26,34 @@
             <th class="l r t" width="20%">&nbsp;</th>
         </tr>
 
+        @php
+            $group = '';
+            $section = '';
+
+            $nomor = 1;
+            $jumlah_saldo = 0;
+        @endphp
         @foreach ($rekening as $rek)
+            @php
+                $section = explode(' ', $rek->nama_akun)[0];
+            @endphp
+
+            @if ($loop->iteration > 1 && $section != $group && $group != '')
+                <tr>
+                    <td class="l t" align="right" colspan="3" height="15">
+                        <b>Jumlah</b>
+                    </td>
+                    <td class="l t r" align="right">
+                        <b>{{ number_format($jumlah_saldo, 2) }}</b>
+                    </td>
+                </tr>
+
+                @php
+                    $nomor = 1;
+                    $jumlah_saldo = 0;
+                @endphp
+            @endif
+
             @php
                 if ($rek->kode_akun == '3.2.02.01') {
                     $saldo = $keuangan->laba_rugi($tgl_kondisi);
@@ -37,20 +61,27 @@
                     $saldo = $keuangan->komSaldo($rek);
                 }
 
-                $t_saldo += $saldo;
+                $jumlah_saldo += $saldo;
             @endphp
             <tr>
-                <td class="l t" align="center">{{ $loop->iteration }}</td>
+                <td class="l t" align="center">{{ $nomor++ }}</td>
                 <td class="l t">{{ $rek->nama_akun }}</td>
                 <td class="l t" align="right">{{ number_format($saldo, 2) }}</td>
                 <td class="l t r">&nbsp;</td>
             </tr>
+
+            @php
+                $group = $section;
+            @endphp
         @endforeach
 
         <tr>
-            <td class="l t b" colspan="2" height="15">&nbsp;</td>
-            <td class="l t b" align="right">{{ number_format($t_saldo, 2) }}</td>
-            <td class="l t r b">&nbsp;</td>
+            <td class="l t b" align="right" colspan="3" height="15">
+                <b>Jumlah</b>
+            </td>
+            <td class="l t r b" align="right">
+                <b>{{ number_format($jumlah_saldo, 2) }}</b>
+            </td>
         </tr>
 
         <tr>
