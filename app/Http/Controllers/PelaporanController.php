@@ -4094,6 +4094,30 @@ class PelaporanController extends Controller
             return $view;
         }
     }
+    
+    
+    private function rekap_modal(array $data)
+    {
+        $data['keuangan'] = new Keuangan;
 
+        $thn = $data['tahun'];
+        $bln = $data['bulan'];
+        $hari = ($data['hari']);
 
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['sub_judul'] = 'Per ' . date('t', strtotime($tgl)) . ' ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+        $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+
+        $data['akun1'] = AkunLevel1::where('lev1','3')->with([
+            'akun2',
+        ])->orderBy('kode_akun', 'ASC')->get();
+        $view = view('pelaporan.view.rekap_perubahan_modal', $data)->render();
+
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view);
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
 }

@@ -227,6 +227,13 @@ class RekapController extends Controller
                 'file' => 'rekap_calk',
                 'awal_tahun' => 0,
             ],
+            (object)[
+                'id' => 4,
+                'urut' => 3,
+                'nama_laporan' => 'Laporan Perubahan Modal',
+                'file' => 'rekap_modal',
+                'awal_tahun' => 0,
+            ],
         ]);
         
         return view('rekap.laporan')->with(compact('title', 'rekap', 'laporan'));

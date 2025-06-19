@@ -621,4 +621,5 @@ class LaporanController extends Controller
         $pdf = PDF::loadHTML($view);
         return $pdf->stream();
     }
+
 }
