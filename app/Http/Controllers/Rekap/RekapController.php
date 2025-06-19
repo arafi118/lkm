@@ -228,6 +228,13 @@ class RekapController extends Controller
                 'awal_tahun' => 0,
             ],
             (object)[
+                'id' => 6,
+                'urut' => 3,
+                'nama_laporan' => 'Laporan Perubahan Modal',
+                'file' => 'rekap_modal',
+                'awal_tahun' => 0,
+            ],
+            (object)[
                 'id' => 4,
                 'urut' => 4,
                 'nama_laporan' => 'Arus Kas V1',

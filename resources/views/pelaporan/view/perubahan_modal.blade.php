@@ -19,11 +19,11 @@
     </table>
 
     <table width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
-        <tr style="background: rgb(232, 232, 232)">
-            <th class="l t" width="5%" height="20">No</th>
-            <th class="l t" width="55%">Rekening Modal</th>
-            <th class="l t" width="20%">&nbsp;</th>
-            <th class="l r t" width="20%">&nbsp;</th>
+        <tr style="background: rgb(74, 74, 74); color: #fff;">
+            <th width="5%" height="20">No</th>
+            <th width="55%">Rekening Modal</th>
+            <th width="20%">&nbsp;</th>
+            <th width="20%">&nbsp;</th>
         </tr>
 
         @php
@@ -39,11 +39,11 @@
             @endphp
 
             @if ($loop->iteration > 1 && $section != $group && $group != '')
-                <tr>
-                    <td class="l t" align="right" colspan="3" height="15">
+                <tr style="background: rgb(167, 167, 167); font-weight: bold;">
+                    <td align="right" colspan="3" height="15">
                         <b>Jumlah</b>
                     </td>
-                    <td class="l t r" align="right">
+                    <td align="right">
                         <b>{{ number_format($jumlah_saldo, 2) }}</b>
                     </td>
                 </tr>
@@ -62,12 +62,17 @@
                 }
 
                 $jumlah_saldo += $saldo;
+
+                $bg = 'rgb(230, 230, 230)';
+                if ($loop->iteration % 2 == 0) {
+                    $bg = 'rgba(255, 255, 255)';
+                }
             @endphp
-            <tr>
-                <td class="l t" align="center">{{ $nomor++ }}</td>
-                <td class="l t">{{ $rek->nama_akun }}</td>
-                <td class="l t" align="right">{{ number_format($saldo, 2) }}</td>
-                <td class="l t r">&nbsp;</td>
+            <tr style="background: {{ $bg }};">
+                <td align="center">{{ $nomor++ }}</td>
+                <td>{{ $rek->nama_akun }}</td>
+                <td align="right">{{ number_format($saldo, 2) }}</td>
+                <td>&nbsp;</td>
             </tr>
 
             @php
@@ -75,11 +80,11 @@
             @endphp
         @endforeach
 
-        <tr>
-            <td class="l t b" align="right" colspan="3" height="15">
+        <tr style="background: rgb(167, 167, 167); font-weight: bold;">
+            <td align="right" colspan="3" height="15">
                 <b>Jumlah</b>
             </td>
-            <td class="l t r b" align="right">
+            <td align="right">
                 <b>{{ number_format($jumlah_saldo, 2) }}</b>
             </td>
         </tr>

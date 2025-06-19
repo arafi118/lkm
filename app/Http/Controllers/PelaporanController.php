@@ -4076,7 +4076,47 @@ class PelaporanController extends Controller
 
     private function rekap_modal(array $data)
     {
-        $data['keuangan'] = new Keuangan;
+        $keuangan = new Keuangan;
+        $data['keuangan'] = $keuangan;
+
+        $thn = $data['tahun'];
+        $bln = $data['bulan'];
+        $hari = ($data['hari']);
+
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['sub_judul'] = 'Per ' . date('t', strtotime($tgl)) . ' ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+        $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+
+        $Lokasi = [];
+        $daftarLokasi = explode(',', Session::get('rekapan'));
+        foreach ($daftarLokasi as $lokasi) {
+            $Lokasi[] = trim($lokasi);
+        }
+
+        $kecamatan = DB::table('kecamatan')->whereIn('id', $Lokasi)->get();
+        foreach ($kecamatan as $kec) {
+            $data['kecamatan'][$kec->id] = $kec;
+            Session::put('lokasi', $kec->id);
+
+            $data['rekening'][$kec->id] = Rekening::where('lev1', '3')->with([
+                'kom_saldo' => function ($query) use ($data) {
+                    $query->where('tahun', $data['tahun'])->where(function ($query) use ($data) {
+                        $query->where('bulan', '0')->orwhere('bulan', $data['bulan']);
+                    });
+                }
+            ])->orderBy('lev1')->orderBy('lev2')->orderBy('nama_akun')->get();
+            $data['laba_rugi'][$kec->id] = $keuangan->laba_rugi($data['tgl_kondisi']);
+        }
+        $data['laba_rugi'][0] = reset($data['laba_rugi']);
+        $data['rekening'][0] = reset($data['rekening']);
+
+        $view = view('pelaporan.view.rekap_perubahan_modal', $data)->render();
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view);
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
     }
 
     private function rekap_arus_kas_v1(array $data)
