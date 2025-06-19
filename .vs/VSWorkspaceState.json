@@ -2,16 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\app",
-    "\\app\\Http",
-    "\\app\\Http\\Controllers",
-    "\\app\\Http\\Controllers\\Rekap",
+    "\\app\\Utils",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\dashboard",
-    "\\resources\\views\\kabupaten",
-    "\\resources\\views\\rekap",
-    "\\resources\\views\\rekap\\layout"
+    "\\resources\\views\\pelaporan\\view",
+    "\\resources\\views\\rekap"
   ],
-  "SelectedNode": "\\resources\\views\\rekap\\layout",
+  "SelectedNode": "\\resources\\views\\rekap\\laporan.blade.php",
   "PreviewInSolutionExplorer": false
 }

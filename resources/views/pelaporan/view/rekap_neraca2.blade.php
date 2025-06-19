@@ -180,7 +180,7 @@
     @endforeach
 
     {{-- Baris akun3 utama --}}
-    <tr style="background: {{ $warna2 }}; font-weight: bold;">
+    <tr style="background: {{ $warna2 }};">
         <td>{{ $lev3->kode_akun }}.</td>
         <td>{{ $lev3->nama_akun }}</td>
         <td align="right">
@@ -192,11 +192,11 @@
 
     </tr>
 
-    {{-- Baris per lokasi --}}
     @foreach ($per_lokasi_saldo as $lokasi)
         @php
             $bg = ($loop->iteration % 2 == 1) ? $warna1 : $warna2;
         @endphp
+    {{-- Baris per lokasi
         <tr style="background: {{ $bg }};">
             <td></td>
             <td>{{ $lev3->nama_akun }} di {{ $lokasi->nama_kec }}</td>
@@ -206,7 +206,7 @@
             <td align="right">
                 {{ $lokasi->saldo_akhir < 0 ? '(' . number_format(abs($lokasi->saldo_akhir), 2) . ')' : number_format($lokasi->saldo_akhir, 2) }}
             </td>
-        </tr>
+        </tr> --}}
     @endforeach
 @endforeach
 
