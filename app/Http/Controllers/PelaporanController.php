@@ -1513,6 +1513,8 @@ class PelaporanController extends Controller
         $hari = $data['hari'];
 
         $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['tgl_awal'] = $thn . '-' . $bln . '-01';
+
         $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
         $data['tgl'] = Tanggal::tahun($tgl);
         $data['jenis'] = 'Tahunan';
@@ -1529,8 +1531,6 @@ class PelaporanController extends Controller
 
             $tgl_lalu = $thn . '-' . $bulan_lalu . '-' . date('t', strtotime($thn . '-' . $bulan_lalu . '-01'));
         }
-
-        $data['tgl_awal'] = $thn . '-' . $bln . '-01';
 
         $data['saldo_bulan_lalu'] = $keuangan->saldoKas($tgl_lalu);
         $data['arus_kas'] = UtilsArusKas::arusKas($data['tgl_awal'], $data['tgl_kondisi']);

@@ -7,6 +7,9 @@ use App\Models\Rekening;
 
 class ArusKas
 {
+  protected static $rekDebit = [];
+  protected static $rekKredit = [];
+
   public static function getTransaksiBulanan($tgl_awal_bulan, $tgl_akhir_bulan)
   {
     $akun1 = [];
@@ -185,8 +188,15 @@ class ArusKas
     $jumlah = 0;
     foreach ($rekening as $rek) {
       $transaksi = $rek->trx_debit;
+      $kode_rekening = $rek->kode_akun;
+      $daftarKodeRekening = self::$rekDebit;
       if ($isKredit) {
         $transaksi = $rek->trx_kredit;
+        $daftarKodeRekening = self::$rekKredit;
+      }
+
+      if (in_array($kode_rekening, $daftarKodeRekening)) {
+        continue;
       }
 
       foreach ($transaksi as $trx) {
@@ -198,6 +208,13 @@ class ArusKas
         if (Keuangan::startWith($pasangan, $kodeAkunPasangan)) {
           $jumlah += floatval($trx->jumlah);
         }
+      }
+
+      $daftarKodeRekening[] = $kode_rekening;
+      if ($isKredit) {
+        self::$rekKredit = $daftarKodeRekening;
+      } else {
+        self::$rekDebit = $daftarKodeRekening;
       }
     }
 
