@@ -3844,7 +3844,8 @@ class PelaporanController extends Controller
 
     private function rekap_neraca(array $data)
     {
-        $data['keuangan'] = new Keuangan;
+        $keuangan = new Keuangan;
+        $data['keuangan'] = $keuangan;
 
         $thn = $data['tahun'];
         $bln = $data['bulan'];
@@ -3859,7 +3860,32 @@ class PelaporanController extends Controller
 
         $data['akun1'] = AkunLevel1::where('lev1', '<=', '3')->with([
             'akun2',
+            'akun2.akun3',
         ])->orderBy('kode_akun', 'ASC')->get();
+
+        $Lokasi = [];
+        $daftarLokasi = explode(',', Session::get('rekapan'));
+        foreach ($daftarLokasi as $lokasi) {
+            $Lokasi[] = trim($lokasi);
+        }
+
+        $kecamatan = DB::table('kecamatan')->whereIn('id', $Lokasi)->get();
+        foreach ($kecamatan as $kec) {
+            $data['kecamatan'][$kec->id] = $kec;
+            Session::put('lokasi', $kec->id);
+
+            $data['akun3'][$kec->id] = AkunLevel3::where('lev1', '<=', '3')->with([
+                'rek',
+                'rek.kom_saldo' => function ($query) use ($data) {
+                    $query->where('tahun', $data['tahun'])->where(function ($query) use ($data) {
+                        $query->where('bulan', '0')->orwhere('bulan', $data['bulan']);
+                    });
+                },
+            ])->orderBy('kode_akun')->get()->pluck([], 'kode_akun');
+
+            $data['laba_rugi'][$kec->id] = $keuangan->laba_rugi($data['tgl_kondisi']);
+        }
+
         $view = view('pelaporan.view.rekap_neraca', $data)->render();
 
         if ($data['type'] == 'pdf') {
@@ -3871,7 +3897,8 @@ class PelaporanController extends Controller
     }
     private function rekap_neraca2(array $data)
     {
-        $data['keuangan'] = new Keuangan;
+        $keuangan = new Keuangan;
+        $data['keuangan'] = $keuangan;
 
         $thn = $data['tahun'];
         $bln = $data['bulan'];
@@ -3886,7 +3913,32 @@ class PelaporanController extends Controller
 
         $data['akun1'] = AkunLevel1::where('lev1', '<=', '3')->with([
             'akun2',
+            'akun2.akun3',
         ])->orderBy('kode_akun', 'ASC')->get();
+
+        $Lokasi = [];
+        $daftarLokasi = explode(',', Session::get('rekapan'));
+        foreach ($daftarLokasi as $lokasi) {
+            $Lokasi[] = trim($lokasi);
+        }
+
+        $kecamatan = DB::table('kecamatan')->whereIn('id', $Lokasi)->get();
+        foreach ($kecamatan as $kec) {
+            $data['kecamatan'][$kec->id] = $kec;
+            Session::put('lokasi', $kec->id);
+
+            $data['akun3'][$kec->id] = AkunLevel3::where('lev1', '<=', '3')->with([
+                'rek',
+                'rek.kom_saldo' => function ($query) use ($data) {
+                    $query->where('tahun', $data['tahun'])->where(function ($query) use ($data) {
+                        $query->where('bulan', '0')->orwhere('bulan', $data['bulan']);
+                    });
+                },
+            ])->orderBy('kode_akun')->get()->pluck([], 'kode_akun');
+
+            $data['laba_rugi'][$kec->id] = $keuangan->laba_rugi($data['tgl_kondisi']);
+        }
+
         $view = view('pelaporan.view.rekap_neraca2', $data)->render();
 
         if ($data['type'] == 'pdf') {
@@ -4146,7 +4198,7 @@ class PelaporanController extends Controller
         $hari = $data['hari'];
 
         $tgl = $thn . '-' . $bln . '-' . $hari;
-        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['tgl_awal'] = date('Y-m', strtotime($data['tgl_kondisi'])) . '-01';
         $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
         $data['tgl'] = Tanggal::tahun($tgl);
         $data['jenis'] = 'Tahunan';
@@ -4167,7 +4219,6 @@ class PelaporanController extends Controller
 
         $data['keuangan'] = $keuangan;
 
-        $data['tgl_awal'] = date('Y-m', strtotime($data['tgl_kondisi'])) . '-01';
         $tanggal = explode('-', $data['tgl_kondisi']);
         $thn = $tanggal[0];
         $bln = $tanggal[1];
@@ -4210,7 +4261,8 @@ class PelaporanController extends Controller
         $hari = $data['hari'];
 
         $tgl = $thn . '-' . $bln . '-' . $hari;
-        $tgl = $thn . '-' . $bln . '-' . $hari;
+
+
         $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
         $data['tgl'] = Tanggal::tahun($tgl);
         $data['jenis'] = 'Tahunan';
@@ -4231,7 +4283,6 @@ class PelaporanController extends Controller
 
         $data['keuangan'] = $keuangan;
 
-        $data['tgl_awal'] = date('Y-m', strtotime($data['tgl_kondisi'])) . '-01';
         $tanggal = explode('-', $data['tgl_kondisi']);
         $thn = $tanggal[0];
         $bln = $tanggal[1];
@@ -4336,7 +4387,7 @@ class PelaporanController extends Controller
             ])->get();
         }
 
-        $view = view('pelaporan.view.calk', $data)->render();
+        $view = view('pelaporan.view.rekap_calk', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
