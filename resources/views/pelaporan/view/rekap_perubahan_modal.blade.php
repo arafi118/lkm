@@ -32,6 +32,7 @@
 
             $nomor = 1;
             $jumlah_saldo = 0;
+            $total_saldo = 0;
         @endphp
         @foreach ($rekening[0] as $key_rek => $rek)
             @php
@@ -39,7 +40,7 @@
             @endphp
 
             @if ($loop->iteration > 1 && $section != $group && $group != '')
-                <tr style="background: rgb(167, 167, 167); font-weight: bold;">
+                <tr style="background: rgb(74, 74, 74); color: #fff;">
                     <td align="right" colspan="3" height="15">
                         <b>Jumlah</b>
                     </td>
@@ -49,6 +50,8 @@
                 </tr>
 
                 @php
+                    $total_saldo += $jumlah_saldo;
+
                     $nomor = 1;
                     $jumlah_saldo = 0;
                 @endphp
@@ -71,6 +74,7 @@
                         'saldo' => $saldoKecamatan,
                     ];
                     $sumSaldoModal += $saldoKecamatan;
+                    $jumlah_saldo += $saldoKecamatan;
                 }
             @endphp
             <tr style="background: rgb(167, 167, 167); font-weight: bold;">
@@ -100,7 +104,10 @@
             @endphp
         @endforeach
 
-        <tr style="background: rgb(167, 167, 167); font-weight: bold;">
+        @php
+            $total_saldo += $jumlah_saldo;
+        @endphp
+        <tr style="background: rgb(74, 74, 74); color: #fff;">
             <td align="right" colspan="3" height="15">
                 <b>Jumlah</b>
             </td>
@@ -112,6 +119,8 @@
         @php
             $group = '';
             $section = '';
+
+            $total_saldo += $jumlah_saldo;
 
             $nomor = 1;
             $jumlah_saldo = 0;
@@ -134,6 +143,7 @@
                         'saldo' => $saldoKecamatan,
                     ];
                     $sumSaldoModal += $saldoKecamatan;
+                    $jumlah_saldo += $saldoKecamatan;
                 }
             @endphp
             <tr style="background: rgb(167, 167, 167); font-weight: bold;">
@@ -159,12 +169,28 @@
             @endforeach
         @endforeach
 
-        <tr style="background: rgb(167, 167, 167); font-weight: bold;">
+        @php
+            $total_saldo += $jumlah_saldo;
+        @endphp
+        <tr style="background: rgb(74, 74, 74); color: #fff;">
             <td align="right" colspan="3" height="15">
                 <b>Jumlah</b>
             </td>
             <td align="right">
                 <b>{{ number_format($jumlah_saldo, 2) }}</b>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="3" height="3"></td>
+        </tr>
+
+        <tr style="background: rgb(74, 74, 74); color: #fff;">
+            <td align="right" colspan="3" height="15">
+                <b>Total Modal</b>
+            </td>
+            <td align="right">
+                <b>{{ number_format($total_saldo, 2) }}</b>
             </td>
         </tr>
 
