@@ -26,26 +26,26 @@ class RekapController extends Controller
 
         $id = Session::get('id_rekap');
         $saldo_kec = [];
-                        $rekap = Rekap::where('id', $id)->first();
-                        
-                        $lokasiIds = array_filter(explode(',', $rekap->lokasi));
-                        $kdKecList = Kecamatan::whereIn('id', $lokasiIds)->pluck('kd_kec');
-                        $kecamatan = Kecamatan::whereIn('kd_kec', $kdKecList)
-                                        ->select('id', 'kd_kec as kode', 'nama_kec as nama')
-                                        ->orderBy('nama_kec', 'ASC')
-                                        ->get();
-            $total = new \stdClass();
-            $total->total_a = 0;
-            $total->anggota = 0;
-            $total->total_p = 0;
-            $total->total_v = 0;
-            $total->total_w = 0;
+        $rekap = Rekap::where('id', $id)->first();
 
-            $total->total_1 = 0;
-            $total->total_2 = 0;
-            $total->total_21 = 0;
-            $total->total_3 = 0;
-            $total->total_t = 0;
+        $lokasiIds = array_filter(explode(',', $rekap->lokasi));
+        $kdKecList = Kecamatan::whereIn('id', $lokasiIds)->pluck('kd_kec');
+        $kecamatan = Kecamatan::whereIn('kd_kec', $kdKecList)
+            ->select('id', 'kd_kec as kode', 'nama_kec as nama')
+            ->orderBy('nama_kec', 'ASC')
+            ->get();
+        $total = new \stdClass();
+        $total->total_a = 0;
+        $total->anggota = 0;
+        $total->total_p = 0;
+        $total->total_v = 0;
+        $total->total_w = 0;
+
+        $total->total_1 = 0;
+        $total->total_2 = 0;
+        $total->total_21 = 0;
+        $total->total_3 = 0;
+        $total->total_t = 0;
 
         foreach ($kecamatan as $wl) {
             $saldo_kec[$wl->kode] = [
@@ -61,7 +61,7 @@ class RekapController extends Controller
 
             if ($wl->kode) {
                 Session::put('lokasi', $wl->id);
-                
+
                 $angg       = Anggota::count();
 
                 $pinj_i   = PinjamanIndividu::where('jenis_pinjaman', 'I');
@@ -79,7 +79,7 @@ class RekapController extends Controller
 
                 $startDate = \Carbon\Carbon::now()->subMonth();
                 $simp     = Simpanan::where('status', 'A')
-                            ->with('realSimpananTerbesar')->get();
+                    ->with('realSimpananTerbesar')->get();
                 $jumlah_1 = $simp->where('jenis_simpanan', '1')->count();
                 $jumlah_2 = $simp->where('jenis_simpanan', '2')->count();
                 $jumlah_21 = $simp->filter(function ($item) use ($startDate) {
@@ -133,7 +133,7 @@ class RekapController extends Controller
         }
 
         $title = Session::get('nama_rekap') . ' Page';
-        return view('rekap.index')->with(compact('title', 'saldo_kec','total', 'keuangan'));
+        return view('rekap.index')->with(compact('title', 'saldo_kec', 'total', 'keuangan'));
     }
 
     public function tandaTangan()
@@ -180,7 +180,7 @@ class RekapController extends Controller
             $title = 'Kecamatan Belum Terdaftar';
             return view('rekap._kecamatan')->with(compact('title', 'kec'));
         }
-        
+
         $kab = $kec->kabupaten;
         $nama_kec = $kec->sebutan_kec . ' ' . $kec->nama_kec;
         if (Keuangan::startWith($kab->nama_kab, 'KOTA') || Keuangan::startWith($kab->nama_kab, 'KAB')) {
@@ -220,9 +220,15 @@ class RekapController extends Controller
                 'file' => 'rekap_calk',
                 'awal_tahun' => 0,
             ],
+            (object)[
+                'id' => 4,
+                'urut' => 4,
+                'nama_laporan' => 'Arus Kas',
+                'file' => 'rekap_arus_kas',
+                'awal_tahun' => 0,
+            ],
         ]);
-        
+
         return view('rekap.laporan')->with(compact('title', 'rekap', 'laporan'));
     }
-
 }

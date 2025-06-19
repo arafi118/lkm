@@ -201,7 +201,7 @@ class LaporanController extends Controller
         return $this->$file($data);
     }
 
-    
+
     private function CALK(array $data)
     {
         $keuangan = new Keuangan;
@@ -270,7 +270,7 @@ class LaporanController extends Controller
             return $view;
         }
     }
-    
+
 
     public function neraca($data)
     {
