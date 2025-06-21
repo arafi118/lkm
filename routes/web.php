@@ -142,7 +142,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 Route::get('/kosong', [DashboardController::class, 'keluar']);
 Route::get('/piutang_jasa', [DashboardController::class, 'piutang'])->middleware('auth', 'is_aktif');
 Route::get('/pelaporan/invoice/{invoice}', [PelaporanController::class, 'invoice']);
-Route::get('/simpan_saldo', [DashboardController::class, 'simpanSaldo'])->middleware('auth', 'is_aktif');
+Route::get('/simpan_saldo', [DashboardController::class, 'simpanSaldo']);
 
 Route::post('/dashboard/jatuh_tempo', [DashboardController::class, 'jatuhTempo'])->middleware('auth', 'is_aktif');
 Route::post('/dashboard/nunggak', [DashboardController::class, 'nunggak'])->middleware('auth', 'is_aktif');

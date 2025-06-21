@@ -174,6 +174,7 @@ class RekapController extends Controller
         $kec = Kecamatan::where('kd_kec', $kd_kec)->with('kabupaten')->first();
         $laporan = JenisLaporan::where('file', '!=', '0')->orderBy('urut', 'ASC')->get();
 
+        Session::put('lokasi', $kec->id);
         if (!$kec) {
             $kec = Wilayah::where('kode', $kd_kec)->first();
 
