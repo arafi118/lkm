@@ -13,47 +13,32 @@ use App\Models\User;
 use App\Utils\Keuangan;
 use App\Utils\Tanggal;
 use Auth;
-use DB; 
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Session;
 
 class AuthController extends Controller
 {
-    private const ID_KEC = 15;
-
     public function index()
     {
         $keuangan = new Keuangan;
-
-        if ($keuangan->startWith(request()->getHost(), 'master.sidbm')) {
-            return redirect('/master');
-        }
-
-        // Handle URL lokal
-        if (request()->server('SERVER_NAME') === '127.0.0.1' || 
-            request()->server('SERVER_NAME') === 'localhost' ||
-            str_ends_with(request()->server('SERVER_NAME'), '.test')) {
-                    $kec = Kecamatan::where('id', self::ID_KEC)->with('kabupaten')->first();
-                    $pus = Rekap::where('id', 1)->first();return redirect('/rekap');
-        } else {
-            $kec = Kecamatan::where('web_kec', explode('//', request()->url(''))[1])
-                ->orWhere('web_alternatif', explode('//', request()->url(''))[1])
-                ->first();
-        }
+        $kec = Kecamatan::where('web_kec', request()->getHost())
+            ->orWhere('web_alternatif', request()->getHost())
+            ->first();
 
         if (!$kec) {
-            $kab = Kabupaten::where('web_kab', explode('//', request()->url(''))[1])
-                ->orWhere('web_kab_alternatif', explode('//', request()->url(''))[1])
+            $kab = Kabupaten::where('web_kab', request()->getHost())
+                ->orWhere('web_kab_alternatif', request()->getHost())
                 ->first();
-                if (!$kab) {
-                    $pus = Rekap::where('web_rekap', explode('//', request()->url(''))[1])
-                        ->first();
-                    if (!$pus) {
-                        abort(404);
-                    }
-                    return redirect('/rekap');
+            if (!$kab) {
+                $pus = Rekap::where('web_rekap', request()->getHost())
+                    ->first();
+                if (!$pus) {
+                    abort(404);
                 }
+                return redirect('/rekap');
+            }
             return redirect('/kab');
         }
 
@@ -81,18 +66,10 @@ class AuthController extends Controller
             ]);
         }
 
-        if (request()->server('SERVER_NAME') === '127.0.0.1' || 
-            request()->server('SERVER_NAME') === 'localhost' ||
-            str_ends_with(request()->server('SERVER_NAME'), '.test')) {
-            $kec = Kecamatan::where('id', self::ID_KEC)
-                ->with('kabupaten')
-                ->first();
-        } else {
-            $kec = Kecamatan::where('web_kec', $url)
-                ->orWhere('web_alternatif', $url)
-                ->with('kabupaten')
-                ->first();
-        }
+        $kec = Kecamatan::where('web_kec', $url)
+            ->orWhere('web_alternatif', $url)
+            ->with('kabupaten')
+            ->first();
 
         $lokasi = $kec->id;
 
@@ -116,26 +93,26 @@ class AuthController extends Controller
                 if (Auth::loginUsingId($user->id)) {
                     $hak_akses = explode(',', $user->hak_akses);
                     $menu = Menu::where('parent_id', '0')
-                            ->whereNotIn('id', $hak_akses)
-                            ->where('aktif', 'Y')
-                            ->where(function ($query) use ($lokasi) {
-                                $query->where('lokasi', '0')
-                                      ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
-                            })
-                            ->with([
-                                'child' => function ($query) use ($hak_akses) {
-                                    $query->whereNotIn('id', $hak_akses);
-                                },
-                                'child.child'  => function ($query) use ($hak_akses) {
-                                    $query->whereNotIn('id', $hak_akses);
-                                }
-                            ])
-                            ->orderBy('sort', 'ASC')
-                            ->orderBy('id', 'ASC')
-                            ->get();
-                            
+                        ->whereNotIn('id', $hak_akses)
+                        ->where('aktif', 'Y')
+                        ->where(function ($query) use ($lokasi) {
+                            $query->where('lokasi', '0')
+                                ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
+                        })
+                        ->with([
+                            'child' => function ($query) use ($hak_akses) {
+                                $query->whereNotIn('id', $hak_akses);
+                            },
+                            'child.child'  => function ($query) use ($hak_akses) {
+                                $query->whereNotIn('id', $hak_akses);
+                            }
+                        ])
+                        ->orderBy('sort', 'ASC')
+                        ->orderBy('id', 'ASC')
+                        ->get();
+
                     $AksesTombol = explode(',', $user->akses_tombol);
-                    
+
                     $MenuTombol = MenuTombol::whereNotIn('id', $AksesTombol)->pluck('akses')->toArray();
 
                     $angsuran = true;
@@ -180,16 +157,9 @@ class AuthController extends Controller
         $username = $uname;
         $password = $uname;
 
-        if (request()->server('SERVER_NAME') === '127.0.0.1' || 
-            request()->server('SERVER_NAME') === 'localhost' ||
-            str_ends_with(request()->server('SERVER_NAME'), '.test')) {
-            $kec = Kecamatan::where('id', self::ID_KEC)
-                ->first();
-        } else {
-            $kec = Kecamatan::where('web_kec', $url)
-                ->orWhere('web_alternatif', $url)
-                ->first();
-        }
+        $kec = Kecamatan::where('web_kec', $url)
+            ->orWhere('web_alternatif', $url)
+            ->first();
 
         $lokasi = $kec->id;
 
@@ -211,23 +181,23 @@ class AuthController extends Controller
                 if (Auth::loginUsingId($user->id)) {
                     $hak_akses = explode(',', $user->hak_akses);
                     $menu = Menu::where('parent_id', '0')
-                            ->whereNotIn('id', $hak_akses)
-                            ->where('aktif', 'Y')
-                            ->where(function ($query) use ($lokasi) {
-                                $query->where('lokasi', '0')
-                                      ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
-                            })
-                            ->with([
-                                'child' => function ($query) use ($hak_akses) {
-                                    $query->whereNotIn('id', $hak_akses);
-                                },
-                                'child.child'  => function ($query) use ($hak_akses) {
-                                    $query->whereNotIn('id', $hak_akses);
-                                }
-                            ])
-                            ->orderBy('sort', 'ASC')
-                            ->orderBy('id', 'ASC')
-                            ->get();
+                        ->whereNotIn('id', $hak_akses)
+                        ->where('aktif', 'Y')
+                        ->where(function ($query) use ($lokasi) {
+                            $query->where('lokasi', '0')
+                                ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
+                        })
+                        ->with([
+                            'child' => function ($query) use ($hak_akses) {
+                                $query->whereNotIn('id', $hak_akses);
+                            },
+                            'child.child'  => function ($query) use ($hak_akses) {
+                                $query->whereNotIn('id', $hak_akses);
+                            }
+                        ])
+                        ->orderBy('sort', 'ASC')
+                        ->orderBy('id', 'ASC')
+                        ->get();
 
                     $angsuran = true;
                     if (in_array('19', $hak_akses) || in_array('21', $hak_akses)) {
@@ -389,6 +359,5 @@ class AuthController extends Controller
 
             $no++;
         }
-
     }
 }
