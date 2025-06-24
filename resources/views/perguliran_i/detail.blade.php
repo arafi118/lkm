@@ -72,7 +72,7 @@
     if ($kecamatan && ($kecamatan->id == 1 || $kecamatan->id == 279)) {
         // Jika ID kecamatan adalah 1 atau 10
         $dokumen_proposal[] = [
-            'title' => 'Surat Persetujuan Penjamin',
+            'title' => 'Surat Persetujuan Penjamin',
             'file' => 'SuratPernyataan',
             'withExcel' => false,
         ];

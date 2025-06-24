@@ -4227,76 +4227,143 @@ class PelaporanController extends Controller
 
     private function rekap_calk(array $data)
     {
+        $keuangan = new Keuangan;
         $thn = $data['tahun'];
         $bln = $data['bulan'];
         $hari = $data['hari'];
 
-        $id = Session::get('id_rekap');
-        $saldo_kec = [];
-        $rekap = Rekap::where('id', $id)->first();
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['nama_tgl'] = 'Tahun ' . $thn;
+        $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
+        $data['tgl'] = Tanggal::tahun($tgl);
+        if ($data['bulanan']) {
+            $data['sub_judul'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+            $data['nama_tgl'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' Tahun ' . $thn;
+            $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+        }
 
-        $lokasiIds = array_filter(explode(',', $rekap->lokasi));
-        $kdKecList = Kecamatan::whereIn('id', $lokasiIds)->pluck('kd_kec');
-        $kecamatan = Kecamatan::whereIn('kd_kec', $kdKecList)
-            ->select('id', 'kd_kec as kode', 'nama_kec as nama')
-            ->orderBy('nama_kec', 'ASC')
-            ->get();
-        foreach ($kecamatan as $wl) {
-            $tgl = $thn . '-' . $bln . '-' . $hari;
-            $data['tgl'] = Tanggal::tahun($tgl);
-            $data['nama_tgl'] = 'Tahun ' . $thn;
-            $data['sub_judul'] = 'Tahun ' . $thn;
-            if ($data['bulanan']) {
-                $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
-                $data['nama_tgl'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' Tahun ' . $thn;
-                $data['sub_judul'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' Tahun ' . $thn;
-            }
-            Session::put('lokasi', $wl->id);
+        $data['debit'] = 0;
+        $data['kredit'] = 0;
 
-            $data['debit'] = 0;
-            $data['kredit'] = 0;
+        $data['akun1'] = AkunLevel1::where('lev1', '<=', '3')->with([
+            'akun2',
+            'akun2.akun3',
+        ])->orderBy('kode_akun', 'ASC')->get();
 
-            $data['akun1'] = AkunLevel1::where('lev1', '<=', '3')->with([
-                'akun2',
-                'akun2.akun3',
-                'akun2.akun3.rek',
-                'akun2.akun3.rek.kom_saldo' => function ($query) use ($data) {
+        $Lokasi = [];
+        $daftarLokasi = explode(',', Session::get('rekapan'));
+        foreach ($daftarLokasi as $lokasi) {
+            $Lokasi[] = trim($lokasi);
+        }
+
+        $kecamatan = DB::table('kecamatan')->whereIn('id', $Lokasi)->get();
+        foreach ($kecamatan as $kec) {
+            $data['kecamatan'][$kec->id] = $kec;
+            Session::put('lokasi', $kec->id);
+
+            $data['akun3'][$kec->id] = AkunLevel3::where('lev1', '<=', '3')->with([
+                'rek',
+                'rek.kom_saldo' => function ($query) use ($data) {
                     $query->where('tahun', $data['tahun'])->where(function ($query) use ($data) {
                         $query->where('bulan', '0')->orwhere('bulan', $data['bulan']);
                     });
                 },
-            ])->orderBy('kode_akun', 'ASC')->get();
+            ])->orderBy('kode_akun')->get()->pluck([], 'kode_akun');
 
-            $data['keterangan'] = Calk::where([
-                ['lokasi', Session::get('lokasi')],
-                ['tanggal', 'LIKE', $data['tahun'] . '-' . $data['bulan'] . '%']
-            ])->first();
-
-            $data['sekr'] = User::where([
-                ['level', '1'],
-                ['jabatan', '2'],
-                ['lokasi', Session::get('lokasi')],
-            ])->first();
-
-            $data['bend'] = User::where([
-                ['level', '1'],
-                ['jabatan', '3'],
-                ['lokasi', Session::get('lokasi')],
-            ])->first();
-
-            $data['pengawas'] = User::where([
-                ['level', '3'],
-                ['jabatan', '1'],
-                ['lokasi', Session::get('lokasi')],
-            ])->first();
-
-            $data['saldo_calk'] = Saldo::where([
-                ['kode_akun', $data['kec']->kd_kec],
-                ['tahun', $thn]
-            ])->get();
+            $data['laba_rugi'][$kec->id] = $keuangan->laba_rugi($data['tgl_kondisi']);
         }
 
+        $rekening = [];
+        foreach ($kecamatan as $kec) {
+            foreach ($data['akun3'][$kec->id] as $akun3) {
+                foreach ($akun3->rek as $rek) {
+                    $lev1 = $rek->lev1;
+                    $lev2 = $rek->lev2;
+                    $lev3 = str_pad($rek->lev3, 2, '0', STR_PAD_LEFT);
+                    $kode_akun3 = $lev1 . '.' . $lev2 . '.' . $lev3 . '.00';
+
+                    $nama_akun = $rek->kode_akun . '||' . $rek->nama_akun;
+                    $rekening[$kode_akun3][$nama_akun][$kec->id] = $rek->kom_saldo;
+                }
+            }
+        }
+
+        $data['rekening'] = $rekening;
         $view = view('pelaporan.view.rekap_calk', $data)->render();
+
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view);
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
+
+    private function rekap_calk2(array $data)
+    {
+        $keuangan = new Keuangan;
+        $thn = $data['tahun'];
+        $bln = $data['bulan'];
+        $hari = $data['hari'];
+
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['nama_tgl'] = 'Tahun ' . $thn;
+        $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
+        $data['tgl'] = Tanggal::tahun($tgl);
+        if ($data['bulanan']) {
+            $data['sub_judul'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+            $data['nama_tgl'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' Tahun ' . $thn;
+            $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+        }
+
+        $data['debit'] = 0;
+        $data['kredit'] = 0;
+
+        $data['akun1'] = AkunLevel1::where('lev1', '<=', '3')->with([
+            'akun2',
+            'akun2.akun3',
+        ])->orderBy('kode_akun', 'ASC')->get();
+
+        $Lokasi = [];
+        $daftarLokasi = explode(',', Session::get('rekapan'));
+        foreach ($daftarLokasi as $lokasi) {
+            $Lokasi[] = trim($lokasi);
+        }
+
+        $kecamatan = DB::table('kecamatan')->whereIn('id', $Lokasi)->get();
+        foreach ($kecamatan as $kec) {
+            $data['kecamatan'][$kec->id] = $kec;
+            Session::put('lokasi', $kec->id);
+
+            $data['akun3'][$kec->id] = AkunLevel3::where('lev1', '<=', '3')->with([
+                'rek',
+                'rek.kom_saldo' => function ($query) use ($data) {
+                    $query->where('tahun', $data['tahun'])->where(function ($query) use ($data) {
+                        $query->where('bulan', '0')->orwhere('bulan', $data['bulan']);
+                    });
+                },
+            ])->orderBy('kode_akun')->get()->pluck([], 'kode_akun');
+
+            $data['laba_rugi'][$kec->id] = $keuangan->laba_rugi($data['tgl_kondisi']);
+        }
+
+        $rekening = [];
+        foreach ($kecamatan as $kec) {
+            foreach ($data['akun3'][$kec->id] as $akun3) {
+                foreach ($akun3->rek as $rek) {
+                    $lev1 = $rek->lev1;
+                    $lev2 = $rek->lev2;
+                    $lev3 = str_pad($rek->lev3, 2, '0', STR_PAD_LEFT);
+                    $kode_akun3 = $lev1 . '.' . $lev2 . '.' . $lev3 . '.00';
+
+                    $nama_akun = $rek->kode_akun . '||' . $rek->nama_akun;
+                    $rekening[$kode_akun3][$nama_akun][$kec->id] = $rek->kom_saldo;
+                }
+            }
+        }
+
+        $data['rekening'] = $rekening;
+        $view = view('pelaporan.view.rekap_calk2', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);

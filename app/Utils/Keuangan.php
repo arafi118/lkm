@@ -199,7 +199,7 @@ class Keuangan
 
             $nomor++;
         }
-         
+
         if ($rek->lev1 == 1 || $rek->lev1 == '5') {
             $saldo_awal = $awal_debit - $awal_kredit;
             $saldo = $saldo_awal + ($saldo_debit - $saldo_kredit);
@@ -236,6 +236,45 @@ class Keuangan
         }
 
         if ($rek->lev1 == 1 || $rek->lev1 == '5') {
+            $saldo_awal = $awal_debit - $awal_kredit;
+            $saldo = $saldo_awal + ($saldo_debit - $saldo_kredit);
+        } else {
+            $saldo_awal = $awal_kredit - $awal_debit;
+            $saldo = $saldo_awal + ($saldo_kredit - $saldo_debit);
+        }
+
+        return [
+            'saldo_awal' => $saldo_awal,
+            'saldo_berjalan' => $saldo
+        ];
+    }
+
+    public function getTbSaldo($komSaldo)
+    {
+        $awal_debit = 0;
+        $saldo_debit = 0;
+        $awal_kredit = 0;
+        $saldo_kredit = 0;
+
+        $nomor = 0;
+        foreach ($komSaldo as $kom_saldo) {
+            if ($nomor > 2) {
+                continue;
+            }
+
+            if ($kom_saldo->bulan == 0) {
+                $awal_debit += floatval($kom_saldo->debit);
+                $awal_kredit += floatval($kom_saldo->kredit);
+            } else {
+                $saldo_debit += floatval($kom_saldo->debit);
+                $saldo_kredit += floatval($kom_saldo->kredit);
+            }
+
+            $nomor++;
+        }
+
+        $kode_akun = explode('.', $komSaldo[0]->kode_akun);
+        if ($kode_akun[0] == 1 || $kode_akun[0] == '5') {
             $saldo_awal = $awal_debit - $awal_kredit;
             $saldo = $saldo_awal + ($saldo_debit - $saldo_kredit);
         } else {

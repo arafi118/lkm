@@ -208,8 +208,6 @@
 
                                         $jumlah_saldo_awal = 0;
                                         $jumlah_total_saldo = 0;
-
-                                        $daftarKecamatan = [];
                                         foreach ($kecamatan as $kec) {
                                             $saldoRek = isset($lokasi[$kec->id]) ? $lokasi[$kec->id] : false;
 
@@ -221,12 +219,6 @@
                                                     $saldo_berjalan = $laba_rugi[$kec->id];
                                                 }
 
-                                                $daftarKecamatan[$kec->id] = [
-                                                    'nama_akun' => $nama_akun . ' ' . $kec->nama_kec,
-                                                    'saldo_awal' => $saldo_awal,
-                                                    'total_saldo' => $saldo_berjalan,
-                                                ];
-
                                                 $jumlah_saldo_awal += $saldo_awal;
                                                 $jumlah_total_saldo += $saldo_berjalan;
                                             }
@@ -237,7 +229,6 @@
                                             'kode_akun' => $kode_akun,
                                             'jumlah_saldo_awal' => $jumlah_saldo_awal,
                                             'jumlah_total_saldo' => $jumlah_total_saldo,
-                                            'daftar_kecamatan' => $daftarKecamatan,
                                         ];
 
                                         $sum_saldo_awal += $jumlah_saldo_awal;
@@ -272,7 +263,7 @@
                                 </tr>
 
                                 @foreach ($saldoRekening as $rek)
-                                    <tr style="background: rgb(240, 240, 240);">
+                                    <tr>
                                         <td>{{ $rek['kode_akun'] }}.</td>
                                         <td>{{ $rek['nama_akun'] }}</td>
                                         @if ($rek['jumlah_saldo_awal'] < 0)
@@ -291,26 +282,6 @@
                                             <td align="right">{{ number_format($rek['jumlah_total_saldo'], 2) }}</td>
                                         @endif
                                     </tr>
-
-                                    @foreach ($rek['daftar_kecamatan'] as $lokasi)
-                                        <tr>
-                                            <td></td>
-                                            <td>{{ $lokasi['nama_akun'] }}</td>
-                                            @if ($lokasi['saldo_awal'] < 0)
-                                                <td align="right">({{ number_format($lokasi['saldo_awal'] * -1, 2) }})
-                                                </td>
-                                            @else
-                                                <td align="right">{{ number_format($lokasi['saldo_awal'], 2) }}</td>
-                                            @endif
-
-                                            @if ($lokasi['total_saldo'] < 0)
-                                                <td align="right">({{ number_format($lokasi['total_saldo'] * -1, 2) }})
-                                                </td>
-                                            @else
-                                                <td align="right">{{ number_format($lokasi['total_saldo'], 2) }}</td>
-                                            @endif
-                                        </tr>
-                                    @endforeach
                                 @endforeach
                             @endforeach
                         @endforeach
