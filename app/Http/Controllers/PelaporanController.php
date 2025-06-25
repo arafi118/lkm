@@ -1627,9 +1627,6 @@ class PelaporanController extends Controller
             $data['view_neraca'] = view('pelaporan.view.partials.neraca_calk', $data)->render();
             $data['view_calk'] = UtilsCalk::calk($data['kec']->custom_calk, $data);
             $view = view('pelaporan.view.calk_custom', $data)->render();
-
-            // return $view;
-            // dd(json_decode($view, true));
         } else {
             $data['keterangan'] = Calk::where([
                 ['lokasi', Session::get('lokasi')],
