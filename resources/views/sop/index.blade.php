@@ -102,6 +102,14 @@
                                 </div>
                                 <div class="mb-3">&nbsp;
                                     <a role="tab" class="btn btn-white" style="width: 280px;" data-bs-toggle="tab"
+                                        href="#tab-kustomisasi-calk">
+                                        <div class="left-align">
+                                            <i class="fa-solid fa-laptop-file"></i>&nbsp;&nbsp;<span>Kustomisasi CALK</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="mb-3">&nbsp;
+                                    <a role="tab" class="btn btn-white" style="width: 280px;" data-bs-toggle="tab"
                                         href="#tab-content-6">
                                         <div class="left-align">
                                             <i class="fa-solid fa-panorama"></i>&nbsp;&nbsp;<span>Logo</span>
@@ -183,6 +191,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="tab-pane tabs-animation fade" id="tab-kustomisasi-calk" role="tabpanel">
+                                <div class="row">
+                                    <div class="main-card mb-3 card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Kustomisasi SPK</h5>
+                                            @include('sop.partials._kustomisasi_calk')
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="tab-pane tabs-animation fade" id="tab-content-6" role="tabpanel">
                                 <div class="row">
                                     <div class="main-card mb-3 card">
@@ -239,6 +257,7 @@
         var connect = 0
 
         CKEDITOR.replace('editor_spk');
+        CKEDITOR.replace('editor_calk');
 
         $(document).on('click', '#ScanWA', function(e) {
             e.preventDefault()
@@ -338,6 +357,10 @@
 
             if ($(this).attr('id') == 'SimpanSPK') {
                 $('#spk').val(CKEDITOR.instances.editor_spk.getData())
+            }
+
+            if ($(this).attr('id') == 'SimpanCalk') {
+                $('#custom_calk').val(CKEDITOR.instances.editor_calk.getData())
             }
 
             var form = $($(this).attr('data-target'))

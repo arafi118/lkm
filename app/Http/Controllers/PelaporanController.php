@@ -32,6 +32,7 @@ use App\Models\Saldo;
 use App\Models\Transaksi;
 use App\Models\User;
 use App\Utils\ArusKas as UtilsArusKas;
+use App\Utils\Calk as UtilsCalk;
 use App\Utils\Keuangan;
 use App\Utils\Tanggal;
 use DB;
@@ -1592,6 +1593,7 @@ class PelaporanController extends Controller
     private function CALK(array $data)
     {
         $keuangan = new Keuangan;
+        $data['keuangan'] = $keuangan;
 
         $thn = $data['tahun'];
         $bln = $data['bulan'];
@@ -1621,34 +1623,43 @@ class PelaporanController extends Controller
             },
         ])->orderBy('kode_akun', 'ASC')->get();
 
-        $data['keterangan'] = Calk::where([
-            ['lokasi', Session::get('lokasi')],
-            ['tanggal', 'LIKE', $data['tahun'] . '-' . $data['bulan'] . '%']
-        ])->first();
+        if ($data['kec']->custom_calk) {
+            $data['view_neraca'] = view('pelaporan.view.partials.neraca_calk', $data)->render();
+            $data['view_calk'] = UtilsCalk::calk($data['kec']->custom_calk, $data);
+            $view = view('pelaporan.view.calk_custom', $data)->render();
 
-        $data['sekr'] = User::where([
-            ['level', '1'],
-            ['jabatan', '2'],
-            ['lokasi', Session::get('lokasi')],
-        ])->first();
+            // return $view;
+            // dd(json_decode($view, true));
+        } else {
+            $data['keterangan'] = Calk::where([
+                ['lokasi', Session::get('lokasi')],
+                ['tanggal', 'LIKE', $data['tahun'] . '-' . $data['bulan'] . '%']
+            ])->first();
 
-        $data['bend'] = User::where([
-            ['level', '1'],
-            ['jabatan', '3'],
-            ['lokasi', Session::get('lokasi')],
-        ])->first();
+            $data['sekr'] = User::where([
+                ['level', '1'],
+                ['jabatan', '2'],
+                ['lokasi', Session::get('lokasi')],
+            ])->first();
 
-        $data['pengawas'] = User::where([
-            ['level', '3'],
-            ['jabatan', '1'],
-            ['lokasi', Session::get('lokasi')],
-        ])->first();
+            $data['bend'] = User::where([
+                ['level', '1'],
+                ['jabatan', '3'],
+                ['lokasi', Session::get('lokasi')],
+            ])->first();
 
-        $data['saldo_calk'] = Saldo::where([
-            ['kode_akun', $data['kec']->kd_kec],
-            ['tahun', $thn]
-        ])->get();
-        $view = view('pelaporan.view.calk', $data)->render();
+            $data['pengawas'] = User::where([
+                ['level', '3'],
+                ['jabatan', '1'],
+                ['lokasi', Session::get('lokasi')],
+            ])->first();
+
+            $data['saldo_calk'] = Saldo::where([
+                ['kode_akun', $data['kec']->kd_kec],
+                ['tahun', $thn]
+            ])->get();
+            $view = view('pelaporan.view.calk', $data)->render();
+        }
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);

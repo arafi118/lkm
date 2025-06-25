@@ -13,10 +13,10 @@
  * (1) https://ckeditor.com/cke4/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) https://ckeditor.com/cke4/builder/3a2758be53c9cca7202b836a1e5b362f
+ * (2) https://ckeditor.com/cke4/builder/1350436fe0865f5aa791d21e69847772
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) https://ckeditor.com/cke4/builder/download/3a2758be53c9cca7202b836a1e5b362f
+ * (3) https://ckeditor.com/cke4/builder/download/1350436fe0865f5aa791d21e69847772
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -61,24 +61,30 @@ var CKBUILDER_CONFIG = {
 		'blockquote' : 1,
 		'clipboard' : 1,
 		'contextmenu' : 1,
+		'div' : 1,
 		'elementspath' : 1,
 		'enterkey' : 1,
 		'entities' : 1,
+		'filebrowser' : 1,
 		'floatingspace' : 1,
 		'font' : 1,
 		'format' : 1,
 		'horizontalrule' : 1,
 		'htmlwriter' : 1,
+		'indentblock' : 1,
 		'indentlist' : 1,
 		'justify' : 1,
 		'lineheight' : 1,
 		'list' : 1,
+		'liststyle' : 1,
 		'magicline' : 1,
 		'maximize' : 1,
+		'menubutton' : 1,
 		'pastefromgdocs' : 1,
 		'pastefromlibreoffice' : 1,
 		'pastefromword' : 1,
 		'pastetext' : 1,
+		'quicktable' : 1,
 		'removeformat' : 1,
 		'resize' : 1,
 		'showborders' : 1,

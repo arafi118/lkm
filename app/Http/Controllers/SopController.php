@@ -334,6 +334,29 @@ class SopController extends Controller
         ]);
     }
 
+    public function kustomisasiCalk(Request $request, Kecamatan $kec)
+    {
+        $data = $request->only([
+            'custom_calk'
+        ]);
+        $validate = Validator::make($data, [
+            'custom_calk' => 'required'
+        ]);
+        if ($validate->fails()) {
+            return response()->json($validate->errors(), Response::HTTP_MOVED_PERMANENTLY);
+        }
+
+        $custom_calk = json_encode($data['custom_calk']);
+        $kecamatan = Kecamatan::where('id', $kec->id)->update([
+            'custom_calk' => $custom_calk
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'msg' => 'Custom CALK Berhasil Disimpan.',
+        ]);
+    }
+
     public function logo(Request $request, Kecamatan $kec)
     {
         $data = $request->only([
