@@ -884,6 +884,11 @@ class Keuangan
         $tgl_lalu = date('Y-m-d', strtotime('-1 month', strtotime($tgl_kondisi)));
 
         $kode_akun = '5.5.01.01';
+
+        $lokasi_arthamari = ['351', '352', '353', '354'];
+        $lokasi = Session::get('lokasi');
+        $kode_akun = in_array($lokasi, $lokasi_arthamari) ? '5.5.01.01' : '5.4.01.01';
+
         $saldo = Rekening::where('kode_akun', $kode_akun)->with([
             'kom_saldo' => function ($query) use ($tahun, $bulan, $bulan_lalu) {
                 $query->where('tahun', $tahun)->where(function ($query) use ($bulan, $bulan_lalu) {
