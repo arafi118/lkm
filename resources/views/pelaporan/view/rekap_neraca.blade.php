@@ -132,7 +132,7 @@
 
 
         <tr>
-            <td colspan="3" style="padding: 0px !important;">
+            <td colspan="4" style="padding: 0px !important;">
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                     <tr style="background: rgb(167, 167, 167); font-weight: bold;">
                         <td height="15" colspan="3" align="left">
