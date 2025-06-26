@@ -186,7 +186,7 @@
         </tr>
                 
         <tr>
-            <td colspan="3" style="padding: 0px !important;">
+            <td colspan="4" style="padding: 0px !important;">
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                     <tr style="background: rgb(74, 74, 74); color: #fff;">
                         <td align="right" colspan="3" height="15">
