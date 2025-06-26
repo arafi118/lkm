@@ -359,18 +359,21 @@
         <tr>
             <td colspan="4" height="2"></td>
         </tr>
-
-        <tr style="background: rgb(200, 200, 200); font-weight: bold;">
-            <td width="55%" align="left">C. Laba Rugi Setelah Taksiran Pajak (A + B) </td>
-            <td width="15%" align="right">
-                {{ number_format($total_saldo_bulan_lalu1 + $total_saldo_bulan_lalu2 - $sum_pph_bulan_lalu, 2) }}</td>
-            <td width="15%" align="right">
-                {{ number_format($total_saldo1 - $total_saldo_bulan_lalu1 + ($total_saldo2 - $total_saldo_bulan_lalu2) - ($sum_pph - $sum_pph_bulan_lalu), 2) }}
-            </td>
-            <td width="15%" align="right">{{ number_format($total_saldo1 + $total_saldo2 - $sum_pph, 2) }}
-            </td>
-        </tr>
-    </table>
+                
+        <tr>
+            <td colspan="4" style="padding: 0px !important;">
+        <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+            <tr style="background: rgb(200, 200, 200); font-weight: bold;">
+                <td width="55%" align="left">C. Laba Rugi Setelah Taksiran Pajak (A + B) </td>
+                <td width="15%" align="right">
+                    {{ number_format($total_saldo_bulan_lalu1 + $total_saldo_bulan_lalu2 - $sum_pph_bulan_lalu, 2) }}</td>
+                <td width="15%" align="right">
+                    {{ number_format($total_saldo1 - $total_saldo_bulan_lalu1 + ($total_saldo2 - $total_saldo_bulan_lalu2) - ($sum_pph - $sum_pph_bulan_lalu), 2) }}
+                </td>
+                <td width="15%" align="right">{{ number_format($total_saldo1 + $total_saldo2 - $sum_pph, 2) }}
+                </td>
+            </tr>
+        </table><br><br><br>
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                     <tr>
                         <td width="50%" align="center">
@@ -405,4 +408,17 @@
                         </td>
                     </tr>
                 </table>
+
+
+
+
+
+            </td>
+        </tr>
+        
+    </table>
+
+
+
+
 @endsection

@@ -108,12 +108,55 @@
                 <td colspan="3" height="1"></td>
             </tr>
         @endforeach
+        
 
-        <tr style="background: rgb(167, 167, 167); font-weight: bold;">
-            <td height="15" colspan="3" align="left">
-                <b>Jumlah Liabilitas + Ekuitas </b>
+
+
+        <tr>
+            <td colspan="3" style="padding: 0px !important;">
+                <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                    <tr style="background: rgb(167, 167, 167); font-weight: bold;">
+                        <td height="15" colspan="3" align="left">
+                            <b>Jumlah Liabilitas + Ekuitas </b>
+                        </td>
+                        <td align="right">{{ number_format($kredit, 2) }}</td>
+                    </tr>
+                </table><br><br><br>
+                <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                    <tr>
+                        <td width="50%" align="center">
+                            <strong>Diperiksa Oleh:</strong>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><u>Ardiansyah Asdar STP.MM</u></p>
+                            Ketua Dewan Pengawas
+                        </td>
+                        <td width="50%" align="center">
+                            <strong>Dilaporkan Oleh:</strong>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><u>Basuki</u></p>
+                            Manajer
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <p>&nbsp;</p>
+                            <strong>Mengetahui/Menyetujui:</strong>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><u>Eko Susanto</u></p>
+                            Ketua Koperasi
+                        </td>
+                    </tr>
+                </table>
             </td>
-            <td align="right">{{ number_format($kredit, 2) }}</td>
         </tr>
     </table>
 @endsection

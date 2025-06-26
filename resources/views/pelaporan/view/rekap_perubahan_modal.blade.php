@@ -184,17 +184,19 @@
         <tr>
             <td colspan="3" height="3"></td>
         </tr>
-
-        <tr style="background: rgb(74, 74, 74); color: #fff;">
-            <td align="right" colspan="3" height="15">
-                <b>Total Modal</b>
-            </td>
-            <td align="right">
-                <b>{{ number_format($total_saldo, 2) }}</b>
-            </td>
-        </tr>
-
-    </table>
+                
+        <tr>
+            <td colspan="3" style="padding: 0px !important;">
+                <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                    <tr style="background: rgb(74, 74, 74); color: #fff;">
+                        <td align="right" colspan="3" height="15">
+                            <b>Total Modal</b>
+                        </td>
+                        <td align="right">
+                            <b>{{ number_format($total_saldo, 2) }}</b>
+                        </td>
+                    </tr>
+                </table><br><br><br>
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                     <tr>
                         <td width="50%" align="center">
@@ -229,4 +231,7 @@
                         </td>
                     </tr>
                 </table>
+            </td>
+        </tr>
+    </table>
 @endsection

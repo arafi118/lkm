@@ -333,13 +333,48 @@
             <div style="text-transform: uppercase;">
                 Penutup
             </div>
-            <div style="text-align: justify">
+            <div style="text-align: justify; !important;">
                 Catatan atas Laporan Keuangan (CaLK) ini merupakan bagian tidak terpisahkan dari Laporan
                 Keuangan Koperasi untuk Laporan Operasi Bulan {{ $nama_tgl }}.
                 Selanjutnya Catatan
                 atas Laporan Keuangan ini diharapkan untuk dapat berguna bagi pihak-pihak yang berkepentingan
                 (stakeholders) serta memenuhi prinsip-prinsip transparansi, akuntabilitas, pertanggungjawaban,
                 independensi, dan fairness dalam pengelolaan keuangan Arthamari.
+                <br><br><br>
+                <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                    <tr>
+                        <td width="50%" align="center">
+                            <strong>Diperiksa Oleh:</strong>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><u>Ardiansyah Asdar STP.MM</u></p>
+                            Ketua Dewan Pengawas
+                        </td>
+                        <td width="50%" align="center">
+                            <strong>Dilaporkan Oleh:</strong>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><u>Basuki</u></p>
+                            Manajer
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <p>&nbsp;</p>
+                            <strong>Mengetahui/Menyetujui:</strong>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><u>Eko Susanto</u></p>
+                            Ketua Koperasi
+                        </td>
+                    </tr>
+                </table>
             </div>
         </li>
     </ol>
