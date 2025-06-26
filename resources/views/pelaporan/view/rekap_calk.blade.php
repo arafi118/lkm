@@ -362,7 +362,7 @@
             <div style="text-transform: uppercase;">
                 Penutup
             </div>
-            <div style="text-align: justify;padding: 0px !important;">
+            <div style="text-align: justify;page-break-inside: avoid; break-inside: avoid;">
                 Catatan atas Laporan Keuangan (CaLK) ini merupakan bagian tidak terpisahkan dari Laporan
                 Keuangan Koperasi untuk Laporan Operasi Bulan {{ $nama_tgl }}.
                 Selanjutnya Catatan

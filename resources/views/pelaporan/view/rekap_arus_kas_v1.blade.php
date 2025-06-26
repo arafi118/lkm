@@ -160,7 +160,7 @@
             @endforeach
         @endforeach
     </table>
-                <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;padding: 0px !important;">
+                <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;page-break-inside: avoid; break-inside: avoid;">
                     <tr>
                         <td width="50%" align="center">
                             <strong>Diperiksa Oleh:</strong>
