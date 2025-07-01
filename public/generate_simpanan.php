@@ -250,8 +250,10 @@
                     $real_d = 0;
                     $real_k = 0;
                     $kode   = 0;
-                    
-                    if (str_starts_with($trx['rekening_kredit'], '2.1.04.')) {
+                    if (
+                        str_starts_with($trx['rekening_kredit'], '2.1.04.') ||
+                        str_starts_with($trx['rekening_kredit'], '3.1.01.')
+                    ) {
                         $real_k = $jumlah;
                         $sum += $jumlah;
                         if($trx['rekening_debit']=="1.1.01.01"){
@@ -263,7 +265,10 @@
                         if(str_starts_with($trx['rekening_debit'], '5.3.04.')){
                             $kode = 4;
                         }
-                    } elseif (str_starts_with($trx['rekening_debit'], '2.1.04.')) {
+                    } elseif (
+                        str_starts_with($trx['rekening_debit'], '2.1.04.') ||
+                        str_starts_with($trx['rekening_debit'], '3.1.01.')
+                    ) {
                         $real_d = $jumlah;
                         $sum -= $jumlah;
                         

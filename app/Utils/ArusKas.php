@@ -173,19 +173,19 @@ class ArusKas
 
     $rekening = '';
     if (strlen($kodeAkun) == '9') {
-      $rekening = $akun4[$kodeAkun];
+      $rekening = $akun4[$kodeAkun] ??[];
     }
 
     if (strlen($kodeAkun) == '6') {
-      $rekening = $akun3[$kodeAkun];
+      $rekening = $akun3[$kodeAkun] ??[];
     }
 
     if (strlen($kodeAkun) == '3') {
-      $rekening = $akun2[$kodeAkun];
+      $rekening = $akun2[$kodeAkun] ??[];
     }
 
     if (strlen($kodeAkun) == '1') {
-      $rekening = $akun1[$kodeAkun];
+      $rekening = $akun1[$kodeAkun] ??[];
     }
 
     $jumlah = 0;
