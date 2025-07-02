@@ -594,6 +594,8 @@ class Keuangan
         $sum_kolek1 = 0;
         $sum_kolek2 = 0;
         $sum_kolek3 = 0;
+        $sum_kolek4 = 0;
+        $sum_kolek5 = 0;
 
         $pinjaman_anggota = PinjamanIndividu::where('sistem_angsuran', '!=', '12')
             ->where(function ($query) use ($data) {
