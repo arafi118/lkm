@@ -707,18 +707,19 @@ class Keuangan
                 $_kolek = ($tunggakan_pokok / $wajib_pokok);
             }
             $kolek = round($_kolek + ($selisih - $angsuran_ke));
-            if ($kolek <= 3) {
+
+            $kolek1 = $kolek2 = $kolek3 = $kolek4 = $kolek5 = 0;
+
+            if ($kolek < 10) {
                 $kolek1 = $saldo_pokok;
-                $kolek2 = 0;
-                $kolek3 = 0;
-            } elseif ($kolek <= 5) {
-                $kolek1 = 0;
+            } elseif ($kolek < 90) {
                 $kolek2 = $saldo_pokok;
-                $kolek3 = 0;
-            } else {
-                $kolek1 = 0;
-                $kolek2 = 0;
+            } elseif ($kolek < 120) {
                 $kolek3 = $saldo_pokok;
+            } elseif ($kolek < 180) {
+                $kolek4 = $saldo_pokok;
+            } else {
+                $kolek5 = $saldo_pokok;
             }
 
             $sum_nunggak_pokok += $tunggakan_pokok;
@@ -728,18 +729,22 @@ class Keuangan
             $sum_kolek1 += $kolek1;
             $sum_kolek2 += $kolek2;
             $sum_kolek3 += $kolek3;
+            $sum_kolek4 += $kolek4;
+            $sum_kolek5 += $kolek5;
         }
 
         $kolek_1 = $sum_kolek1 * 0 / 100;
-        $kolek_2 = $sum_kolek2 * 50 / 100;
-        $kolek_3 = $sum_kolek3 * 100 / 100;
+        $kolek_2 = $sum_kolek2 * 5 / 100;
+        $kolek_3 = $sum_kolek3 * 15 / 100;
+        $kolek_4 = $sum_kolek4 * 50 / 100;
+        $kolek_5 = $sum_kolek5 * 100 / 100;
 
         return [
             'nunggak_pokok' => $sum_nunggak_pokok,
             'nunggak_jasa' => $sum_nunggak_jasa,
             'saldo_pokok' => $sum_saldo_pokok,
             'saldo_jasa' => $sum_saldo_jasa,
-            'sum_kolek' => ($kolek_1 + $kolek_2 + $kolek_3)
+            'sum_kolek' => ($kolek_1 + $kolek_2 + $kolek_3 + $kolek_4 + $kolek_5)
         ];
     }
 
