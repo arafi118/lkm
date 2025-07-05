@@ -361,11 +361,8 @@ class GenerateController extends Controller
                 $bulan  = substr($tgl_cair, 5, 2);
                 $tahun  = substr($tgl_cair, 0, 4);
 
-                if ($sa_pokok == 12) {
+                if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
-                    $penambahan = "+$tambah days";
-                }if ($sa_pokok == 25) {
-                    $tambah = $x * 14;
                     $penambahan = "+$tambah days";
                 } else {
                     $penambahan = "+$x month";
