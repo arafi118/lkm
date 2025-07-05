@@ -360,7 +360,6 @@ class GenerateController extends Controller
             for ($x = $index; $x < $jumlah_angsuran; $x++) {
                 $bulan  = substr($tgl_cair, 5, 2);
                 $tahun  = substr($tgl_cair, 0, 4);
-
                 if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
                     $penambahan = "+$tambah days";
@@ -368,8 +367,7 @@ class GenerateController extends Controller
                     $penambahan = "+$x month";
                 }
 
-                $tgl = date('Y-m', strtotime($tgl_cair));
-                $bulan_jatuh_tempo = date('Y-m-d', strtotime($penambahan, strtotime($tgl)));
+                $bulan_jatuh_tempo = date('Y-m-d', strtotime($penambahan, strtotime($tgl_cair)));
                 $jatuh_tempo = date('Y-m-t', strtotime($bulan_jatuh_tempo));
                 if (date('d', strtotime($tgl_cair)) < date('d', strtotime($jatuh_tempo))) {
                     $jatuh_tempo = date('Y-m', strtotime($bulan_jatuh_tempo)) . '-' . date('d', strtotime($tgl_cair));
