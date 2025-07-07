@@ -865,7 +865,7 @@ class PinjamanIndividuController extends Controller
                 'id_supplier' => $data['supplier'],
                 'status' => 'A'
             ];
-            $jumlah_pencairan = $alokasi_pinjaman+$depe;
+            $jumlah_pencairan = $alokasi_pinjaman + $depe;
             // Transaksi [Warning]
             $keterangan = 'Pencairan Kredit ' . $perguliran_i->anggota->namadepan . '-' . $perguliran_i->id;
             $keterangan .= ' (' . $perguliran_i->jpp->nama_jpp . ')';
@@ -2806,8 +2806,15 @@ class PinjamanIndividuController extends Controller
         } else if ($sa_pokok == 20) {
             $tempo_pokok        = ($jangka) - 12 / $sistem_pokok;
         } else {
-            $tempo_pokok        = floor($jangka / $sistem_pokok);
+            $tempo_pokok        = $jangka / $sistem_pokok;
+            if ($jangka % 2 == 0) {
+                $tempo_pokok = floor($tempo_pokok);
+            } else {
+                $tempo_pokok = ceil($tempo_pokok);
+            }
         }
+
+        // dd($tempo_pokok, $jangka, $sistem_pokok);
 
         if ($sa_jasa == 11) {
             $tempo_jasa        = ($jangka) - 24 / $sistem_jasa;
@@ -2916,14 +2923,18 @@ class PinjamanIndividuController extends Controller
             for ($x = $index; $x < $jumlah_angsuran; $x++) {
                 $bulan  = substr($tgl, 5, 2);
                 $tahun  = substr($tgl, 0, 4);
-
-                if ($sa_pokok == 12) {
+                if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
                     $penambahan = "+$tambah days";
                 } else {
                     $penambahan = "+$x month";
                 }
+
                 $jatuh_tempo = date('Y-m-d', strtotime($penambahan, strtotime($tgl)));
+                // $jatuh_tempo = date('Y-m-t', strtotime($bulan_jatuh_tempo));
+                // if (date('d', strtotime($tgl)) < date('d', strtotime($jatuh_tempo))) {
+                //     $jatuh_tempo = date('Y-m', strtotime($bulan_jatuh_tempo)) . '-' . date('d', strtotime($tgl));
+                // }
 
                 $pokok = $ra[$x]['pokok'];
                 $jasa = $ra[$x]['jasa'];
@@ -2959,14 +2970,18 @@ class PinjamanIndividuController extends Controller
             for ($x = $index; $x < $jumlah_angsuran; $x++) {
                 $bulan  = substr($tgl, 5, 2);
                 $tahun  = substr($tgl, 0, 4);
-
-                if ($sa_pokok == 12) {
+                if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
                     $penambahan = "+$tambah days";
                 } else {
                     $penambahan = "+$x month";
                 }
+
                 $jatuh_tempo = date('Y-m-d', strtotime($penambahan, strtotime($tgl)));
+                // $jatuh_tempo = date('Y-m-t', strtotime($bulan_jatuh_tempo));
+                // if (date('d', strtotime($tgl)) < date('d', strtotime($jatuh_tempo))) {
+                //     $jatuh_tempo = date('Y-m', strtotime($bulan_jatuh_tempo)) . '-' . date('d', strtotime($tgl));
+                // }
 
                 $pokok = $ra[$x]['pokok'];
                 $jasa = $ra[$x]['jasa'];
