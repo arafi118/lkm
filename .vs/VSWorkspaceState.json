@@ -1,15 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\app",
-    "\\app\\Http",
-    "\\app\\Http\\Controllers",
-    "\\resources",
-    "\\resources\\views",
-    "\\resources\\views\\perguliran_i",
-    "\\resources\\views\\perguliran_i\\dokumen",
-    "\\resources\\views\\perguliran_i\\dokumen\\layout"
+    ""
   ],
-  "SelectedNode": "\\resources\\views\\perguliran_i\\dokumen\\layout\\base.blade.php",
+  "SelectedNode": "\\C:\\laragon\\www\\lkm",
   "PreviewInSolutionExplorer": false
 }
