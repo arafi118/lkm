@@ -262,31 +262,27 @@ class GenerateController extends Controller
 
             $ra = [];
             $alokasi_pokok = $alokasi;
-            if ($jenis_jasa == '1') {
-                for ($j = $index; $j < $jumlah_angsuran; $j++) {
-                    $sisa = $j % $sistem_jasa;
-                    $ke = $j / $sistem_jasa;
+            for ($j = $index; $j < $jumlah_angsuran; $j++) {
+                $sisa = $j % $sistem_jasa;
+                $ke = $j / $sistem_jasa;
+                $alokasi_jasa = $alokasi_pokok * ($pros_jasa / 100);
+                $wajib_jasa = $alokasi_jasa / $tempo_jasa;
 
-                    $alokasi_jasa = $alokasi_pokok * ($pros_jasa / 100);
-                    $wajib_jasa = $alokasi_jasa / $tempo_jasa;
+                if ($kec->pembulatan != '5000') {
                     $wajib_jasa = Keuangan::pembulatan($wajib_jasa, (string) $kec->pembulatan);
-                    $sum_jasa = $wajib_jasa * ($tempo_jasa - 1);
-
-                    if ($sisa == 0 and $ke != $tempo_jasa) {
-                        $angsuran_jasa = $wajib_jasa;
-                    } elseif ($sisa == 0 and $ke == $tempo_jasa) {
-                        $angsuran_jasa = $alokasi_jasa - $sum_jasa;
-                    } else {
-                        $angsuran_jasa = 0;
-                    }
-
-                    if ($jenis_jasa == '2') {
-                        $angsuran_jasa = $wajib_jasa;
-                        $alokasi_pokok -= $ra[$j]['pokok'];
-                    }
-
-                    $ra[$j]['jasa'] = $angsuran_jasa;
                 }
+
+                $sum_jasa = $wajib_jasa * ($tempo_jasa - 1);
+
+                if ($sisa == 0 and $ke != $tempo_jasa) {
+                    $angsuran_jasa = $wajib_jasa;
+                } elseif ($sisa == 0 and $ke == $tempo_jasa) {
+                    $angsuran_jasa = $alokasi_jasa - $sum_jasa;
+                } else {
+                    $angsuran_jasa = 0;
+                }
+
+                $ra[$j]['jasa'] = $angsuran_jasa;
             }
 
             $sum_angsuran_pokok = 0;
