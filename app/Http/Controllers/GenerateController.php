@@ -262,7 +262,12 @@ class GenerateController extends Controller
             } else if ($sa_jasa == 20) {
                 $tempo_jasa        = ($jangka) - 12 / $sistem_jasa;
             } else {
-                $tempo_jasa        = floor($jangka / $sistem_jasa);
+                $tempo_jasa        = $jangka / $sistem_jasa;
+                if ($jangka % 2 == 0) {
+                    $tempo_jasa = floor($tempo_jasa);
+                } else {
+                    $tempo_jasa = ceil($tempo_jasa);
+                }
             }
 
             $ra = [];
