@@ -199,11 +199,11 @@ class GenerateController extends Controller
             $pros_jasa = $pinkel->pros_jasa;
 
             $index = 1;
-            $jumlah_angsuran = $jangka + 1;
+            $jumlah_angsuran = $jangka;
             if ($kec->jdwl_angsuran == '1') {
                 $index = 0;
-                $jumlah_angsuran = $jangka;
-                $tgl_cair = date('Y-m-d', strtotime('0 month', strtotime($tgl_cair)));
+                $jumlah_angsuran = $jangka - 1;
+                $tgl_cair = date('Y-m-d', strtotime(' 0 month', strtotime($tgl_cair)));
             }
 
             $simpan_tgl = $tgl_cair;
@@ -246,11 +246,11 @@ class GenerateController extends Controller
                 $tempo_pokok        = ($jangka) - 12 / $sistem_pokok;
             } else {
                 $tempo_pokok        = $jangka / $sistem_pokok;
-                if ($jangka % 2 == 0) {
-                    $tempo_pokok = floor($tempo_pokok);
-                } else {
-                    $tempo_pokok = ceil($tempo_pokok);
-                }
+                $tempo_pokok = floor($tempo_pokok);
+                // if ($jangka % 2 == 0) {
+                // } else {
+                //     $tempo_pokok = ceil($tempo_pokok);
+                // }
             }
 
             if ($sa_jasa == 11) {
@@ -263,19 +263,20 @@ class GenerateController extends Controller
                 $tempo_jasa        = ($jangka) - 12 / $sistem_jasa;
             } else {
                 $tempo_jasa        = $jangka / $sistem_jasa;
-                if ($jangka % 2 == 0) {
-                    $tempo_jasa = floor($tempo_jasa);
-                } else {
-                    $tempo_jasa = ceil($tempo_jasa);
-                }
+                $tempo_jasa = floor($tempo_jasa);
+                // if ($jangka % 2 == 0) {
+                // } else {
+                //     $tempo_jasa = ceil($tempo_jasa);
+                // }
             }
 
             $ra = [];
             $alokasi_pokok = $alokasi;
-            for ($j = $index; $j < $jumlah_angsuran; $j++) {
+            $sum_angsuran_jasa = 0;
+            for ($j = $index; $j <= $jumlah_angsuran; $j++) {
                 $sisa = $j % $sistem_jasa;
                 $ke = $j / $sistem_jasa;
-                $alokasi_jasa = $alokasi_pokok * ($pros_jasa / 100);
+                $alokasi_jasa = Keuangan::pembulatan($alokasi_pokok * ($pros_jasa / 100));
                 $wajib_jasa = $alokasi_jasa / $tempo_jasa;
 
                 if ($kec->pembulatan != '5000') {
@@ -284,19 +285,20 @@ class GenerateController extends Controller
 
                 $sum_jasa = $wajib_jasa * ($tempo_jasa - 1);
 
-                if ($sisa == 0 and $ke != $tempo_jasa) {
+                if ($sisa == 0 and $ke != $tempo_jasa and ($sum_angsuran_jasa + $wajib_jasa) < $alokasi_jasa) {
                     $angsuran_jasa = $wajib_jasa;
-                } elseif ($sisa == 0 and $ke == $tempo_jasa) {
-                    $angsuran_jasa = $alokasi_jasa - $sum_jasa;
+                } elseif ($sisa == 0 and ($ke == $tempo_jasa || ($sum_angsuran_jasa + $wajib_jasa) >= $alokasi_jasa)) {
+                    $angsuran_jasa = $alokasi_jasa - $sum_angsuran_jasa;
                 } else {
                     $angsuran_jasa = 0;
                 }
 
+                $sum_angsuran_jasa += $angsuran_jasa;
                 $ra[$j]['jasa'] = $angsuran_jasa;
             }
 
             $sum_angsuran_pokok = 0;
-            for ($i = $index; $i < $jumlah_angsuran; $i++) {
+            for ($i = $index; $i <= $jumlah_angsuran; $i++) {
                 $sisa = $i % $sistem_pokok;
                 $ke = $i / $sistem_pokok;
 
@@ -306,7 +308,7 @@ class GenerateController extends Controller
                 if ($sisa == 0 and $ke != $tempo_pokok and ($sum_angsuran_pokok + $wajib_pokok) < $alokasi) {
                     $angsuran_pokok = $wajib_pokok;
                 } elseif ($sisa == 0 and ($ke == $tempo_pokok || ($sum_angsuran_pokok + $wajib_pokok) >= $alokasi)) {
-                    $angsuran_pokok = $alokasi - $sum_pokok;
+                    $angsuran_pokok = $alokasi - $sum_angsuran_pokok;
                 } else {
                     $angsuran_pokok = 0;
                 }
@@ -316,7 +318,7 @@ class GenerateController extends Controller
             }
 
             if ($jenis_jasa != '1') {
-                for ($j = $index; $j < $jumlah_angsuran; $j++) {
+                for ($j = $index; $j <= $jumlah_angsuran; $j++) {
                     $sisa = $j % $sistem_jasa;
                     $ke = $j / $sistem_jasa;
 
@@ -363,7 +365,7 @@ class GenerateController extends Controller
                 $rencana[] = $data_rencana[strtotime($tgl_cair)];
             }
 
-            for ($x = $index; $x < $jumlah_angsuran; $x++) {
+            for ($x = $index; $x <= $jumlah_angsuran; $x++) {
                 $bulan  = substr($tgl_cair, 5, 2);
                 $tahun  = substr($tgl_cair, 0, 4);
                 if ($sa_pokok == 12 || $sa_pokok == 25) {
