@@ -28,13 +28,9 @@ class AuthController extends Controller
         $keuangan = new Keuangan;
         $host = request()->getHost();
 
-        if ($host === 'localhost' || Str::endsWith($host, '.test')) {
-            $kec = Kecamatan::find($this->lokasi);
-        } else {
-            $kec = Kecamatan::where('web_kec', $host)
-                ->orWhere('web_alternatif', $host)
-                ->first();
-        }
+        $kec = Kecamatan::where('web_kec', $host)
+            ->orWhere('web_alternatif', $host)
+            ->first();
 
         if (!$kec) {
             $kab = Kabupaten::where('web_kab', $host)
@@ -74,14 +70,10 @@ class AuthController extends Controller
             ]);
         }
 
-        if ($host === 'localhost' || Str::endsWith($host, '.test')) {
-            $kec = Kecamatan::find($this->lokasi);
-        } else {
-            $kec = Kecamatan::where('web_kec', $host)
-                ->orWhere('web_alternatif', $host)
-                ->with('kabupaten')
-                ->first();
-        }
+        $kec = Kecamatan::where('web_kec', $host)
+            ->orWhere('web_alternatif', $host)
+            ->with('kabupaten')
+            ->first();
 
         if (!$kec) {
             return redirect()->back();
