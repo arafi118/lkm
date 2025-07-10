@@ -227,8 +227,13 @@ $section = 0;
                     $jenisJaminan = $jaminan['jenis_jaminan'] ?? null;
                     $nilaiJaminan = isset($jaminan['nilai_jaminan']) ? (float) $jaminan['nilai_jaminan'] : 0;
 
-                    if($nilaiJaminan==0){
-                        $nilaiJaminan = isset($jaminan['nilai_jual_kendaraan']) ? (float) $jaminan['nilai_jual_kendaraan'] : 0;
+                    if (is_array($jaminan)) {
+                        foreach ($jaminan as $key => $value) {
+                            if (strpos($key, 'nilai_jual_') === 0 && is_numeric($value)) {
+                                $nilaiJaminan = (float) $value;
+                                break; // atau hilangkan kalau mau cari yang terakhir/terbesar
+                            }
+                        }
                     }
                     
                     $jenisJaminanMap = [
