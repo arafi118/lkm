@@ -227,6 +227,10 @@ $section = 0;
                     $jenisJaminan = $jaminan['jenis_jaminan'] ?? null;
                     $nilaiJaminan = isset($jaminan['nilai_jaminan']) ? (float) $jaminan['nilai_jaminan'] : 0;
 
+                    if($nilaiJaminan==0){
+                        $nilaiJaminan = isset($jaminan['nilai_jual_kendaraan']) ? (float) $jaminan['nilai_jual_kendaraan'] : 0;
+                    }
+                    
                     $jenisJaminanMap = [
                         '1' => 'Surat Tanah',
                         '2' => 'BPKB',
