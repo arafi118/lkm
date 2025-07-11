@@ -32,6 +32,70 @@
     </table>
 
     <ol style="list-style: upper-alpha;">
+    
+    @if(in_array(session('lokasi'), [1, 351, 352, 353, 354]))
+    
+        <li>
+            <div style="text-transform: uppercase;">Gambaran Umum</div>
+            <div style="text-align: justify">
+                Lembaga ({{ $kec->nama_lembaga_sort }}) adalah lembaga ekonomi beranggotakan masyarakat desa yang dibentuk untuk meningkatkan kesejahteraan melalui prinsip gotong royong, kekeluargaan, dan partisipasi bersama.
+            </div> <br>
+            <div style="text-align: justify">
+                Regulasi atau Dasar Hukum  {{ $kec->nama_lembaga_sort }} adalah sebagai berikut : 
+            </div>
+            <ol>
+                <li>
+                    Undang-Undang Nomor 25 Tahun 1992 tentang Perkoperasian
+                </li>
+                <li>
+                    Peraturan Pemerintah Nomor 7 Tahun 2021 tentang Kemudahan, Pelindungan dan Pemberdayaan Koperasi dan Usaha Mikro, Kecil dan Menengah
+                </li>
+            </ol>
+            <p style="text-align: justify">
+                Selanjutnya {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
+                {{ $kec->nama_kec }}
+                telah resmi mendaftar sebagai lembaga keuangan yang selanjutnya mendapat legalitas dari Kementerian Hukum
+                dan HAM
+                Nomor: {{ $kec->nomor_bh }}. Adapun susunan pengurusnya adalah sebagai berikut :
+
+            <table style="margin-top: -10px; margin-left: 15px;">
+                <tr>
+                    <td style="padding: 0px; 4px;" width="100">{{ $kec->nama_bp_long }}</td>
+                    <td style="padding: 0px; 4px;">:</td>
+                    <td style="padding: 0px; 4px;">
+                        {{ $pengawas ? $pengawas->namadepan . ' ' . $pengawas->namabelakang : '......................................' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0px; 4px;">{{ $kec->sebutan_level_1 }}</td>
+                    <td style="padding: 0px; 4px;">:</td>
+                    <td style="padding: 0px; 4px;">
+                        {{ $dir ? $dir->namadepan . ' ' . $dir->namabelakang : '......................................' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0px; 4px;">{{ $kec->sebutan_level_2 }}</td>
+                    <td style="padding: 0px; 4px;">:</td>
+                    <td style="padding: 0px; 4px;">
+                        {{ $sekr ? $sekr->namadepan . ' ' . $sekr->namabelakang : '......................................' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0px; 4px;">{{ $kec->sebutan_level_3 }}</td>
+                    <td style="padding: 0px; 4px;">:</td>
+                    <td style="padding: 0px; 4px;">
+                        {{ $bend ? $bend->namadepan . ' ' . $bend->namabelakang : '......................................' }}
+                    </td>
+                </tr>
+                {{-- <tr>
+                    <td style="padding: 0px; 4px;">Unit Usaha</td>
+                    <td style="padding: 0px; 4px;">:</td>
+                    <td style="padding: 0px; 4px;">.................................</td>
+                </tr> --}}
+            </table>
+            </p>
+        </li>
+    @else
         <li>
             <div style="text-transform: uppercase;">Gambaran Umum</div>
             <div style="text-align: justify">
@@ -124,6 +188,7 @@
             </table>
             </p>
         </li>
+    @endif
         <li style="margin-top: 12px;">
             <div style="text-transform: uppercase;">
                 Ikhtisar Kebijakan Akutansi
