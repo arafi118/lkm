@@ -33,7 +33,7 @@
 
     <ol style="list-style: upper-alpha;">
     
-    @if(in_array(session('lokasi'), [1, 351, 352, 353, 354]))
+    @if(in_array(session('lokasi'), [2, 351, 352, 353, 354]))
     
         <li>
             <div style="text-transform: uppercase;">Gambaran Umum</div>
