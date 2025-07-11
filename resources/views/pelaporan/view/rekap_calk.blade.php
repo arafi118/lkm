@@ -47,7 +47,46 @@
                     Undang-Undang Nomor 25 Tahun 1992 tentang Perkoperasian
                 </li>
                 <li>
+                    Peraturan Pemerintah Nomor 4 Tahun 1994 tentang Persyaratan dan Tata cara Pengesahan Akta Pendirian dan Perubahan Anggaran Dasar Koperasi. 
+                </li>
+                <li>
+                    Peraturan Pemerintah Nomor 17 Tahun 1994 tentang Pembubaran Koperasi Oleh Pemerintah.
+                </li>
+                <li>
+                    Peraturan Menteri Koperasi dan UKM Nomor 13 Tahun 2023. 
+                </li>
+                <li>
+                    Peraturan Menteri Koperasi dan UKM Nomor 8 Tahun 2023.
+                </li>
+                <li>
                     Peraturan Pemerintah Nomor 7 Tahun 2021 tentang Kemudahan, Pelindungan dan Pemberdayaan Koperasi dan Usaha Mikro, Kecil dan Menengah
+                </li>
+                
+                <li>
+                    Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah (Permenkop UKM) Nomor 72 Tahun 2017
+                    <ol style="list-style: lower-alpha">
+                        <li>
+                            Permenkop 9 Tahun 2018 adalah Peraturan Menteri Koperasi dan UKM Nomor 9 Tahun 2018
+                        </li>
+                        <li>
+                            Permenkop No. 15 Tahun 2015 adalah Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah tentang Usaha Simpan Pinjam oleh Koperasi.
+                        </li>
+                        <li>
+                            Permenkop No 19 Tahun 2015 tentang Rapat Anggota Tahunan
+                        </li>
+                        <li>
+                            Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah Nomor 9 Tahun 2020 tentang Pengawasan Koperasi
+                        </li>
+                        <li>
+                            Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah Nomor 8 Tahun 2023 (Permenkop 8/2023) mengatur tentang usaha simpan pinjam oleh koperasi.
+                        </li>
+                        <li>
+                            Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah Nomor 2 Tahun 2024 tentang Kebijakan Akuntansi Koperasi
+                        </li>
+                        <li>
+                            Permenkop No. 1 Tahun 2025 tentang "Penyaluran Pinjaman atau Pembiayaan Dana Bergulir kepada Koperasi Percontohan (Mock Up) Koperasi Desa/Kelurahan Merah Putih". 
+                        </li>
+                    </ol>
                 </li>
             </ol>
             <p style="text-align: justify">
