@@ -180,6 +180,12 @@
             <li>Surat Kesanggupan Penyerahan Jaminan;</li>
             <li>Surat Pernyataan Piutang;</li>
             <li>Tabel Rencana Angsuran;</li>
+
+                @if(session('lokasi') == 318)
+            <li>Surat Keterangan Usaha (SKU)/ NIB OSS;</li>
+            <li>Foto Tempat Usaha Tampak Depan, Samping Kanan dan Kiri;</li>
+                @endif
+
             <!-- <li>Surat Keterangan Gaji/Surat Keterangan Usaha.</li> -->
         </ol>
         <div>Demikian permohonan kami, atas perhatiannya kami ucapkan terima kasih.</div>
