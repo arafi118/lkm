@@ -196,6 +196,7 @@
             e.preventDefault()
 
             var tahun = $('select#tahun').val()
+            var bulan = $('select#bulan').val()
             loading = Swal.fire({
                 title: "Mohon Menunggu..",
                 html: "Menyimpan Saldo Januari sampai Desember Th. " + tahun,
@@ -206,7 +207,7 @@
                 }
             })
 
-            childWindow = window.open('/rekap/simpan_saldo?bulan=00&tahun=' + tahun, '_blank');
+            childWindow = window.open('/simpan_saldo?bulan=' + bulan + '&tahun=' + tahun, '_blank');
         })
 
         window.addEventListener('message', function(event) {

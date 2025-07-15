@@ -1,17 +1,26 @@
 @php
-    $sum_ekuitas = 0;
-    $sum_liabilitas = 0;
+    use App\Utils\Keuangan;
+    $keuangan = new Keuangan();
 @endphp
 
 @extends('pelaporan.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <style>
+        ol,
+        ul {
+            margin-left: unset;
+        }
+    </style>
+
+    <table border="0" width="100%" cellspacing="0" cellpadding="0">
         <tr>
             <td colspan="3" align="center">
                 <div style="font-size: 18px;">
-                    <b>INFORMASI LAPORAN KEUANGAN
-</b>
+                    <b>CATATAN ATAS LAPORAN KEUANGAN</b>
+                </div>
+                <div style="font-size: 18px; text-transform: uppercase;">
+                    <b>KOPERASI ARTHAMARI</b>
                 </div>
                 <div style="font-size: 16px;">
                     <b>{{ strtoupper($sub_judul) }}</b>
@@ -19,211 +28,392 @@
             </td>
         </tr>
         <tr>
-            <td colspan="3" height="3"></td>
+            <td colspan="3" height="5"></td>
         </tr>
-        <tr style="background: #000; color: #fff;">
-            <td width="10%">Kode</td>
-            <td width="70%">Nama Akun</td>
-            <td align="right" width="20%">Saldo</td>
-        </tr>
-        <tr>
-            <td colspan="3" height="1"></td>
-        </tr>
+    </table>
 
-        @foreach ($akun1 as $lev1)
-            @php
-                $sum_akun1 = 0;
-            @endphp
-            <tr style="background: rgb(74, 74, 74); color: #fff;">
-                <td height="20" colspan="3" align="center">
-                    <b>{{ $lev1->kode_akun }}. {{ $lev1->nama_akun }}</b>
-                </td>
-            </tr>
-            
-            @foreach ($lev1->akun2 as $lev2)
-                <tr style="background: rgb(167, 167, 167); font-weight: bold;">
-                    <td>{{ $lev2->kode_akun }}.</td>
-                    <td colspan="2">{{ $lev2->nama_akun }}</td>
-                </tr>
+    <ol style="list-style: upper-alpha;">
+    
+        <li>
+            <div style="text-transform: uppercase;">Gambaran Umum</div>
+            <div style="text-align: justify">
+                Lembaga Koperasi Arthamari adalah lembaga ekonomi beranggotakan masyarakat desa yang dibentuk untuk meningkatkan kesejahteraan melalui prinsip gotong royong, kekeluargaan, dan partisipasi bersama.
+            </div> <br>
+            <div style="text-align: justify">
+                Regulasi atau Dasar Hukum  {{ $kec->nama_lembaga_sort }} adalah sebagai berikut : 
+            </div>
+            <ol>
+                <li>
+                    Undang-Undang Nomor 25 Tahun 1992 tentang Perkoperasian
+                </li>
+                <li>
+                    Peraturan Pemerintah Nomor 4 Tahun 1994 tentang Persyaratan dan Tata cara Pengesahan Akta Pendirian dan Perubahan Anggaran Dasar Koperasi. 
+                </li>
+                <li>
+                    Peraturan Pemerintah Nomor 17 Tahun 1994 tentang Pembubaran Koperasi Oleh Pemerintah.
+                </li>
+                <li>
+                    Peraturan Menteri Koperasi dan UKM Nomor 13 Tahun 2023. 
+                </li>
+                <li>
+                    Peraturan Menteri Koperasi dan UKM Nomor 8 Tahun 2023.
+                </li>
+                <li>
+                    Peraturan Pemerintah Nomor 7 Tahun 2021 tentang Kemudahan, Pelindungan dan Pemberdayaan Koperasi dan Usaha Mikro, Kecil dan Menengah
+                </li>
                 
-                @php
-                    $akun3 = DB::table('akun_level_3')->where('parent_id', $lev2->id)->get();
-                @endphp
+                <li>
+                    Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah (Permenkop UKM) Nomor 72 Tahun 2017
+                    <ol style="list-style: lower-alpha">
+                        <li>
+                            Permenkop 9 Tahun 2018 adalah Peraturan Menteri Koperasi dan UKM Nomor 9 Tahun 2018
+                        </li>
+                        <li>
+                            Permenkop No. 15 Tahun 2015 adalah Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah tentang Usaha Simpan Pinjam oleh Koperasi.
+                        </li>
+                        <li>
+                            Permenkop No 19 Tahun 2015 tentang Rapat Anggota Tahunan
+                        </li>
+                        <li>
+                            Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah Nomor 9 Tahun 2020 tentang Pengawasan Koperasi
+                        </li>
+                        <li>
+                            Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah Nomor 8 Tahun 2023 (Permenkop 8/2023) mengatur tentang usaha simpan pinjam oleh koperasi.
+                        </li>
+                        <li>
+                            Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah Nomor 2 Tahun 2024 tentang Kebijakan Akuntansi Koperasi
+                        </li>
+                        <li>
+                            Permenkop No. 1 Tahun 2025 tentang "Penyaluran Pinjaman atau Pembiayaan Dana Bergulir kepada Koperasi Percontohan (Mock Up) Koperasi Desa/Kelurahan Merah Putih". 
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+            <p style="text-align: justify">
+                Selanjutnya {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
+                {{ $kec->nama_kec }}
+                telah resmi mendaftar sebagai lembaga keuangan yang selanjutnya mendapat legalitas dari Kementerian Hukum
+                dan HAM
+                Nomor: {{ $kec->nomor_bh }}. Adapun susunan pengurusnya adalah sebagai berikut :
 
-                @php
-                    $warna1 = 'rgba(255, 255, 255)';
-                    $warna2 = 'rgb(230, 230, 230)';
-                @endphp
+            <table style="margin-top: -10px; margin-left: 15px;">
+                <tr>
+                    <td style="padding: 0px; 4px;" width="100">{{ $kec->nama_bp_long }}</td>
+                    <td style="padding: 0px; 4px;">:</td>
+                    <td style="padding: 0px; 4px;">
+                        {{ $pengawas ? $pengawas->namadepan . ' ' . $pengawas->namabelakang : '......................................' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0px; 4px;">{{ $kec->sebutan_level_1 }}</td>
+                    <td style="padding: 0px; 4px;">:</td>
+                    <td style="padding: 0px; 4px;">
+                        {{ $dir ? $dir->namadepan . ' ' . $dir->namabelakang : '......................................' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0px; 4px;">{{ $kec->sebutan_level_2 }}</td>
+                    <td style="padding: 0px; 4px;">:</td>
+                    <td style="padding: 0px; 4px;">
+                        {{ $sekr ? $sekr->namadepan . ' ' . $sekr->namabelakang : '......................................' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0px; 4px;">{{ $kec->sebutan_level_3 }}</td>
+                    <td style="padding: 0px; 4px;">:</td>
+                    <td style="padding: 0px; 4px;">
+                        {{ $bend ? $bend->namadepan . ' ' . $bend->namabelakang : '......................................' }}
+                    </td>
+                </tr>
+                {{-- <tr>
+                    <td style="padding: 0px; 4px;">Unit Usaha</td>
+                    <td style="padding: 0px; 4px;">:</td>
+                    <td style="padding: 0px; 4px;">.................................</td>
+                </tr> --}}
+            </table>
+            </p>
+        </li>
+        <li style="margin-top: 12px;">
+            <div style="text-transform: uppercase;">
+                Ikhtisar Kebijakan Akutansi
+            </div>
+            <ol>
+                <li>
+                    Pernyataan Kepatuhan
+                    <ol style="list-style: lower-alpha;">
+                        <li>
+                            Laporan keuangan disusun menggunakan Standar Akuntansi Keuangan Perusahaan Jasa Keuangan Mikro,
+                            sesuai Permenkop No. 02 Tahun 2024.
+                        </li>
+                        <li>Dasar Penyusunan laporan keuangan adalah SOP penatausahaan dan SOP laporan Keuangan.</li>
+                        <li>
+                            Dasar penyusunan laporan keuangan adalah biaya historis dan menggunakan asumsi dasar kas basis.
+                            Mata uang penyajian yang digunakan untuk menyusun laporan keuangan ini adalah Rupiah.
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    Piutang Usaha
+                    <div>
+                        Piutang usaha disajikan sebesar jumlah alokasi pencairan piutang ditambah nilai resceduling setelah
+                        dikurangi komulatif angsuran pada setiap pinjaman dan nilai penghapusan pinjaman yang diputuskan
+                        dalam Rapat Direksi dan/atau Keputusan Direktur.
+                    </div>
+                </li>
+                <li>
+                    Aset Tetap dan Inventaris dan Aset tak berwujud
+                    <ol style="list-style: lower-alpha">
+                        <li>
+                            Aset tetap dan Inventaris beserta Aset tak berwujud dicatat sebesar biaya perolehannya pada saat
+                            aset tersebut secara hukum mulai dimiliki oleh Koperasi Arthamari.
+                        </li>
+                        <li>
+                            Aset tetap beserta Inventaris disusutkan menggunakan metode garis lurus tanpa nilai residu.
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    Pengakuan Pendapatan dan Beban
+                    <ol style="list-style: lower-alpha;">
+                        <li>
+                            Jasa piutang masyarakat yang sudah dilakukan pembayaran
+                            diakui sebagai pendapatan dan diterbitkan kuitansi pembayaran,
+                            sedangkan jasa yang seharusnya sudah memasuki kewajiban bayar/target bayar
+                            akan tetapi tidak dipenuhi oleh nasabah (menunggak) tetap diakui sebagai pendapatan
+                            meskipun tidak diterbitkan kuitansi, sehinga sekaligus dicatatkan sebagai
+                            piutang jasa. Adapun berkaitan dengan penerimaan denda atas keterlambatan
+                            pembayaran/pinalti diakui sebagai pendapatan pada saat diterbitkan kuitansi pembayaran.
+                        </li>
+                        <li>
+                            Adapun kewajiban bayar atas kebutuhan operasional, pemasaran maupun non operasional pada suatu
+                            periode operasi tertentu sebagai akibat telah menikmati manfaat/menerima fasilitas, maka hal
+                            tersebut sudah wajib diakui sebagai beban meskipun belum diterbitkan kuitansi pembayaran.
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    Pajak Penghasilan
+                    <div>
+                        Pajak Penghasilan mengikuti ketentuan perpajakan yang berlaku di Indonesia.
+                    </div>
+                </li>
+            </ol>
+        </li>
 
-                @foreach ($akun3 as $lev3)
-                    @php
-                        $lokasi_ids = array_map('trim', explode(',', session('rekapan')));
-                        $tahun = 2025;
-                        $bulan = ltrim($bulan, '0');
-
-                        $total_saldo = 0;
-                        $per_lokasi_saldo = [];
-                    @endphp
-
-                    @foreach ($lokasi_ids as $lokasi_id)
-                        @php
-                            $kecamatan = DB::table('kecamatan')->where('id', $lokasi_id)->first();
-
-                            $nama_tabel_rekening = 'rekening_' . $lokasi_id;
-                            $nama_tabel_saldo = 'saldo_' . $lokasi_id;
-
-                            // Ambil semua rekening child di bawah akun3 ini
-                            $rekening = DB::table($nama_tabel_rekening)
-                                ->where('parent_id', $lev3->id)
-                                ->get();
-
-                            if ($rekening->isEmpty()) continue;
-
-                            // Cek apakah ada rekening kode_akun == 3.2.02.01
-                            $ada_akun_labarugi = $rekening->contains(function ($rek) {
-                                return $rek->kode_akun === '3.2.02.01';
-                            });
-
-                            if ($ada_akun_labarugi) {
-                                // Hitung laba rugi PERSIS seperti versi lama
-                                $rekening_surplus = DB::table($nama_tabel_rekening)
-                                    ->where('lev1', '>=', 4)
-                                    ->get();
-
-                                if ($rekening_surplus->isEmpty()) continue;
-
-                                $pendapatan = 0;
-                                $biaya = 0;
-
-                                foreach ($rekening_surplus as $sp) {
-                                    $saldo_ringkas = DB::table($nama_tabel_saldo)
-                                        ->where('kode_akun', $sp->kode_akun)
-                                        ->where('tahun', $tahun)
-                                        ->whereIn('bulan', [0, $bulan])
-                                        ->selectRaw('
-                                            SUM(CASE WHEN bulan = 0 THEN debit ELSE 0 END) as awal_debit,
-                                            SUM(CASE WHEN bulan = 0 THEN kredit ELSE 0 END) as awal_kredit,
-                                            SUM(CASE WHEN bulan = ? THEN debit ELSE 0 END) as saldo_debit,
-                                            SUM(CASE WHEN bulan = ? THEN kredit ELSE 0 END) as saldo_kredit
-                                        ', [$bulan, $bulan])
-                                        ->first();
-
-                                    $awal_debit = $saldo_ringkas->awal_debit ?? 0;
-                                    $awal_kredit = $saldo_ringkas->awal_kredit ?? 0;
-                                    $saldo_debit = $saldo_ringkas->saldo_debit ?? 0;
-                                    $saldo_kredit = $saldo_ringkas->saldo_kredit ?? 0;
-
-                                    if ($sp->lev1 == 5) {
-                                        $saldo_awal = $awal_debit - $awal_kredit;
-                                        $biaya += $saldo_awal + ($saldo_debit - $saldo_kredit);
-                                    } else {
-                                        $saldo_awal = $awal_kredit - $awal_debit;
-                                        $pendapatan += $saldo_awal + ($saldo_kredit - $saldo_debit);
-                                    }
-                                }
-
-                                $saldo = $pendapatan - $biaya;
-                            } else {
-                                // Hitung normal
-                                $kode_rekening = $rekening->pluck('kode_akun');
-
-                                $saldo_ringkas = DB::table($nama_tabel_saldo)
-                                    ->whereIn('kode_akun', $kode_rekening)
-                                    ->where('tahun', $tahun)
-                                    ->whereIn('bulan', [0, $bulan])
-                                    ->selectRaw('
-                                        SUM(CASE WHEN bulan = 0 THEN debit ELSE 0 END) as awal_debit,
-                                        SUM(CASE WHEN bulan = 0 THEN kredit ELSE 0 END) as awal_kredit,
-                                        SUM(CASE WHEN bulan = ? THEN debit ELSE 0 END) as saldo_debit,
-                                        SUM(CASE WHEN bulan = ? THEN kredit ELSE 0 END) as saldo_kredit
-                                    ', [$bulan, $bulan])
-                                    ->first();
-
-                                $awal_debit = $saldo_ringkas->awal_debit ?? 0;
-                                $awal_kredit = $saldo_ringkas->awal_kredit ?? 0;
-                                $saldo_debit = $saldo_ringkas->saldo_debit ?? 0;
-                                $saldo_kredit = $saldo_ringkas->saldo_kredit ?? 0;
-
-                                if ($lev3->lev1 == 1 || $lev3->lev1 == '5') {
-                                    $saldo_awal = $awal_debit - $awal_kredit;
-                                    $saldo = $saldo_awal + ($saldo_debit - $saldo_kredit);
-                                } else {
-                                    $saldo_awal = $awal_kredit - $awal_debit;
-                                    $saldo = $saldo_awal + ($saldo_kredit - $saldo_debit);
-                                }
-                            }
-
-                            // Simpan saldo per lokasi
-                            $per_lokasi_saldo[] = (object) [
-                                'nama_kec' => $kecamatan->nama_kec,
-                                'saldo' => $saldo,
-                            ];
-
-                            $total_saldo += $saldo;
-                            $sum_akun1 += $saldo;
-
-                            if($lev3->lev1 == 2) {
-                                $sum_liabilitas += $saldo;
-                            }
-                            if($lev3->lev1 == 3) {
-                                $sum_ekuitas += $saldo;
-                            }
-                        @endphp
-                    @endforeach
-
-                    {{-- Baris akun3 utama --}}
-                    <tr style="background: {{ $warna2 }}; font-weight: bold;">
-                        <td>{{ $lev3->kode_akun }}.</td>
-                        <td>{{ $lev3->nama_akun }}</td>
-                        @if ($total_saldo < 0)
-                            <td align="right">({{ number_format(abs($total_saldo), 2) }})</td>
-                        @else
-                            <td align="right">{{ number_format($total_saldo, 2) }}</td>
-                        @endif
+        <li style="margin-top: 12px;">
+            <div style="text-transform: uppercase;">
+                Informasi Tambahan Laporan Keuangan
+            </div>
+            <div>
+                <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                    <tr style="background: #000; color: #fff;">
+                        <td width="10%">Kode</td>
+                        <td width="45%">Nama Akun</td>
+                        <td align="center" width="15%">Saldo Tahun Lalu</td>
+                        <td align="center" width="15%">Total Saldo</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" height="1"></td>
                     </tr>
 
-                    {{-- Baris per lokasi --}}
-                    @foreach ($per_lokasi_saldo as $lokasi)
+                    @foreach ($akun1 as $lev1)
                         @php
-                            $bg = ($loop->iteration % 2 == 1) ? $warna1 : $warna2;
+                            $sum_akun1 = 0;
                         @endphp
-                        <tr style="background: {{ $bg }};">
-                            <td></td>
-                            <td>{{ $lev3->nama_akun }} di {{ $lokasi->nama_kec }}</td>
-                            @if ($lokasi->saldo < 0)
-                                <td align="right">({{ number_format(abs($lokasi->saldo), 2) }})</td>
-                            @else
-                                <td align="right">{{ number_format($lokasi->saldo, 2) }}</td>
-                            @endif
+
+                        <tr style="background: rgb(74, 74, 74); color: #fff;">
+                            <td height="20" colspan="4" align="center">
+                                <b>{{ $lev1->kode_akun }}. {{ $lev1->nama_akun }}</b>
+                            </td>
+                        </tr>
+
+                        @foreach ($lev1->akun2 as $lev2)
+                            <tr style="background: rgb(167, 167, 167); font-weight: bold;">
+                                <td>{{ $lev2->kode_akun }}.</td>
+                                <td colspan="3">{{ $lev2->nama_akun }}</td>
+                            </tr>
+
+                            @foreach ($lev2->akun3 as $lev3)
+                                @php
+                                    $sum_saldo_awal = 0;
+                                    $sum_total_saldo = 0;
+
+                                    if (!isset($rekening[$lev3->kode_akun])) {
+                                        continue;
+                                    }
+
+                                    $saldoRekening = [];
+                                @endphp
+
+                                @foreach ($rekening[$lev3->kode_akun] as $rek => $lokasi)
+                                    @php
+                                        $kode_akun = explode('||', $rek)[0];
+                                        $nama_akun = explode('||', $rek)[1];
+
+                                        $jumlah_saldo_awal = 0;
+                                        $jumlah_total_saldo = 0;
+
+                                        $daftarKecamatan = [];
+                                        foreach ($kecamatan as $kec) {
+                                            $saldoRek = isset($lokasi[$kec->id]) ? $lokasi[$kec->id] : false;
+
+                                            if ($saldoRek) {
+                                                $saldo = $keuangan->getTbSaldo($saldoRek);
+                                                $saldo_awal = $saldo['saldo_awal'];
+                                                $saldo_berjalan = $saldo['saldo_berjalan'];
+                                                if ($kode_akun == '3.2.02.01') {
+                                                    $saldo_berjalan = $laba_rugi[$kec->id];
+                                                }
+
+                                                $daftarKecamatan[$kec->id] = [
+                                                    'nama_akun' => $nama_akun . ' ' . $kec->nama_kec,
+                                                    'saldo_awal' => $saldo_awal,
+                                                    'total_saldo' => $saldo_berjalan,
+                                                ];
+
+                                                $jumlah_saldo_awal += $saldo_awal;
+                                                $jumlah_total_saldo += $saldo_berjalan;
+                                            }
+                                        }
+
+                                        $saldoRekening[] = [
+                                            'nama_akun' => $nama_akun,
+                                            'kode_akun' => $kode_akun,
+                                            'jumlah_saldo_awal' => $jumlah_saldo_awal,
+                                            'jumlah_total_saldo' => $jumlah_total_saldo,
+                                            'daftar_kecamatan' => $daftarKecamatan,
+                                        ];
+
+                                        $sum_saldo_awal += $jumlah_saldo_awal;
+                                        $sum_total_saldo += $jumlah_total_saldo;
+                                    @endphp
+                                @endforeach
+
+                                @php
+                                    if ($lev1->lev1 == '1') {
+                                        $debit += $sum_total_saldo;
+                                    } else {
+                                        $kredit += $sum_total_saldo;
+                                    }
+
+                                    $sum_akun1 += $sum_total_saldo;
+                                @endphp
+
+                                <tr style="background: rgb(230, 230, 230);">
+                                    <td>{{ $lev3->kode_akun }}.</td>
+                                    <td>{{ $lev3->nama_akun }}</td>
+                                    @if ($sum_saldo_awal < 0)
+                                        <td align="right">({{ number_format($sum_saldo_awal * -1, 2) }})</td>
+                                    @else
+                                        <td align="right">{{ number_format($sum_saldo_awal, 2) }}</td>
+                                    @endif
+
+                                    @if ($sum_total_saldo < 0)
+                                        <td align="right">({{ number_format($sum_total_saldo * -1, 2) }})</td>
+                                    @else
+                                        <td align="right">{{ number_format($sum_total_saldo, 2) }}</td>
+                                    @endif
+                                </tr>
+
+                                @foreach ($saldoRekening as $rek)
+                                    <tr style="background: rgb(240, 240, 240);">
+                                        <td>{{ $rek['kode_akun'] }}.</td>
+                                        <td>{{ $rek['nama_akun'] }}</td>
+                                        @if ($rek['jumlah_saldo_awal'] < 0)
+                                            <td align="right">
+                                                ({{ number_format($rek['jumlah_saldo_awal'] * -1, 2) }})
+                                            </td>
+                                        @else
+                                            <td align="right">{{ number_format($rek['jumlah_saldo_awal'], 2) }}</td>
+                                        @endif
+
+                                        @if ($rek['jumlah_total_saldo'] < 0)
+                                            <td align="right">
+                                                ({{ number_format($rek['jumlah_total_saldo'] * -1, 2) }})
+                                            </td>
+                                        @else
+                                            <td align="right">{{ number_format($rek['jumlah_total_saldo'], 2) }}</td>
+                                        @endif
+                                    </tr>
+
+                                    @foreach ($rek['daftar_kecamatan'] as $lokasi)
+                                        <tr>
+                                            <td></td>
+                                            <td>{{ $lokasi['nama_akun'] }}</td>
+                                            @if ($lokasi['saldo_awal'] < 0)
+                                                <td align="right">({{ number_format($lokasi['saldo_awal'] * -1, 2) }})
+                                                </td>
+                                            @else
+                                                <td align="right">{{ number_format($lokasi['saldo_awal'], 2) }}</td>
+                                            @endif
+
+                                            @if ($lokasi['total_saldo'] < 0)
+                                                <td align="right">({{ number_format($lokasi['total_saldo'] * -1, 2) }})
+                                                </td>
+                                            @else
+                                                <td align="right">{{ number_format($lokasi['total_saldo'], 2) }}</td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+                            @endforeach
+                        @endforeach
+
+                        <tr style="background: rgb(167, 167, 167); font-weight: bold;">
+                            <td height="15" colspan="3" align="left">
+                                <b>Jumlah {{ $lev1->nama_akun }}</b>
+                            </td>
+                            <td align="right">{{ number_format($sum_akun1, 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" height="1"></td>
                         </tr>
                     @endforeach
-                @endforeach
-            @endforeach
-            
-            <tr style="background: rgb(167, 167, 167); font-weight: bold;">
-                <td height="15" colspan="2" align="left">
-                    <b>Jumlah {{ $lev1->nama_akun }}</b>
-                </td>
-                <td align="right">{{ number_format($sum_akun1, 2) }}</td>
-            </tr>
-            <tr>
-                <td colspan="3" height="1"></td>
-            </tr>
-        @endforeach
 
-        <tr>
-            <td colspan="3" style="padding: 0px !important;">
-                <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                     <tr style="background: rgb(167, 167, 167); font-weight: bold;">
-                        <td height="15" width="80%" align="left">
-                            <b>Jumlah Liabilitas + Ekuitas</b>
+                        <td height="15" colspan="3" align="left">
+                            <b>Jumlah Liabilitas + Ekuitas </b>
                         </td>
-                        <td align="right" width="20%">{{ number_format($sum_liabilitas + $sum_ekuitas, 2) }}</td>
+                        <td align="right">{{ number_format($kredit, 2) }}</td>
                     </tr>
                 </table>
+            </div>
+        </li>
 
-                <div style="margin-top: 16px;"></div>
-                
+        <li style="margin-top: 12px;">
+            <div style="text-transform: uppercase;">
+                Ketentuan Pembagian SHU :
+            </div>
+            <div>
+                Pembagian laba yang diperoleh dalam satu tahun buku dialokasikan
+                untuk
+                :
+            </div>
+            <ol>
+                <li>
+                    Penambahan modal Koperasi Arthamari/ laba ditahan
+                </li>
+                <li>
+                    Dividen
+                </li>
+                <li>
+                    Alokasi lain yang diputuskan dalam rapat pertangung jawaban dan/atau Rapat Anggota Tahunan (RAT).
+                </li>
+            </ol>
+        </li>
+
+        <li style="margin-top: 12px;page-break-inside: avoid; break-inside: avoid;">
+            <div style="text-transform: uppercase;">
+                Penutup
+            </div>
+            <div style="text-align: justify;">
+                Catatan atas Laporan Keuangan (CaLK) ini merupakan bagian tidak terpisahkan dari Laporan
+                Keuangan Koperasi untuk Laporan Operasi Bulan {{ $nama_tgl }}.
+                Selanjutnya Catatan
+                atas Laporan Keuangan ini diharapkan untuk dapat berguna bagi pihak-pihak yang berkepentingan
+                (stakeholders) serta memenuhi prinsip-prinsip transparansi, akuntabilitas, pertanggungjawaban,
+                independensi, dan fairness dalam pengelolaan keuangan Arthamari.
+                <br><br><br>
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                     <tr>
                         <td width="50%" align="center">
@@ -258,7 +448,7 @@
                         </td>
                     </tr>
                 </table>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </li>
+    </ol>
 @endsection

@@ -26,26 +26,26 @@ class RekapController extends Controller
 
         $id = Session::get('id_rekap');
         $saldo_kec = [];
-                        $rekap = Rekap::where('id', $id)->first();
-                        
-                        $lokasiIds = array_filter(explode(',', $rekap->lokasi));
-                        $kdKecList = Kecamatan::whereIn('id', $lokasiIds)->pluck('kd_kec');
-                        $kecamatan = Kecamatan::whereIn('kd_kec', $kdKecList)
-                                        ->select('id', 'kd_kec as kode', 'nama_kec as nama')
-                                        ->orderBy('nama_kec', 'ASC')
-                                        ->get();
-            $total = new \stdClass();
-            $total->total_a = 0;
-            $total->anggota = 0;
-            $total->total_p = 0;
-            $total->total_v = 0;
-            $total->total_w = 0;
+        $rekap = Rekap::where('id', $id)->first();
 
-            $total->total_1 = 0;
-            $total->total_2 = 0;
-            $total->total_21 = 0;
-            $total->total_3 = 0;
-            $total->total_t = 0;
+        $lokasiIds = array_filter(explode(',', $rekap->lokasi));
+        $kdKecList = Kecamatan::whereIn('id', $lokasiIds)->pluck('kd_kec');
+        $kecamatan = Kecamatan::whereIn('kd_kec', $kdKecList)
+            ->select('id', 'kd_kec as kode', 'nama_kec as nama')
+            ->orderBy('nama_kec', 'ASC')
+            ->get();
+        $total = new \stdClass();
+        $total->total_a = 0;
+        $total->anggota = 0;
+        $total->total_p = 0;
+        $total->total_v = 0;
+        $total->total_w = 0;
+
+        $total->total_1 = 0;
+        $total->total_2 = 0;
+        $total->total_21 = 0;
+        $total->total_3 = 0;
+        $total->total_t = 0;
 
         foreach ($kecamatan as $wl) {
             $saldo_kec[$wl->kode] = [
@@ -61,7 +61,7 @@ class RekapController extends Controller
 
             if ($wl->kode) {
                 Session::put('lokasi', $wl->id);
-                
+
                 $angg       = Anggota::count();
 
                 $pinj_i   = PinjamanIndividu::where('jenis_pinjaman', 'I');
@@ -79,7 +79,7 @@ class RekapController extends Controller
 
                 $startDate = \Carbon\Carbon::now()->subMonth();
                 $simp     = Simpanan::where('status', 'A')
-                            ->with('realSimpananTerbesar')->get();
+                    ->with('realSimpananTerbesar')->get();
                 $jumlah_1 = $simp->where('jenis_simpanan', '1')->count();
                 $jumlah_2 = $simp->where('jenis_simpanan', '2')->count();
                 $jumlah_21 = $simp->filter(function ($item) use ($startDate) {
@@ -133,7 +133,7 @@ class RekapController extends Controller
         }
 
         $title = Session::get('nama_rekap') . ' Page';
-        return view('rekap.index')->with(compact('title', 'saldo_kec','total', 'keuangan'));
+        return view('rekap.index')->with(compact('title', 'saldo_kec', 'total', 'keuangan'));
     }
 
     public function tandaTangan()
@@ -174,13 +174,14 @@ class RekapController extends Controller
         $kec = Kecamatan::where('kd_kec', $kd_kec)->with('kabupaten')->first();
         $laporan = JenisLaporan::where('file', '!=', '0')->orderBy('urut', 'ASC')->get();
 
+        Session::put('lokasi', $kec->id);
         if (!$kec) {
             $kec = Wilayah::where('kode', $kd_kec)->first();
 
             $title = 'Kecamatan Belum Terdaftar';
             return view('rekap._kecamatan')->with(compact('title', 'kec'));
         }
-        
+
         $kab = $kec->kabupaten;
         $nama_kec = $kec->sebutan_kec . ' ' . $kec->nama_kec;
         if (Keuangan::startWith($kab->nama_kab, 'KOTA') || Keuangan::startWith($kab->nama_kab, 'KAB')) {
@@ -202,27 +203,68 @@ class RekapController extends Controller
             (object)[
                 'id' => 1,
                 'urut' => 1,
-                'nama_laporan' => 'Neraca',
+                'nama_laporan' => 'Neraca Detail',
                 'file' => 'rekap_neraca',
+                'awal_tahun' => 0,
+            ],
+            (object)[
+                'id' => 5,
+                'urut' => 1,
+                'nama_laporan' => 'Neraca Rekap',
+                'file' => 'rekap_neraca2',
                 'awal_tahun' => 0,
             ],
             (object)[
                 'id' => 2,
                 'urut' => 2,
-                'nama_laporan' => 'Laba Rugi',
+                'nama_laporan' => 'Laba Rugi Detail',
                 'file' => 'rekap_rb',
+                'awal_tahun' => 0,
+            ],
+            (object)[
+                'id' => 6,
+                'urut' => 2,
+                'nama_laporan' => 'Laba Rugi Rekap',
+                'file' => 'rekap_rb2',
                 'awal_tahun' => 0,
             ],
             (object)[
                 'id' => 3,
                 'urut' => 3,
-                'nama_laporan' => 'Laporan Keuangan',
+                'nama_laporan' => 'Catatan Atas Laporan Keuangan Detail',
                 'file' => 'rekap_calk',
                 'awal_tahun' => 0,
             ],
+            (object)[
+                'id' => 3,
+                'urut' => 3,
+                'nama_laporan' => 'Catatan Atas Laporan Keuangan Rekap',
+                'file' => 'rekap_calk2',
+                'awal_tahun' => 0,
+            ],
+            (object)[
+                'id' => 6,
+                'urut' => 3,
+                'nama_laporan' => 'Laporan Perubahan Modal',
+                'file' => 'rekap_modal',
+                'awal_tahun' => 0,
+            ],
+            (object)[
+                'id' => 4,
+                'urut' => 4,
+                'nama_laporan' => 'Arus Kas Detail',
+                'file' => 'rekap_arus_kas_v1',
+                'awal_tahun' => 0,
+            ],
+            (object)[
+                'id' => 5,
+                'urut' => 5,
+                'nama_laporan' => 'Arus Kas Rekap',
+                'file' => 'rekap_arus_kas_v2',
+                'awal_tahun' => 0,
+            ],
         ]);
-        
+
         return view('rekap.laporan')->with(compact('title', 'rekap', 'laporan'));
     }
-
 }

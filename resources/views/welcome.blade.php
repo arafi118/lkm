@@ -40,49 +40,44 @@
                     <div class="tab-pane fade show active" id="" role="tabpanel" aria-labelledby="">
                         <div class="card">
                             <div class="card-body" id="">
-                                <div><b>Kecamatan {{ $kec->nama_kec }} [{{ $kec->id }}],
-                                        {{ $kec->kabupaten->nama_kab }}</b></div>
-                                <form action="" method="post" target="_blank">
-                                    @csrf
+                                <div>
+                                    <b>
+                                        Kecamatan {{ $kec->nama_kec }} [{{ $kec->id }}],
+                                        {{ $kec->kabupaten->nama_kab }}
+                                    </b>
+                                </div>
 
-                                    <input type="hidden" name="" id="" value="">
-                                    <div class="table-responsive">
-                                        <table class="mb-0 table table-striped">
-                                            <thead class="bg-dark text-white">
-                                                <tr>
-                                                    <th>Nama</th>
-                                                    <th>Level</th>
-                                                    <th>Jabatan</th>
-                                                    <th>Username</th>
-                                                    <th>Password</th>
+                                <div class="table-responsive">
+                                    <table class="mb-0 table table-striped">
+                                        <thead class="bg-dark text-white">
+                                            <tr>
+                                                <th>Nama</th>
+                                                <th>Level</th>
+                                                <th>Jabatan</th>
+                                                <th>Username</th>
+                                                <th>Password</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($users as $u)
+                                                <tr class="login" data-uname="{{ $u->uname }}"
+                                                    data-pass="{{ $u->pass }}">
+                                                    <td>{{ $u->namadepan . ' ' . $u->namabelakang }}</td>
+                                                    <td>{{ $u->l->nama_level }}</td>
+                                                    <td>{{ $u->j->nama_jabatan }}</td>
+                                                    <td>{{ $u->uname }}</td>
+                                                    <td>{{ $u->pass }}</td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($users as $u)
-                                                    <tr class="login" data-uname="{{ $u->uname }}"
-                                                        data-pass="{{ $u->pass }}">
-                                                        <td><input type="text"
-                                                                value="{{ $u->namadepan . ' ' . $u->namabelakang }}"
-                                                                class="form-control"></td>
-                                                        <td><input type="text" value="{{ $u->l->nama_level }}"
-                                                                class="form-control"></td>
-                                                        <td><input type="text" value="{{ $u->j->nama_jabatan }}"
-                                                                class="form-control"></td>
-                                                        <td><input type="text" value="{{ $u->uname }}"
-                                                                class="form-control"></td>
-                                                        <td><input type="text" value="{{ $u->pass }}"
-                                                                class="form-control"></td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <br>
-                                    <div class="d-flex justify-content-end">
-                                        <a href="/" target="_blank" class="btn btn-info btn-sm"><i
-                                                class="fa fa-television"></i> {{ $kec->web_kec }}</a>
-                                    </div>
-                                </form>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br>
+                                <div class="d-flex justify-content-end">
+                                    <a href="/" target="_blank" class="btn btn-info btn-sm">
+                                        <i class="fa fa-television"></i> {{ $kec->web_kec }}
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

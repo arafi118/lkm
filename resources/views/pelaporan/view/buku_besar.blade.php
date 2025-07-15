@@ -116,10 +116,13 @@
                 if ($number % 2 == 0) {
                     $bg = 'rgba(255, 255, 255)';
                 }
-                $relasi = "";
-                    if(str_starts_with($trx->rekening_debit, '2.1.04.') || str_starts_with($trx->rekening_kredit, '2.1.04.')){
-                        $relasi = $trx->relasi;
-                    }
+                $relasi = '';
+                if (
+                    str_starts_with($trx->rekening_debit, '2.1.04.') ||
+                    str_starts_with($trx->rekening_kredit, '2.1.04.')
+                ) {
+                    $relasi = $trx->relasi;
+                }
 
             @endphp
 

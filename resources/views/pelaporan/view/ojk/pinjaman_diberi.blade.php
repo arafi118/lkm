@@ -227,6 +227,15 @@ $section = 0;
                     $jenisJaminan = $jaminan['jenis_jaminan'] ?? null;
                     $nilaiJaminan = isset($jaminan['nilai_jaminan']) ? (float) $jaminan['nilai_jaminan'] : 0;
 
+                    if (is_array($jaminan)) {
+                        foreach ($jaminan as $key => $value) {
+                            if (strpos($key, 'nilai_jual_') === 0 && is_numeric($value)) {
+                                $nilaiJaminan = (float) $value;
+                                break; // atau hilangkan kalau mau cari yang terakhir/terbesar
+                            }
+                        }
+                    }
+                    
                     $jenisJaminanMap = [
                         '1' => 'Surat Tanah',
                         '2' => 'BPKB',
@@ -237,12 +246,12 @@ $section = 0;
 
                     $Jenis_Agunan = $jenisJaminanMap[$jenisJaminan] ?? 'Tidak Diketahui';
                     $Nilai_Agunan = number_format($nilaiJaminan, 2);
-
                 @endphp
 
                 <tr align="right" height="15px" class="style9">
                     <td class="l t" align="center">{{ $nomor++ }}</td>
-                    <td class="l t" align="left">{{ $pinj_i->namadepan }} - {{ $pinj_i->id }}</td>
+                    <td class="l t" align="left"> {{ $pinj_i->nik }} {{ ucwords(strtolower($pinj_i->namadepan)) }}
+ - {{ $pinj_i->id }}</td>
                     <td class="l t" align="left">{{ strtoupper($jpp_i->deskripsi_jpp) }}</td>
                     <td class="l t" align="center">{{ $pinj_i->angsuran_pokok->nama_sistem }}</td>
                     <td class="l t" align="center">{{ Tanggal::tglIndo($pinj_i->tgl_cair) }}</td>

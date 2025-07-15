@@ -23,6 +23,7 @@ use App\Http\Controllers\PinjamanKelompokController;
 use App\Http\Controllers\SopController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\SahamController;
 use App\Http\Controllers\SimpananController;
 use App\Http\Controllers\TransaksiController;
@@ -55,7 +56,7 @@ Route::group(['prefix' => 'master', 'as' => 'master.', 'middleware' => 'master']
     Route::get('/kabupaten/laporan/sub_laporan/{laporan}/', [AdminKabupatenController::class, 'subLaporan']);
     Route::get('/kabupaten/laporan/data/{lokasi}/', [AdminKabupatenController::class, 'data']);
     Route::post('/kabupaten/laporan/preview/{kd_kab}', [AdminKabupatenController::class, 'preview']);
-    
+
     Route::post('/users/akses_tombol/{user}', [AdminUserController::class, 'AksesTombol']);
 
     Route::post('/users/hak_akses/{user}', [AdminUserController::class, 'HakAkses']);
@@ -127,7 +128,7 @@ Route::get('/', [AuthController::class, 'index'])->middleware('guest')->name('/'
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::get('/app', [AuthController::class, 'app']);
 
-// Route::get('/force/{uname}', [AuthController::class, 'force'])->middleware('guest');
+Route::get('/excel', [ExcelController::class, 'index']);
 
 Route::get('/pelaporan', [PelaporanController::class, 'index']);
 Route::get('/pelaporan/sub_laporan/{file}', [PelaporanController::class, 'subLaporan']);
@@ -141,7 +142,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 Route::get('/kosong', [DashboardController::class, 'keluar']);
 Route::get('/piutang_jasa', [DashboardController::class, 'piutang'])->middleware('auth', 'is_aktif');
 Route::get('/pelaporan/invoice/{invoice}', [PelaporanController::class, 'invoice']);
-Route::get('/simpan_saldo', [DashboardController::class, 'simpanSaldo'])->middleware('auth', 'is_aktif');
+Route::get('/simpan_saldo', [DashboardController::class, 'simpanSaldo']);
 
 Route::post('/dashboard/jatuh_tempo', [DashboardController::class, 'jatuhTempo'])->middleware('auth', 'is_aktif');
 Route::post('/dashboard/nunggak', [DashboardController::class, 'nunggak'])->middleware('auth', 'is_aktif');
@@ -164,6 +165,7 @@ Route::put('/pengaturan/asuransi/{kec}', [SopController::class, 'asuransi'])->mi
 Route::put('/pengaturan/spk/{kec}', [SopController::class, 'spk'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/logo/{kec}', [SopController::class, 'logo'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/calk/{kec}', [SopController::class, 'calk'])->middleware('auth', 'is_aktif');
+Route::put('/pengaturan/kustomisasi_calk/{kec}', [SopController::class, 'kustomisasiCalk'])->middleware('auth', 'is_aktif');
 
 Route::post('/pengaturan/whatsapp/{token}', [SopController::class, 'whatsapp'])->middleware('auth', 'is_aktif');
 

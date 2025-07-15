@@ -13,47 +13,36 @@ use App\Models\User;
 use App\Utils\Keuangan;
 use App\Utils\Tanggal;
 use Auth;
-use DB; 
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Support\Str; // Tambahan penting
 use Session;
 
 class AuthController extends Controller
 {
-    private const ID_KEC = 15;
+    protected $lokasi = 1;
 
     public function index()
     {
         $keuangan = new Keuangan;
+        $host = request()->getHost();
 
-        if ($keuangan->startWith(request()->getHost(), 'master.sidbm')) {
-            return redirect('/master');
-        }
-
-        // Handle URL lokal
-        if (request()->server('SERVER_NAME') === '127.0.0.1' || 
-            request()->server('SERVER_NAME') === 'localhost' ||
-            str_ends_with(request()->server('SERVER_NAME'), '.test')) {
-                    $kec = Kecamatan::where('id', self::ID_KEC)->with('kabupaten')->first();
-                    $pus = Rekap::where('id', 1)->first();return redirect('/rekap');
-        } else {
-            $kec = Kecamatan::where('web_kec', explode('//', request()->url(''))[1])
-                ->orWhere('web_alternatif', explode('//', request()->url(''))[1])
-                ->first();
-        }
+        $kec = Kecamatan::where('web_kec', $host)
+            ->orWhere('web_alternatif', $host)
+            ->first();
 
         if (!$kec) {
-            $kab = Kabupaten::where('web_kab', explode('//', request()->url(''))[1])
-                ->orWhere('web_kab_alternatif', explode('//', request()->url(''))[1])
+            $kab = Kabupaten::where('web_kab', $host)
+                ->orWhere('web_kab_alternatif', $host)
                 ->first();
-                if (!$kab) {
-                    $pus = Rekap::where('web_rekap', explode('//', request()->url(''))[1])
-                        ->first();
-                    if (!$pus) {
-                        abort(404);
-                    }
-                    return redirect('/rekap');
+            if (!$kab) {
+                $pus = Rekap::where('web_rekap', $host)->first();
+                if (!$pus) {
+                    abort(404);
                 }
+                return redirect('/rekap');
+            }
             return redirect('/kab');
         }
 
@@ -67,7 +56,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $url = $request->getHost();
+        $host = $request->getHost();
         $username = htmlspecialchars($request->username);
         $password = $request->password;
 
@@ -75,23 +64,19 @@ class AuthController extends Controller
             $username = 'superadmin';
             $password = 'superadmin';
         } else {
-            $validate = $this->validate($request, [
+            $this->validate($request, [
                 'username' => 'required',
                 'password' => 'required'
             ]);
         }
 
-        if (request()->server('SERVER_NAME') === '127.0.0.1' || 
-            request()->server('SERVER_NAME') === 'localhost' ||
-            str_ends_with(request()->server('SERVER_NAME'), '.test')) {
-            $kec = Kecamatan::where('id', self::ID_KEC)
-                ->with('kabupaten')
-                ->first();
-        } else {
-            $kec = Kecamatan::where('web_kec', $url)
-                ->orWhere('web_alternatif', $url)
-                ->with('kabupaten')
-                ->first();
+        $kec = Kecamatan::where('web_kec', $host)
+            ->orWhere('web_alternatif', $host)
+            ->with('kabupaten')
+            ->first();
+
+        if (!$kec) {
+            return redirect()->back();
         }
 
         $lokasi = $kec->id;
@@ -111,61 +96,54 @@ class AuthController extends Controller
         }
 
         $user = User::where([['uname', $username], ['lokasi', $lokasi]])->first();
-        if ($user) {
-            if ($password === $user->pass) {
-                if (Auth::loginUsingId($user->id)) {
-                    $hak_akses = explode(',', $user->hak_akses);
-                    $menu = Menu::where('parent_id', '0')
-                            ->whereNotIn('id', $hak_akses)
-                            ->where('aktif', 'Y')
-                            ->where(function ($query) use ($lokasi) {
-                                $query->where('lokasi', '0')
-                                      ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
-                            })
-                            ->with([
-                                'child' => function ($query) use ($hak_akses) {
-                                    $query->whereNotIn('id', $hak_akses);
-                                },
-                                'child.child'  => function ($query) use ($hak_akses) {
-                                    $query->whereNotIn('id', $hak_akses);
-                                }
-                            ])
-                            ->orderBy('sort', 'ASC')
-                            ->orderBy('id', 'ASC')
-                            ->get();
-                            
-                    $AksesTombol = explode(',', $user->akses_tombol);
-                    
-                    $MenuTombol = MenuTombol::whereNotIn('id', $AksesTombol)->pluck('akses')->toArray();
+        if ($user && $password === $user->pass) {
+            if (Auth::loginUsingId($user->id)) {
+                $hak_akses = explode(',', $user->hak_akses);
+                $menu = Menu::where('parent_id', '0')
+                    ->whereNotIn('id', $hak_akses)
+                    ->where('aktif', 'Y')
+                    ->where(function ($query) use ($lokasi) {
+                        $query->where('lokasi', '0')
+                            ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
+                    })
+                    ->with([
+                        'child' => function ($query) use ($hak_akses) {
+                            $query->whereNotIn('id', $hak_akses);
+                        },
+                        'child.child' => function ($query) use ($hak_akses) {
+                            $query->whereNotIn('id', $hak_akses);
+                        }
+                    ])
+                    ->orderBy('sort', 'ASC')
+                    ->orderBy('id', 'ASC')
+                    ->get();
 
-                    $angsuran = true;
-                    if (in_array('19', $hak_akses) || in_array('21', $hak_akses)) {
-                        $angsuran = false;
-                    }
+                $AksesTombol = explode(',', $user->akses_tombol);
+                $MenuTombol = MenuTombol::whereNotIn('id', $AksesTombol)->pluck('akses')->toArray();
 
-                    $inv = $this->generateInvoice($kec);
+                $angsuran = !in_array('19', $hak_akses) && !in_array('21', $hak_akses);
+                $inv = $this->generateInvoice($kec);
 
-                    $request->session()->regenerate();
-                    session([
-                        'nama_lembaga' => str_replace('DBM ', '', $kec->nama_lembaga_sort),
-                        'nama' => $user->namadepan . ' ' . $user->namabelakang,
-                        'foto' => $user->foto,
-                        'logo' => $kec->logo,
-                        'lokasi' => $user->lokasi,
-                        'lokasi_user' => $user->lokasi,
-                        'menu' => $menu,
-                        'tombol' => $MenuTombol,
-                        'icon' => $icon,
-                        'angsuran' => $angsuran,
-                    ]);
+                $request->session()->regenerate();
+                session([
+                    'nama_lembaga' => str_replace('DBM ', '', $kec->nama_lembaga_sort),
+                    'nama' => $user->namadepan . ' ' . $user->namabelakang,
+                    'foto' => $user->foto,
+                    'logo' => $kec->logo,
+                    'lokasi' => $user->lokasi,
+                    'lokasi_user' => $user->lokasi,
+                    'menu' => $menu,
+                    'tombol' => $MenuTombol,
+                    'icon' => $icon,
+                    'angsuran' => $angsuran,
+                ]);
 
-                    return redirect('/dashboard')->with([
-                        'pesan' => 'Selamat Datang ' . $user->namadepan . ' ' . $user->namabelakang,
-                        'invoice' => $inv['invoice'],
-                        'msg' => $inv['msg'],
-                        'hp_dir' => $inv['dir'],
-                    ]);
-                }
+                return redirect('/dashboard')->with([
+                    'pesan' => 'Selamat Datang ' . $user->namadepan . ' ' . $user->namabelakang,
+                    'invoice' => $inv['invoice'],
+                    'msg' => $inv['msg'],
+                    'hp_dir' => $inv['dir'],
+                ]);
             }
         }
 
@@ -175,28 +153,28 @@ class AuthController extends Controller
     public function force($uname)
     {
         $request = request();
+        $host = $request->getHost();
 
-        $url = $request->getHost();
-        $username = $uname;
-        $password = $uname;
-
-        if (request()->server('SERVER_NAME') === '127.0.0.1' || 
-            request()->server('SERVER_NAME') === 'localhost' ||
-            str_ends_with(request()->server('SERVER_NAME'), '.test')) {
-            $kec = Kecamatan::where('id', self::ID_KEC)
-                ->first();
+        if ($host === 'localhost' || Str::endsWith($host, '.test')) {
+            $kec = Kecamatan::find($this->lokasi);
         } else {
-            $kec = Kecamatan::where('web_kec', $url)
-                ->orWhere('web_alternatif', $url)
+            $kec = Kecamatan::where('web_kec', $host)
+                ->orWhere('web_alternatif', $host)
                 ->first();
         }
 
-        $lokasi = $kec->id;
+        if (!$kec) {
+            return redirect('/');
+        }
 
+        $lokasi = $kec->id;
         $icon = '/assets/img/icon/favicon.png';
         if ($kec->logo) {
             $icon = '/storage/logo/' . $kec->logo;
         }
+
+        $username = $uname;
+        $password = $uname;
 
         User::where([
             'uname' => $username,
@@ -206,49 +184,44 @@ class AuthController extends Controller
         ]);
 
         $user = User::where([['uname', $username], ['lokasi', $lokasi]])->first();
-        if ($user) {
-            if ($password === $user->pass) {
-                if (Auth::loginUsingId($user->id)) {
-                    $hak_akses = explode(',', $user->hak_akses);
-                    $menu = Menu::where('parent_id', '0')
-                            ->whereNotIn('id', $hak_akses)
-                            ->where('aktif', 'Y')
-                            ->where(function ($query) use ($lokasi) {
-                                $query->where('lokasi', '0')
-                                      ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
-                            })
-                            ->with([
-                                'child' => function ($query) use ($hak_akses) {
-                                    $query->whereNotIn('id', $hak_akses);
-                                },
-                                'child.child'  => function ($query) use ($hak_akses) {
-                                    $query->whereNotIn('id', $hak_akses);
-                                }
-                            ])
-                            ->orderBy('sort', 'ASC')
-                            ->orderBy('id', 'ASC')
-                            ->get();
+        if ($user && $password === $user->pass) {
+            if (Auth::loginUsingId($user->id)) {
+                $hak_akses = explode(',', $user->hak_akses);
+                $menu = Menu::where('parent_id', '0')
+                    ->whereNotIn('id', $hak_akses)
+                    ->where('aktif', 'Y')
+                    ->where(function ($query) use ($lokasi) {
+                        $query->where('lokasi', '0')
+                            ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
+                    })
+                    ->with([
+                        'child' => function ($query) use ($hak_akses) {
+                            $query->whereNotIn('id', $hak_akses);
+                        },
+                        'child.child' => function ($query) use ($hak_akses) {
+                            $query->whereNotIn('id', $hak_akses);
+                        }
+                    ])
+                    ->orderBy('sort', 'ASC')
+                    ->orderBy('id', 'ASC')
+                    ->get();
 
-                    $angsuran = true;
-                    if (in_array('19', $hak_akses) || in_array('21', $hak_akses)) {
-                        $angsuran = false;
-                    }
+                $angsuran = !in_array('19', $hak_akses) && !in_array('21', $hak_akses);
 
-                    $request->session()->regenerate();
-                    session([
-                        'nama_lembaga' => str_replace('DBM ', '', $kec->nama_lembaga_sort),
-                        'nama' => $user->namadepan . ' ' . $user->namabelakang,
-                        'foto' => $user->foto,
-                        'logo' => $kec->logo,
-                        'lokasi' => $user->lokasi,
-                        'lokasi_user' => $user->lokasi,
-                        'menu' => $menu,
-                        'icon' => $icon,
-                        'angsuran' => $angsuran
-                    ]);
+                $request->session()->regenerate();
+                session([
+                    'nama_lembaga' => str_replace('DBM ', '', $kec->nama_lembaga_sort),
+                    'nama' => $user->namadepan . ' ' . $user->namabelakang,
+                    'foto' => $user->foto,
+                    'logo' => $kec->logo,
+                    'lokasi' => $user->lokasi,
+                    'lokasi_user' => $user->lokasi,
+                    'menu' => $menu,
+                    'icon' => $icon,
+                    'angsuran' => $angsuran
+                ]);
 
-                    return redirect('/dashboard')->with('pesan', 'Selamat Datang ' . $user->namadepan . ' ' . $user->namabelakang);
-                }
+                return redirect('/dashboard')->with('pesan', 'Selamat Datang ' . $user->namadepan . ' ' . $user->namabelakang);
             }
         }
 
@@ -389,6 +362,5 @@ class AuthController extends Controller
 
             $no++;
         }
-
     }
 }
