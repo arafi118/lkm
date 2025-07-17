@@ -18,8 +18,7 @@
             <td height="10" colspan="3" class="style9"></td>
         </tr>
         <tr>
-            <td height="10" colspan="3" class="style9">Yang bertanda tangan dan/atau membubuhkan cap jempol dibawah
-                ini,</td>
+            <td height="10" colspan="3" class="style9">Yang bertanda tangan dibawah ini:</td>
         </tr>
         <tr>
             <td height="10" class="style9">Nama Lengkap </td>
@@ -37,7 +36,7 @@
             <td height="10" class="style9">&nbsp;</td>
         </tr>
         <tr>
-            <td height="10" class="style9">Tempat,Tgl Lahir </td>
+            <td height="10" class="style9">Tempat,Tanggal Lahir </td>
             <td class="style27">: {{ $pinkel->anggota->tempat_lahir }}
                 {{ Tanggal::tglLatin($pinkel->anggota->tgl_lahir) }}
             </td>
@@ -106,7 +105,7 @@
                     menandatangani kelengkapan dokumen apabila dikemudian hari diperlukan dalam proses eksekusi barang
                     jaminan dalam rangka memenuhi kewajiban pengembalian kredit saya kepada {{ $kec->nama_lembaga_sort }}.
                     <br> Demikian surat persetujuan/pernyataan sekaligus Surat kuasa khusus ini saya buat secara sadar tanpa
-                    tekanan dari pihak manapun serta untuk dapat dipergunakan dimana perlu.
+                    tekanan dari pihak manapun serta untuk dapat digunakan sebagaimana mestinya.
                 </p>
             </td>
         </tr>
@@ -122,11 +121,6 @@
     <table width="97%" border="0" align="center" cellpadding="3" cellspacing="0">
 
         <tr>
-            <td width="10%" height="36" colspan="1" class="style26">
-                <div align="center" class="style9">
-                    <p></p>
-                </div>
-            </td>
             <td class="style26">
                 <div align="center" class="style9">
                     <p>&nbsp;</p>
@@ -147,7 +141,8 @@
                 @endphp
 
                 @if (file_exists($logoPath))
-                    <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+                    <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70"
+                        alt="{{ $kec->id }}">
                 @else
                     <p>&nbsp;</p>
                     <p>&nbsp;</p>
