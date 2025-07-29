@@ -95,43 +95,7 @@
                 {{ $kec->nama_kec }}
                 telah resmi mendaftar sebagai lembaga keuangan yang selanjutnya mendapat legalitas dari Kementerian Hukum
                 dan HAM
-                Nomor: {{ $kec->nomor_bh }}. Adapun susunan pengurusnya adalah sebagai berikut :
-
-            <table style="margin-top: -10px; margin-left: 15px;">
-                <tr>
-                    <td style="padding: 0px; 4px;" width="100">{{ $kec->nama_bp_long }}</td>
-                    <td style="padding: 0px; 4px;">:</td>
-                    <td style="padding: 0px; 4px;">
-                        {{ $pengawas ? $pengawas->namadepan . ' ' . $pengawas->namabelakang : '......................................' }}
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 0px; 4px;">{{ $kec->sebutan_level_1 }}</td>
-                    <td style="padding: 0px; 4px;">:</td>
-                    <td style="padding: 0px; 4px;">
-                        {{ $dir ? $dir->namadepan . ' ' . $dir->namabelakang : '......................................' }}
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 0px; 4px;">{{ $kec->sebutan_level_2 }}</td>
-                    <td style="padding: 0px; 4px;">:</td>
-                    <td style="padding: 0px; 4px;">
-                        {{ $sekr ? $sekr->namadepan . ' ' . $sekr->namabelakang : '......................................' }}
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 0px; 4px;">{{ $kec->sebutan_level_3 }}</td>
-                    <td style="padding: 0px; 4px;">:</td>
-                    <td style="padding: 0px; 4px;">
-                        {{ $bend ? $bend->namadepan . ' ' . $bend->namabelakang : '......................................' }}
-                    </td>
-                </tr>
-                {{-- <tr>
-                    <td style="padding: 0px; 4px;">Unit Usaha</td>
-                    <td style="padding: 0px; 4px;">:</td>
-                    <td style="padding: 0px; 4px;">.................................</td>
-                </tr> --}}
-            </table>
+                Nomor: {{ $kec->nomor_bh }}.
             </p>
         </li>
     @else
