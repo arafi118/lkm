@@ -52,7 +52,8 @@
                 <div class="col-md-6">
                     <div class="position-relative mb-3">
                         <label for="nohp" class="form-label">No HP</label>
-                        <input autocomplete="off" type="text" name="nohp" id="nohp" class="form-control">
+                        <input autocomplete="off" type="text" name="nohp" id="nohp" placeholder="085"
+                            class="form-control">
                         <small class="text-danger" id="msg_nohp"></small>
                     </div>
                 </div>
