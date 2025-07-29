@@ -153,7 +153,7 @@
                         $j_tunggakan_pokok = 0;
                         $j_tunggakan_jasa = 0;
                         $section = $pinkel->kd_desa;
-                        $nama_desa = $pinkel->sebutan_desa . ' ' . $pinkel->kode_desa . ' ' . $pinkel->nama_desa;
+                        $nama_desa = $pinkel->kode_desa . ' ' . $pinkel->sebutan_desa . ' ' . $pinkel->nama_desa;
                     @endphp
                 @endif
 
