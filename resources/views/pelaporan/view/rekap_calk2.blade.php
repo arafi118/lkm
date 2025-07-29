@@ -36,59 +36,64 @@
         <li>
             <div style="text-transform: uppercase;">Gambaran Umum</div>
             <div style="text-align: justify">
-                Lembaga Keuangan Mikro (Koperasi Arthamar) adalah lembaga keuangan yang khusus didirikan untuk
-                memberikan jasa
-                pengembangan usaha dan pemberdayaan masyarakat, baik melalui pinjaman atau pembiayaan dalam usaha
-                skala mikro kepada masyarakat, pengelolaan simpanan, maupun
-                pengembangan usaha yang tidak semata-mata mencari keuntungan.
+                Lembaga Koperasi Arthamari adalah lembaga ekonomi beranggotakan masyarakat desa yang dibentuk untuk meningkatkan kesejahteraan melalui prinsip gotong royong, kekeluargaan, dan partisipasi bersama.
             </div> <br>
             <div style="text-align: justify">
-                Dalam rangka memenuhi amanat regulasi tentang pendirian dan operasional lembaga kuangan mikro (LKM) sebagai
-                berikut:
+                Regulasi atau Dasar Hukum  Lembaga Koperasi Arthamari adalah sebagai berikut : 
             </div>
             <ol>
                 <li>
-                    Undang-Undang Nomor 1 Tahun 2013 Tentang Lembaga Keuangan Mikro (Undang-Undang LKM).
+                    Undang-Undang Nomor 25 Tahun 1992 tentang Perkoperasian
                 </li>
                 <li>
-                    Peraturan Pemerintah Nomor 89 Tahun 2014 tentang Suku Bunga Pinjaman Atau Imbal Hasil Pembiayaan dan
-                    Luas Cakupan Wilayah Usaha Lembaga Keuangan Mikro.
+                    Peraturan Pemerintah Nomor 4 Tahun 1994 tentang Persyaratan dan Tata cara Pengesahan Akta Pendirian dan Perubahan Anggaran Dasar Koperasi. 
                 </li>
                 <li>
-                    Surat Edaran Otoritas Jasa Keuangan (SEOJK), SEOJK Nomor 29/SEOJK.05/2015 tentang Laporan Keuangan
-                    Lembaga Keuangan Mikro.
+                    Peraturan Pemerintah Nomor 17 Tahun 1994 tentang Pembubaran Koperasi Oleh Pemerintah.
                 </li>
                 <li>
-                    Peraturan Otoritas Jasa Keuangan (POJK):
+                    Peraturan Menteri Koperasi dan UKM Nomor 13 Tahun 2023. 
+                </li>
+                <li>
+                    Peraturan Menteri Koperasi dan UKM Nomor 8 Tahun 2023.
+                </li>
+                <li>
+                    Peraturan Pemerintah Nomor 7 Tahun 2021 tentang Kemudahan, Pelindungan dan Pemberdayaan Koperasi dan Usaha Mikro, Kecil dan Menengah
+                </li>
+                
+                <li>
+                    Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah (Permenkop UKM) Nomor 72 Tahun 2017
                     <ol style="list-style: lower-alpha">
                         <li>
-                            POJK Nomor 12/POJK.05/2014 tentang Perizinan Usaha dan Kelembagaan Lembaga Keuangan Mikro.
+                            Permenkop 9 Tahun 2018 adalah Peraturan Menteri Koperasi dan UKM Nomor 9 Tahun 2018
                         </li>
                         <li>
-                            POJK Nomor 13/POJK.05/2014 tentang Penyelenggaraan Usaha Lembaga Keuangan Mikro.
+                            Permenkop No. 15 Tahun 2015 adalah Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah tentang Usaha Simpan Pinjam oleh Koperasi.
                         </li>
                         <li>
-                            POJK Nomor 14/POJK.05/2014 tentang Pembinaan dan Pengawasan Lembaga Keuangan Mikro.
+                            Permenkop No 19 Tahun 2015 tentang Rapat Anggota Tahunan
                         </li>
                         <li>
-                            POJK Nomor 61/POJK.05/2015 tentang Perubahan atas Peraturan Otoritas Jasa Keuangan Nomor
-                            12/POJK.05/2014 tentang Perizinan Usaha dan Kelembagaan Lembaga Keuangan Mikro.
+                            Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah Nomor 9 Tahun 2020 tentang Pengawasan Koperasi
                         </li>
                         <li>
-                            POJK Nomor 62/POJK.05/2015 tentang Perubahan atas Peraturan Otoritas Jasa Keuangan Nomor
-                            13/POJK.05/2014 tentang Penyelenggaraan Usaha Lembaga Keuangan Mikro.
+                            Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah Nomor 8 Tahun 2023 (Permenkop 8/2023) mengatur tentang usaha simpan pinjam oleh koperasi.
+                        </li>
+                        <li>
+                            Peraturan Menteri Koperasi dan Usaha Kecil dan Menengah Nomor 2 Tahun 2024 tentang Kebijakan Akuntansi Koperasi
+                        </li>
+                        <li>
+                            Permenkop No. 1 Tahun 2025 tentang "Penyaluran Pinjaman atau Pembiayaan Dana Bergulir kepada Koperasi Percontohan (Mock Up) Koperasi Desa/Kelurahan Merah Putih". 
                         </li>
                     </ol>
                 </li>
             </ol>
-
             <p style="text-align: justify">
-                Selanjutnya Koperasi Arthamari telah resmi mendaftar sebagai lembaga keuangan yang selanjutnya mendapat
-                legalitas dari Kementerian Hukum dan HAM Nomor: AHU0000386.AH.01.29.TAHUN 2022 NIK : 8104060150001. Adapun
-                susunan pengurusnya adalah sebagai berikut :
+                Selanjutnya Lembaga Koperasi Arthamari
+                telah resmi mendaftar sebagai lembaga keuangan yang selanjutnya mendapat legalitas dari Kementerian Hukum
+                dan HAM.
             </p>
         </li>
-
         <li style="margin-top: 12px;">
             <div style="text-transform: uppercase;">
                 Ikhtisar Kebijakan Akutansi
