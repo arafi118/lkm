@@ -321,7 +321,7 @@ class GenerateController extends Controller
 			
 			if ($jenis_jasa == '3') {
 				// Hitung angsuran anuitas
-				$bunga_per_bulan = $pros_jasa / 100;
+				$bunga_per_bulan = $pros_jasa/$jangka/100;
 				$angsuran_total = Keuangan::pembulatan(
 					($alokasi * $bunga_per_bulan) / (1 - pow(1 + $bunga_per_bulan, -$jangka)),
 					(string) $kec->pembulatan
@@ -331,7 +331,7 @@ class GenerateController extends Controller
                     $sisa = $j % $sistem_jasa;
                     $ke = $j / $sistem_jasa;
 
-                    $alokasi_jasa = $alokasi_pokok * ($pros_jasa / 100);
+                    $alokasi_jasa = $alokasi_pokok * ($pros_jasa/$jangka/ 100);
                     $wajib_jasa = $alokasi_jasa / $tempo_jasa;
                     $wajib_jasa = Keuangan::pembulatan($wajib_jasa, (string) $kec->pembulatan);
                     $sum_jasa = $wajib_jasa * ($tempo_jasa - 1);
