@@ -345,8 +345,17 @@ class GenerateController extends Controller
                     }
 
                         $angsuran_jasa = $wajib_jasa;
-                    $ra[$j]['jasa'] = $angsuran_jasa;
-					$ra[$j]['pokok']= $angsuran_total-$angsuran_jasa;
+						
+					if ($sisa == 0 and $ke != $tempo_pokok and ($sum_angsuran_pokok + $wajib_pokok) < $alokasi) {
+						$ra[$j]['pokok']= $angsuran_total-$angsuran_jasa;
+						$ra[$j]['jasa'] = $angsuran_jasa;
+					} elseif ($sisa == 0 and ($ke == $tempo_pokok || ($sum_angsuran_pokok + $wajib_pokok) >= $alokasi)) {
+						$angsuran_pokok = $alokasi - $sum_angsuran_pokok;
+						$ra[$j]['jasa'] = $angsuran_total - $angsuran_pokok;
+					} else {
+						$angsuran_pokok = 0;
+					}
+					
                         $alokasi_pokok -= $ra[$j]['pokok'];
                 }
 			}
