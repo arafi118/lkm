@@ -200,7 +200,7 @@
                     sebesar
                     <b> {{ number_format($pinkel->alokasi) }} ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah) </b>
                     ditambah
-                    jasa <b> {{ $pinkel->pros_jasa / $pinkel->jangka }} % Flat </b> sebesar
+                    jasa <b> {{ number_format($pinkel->pros_jasa / $pinkel->jangka,2) }} % Flat </b> sebesar
                     <b> {{ number_format($pinkel->alokasi * ($pinkel->pros_jasa / $pinkel->jangka / 100)) }}
                         ({{ $keuangan->terbilang($pinkel->alokasi * ($pinkel->pros_jasa / $pinkel->jangka / 100)) }}
                         Rupiah)
