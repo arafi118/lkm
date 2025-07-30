@@ -327,20 +327,28 @@ class GenerateController extends Controller
 					(string) $kec->pembulatan
 				);
 
-				$sisa_pokok = $alokasi;
-				for ($j = $index; $j <= $jumlah_angsuran; $j++) {
-					$jasa = Keuangan::pembulatan($sisa_pokok * $bunga_per_bulan, (string) $kec->pembulatan);
-					$pokok = $angsuran_total - $jasa;
+                for ($j = $index; $j <= $jumlah_angsuran; $j++) {
+                    $sisa = $j % $sistem_jasa;
+                    $ke = $j / $sistem_jasa;
 
-					if ($j == $jumlah_angsuran) {
-						$pokok = $sisa_pokok; 
-						$angsuran_total = $pokok + $jasa;
-					}
+                    $alokasi_jasa = $alokasi_pokok * ($pros_jasa / 100);
+                    $wajib_jasa = $alokasi_jasa / $tempo_jasa;
+                    $wajib_jasa = Keuangan::pembulatan($wajib_jasa, (string) $kec->pembulatan);
+                    $sum_jasa = $wajib_jasa * ($tempo_jasa - 1);
 
-					$ra[$j]['pokok'] = $pokok;
-					$ra[$j]['jasa'] = $jasa;
-					$sisa_pokok -= $pokok;
-				}
+                    if ($sisa == 0 and $ke != $tempo_jasa) {
+                        $angsuran_jasa = $wajib_jasa;
+                    } elseif ($sisa == 0 and $ke == $tempo_jasa) {
+                        $angsuran_jasa = $alokasi_jasa - $sum_jasa;
+                    } else {
+                        $angsuran_jasa = 0;
+                    }
+
+                        $angsuran_jasa = $wajib_jasa;
+                    $ra[$j]['jasa'] = $angsuran_jasa;
+					$ra[$j]['pokok']= $angsuran_total-$angsuran_jasa;
+                        $alokasi_pokok -= $ra[$j]['pokok'];
+                }
 			}
 			
             if ($jenis_jasa == '2') {
