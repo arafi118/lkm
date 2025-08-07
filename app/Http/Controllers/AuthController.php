@@ -21,7 +21,7 @@ use Session;
 
 class AuthController extends Controller
 {
-    protected $lokasi = 1;
+    protected $lokasi = 433;
 
     public function index()
     {
