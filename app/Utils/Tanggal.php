@@ -58,7 +58,15 @@ class Tanggal
 
     public static function tglLatin($tanggal)
     {
+        if (empty($tanggal)) {
+            return '';
+        }
+
         $tgl = explode('-', $tanggal);
+
+        if (count($tgl) !== 3) {
+            return $tanggal;
+        }
 
         return $tgl[2] . ' ' . self::namaBulan($tanggal) . ' ' . $tgl[0];
     }
