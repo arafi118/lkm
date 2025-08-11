@@ -333,7 +333,7 @@
                 $sum_pph += $saldo_pph['sekarang'];
 
                 $saldo_pph_lokasi[] = [
-                    'nama_akun' => $rek['nama_akun'] . ' ' . $kec->nama_kec,
+                    'nama_akun' => 'Taksiran PPh (0.5%) ' . $kec->nama_kec,
                     'saldo_bulan_lalu' => $saldo_pph['bulan_lalu'],
                     'saldo' => $saldo_pph['sekarang'],
                 ];
