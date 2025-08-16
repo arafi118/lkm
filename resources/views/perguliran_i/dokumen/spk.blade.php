@@ -24,7 +24,7 @@
     <style>
         /* styles.css */
         .centered-text {
-            font-size: 10px;
+            font-size: 11px;
             text-align: center;
             text-align: justify;
         }
@@ -54,7 +54,7 @@
         bertanda
         tangan dibawah ini;
     </div>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -88,7 +88,7 @@
         {{ $kec->nama_kec }}, Selanjutnya disebut
         <b> Pihak Pertama </b> , dan
     </div>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -156,7 +156,7 @@
     </div>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 2 </b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Penyerahan Pinjaman </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Penyerahan Pinjaman </i> </h3>
         <ol class="centered-text">
             <li>
                 <b> Pihak Pertama </b> telah menyerahkan uang kepada Pihak Kedua sebagai pinjaman sebesar
@@ -179,7 +179,7 @@
     <br>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 3 </b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Sistem Pengembalian
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Sistem Pengembalian
             </i> </h3>
         <div class="centered-text">
             <ol class="centered-text">
@@ -216,7 +216,7 @@
     <div class="break"></div>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 4 </b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Agunan </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Agunan </i> </h3>
         <div class="centered-text">
             Untuk menjamin pembayaran kembali yang tertib dan sebagaimana mestinya atas segala sesuatu yang berdasarkan
             perjanjian ini masih terutang oleh <b> Pihak Kedua </b> kepada <b> Pihak Pertama </b> , ditambah biaya yang
@@ -250,7 +250,7 @@
     </div>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 5 </b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Pengalihan Kuasa Khusus atas Agunan </i>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Pengalihan Kuasa Khusus atas Agunan </i>
         </h3>
         <ol class="centered-text">
             <li> <b> Pihak Kedua </b> dengan ini memberikan kuasa kepada <b> Pihak Pertama </b> untuk mengambil dan
@@ -275,7 +275,7 @@
     </div>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 6 </b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Penyelesaian Perselisihan </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Penyelesaian Perselisihan </i> </h3>
         <ol class="centered-text">
             <li> Apabila ada hal-hal yang tidak atau belum diatur dalam perjanjian ini dan juga jika terjadi perbedaan
                 penafsiran atas seluruh atau sebagian dari perjanjian ini maka kedua belah pihak sepakat untuk
@@ -288,7 +288,7 @@
     </div>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 7 </b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Lain - Lain
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Lain - Lain
             </i> </h3>
         <div class="centered-text">
             Hal-hal yang belum atau belum cukup diatur dalam perjanjian ini akan diatur lebih lanjut dalam bentuk surat
@@ -298,7 +298,7 @@
     </div>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 8 </b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Penyelesaian
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Penyelesaian
             Perselisihan
             </i> </h3>
         <div class="centered-text">
@@ -315,17 +315,17 @@
             </tr>
         </table>
     </div>
-    {{-- <div style="text-align: center;" style="font-size: 10px;">
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;" class="p0">
+    {{-- <div style="text-align: center;" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;" class="p0">
         <tr>
             <td style="padding: 0px !important;">
-                <table class="p0" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+                <table class="p0" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                     <br>
                     <tr>
                         <td style="padding: 0px !important;">
                             <div style="text-align: center;">
                                 <b class="centered-text"> PASAL 8 </b>
-                                <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;">
+                                <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;">
                                     Penyelesaian
                                     Perselisihan </i> </h3>
                             </div>

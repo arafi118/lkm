@@ -16,7 +16,7 @@
     <style>
         /* styles.css */
         .centered-text {
-            font-size: 10px;
+            font-size: 11px;
             text-align: center;
             text-align: justify;
         }

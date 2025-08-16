@@ -26,7 +26,7 @@
     <style>
         /* styles.css */
         .centered-text {
-            font-size: 10px;
+            font-size: 11px;
             text-align: center;
             text-align: justify;
         }
@@ -43,7 +43,7 @@
                     {{ $pinkel->spk_no }}/SPK.{{ $pinkel->jpp->nama_jpp }}-{{ $pinkel->jpp->id }}/BUMDESMA/II/{{ date('Y') }}
                 </div>
 
-                <div style="font-size: 10px;">
+                <div style="font-size: 11px;">
                     Tanggal: {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->locale('id')->translatedFormat('d F Y') }}
                 </div>
             </td>
@@ -93,7 +93,7 @@
         bersama sebagai berikut :</div> <br>
     <div style="text-align: center;">
         <b class="centered-text">PASAL 1</b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px; margin-top: 0;">Ayat 1</h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px; margin-top: 0;">Ayat 1</h3>
         <div class="centered-text">
             Badan Usaha Milik Desa Bersama {{ $kec->nama_lembaga_sort }} setuju memberikan kredit kepada DEBITUR sebesar
 
@@ -105,7 +105,7 @@
         </div>
     </div>
     <div style="text-align: center;">
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 2 </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Ayat 2 </i> </h3>
         <div class="centered-text">
             DEBITUR, mengaku telah menerima uang dalam jumlah sebagaimana yang diterangkan pada ayat 1 di atas, yang
             mana telah dibayarkan sesuai dengan permohonan dan dibuktikan secara sah dengan bukti kwitansi terlampir,
@@ -113,7 +113,7 @@
         </div>
     </div>
     <div style="text-align: center;">
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 3 </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Ayat 3 </i> </h3>
         <div class="centered-text">
             DEBITUR, menyerahkan jaminan atas pinjaman tersebut pada ayat 1 kepada Badan Usaha Milik Desa Bersama TIRTA
             PESONA JAYA LKD berupa @if ($jaminan['jenis_jaminan'] == '1')
@@ -152,21 +152,21 @@
         </div>
     </div>
     <div style="text-align: center;">
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 1 </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Ayat 1 </i> </h3>
         <div class="centered-text">
             Fasilitas Kredit tersebut akan digunakan untuk modal kerja. DEBITUR bertanggung jawab mengenai kebenaran
             atas penggunaan Fasilitas Kredit tersebut.
         </div>
     </div>
     <div style="text-align: center;">
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 2 </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Ayat 2 </i> </h3>
 
         <div class="centered-text">
             Atas kredit tersebut dikenakan jasa 1 % (satu per seratus) flat per bulan.
         </div>
     </div>
     <div style="text-align: center;">
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 3 </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Ayat 3 </i> </h3>
 
         <div class="centered-text">
             Kredit akan dibayarkan kembali dengan sistem bulanan dalam jangka waktu {{ $pinkel->jangka }} bulan, dengan
@@ -178,7 +178,7 @@
         </div>
     </div>
     <div style="text-align: center;">
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 4 </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Ayat 4 </i> </h3>
 
         <div class="centered-text">
             DEBITUR mengerti dan menyadari bahwa jasa pinjaman yang dibayar akan dipergunakan untuk biaya pelayanan dan
@@ -187,7 +187,7 @@
         </div>
     </div>
     <div style="text-align: center;">
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 5 </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Ayat 5 </i> </h3>
 
         <div class="centered-text">
             Apabila DEBITUR membayar angsuran dalam jumlah dan waktu yang tidak sesuai pada jadwal angsuran (terlambat
@@ -195,7 +195,7 @@
         </div>
     </div>
     <div style="text-align: center;">
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 6 </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Ayat 6 </i> </h3>
         <div class="centered-text">
             Apabila kemudian hari DEBITUR tidak bisa menepati perjanjian ini kepada Badan Usaha Milik Desa Bersama TIRTA
             PESONA JAYA LKD maka :
@@ -213,7 +213,7 @@
     <div style="text-align: center;">
 
         <b class="centered-text"> PASAL 3 </b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px; margin-top: 0;"> Ayat
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px; margin-top: 0;"> Ayat
             1</h3>
         <div class="centered-text">
             Pihak kedua dan pemberi kuasa sadar dan mengerti bahwa mengembalikan kredit secara lancar sesuai jadwal yang
@@ -223,7 +223,7 @@
         </div>
     </div>
     <div style="text-align: center;">
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 2 </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Ayat 2 </i> </h3>
 
         <div class="centered-text">
             Apabila terjadi silang selisih berkenaan dengan hak serta kewajiban yang timbul atas perjanjian utang piutang
@@ -233,7 +233,7 @@
         </div>
     </div>
     <div style="text-align: center;">
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10px;"> Ayat 3 </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 11px;"> Ayat 3 </i> </h3>
 
         <div class="centered-text">
             DEBITUR menyatakan secara sadar dan sukarela telah menandatangani akad perjanjian kredit ini, setelah terlebih
@@ -241,7 +241,7 @@
         </div>
     </div>
     <br>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;" class="p">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;" class="p">
         <tr>
             <td>
                 {!! $ttd !!}

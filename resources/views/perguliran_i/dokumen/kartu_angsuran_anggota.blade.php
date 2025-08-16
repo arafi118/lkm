@@ -93,7 +93,7 @@
             <div class="break"></div>
         @endif
         <main style="position: relative; font-size: 12px;">
-            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                 <tr>
                     <td rowspan="7" align="center" width="400">
                         <div style="font-size: 14px; font-weight: bold;">

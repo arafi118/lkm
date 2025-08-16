@@ -20,7 +20,7 @@
     <style>
         /* styles.css */
         .centered-text {
-            font-size: 10px;
+            font-size: 11px;
             text-align: center;
             text-align: justify;
         }
@@ -52,7 +52,7 @@
         bertanda
         tangan dibawah ini;
     </div>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -86,7 +86,7 @@
         {{ $kec->nama_kec }}, Selanjutnya disebut
         <b> Pihak Pertama </b> , dan
     </div>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -336,7 +336,7 @@
             dan rohani, serta tanpa unsur paksaan dari pihak manapun.
         </div>
     </div>
-    <div style="text-align: center;" style="font-size: 10px;">
+    <div style="text-align: center;" style="font-size: 11px;">
         <br>
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;" class="p">
             <tr>
