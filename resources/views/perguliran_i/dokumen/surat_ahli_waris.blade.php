@@ -12,13 +12,13 @@
     </style>
 
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td colspan="3">&nbsp;</td>
         </tr>
         <tr class="b">
             <td colspan="3" align="center">
-                <div style="font-size: 16px;">
+                <div style="font-size: 16pt;">
                     SURAT PERNYATAAN AHLI WARIS
                 </div>
             </td>
@@ -28,7 +28,7 @@
         </tr>
     </table>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td colspan="3">
                 Yang bertanda tangan dibawah ini,
@@ -77,7 +77,7 @@
         </tr>
     </table>
 
-    <table border="0" width="90%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="90%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td align="center" width="50%">&nbsp;</td>
             <td align="center" width="50%">{{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}</td>

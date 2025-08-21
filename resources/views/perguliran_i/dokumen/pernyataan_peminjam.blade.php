@@ -5,10 +5,10 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
         <tr class="b">
             <td colspan="3" align="center">
-                <div style="font-size: 18px;">
+                <div style="font-size: 18pt;">
                     <b>SURAT PERNYATAAN</b>
                 </div>
             </td>
@@ -17,7 +17,7 @@
             <td colspan="3" height="5"></td>
         </tr>
     </table>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px; text-align: justify;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt; text-align: justify;">
         <tr>
             <td colspan="3">Yang bertanda tangan di bawah ini,</td>
         </tr>
@@ -77,7 +77,7 @@
                             @for ($i = 0; $i < 3; $i++)
                                 <li>
                                     <table border="0" width="100%" cellspacing="0" cellpadding="0"
-                                        style="font-size: 12px;">
+                                        style="font-size: 12pt;">
                                         <tr>
                                             <td height="12" width="80">Nama barang</td>
                                             <td width="10" align="center">:</td>
@@ -135,7 +135,7 @@
             </td>
         </tr>
     </table>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
         <tr>
             <td colspan="3" height="20">&nbsp;</td>
         </tr>

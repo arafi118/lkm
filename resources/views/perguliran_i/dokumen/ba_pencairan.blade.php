@@ -16,13 +16,13 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td colspan="3" align="center">
-                <div style="font-size: 18px;">
+                <div style="font-size: 18pt;">
                     <b>BERITA ACARA PENCAIRAN</b>
                 </div>
-                {{-- <div style="font-size: 16px;">
+                {{-- <div style="font-size: 16pt;">
                     <b>PINJAMAN INDIVIDU {{ $pinkel->jpp->nama_jpp }}</b>
                 </div> --}}
             </td>
@@ -43,7 +43,7 @@
         perguliran {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }} {{ $kec->nama_kec }}
         {{ $pinkel->anggota->kd_kelompok }} dengan detail identitas Nasabah dan detail pengajuan sebagai
         berikut :
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
 
 
 
@@ -185,7 +185,7 @@
     </p>
     </div>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td width="50%">&nbsp;</td>
             <td width="25%">&nbsp;</td>

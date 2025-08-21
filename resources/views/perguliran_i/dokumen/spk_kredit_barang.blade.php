@@ -20,21 +20,21 @@
     <style>
         /* styles.css */
         .centered-text {
-            font-size: 11px;
+            font-size: 11pt;
             text-align: center;
             text-align: justify;
         }
     </style>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
         <tr>
             <td colspan="3" align="center">
-                <div style="font-size: 14px;">
+                <div style="font-size: 14pt;">
                     <b> SURAT PERJANJIAN KREDIT (SPK)</b>
                 </div>
-                <div style="font-size: 12px;">
+                <div style="font-size: 12pt;">
                     <b> Perkreditan {{ $pinkel->jpp->nama_jpp }}</b>
                 </div>
-                <div style="font-size: 12px;">
+                <div style="font-size: 12pt;">
                     Nomor: {{ $pinkel->spk_no }}
                 </div>
             </td>
@@ -52,7 +52,7 @@
         bertanda
         tangan dibawah ini;
     </div>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -86,7 +86,7 @@
         {{ $kec->nama_kec }}, Selanjutnya disebut
         <b> Pihak Pertama </b> , dan
     </div>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -214,9 +214,7 @@
             </li>
         </ol>
     </div>
-    <br><br>
-    <br><br>
-    <br><br>
+    <br>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 5 </b><br>
         <b class="centered-text">PEMBATALAN</b>
@@ -336,9 +334,9 @@
             dan rohani, serta tanpa unsur paksaan dari pihak manapun.
         </div>
     </div>
-    <div style="text-align: center;" style="font-size: 11px;">
+    <div style="text-align: center;" style="font-size: 11pt;">
         <br>
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;" class="p">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;" class="p">
             <tr>
                 <td>
                     {!! $ttd !!}

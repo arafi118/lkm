@@ -20,28 +20,28 @@
     }
 
     html {
-        margin: 75.59px;
-        margin-left: 94.48px;
+        margin: 75.59pt;
+        margin-left: 94.48pt;
     }
 
     body {
         width: 100%;
         height: fit-content;
-        border: 1px solid #000;
+        border: 1pt solid #000;
         position: relative;
     }
 
     header {
         position: relative;
-        top: 60px;
+        top: 60pt;
         text-align: center;
     }
 
     footer {
         position: absolute;
-        bottom: 0px;
+        bottom: 0pt;
         width: 100%;
-        border-top: 1px solid #000;
+        border-top: 1pt solid #000;
     }
 
     .center {
@@ -62,27 +62,27 @@
 
 <body>
     <header>
-        <h1 style="margin: 0px;">DOKUMEN <br> PENCAIRAN KREDIT</h1>
+        <h1 style="margin: 0pt;">DOKUMEN <br> PENCAIRAN KREDIT</h1>
         
     </header>
 
     <main>
         <div class="center">
             <img src="../storage/app/public/logo/{{ $logo }}" width="290" alt="{{ $logo }}">
-            <div style="margin-top: 10px; font-size: 24px;">
+            <div style="margin-top: 10pt; font-size: 24pt;">
                 {{ $pinkel->anggota->namadepan }}
             </div>
-            <div style="margin-top: 10px; font-size: 24px;">
+            <div style="margin-top: 10pt; font-size: 24pt;">
                 NIK : {{ $pinkel->anggota->nik }}
             </div>
 
-            <div style="font-size: 20px;">
+            <div style="font-size: 20pt;">
                 {{ $pinkel->anggota->d->sebutan_desa->sebutan_desa }} {{ $pinkel->anggota->d->nama_desa }}
             </div> <br> <br> <br> <br> <br>
-            <div style="margin: 0px; font-size: 16px;">
+            <div style="margin: 0pt; font-size: 16pt;">
                 {{ strtoupper('Jenis Piutang : ' . $pinkel->jpp->nama_jpp) }}
             </div>
-            <div style="margin: 0px;">
+            <div style="margin: 0pt;">
                 Nomor SPK : <br>{{ $pinkel->spk_no }}
             </div>
         </div>
@@ -102,13 +102,13 @@
                     <div>
                         <b>{{ strtoupper($nama_kecamatan) }}</b>
                     </div>
-                    <div style="font-size: 11px; color: grey;">
+                    <div style="font-size: 11pt; color: grey;">
                         <i>{{ $nomor_usaha }}</i>
                     </div>
-                    <div style="font-size: 11px; color: grey;">
+                    <div style="font-size: 11pt; color: grey;">
                         <i>{{ $info }}</i>
                     </div>
-                    <div style="font-size: 11px; color: grey;">
+                    <div style="font-size: 11pt; color: grey;">
                         <i>{{ $email }}</i>
                     </div>
 

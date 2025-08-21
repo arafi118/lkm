@@ -17,7 +17,7 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
         <tr>
             <td width="50">Nomor</td>
             <td width="10" align="center">:</td>
@@ -65,7 +65,7 @@
                     Tanggal {{ Tanggal::tglLatin($pinkel->tgl_dana) }} dengan ini memberitahukan bahwa akan dilakukan
                     pencairan kredit kepada ;
                 </div>
-                <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
+                <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
                     <tr>
                         <td width="10">1.</td>
                         <td width="120">Nama Nasabah</td>
@@ -100,11 +100,11 @@
         </tr>
         <tr>
             <td colspan="4">
-                <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;"
+                <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;"
                     class="padding">
                     <tr>
                         <td width="50">&nbsp;</td>
-                        <td style="padding: 0px;" align="justify">
+                        <td style="padding: 0pt;" align="justify">
                             <p>
                                 Demikian surat pemberitahuan ini kami sampaikan, atas perhatian dan kerjasamanya kami
                                 ucapkan
@@ -114,7 +114,7 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
+                            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
                                 <tr>
                                     <td width="33%" height="10">&nbsp;</td>
                                     <td width="33%">&nbsp;</td>

@@ -11,26 +11,26 @@
     }
 
     html {
-        margin: 75.59px;
-        margin-left: 94.48px;
+        margin: 75.59pt;
+        margin-left: 94.48pt;
     }
 
     ul,
     ol {
-        margin-left: -10px;
+        margin-left: -10pt;
         page-break-inside: auto !important;
     }
 
     header {
         position: fixed;
-        top: -10px;
-        left: 0px;
-        right: 0px;
+        top: -10pt;
+        left: 0pt;
+        right: 0pt;
     }
 
     table tr th,
     table tr td {
-        padding: 2px 4px;
+        padding: 2pt 4pt;
     }
 
     .break {
@@ -42,24 +42,24 @@
     }
 
     .l {
-        border-left: 1px solid #000;
+        border-left: 1pt solid #000;
     }
 
     .t {
-        border-top: 1px solid #000;
+        border-top: 1pt solid #000;
     }
 
     .r {
-        border-right: 1px solid #000;
+        border-right: 1pt solid #000;
     }
 
     .b {
-        border-bottom: 1px solid #000;
+        border-bottom: 1pt solid #000;
     }
 </style>
 
 <title>{{ $judul }}</title>
-<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
     <tr>
         <td width="30">&nbsp;</td>
         <td width="30">Nomor</td>
@@ -78,7 +78,7 @@
         </td>
     </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
     <tr>
         <td width="175">&nbsp;</td>
         <td width="100">
@@ -93,10 +93,10 @@
         <td colspan="2">&nbsp;</td>
     </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
     <tr>
         <td colspan="3" align="center">
-            <div style="font-size: 50px;">
+            <div style="font-size: 50pt;">
 
             </div>
         </td>
@@ -105,7 +105,7 @@
         <td colspan="3" height="5"></td>
     </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
     <tr>
         <td width="30">&nbsp;</td>
         <td colspan="3">Yang bertanda tangan di bawah ini :</td>
@@ -192,7 +192,7 @@
     </td>
     </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px; margin-top: 40px;">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt; margin-top: 40pt;">
 
     <tr>
         <td width="30%" class="style9 align-justify">&nbsp;</td>

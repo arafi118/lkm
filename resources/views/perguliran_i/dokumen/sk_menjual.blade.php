@@ -27,19 +27,19 @@
     <style>
         /* styles.css */
         .centered-text {
-            font-size: 11px;
+            font-size: 11pt;
             text-align: center;
             text-align: justify;
         }
     </style>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
         <br>
         <tr>
             <td colspan="3" align="center">
-                <div style="font-size: 14px;">
+                <div style="font-size: 14pt;">
                     <b> SURAT KUASA MENJUAL </b>
                 </div>
-                {{-- <div style="font-size: 12px;">
+                {{-- <div style="font-size: 12pt;">
                     Nomor: {{ $pinkel->spk_no }}
                 </div> --}}
             </td>
@@ -52,7 +52,7 @@
         Yang bertanda tangan di bawah ini, Saya :
     </div>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -93,7 +93,7 @@
     <div class="centered-text">
         Memberi Kuasa kapada :
     </div>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -183,15 +183,15 @@
         penjualan tersebut tidak mencukupi sisa pinjaman saya maka saya tetap bertanggungjawab untuk melunasi sisa pinjaman
         tersebut.
     </p>
-    <div style="text-align: center;" style="font-size: 11px;">
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;" class="p0">
+    <div style="text-align: center;" style="font-size: 11pt;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;" class="p0">
             <tr>
-                <td style="padding: 0px !important;">
+                <td style="padding: 0pt !important;">
                     <table class="p0" border="0" width="100%" cellspacing="0" cellpadding="0"
-                        style="font-size: 11px;">
+                        style="font-size: 11pt;">
                         <br>
                         <tr>
-                            <td style="padding: 0px !important;">
+                            <td style="padding: 0pt !important;">
                                 <div class="centered-text">
                                     Demikian Surat Kuasa ini Saya buat dengan penuh kesadaran dan tanggung jawab tanpa
                                     adanya tekanan/paksaan dari pihak manapun untuk dapat dipergunakan sebagaimana mestinya
@@ -202,7 +202,7 @@
                             </td>
                         </tr>
                     </table> <br>
-                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
                         <tr>
                             <td width="40" align="center"> &nbsp; </td>
                             <td width="80" align="center">Yang Menerima Kuasa/ <br>
@@ -251,7 +251,7 @@
             SAKSI-SAKSI :<br>
             <ol class="centered-text">
                 <li>
-                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
                         <tr>
                             <td width="80" align="left">{{ $pinkel->anggota->penjamin }}</td>
                             <td width="80" align="right">{{ $pinkel->anggota->keluarga->kekeluargaan }}</td>
@@ -260,7 +260,7 @@
                     </table>
                 </li> <br>
                 <li>
-                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
                         <tr>
                             <td width="80" align="left">{{ $saksi->namadepan }}</td>
                             <td width="80" align="right">{{ $saksi->j->nama_jabatan }}</td>

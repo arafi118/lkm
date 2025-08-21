@@ -9,7 +9,7 @@
 
         <tr>
             <td height="70" colspan="3" class="bottom">
-                <p align="center" class="style6" style="font-size: 18px; font-weight: bold;">SURAT KUASA KHUSUS</p>
+                <p align="center" class="style6" style="font-size: 18pt; font-weight: bold;">SURAT KUASA KHUSUS</p>
 
             </td>
         </tr>

@@ -5,13 +5,13 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td colspan="3" align="center">
-                <div style="font-size: 18px;">
+                <div style="font-size: 18pt;">
                     <b>BERITA ACARA PERTEMUAN</b>
                 </div>
-                <div style="font-size: 16px;">
+                <div style="font-size: 16pt;">
                     <b>KELOMPOK SIMPAN PINJAM KHUSUS PEREMPUAN (SPP)</b>
                 </div>
             </td>
@@ -41,7 +41,7 @@
         </ol>
     </div>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td width="130">Acara Musnyawarah dipimpin oleh</td>
             <td width="5" align="center">:</td>
@@ -139,28 +139,28 @@
 
     <div class="break"></div>
     <div style="text-align: justify">
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
             <tr>
-                <td height="15" style="padding: 0px;" colspan="3">Mengetahui dan menyetujui</td>
+                <td height="15" style="padding: 0pt;" colspan="3">Mengetahui dan menyetujui</td>
             </tr>
             <tr>
-                <td height="15" style="padding: 0px;" colspan="3">Wakil Anggota/Peserta Musyawarah :</td>
+                <td height="15" style="padding: 0pt;" colspan="3">Wakil Anggota/Peserta Musyawarah :</td>
             </tr>
             <tr>
-                <td height="15" style="padding: 0px;" align="center">Nama Lengkap</td>
-                <td style="padding: 0px;" align="center" colspan="2">Tanda Tangan</td>
+                <td height="15" style="padding: 0pt;" align="center">Nama Lengkap</td>
+                <td style="padding: 0pt;" align="center" colspan="2">Tanda Tangan</td>
             </tr>
 
             @for ($i = 1; $i <= $pinkel->pinjaman_anggota_count; $i++)
                 <tr>
-                    <td height="15" style="padding: 0px;" width="50%">{{ $i }}.
+                    <td height="15" style="padding: 0pt;" width="50%">{{ $i }}.
                         ______________________________________________</td>
                     @if ($i % 2 == 0)
-                        <td style="padding: 0px;" width="25%">&nbsp;</td>
-                        <td style="padding: 0px;" width="25%">{{ $i }}. _____________________</td>
+                        <td style="padding: 0pt;" width="25%">&nbsp;</td>
+                        <td style="padding: 0pt;" width="25%">{{ $i }}. _____________________</td>
                     @else
-                        <td style="padding: 0px;" width="25%">{{ $i }}. _____________________</td>
-                        <td style="padding: 0px;" width="25%">&nbsp;</td>
+                        <td style="padding: 0pt;" width="25%">{{ $i }}. _____________________</td>
+                        <td style="padding: 0pt;" width="25%">&nbsp;</td>
                     @endif
                 </tr>
             @endfor

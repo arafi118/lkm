@@ -12,13 +12,13 @@
     </style>
 
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td colspan="4">&nbsp;</td>
         </tr>
         <tr class="b">
             <td colspan="4" align="center">
-                <div style="font-size: 16px;">
+                <div style="font-size: 16pt;">
                     SURAT PERNYATAAN
                     PENGIKAT DIRI SEBAGAI PENJAMIN
                 </div>
@@ -29,7 +29,7 @@
         </tr>
     </table>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td colspan="4">
                 Yang bertanda tangan dibawah ini,
@@ -139,7 +139,7 @@
 
     </p>
     <br>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td align="center" width="50%">&nbsp;</td>
             <td align="center" width="50%">{{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}</td>

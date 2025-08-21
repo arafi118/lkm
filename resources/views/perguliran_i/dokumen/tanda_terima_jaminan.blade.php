@@ -10,7 +10,7 @@
 <table width="97%" border="0" align="center" cellpadding="3" cellspacing="0">        
       <tr>
         <td height="50" colspan="3" class="bottom">
-          <p align="center" class="style6" style="font-size: 18px; font-weight: bold;">KESANGGUPAN<br>PENGADAAN BARANG JAMINAN</p>
+          <p align="center" class="style6" style="font-size: 18pt; font-weight: bold;">KESANGGUPAN<br>PENGADAAN BARANG JAMINAN</p>
         </td>
       </tr>      
       <tr>

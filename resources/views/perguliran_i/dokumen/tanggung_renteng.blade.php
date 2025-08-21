@@ -5,10 +5,10 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr class="b">
             <td colspan="3" align="center">
-                <div style="font-size: 18px;">
+                <div style="font-size: 18pt;">
                     <b>SURAT PERNYATAAN TANGGUNG RENTENG</b>
                 </div>
             </td>
@@ -20,7 +20,7 @@
 
 
     <div>Yang bertanda tangan di bawah ini,</div>
-    <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr style="background: rgb(232,232,232)">
             <th width="10">No</th>
             <th width="60">Nik</th>
@@ -40,7 +40,7 @@
             </tr>
         @endforeach
     </table>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td colspan="2">
                 <div style="text-align: justify;">
@@ -82,11 +82,11 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2" style="padding: 0px !important;">
+            <td colspan="2" style="padding: 0pt !important;">
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
-                    style="font-size: 11px;">
+                    style="font-size: 11pt;">
                     <tr>
-                        <td colspan="2" style="padding-top: 0px;">
+                        <td colspan="2" style="padding-top: 0pt;">
                             <div style="text-align: justify;">
                                 Demikian surat pernyataan Kesanggupan Tanggung Renteng ini dibuat dengan penuh kesadaran dan
                                 tanpa paksaan dari pihak manapun serta untuk dipergunakan dan/atau dilaksanakan sebagaimana

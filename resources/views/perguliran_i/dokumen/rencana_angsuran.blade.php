@@ -42,10 +42,10 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr class="b">
             <td colspan="3" align="center">
-                <div style="font-size: 18px;">
+                <div style="font-size: 18pt;">
                     <b>RENCANA ANGSURAN</b>
                 </div>
             </td>
@@ -54,7 +54,7 @@
             <td colspan="3" height="5"></td>
         </tr>
     </table>
-    <table border="0" width="100%" align="center"cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" align="center"cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td width="90">Nama Calon Nasabah</td>
             <td width="5" align="center">:</td>
@@ -109,7 +109,7 @@
     </table>
 
     <table border="0" width="100%" align="center"cellspacing="0" cellpadding="0"
-        style="font-size: 11px; table-layout: fixed;">
+        style="font-size: 11pt; table-layout: fixed;">
         <tr style="background: rgb(232, 232, 232)">
             <th class="l t b" height="20" width="5%" align="center">Ke</th>
             <th class="l t b" width="13%" align="center">Tanggal</th>
@@ -147,9 +147,9 @@
         @endforeach
 
         <tr>
-            <td colspan="8" style="padding: 0px !important;">
+            <td colspan="8" style="padding: 0pt !important;">
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
-                    style="font-size: 11px; table-layout: fixed;">
+                    style="font-size: 11pt; table-layout: fixed;">
                     <tr style="font-weight: bold;">
                         <td class="l t b" width="18%" height="15" align="center" colspan="2">Jumlah</td>
                         <td class="l t b" width="13%" align="right">{{ number_format($sum_pokok) }}</td>
@@ -164,7 +164,7 @@
                 </table>
                 <br><br>
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
-                    style="font-size: 11px;">
+                    style="font-size: 11pt;">
 
                     <tr>
                         <td width="55%">&nbsp;</td>

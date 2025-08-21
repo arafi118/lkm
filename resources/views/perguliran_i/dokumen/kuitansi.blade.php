@@ -17,10 +17,10 @@
 
 @extends('perguliran_i.dokumen.layout.base')
 <br><br>
-< @section('content') < <div style="padding: 60px; padding-top: 0px; border: 1px solid #000; height: 82%;">
+< @section('content') < <div style="padding: 60pt; padding-top: 0pt; border: 1pt solid #000; height: 82%;">
         <table border="0" width="100%" class="p">
             <tr>
-                <td colspan="3" height="40" align="center" style="text-transform: uppercase; font-size: 16px;">
+                <td colspan="3" height="40" align="center" style="text-transform: uppercase; font-size: 16pt;">
                     <b> K u i t a n s i </b>
                 </td>
             </tr>
@@ -70,7 +70,7 @@
             </tr>
         </table>
 
-        <table border="0" width="100%" style="font-size: 11px;">
+        <table border="0" width="100%" style="font-size: 11pt;">
     <tr>
         <td width="10%">&nbsp;</td>
         <td width="10%">&nbsp;</td>
