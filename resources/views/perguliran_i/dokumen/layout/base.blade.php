@@ -128,13 +128,13 @@
                         <div>
                             <b>{{ strtoupper($nama_kecamatan) }}</b>
                         </div>
-                        <div style="font-size: 10pt; color: grey;">
+                        <div style="font-size: 10px; color: grey;">
                             <i>{{ $nomor_usaha }}</i>
                         </div>
-                        <div style="font-size: 10pt; color: grey;">
+                        <div style="font-size: 10px; color: grey;">
                             <i>{{ $info }}</i>
                         </div>
-                        <div style="font-size: 10pt; color: grey;">
+                        <div style="font-size: 10px; color: grey;">
                             <i>{{ $email }}</i>
                         </div>
                     </td>
