@@ -11,26 +11,26 @@
     }
 
     html {
-        margin: 75.59pt;
-        margin-left: 94.48pt;
+        margin: 75.59px;
+        margin-left: 94.48px;
     }
 
     ul,
     ol {
-        margin-left: -10pt;
+        margin-left: -10px;
         page-break-inside: auto !important;
     }
 
     header {
         position: fixed;
-        top: -10pt;
-        left: 0pt;
-        right: 0pt;
+        top: -10px;
+        left: 0px;
+        right: 0px;
     }
 
     table tr th,
     table tr td {
-        padding: 2pt 4pt;
+        padding: 2px 4px;
     }
 
     .break {
@@ -42,19 +42,19 @@
     }
 
     .l {
-        border-left: 1pt solid #000;
+        border-left: 1px solid #000;
     }
 
     .t {
-        border-top: 1pt solid #000;
+        border-top: 1px solid #000;
     }
 
     .r {
-        border-right: 1pt solid #000;
+        border-right: 1px solid #000;
     }
 
     .b {
-        border-bottom: 1pt solid #000;
+        border-bottom: 1px solid #000;
     }
 </style>
 
@@ -96,7 +96,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
     <tr>
         <td colspan="3" align="center">
-            <div style="font-size: 50pt;">
+            <div style="font-size: 50px;">
 
             </div>
         </td>
@@ -192,7 +192,7 @@
     </td>
     </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt; margin-top: 40pt;">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt; margin-top: 40px;">
 
     <tr>
         <td width="30%" class="style9 align-justify">&nbsp;</td>
