@@ -12,7 +12,7 @@
     </style>
 
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td colspan="3">&nbsp;</td>
         </tr>
@@ -28,7 +28,7 @@
         </tr>
     </table>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td colspan="3">
                 Yang bertanda tangan dibawah ini,
@@ -77,7 +77,7 @@
         </tr>
     </table>
 
-    <table border="0" width="90%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="90%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td align="center" width="50%">&nbsp;</td>
             <td align="center" width="50%">{{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}</td>

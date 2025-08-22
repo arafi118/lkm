@@ -29,7 +29,7 @@
         @if ($loop->iteration > 1)
             <div class="break">&nbsp;</div>
         @endif
-        <div style="text-align: center; font-size: 18pt; margin-bottom: 12pt; text-transform: uppercase;">
+        <div style="text-align: center; font-size: 18pt; margin-bottom: 11pt; text-transform: uppercase;">
             <div>Bukti Transaksi</div>
             <div>Pinjaman Kelompok</div>
         </div>
@@ -95,7 +95,7 @@
                 </tr>
             </table>
 
-            <table border="0" width="100%" style="font-size: 11pt;">
+            <table border="0" width="100%" style="font-size: 10pt;">
                 <tr>
                     <td width="10%">&nbsp;</td>
                     <td width="10%">&nbsp;</td>

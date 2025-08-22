@@ -5,11 +5,11 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table width="97%" border="0" align="center" cellpadding="3" cellspacing="0" style="font-size: 11pt;">
+    <table width="97%" border="0" align="center" cellpadding="3" cellspacing="0" style="font-size: 10pt;">
 
         <tr>
             <td height="50" colspan="6" class="bottom">
-                <p align="center" style="font-size: 14pt; font-weight: bold;">ANALISA PERMOHONAN KREDIT
+                <p align="center" style="font-size: 12pt; font-weight: bold;">ANALISA PERMOHONAN KREDIT
                 </p>
             </td>
         </tr>
@@ -76,7 +76,7 @@
             <td colspan="4">: {{ $pinkel->jangka }} bulan</td>
         </tr>
     </table>
-    <table width="97%" border="0" align="center" cellpadding="3" cellspacing="0" style="font-size: 11pt;">
+    <table width="97%" border="0" align="center" cellpadding="3" cellspacing="0" style="font-size: 10pt;">
         <tr>
             <td height="25" colspan="6"><strong>B. INFORMASI PENDAPATAN &amp;
                     PENGELUARAN</strong></td>
@@ -200,7 +200,7 @@
         </tr>
     </table>
 
-    <table width="97%" border="0" align="center" cellpadding="3" cellspacing="0" style="font-size: 11pt;">
+    <table width="97%" border="0" align="center" cellpadding="3" cellspacing="0" style="font-size: 10pt;">
 
 
         <tr>

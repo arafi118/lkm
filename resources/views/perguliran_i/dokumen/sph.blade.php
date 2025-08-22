@@ -31,18 +31,18 @@
     <style>
         /* styles.css */
         .centered-text {
-            font-size: 11pt;
+            font-size: 10pt;
             text-align: center;
             text-align: justify;
         }
     </style>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 14pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
         <tr>
             <td colspan="3" align="center">
                 <div style="font-size: 16pt;">
                     <b> SURAT PERJANJIAN UTANG PIUTANG </b>
                 </div>
-                <div style="font-size: 12pt;">
+                <div style="font-size: 11pt;">
                     Nomor: {{ $pinkel->spk_no }}
                 </div>
             </td>
@@ -58,7 +58,7 @@
         tahun <b>{{ $keuangan->terbilang(Tanggal::tahun($pinkel->tgl_cair)) }}</b>,
         kami yang bertandatangan di bawah ini setuju membuat Surat Perjanjian Utang Piutang, yaitu :
     </div>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -95,7 +95,7 @@
     <div class="centered-text">
         Untuk selanjutnya disebut sebagai <b>PIHAK PERTAMA</b>, dan :
     </div>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -195,12 +195,12 @@
             Perjanjian ini.
         </div>
     </div>
-    <div style="text-align: center;" style="font-size: 11pt;">
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;" class="p0">
+    <div style="text-align: center;" style="font-size: 10pt;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;" class="p0">
             <tr>
                 <td style="padding: 0pt !important;">
                     <table class="p0" border="0" width="100%" cellspacing="0" cellpadding="0"
-                        style="font-size: 11pt;">
+                        style="font-size: 10pt;">
                         <br>
                         <tr>
                             <td style="padding: 0pt !important;">
@@ -212,7 +212,7 @@
                             </td>
                         </tr>
                     </table> <br>
-                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;"
+                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;"
                         align="center">
                         <tr>
                             <td width="10" align="center"> &nbsp; </td>
@@ -242,7 +242,7 @@
                             <td width="70" align="center"> __________________________________ </td>
                         </tr>
                     </table>
-                    {{-- <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;" class="p">
+                    {{-- <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;" class="p">
                         <tr>
                             <td>
                                 {!! $ttd !!}

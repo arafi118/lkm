@@ -5,7 +5,7 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td colspan="3" align="center">
                 <div style="font-size: 18pt;">
@@ -41,7 +41,7 @@
         </ol>
     </div>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td width="130">Acara Musnyawarah dipimpin oleh</td>
             <td width="5" align="center">:</td>
@@ -139,7 +139,7 @@
 
     <div class="break"></div>
     <div style="text-align: justify">
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
             <tr>
                 <td height="15" style="padding: 0pt;" colspan="3">Mengetahui dan menyetujui</td>
             </tr>

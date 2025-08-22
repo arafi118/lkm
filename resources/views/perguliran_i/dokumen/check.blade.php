@@ -5,7 +5,7 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr class="b">
             <td colspan="3" align="center">
                 <div style="font-size: 20pt;">
@@ -22,7 +22,7 @@
 
     </table>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td width="100">Kode Nasabah</td>
             <td width="5">:</td>
@@ -60,7 +60,7 @@
         </tr>
     </table>
 
-    <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt; margin-top: 12pt;">
+    <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt; margin-top: 11pt;">
         <tr style="background: rgb(232,232,232);">
             <th rowspan="2" width="10">No</th>
             <th rowspan="2">Nama Dokumen</th>
@@ -96,7 +96,7 @@
     </table>
     <div style="font-size: 8pt; margin-bottom: 16pt;">Keterangan: C = Cukup | K = Kurang | TA = Tidak Ada</div>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt; margin-top: 12pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt; margin-top: 11pt;">
         <tr>
             <td width="60%"></td>
             <td width="40%" align="center">Diperika tanggal, ___________________</td>

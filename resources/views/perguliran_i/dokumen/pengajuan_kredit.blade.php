@@ -59,7 +59,7 @@
 </style>
 
 <title>{{ $judul }}</title>
-<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
     <tr>
         <td width="30">&nbsp;</td>
         <td width="30">Nomor</td>
@@ -78,7 +78,7 @@
         </td>
     </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
     <tr>
         <td width="175">&nbsp;</td>
         <td width="100">
@@ -93,7 +93,7 @@
         <td colspan="2">&nbsp;</td>
     </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
     <tr>
         <td colspan="3" align="center">
             <div style="font-size: 50px;">
@@ -105,7 +105,7 @@
         <td colspan="3" height="5"></td>
     </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
     <tr>
         <td width="30">&nbsp;</td>
         <td colspan="3">Yang bertanda tangan di bawah ini :</td>
@@ -192,7 +192,7 @@
     </td>
     </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt; margin-top: 40px;">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt; margin-top: 40px;">
 
     <tr>
         <td width="30%" class="style9 align-justify">&nbsp;</td>

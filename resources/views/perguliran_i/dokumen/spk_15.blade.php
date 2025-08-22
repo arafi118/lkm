@@ -123,7 +123,7 @@
 
         div.spk {
             position: relative;
-            font-size: 12pt;
+            font-size: 11pt;
             padding-bottom: 37.79pt;
         }
 
@@ -132,7 +132,7 @@
         }
 
         .centered-text {
-            font-size: 12pt;
+            font-size: 11pt;
             text-align: center;
             text-align: justify;
         }
@@ -151,10 +151,10 @@
                     <div>
                         <b>{{ strtoupper($nama_kecamatan) }}</b>
                     </div>
-                    <div style="font-size: 11pt; color: grey;">
+                    <div style="font-size: 10pt; color: grey;">
                         <i>{{ $nomor_usaha }}</i>
                     </div>
-                    <div style="font-size: 11pt; color: grey;">
+                    <div style="font-size: 10pt; color: grey;">
                         <i>{{ $info }}</i>
                     </div>
                 </td>

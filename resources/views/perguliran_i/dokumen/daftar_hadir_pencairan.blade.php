@@ -18,7 +18,7 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr class="b">
             <td align="center">
                 <div style="font-size: 18pt;">
@@ -30,7 +30,7 @@
             <td height="5"></td>
         </tr>
     </table>
-    <table border="0" width="100%" align="center"cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" align="center"cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td width="70">Tempat</td>
             <td align="center" width="5">:</td>
@@ -55,7 +55,7 @@
             <td colspan="6">&nbsp;</td>
         </tr>
     </table>
-    <table border="1" width="100%" align="center"cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="1" width="100%" align="center"cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <th width="10" height="20" align="center">No</th>
             <th width="130" align="center">Nama Lengkap</th>
@@ -86,7 +86,7 @@
             </tr>
         @endfor
     </table>
-    <table border="0" width="100%" align="center"cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" align="center"cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td colspan="2">&nbsp;</td>
         </tr>

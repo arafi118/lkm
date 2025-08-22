@@ -16,7 +16,7 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td colspan="3" align="center">
                 <div style="font-size: 18pt;">
@@ -43,7 +43,7 @@
         perguliran {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }} {{ $kec->nama_kec }}
         {{ $pinkel->anggota->kd_kelompok }} dengan detail identitas Nasabah dan detail pengajuan sebagai
         berikut :
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
 
 
 
@@ -185,7 +185,7 @@
     </p>
     </div>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td width="50%">&nbsp;</td>
             <td width="25%">&nbsp;</td>

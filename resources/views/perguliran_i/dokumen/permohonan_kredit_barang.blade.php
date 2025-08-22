@@ -5,7 +5,7 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr class="b">
             <td colspan="3" align="center">
                 <div style="font-size: 18pt;">
@@ -17,7 +17,7 @@
             <td colspan="3" height="5"></td>
         </tr>
     </table>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt; text-align: justify;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt; text-align: justify;">
         <tr>
             <td colspan="3">Yang bertanda tangan di bawah ini,</td>
         </tr>
@@ -81,7 +81,7 @@
             <td>{{ $pinkel->jangka }} bulan </td>
         </tr>
     </table>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td colspan="3" height="20">&nbsp;</td>
         </tr>

@@ -5,7 +5,7 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr class="b">
             <td colspan="3" align="center">
                 <div style="font-size: 18pt;">
@@ -20,7 +20,7 @@
             <td colspan="3" height="5"></td>
         </tr>
     </table>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td width="40">Kode Kelompok</td>
             <td width="5" align="right">:</td>
@@ -58,7 +58,7 @@
             </td>
         </tr>
     </table>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt; margin-top: 12pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt; margin-top: 11pt;">
         <tr style="background: rgb(232, 232, 232)">
             <th class="l t b" height="16" width="10" align="center">No</th>
             <th class="l t b" width="150" align="center">Jabatan</th>

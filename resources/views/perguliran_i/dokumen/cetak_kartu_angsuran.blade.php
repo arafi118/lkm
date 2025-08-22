@@ -46,7 +46,7 @@
         }
 
         table tr th {
-            font-size: 12pt;
+            font-size: 11pt;
         }
 
         .break {
@@ -81,11 +81,11 @@
 </head>
 
 <body onload="window.print()">
-    <main style="position: relative; font-size: 12pt;">
-        <table class="hidden" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <main style="position: relative; font-size: 11pt;">
+        <table class="hidden" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
             <tr>
                 <td rowspan="7" align="center" width="400">
-                    <div style="font-size: 14pt; font-weight: bold;">
+                    <div style="font-size: 12pt; font-weight: bold;">
                         {{ $kec->nama_lembaga_sort }} {{ $kec->nama_kec }}
                     </div>
                     <div>
@@ -98,7 +98,7 @@
                         <img width="150" src="data:image/png;base64,{{ $barcode }}"
                             alt="{{ $nia->anggota->nik }}">
                     </div>
-                    <div style="font-size: 14pt;">{{ $nia->anggota->nik }}</div>
+                    <div style="font-size: 12pt;">{{ $nia->anggota->nik }}</div>
                 </td>
                 <td width="150">Jenis Piutang</td>
                 <td width="5" align="center">:</td>
@@ -173,7 +173,7 @@
             $baris_angsuran = ceil($nia->rencana_count / 2);
         @endphp
 
-        <table class="hidden" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+        <table class="hidden" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
             <tr>
                 <td width="40">&nbsp;</td>
                 <td colspan="9" style="font-weight: bold;" height="30">TABEL KEWAJIBAN PEMBAYARAN ANGSURAN</td>
@@ -247,7 +247,7 @@
 
         </table>
 
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
             <tr class="hidden">
                 <td width="40" rowspan="{{ $rowspan }}">&nbsp;</td>
                 <td colspan="9" style="font-weight: bold;" height="30">REALISASI PEMBAYARAN ANGSURAN</td>
@@ -327,7 +327,7 @@
         </table>
 
         <table class="hidden" border="0" width="100%" cellspacing="0" cellpadding="0"
-            style="font-size: 11pt;">
+            style="font-size: 10pt;">
             <tr>
                 <td width="40" rowspan="5">&nbsp;</td>
                 <td colspan="3" style="font-weight: bold;" height="30">&nbsp;</td>
@@ -338,10 +338,10 @@
                     <div>Lembar 1 : Untuk Nasabah</div>
                     <div>Lembar 2 : Arsip Lembaga</div>
                 </td>
-                <td style="font-weight: bold; font-size: 12pt;" width="350" align="center">
+                <td style="font-weight: bold; font-size: 11pt;" width="350" align="center">
                     <div>{{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}</div>
                 </td>
-                <td style="font-weight: bold; font-size: 12pt;" width="350" align="center">Nasabah</td>
+                <td style="font-weight: bold; font-size: 11pt;" width="350" align="center">Nasabah</td>
             </tr>
             <tr>
                 <td align="center">

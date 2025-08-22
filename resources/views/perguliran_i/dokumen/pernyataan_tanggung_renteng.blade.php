@@ -5,7 +5,7 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td colspan="3" align="center">
                 <div style="font-size: 18pt;">
@@ -20,7 +20,7 @@
 
     <div style="text-align: justify;">
         Yang bertanda tangan di bawah ini,
-        <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+        <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
             <tr style="background: rgb(233,233,233);">
                 <th width="10">No</th>
                 <th width="80">NIK</th>
@@ -86,7 +86,7 @@
         pihak manapun serta untuk dipergunakan dan/ atau dilaksanakan sebagaimana mestinya.
     </div>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td colspan="2" height="24">&nbsp;</td>
         </tr>

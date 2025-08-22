@@ -12,7 +12,7 @@
     </style>
 
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td colspan="4">&nbsp;</td>
         </tr>
@@ -29,7 +29,7 @@
     </table>
     <br>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td colspan="4">
                 Saya yang bertanda tangan di bawah ini :
@@ -109,7 +109,7 @@
     </table>
     <br>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td width="50%">&nbsp;</td>
             <td width="25%">&nbsp;</td>

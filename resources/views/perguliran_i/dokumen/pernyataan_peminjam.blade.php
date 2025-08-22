@@ -6,15 +6,15 @@
 
 @section('content')
     <!-- Judul -->
-    <div style="width:100%; font-size:11pt;">
+    <div style="width:100%; font-size:10pt;">
         <div style="text-align:center; font-size:18pt; font-weight:bold; margin-bottom:5px;">
             SURAT PERNYATAAN
         </div>
     </div>
 
     <!-- Identitas -->
-    <div style="width:100%; font-size:11pt; text-align:justify; margin-bottom:10px;">
-        <div style="display:table; width:100%; font-size:11pt; text-align:justify;">
+    <div style="width:100%; font-size:10pt; text-align:justify; margin-bottom:10px;">
+        <div style="display:table; width:100%; font-size:10pt; text-align:justify;">
             <div style="display:table-row;">
                 <div style="display:table-cell;" colspan="3">Yang bertanda tangan di bawah ini,</div>
             </div>
@@ -68,7 +68,7 @@
     </div>
 
     <!-- Daftar Pernyataan -->
-    <div style="width:100%; font-size:11pt; display:block; break-inside:auto; page-break-inside:auto;">
+    <div style="width:100%; font-size:10pt; display:block; break-inside:auto; page-break-inside:auto;">
         <ol>
             <li>
                 Saya selaku Nasabah {{ $kec->nama_lembaga_sort }} menyatakan benar-benar telah meminjam uang
@@ -77,7 +77,7 @@
                         <ul style="list-style: disc;">
                             @for ($i = 0; $i < 3; $i++)
                                 <li>
-                                    <div style="display:table; width:100%; font-size:11pt;">
+                                    <div style="display:table; width:100%; font-size:10pt;">
                                         <div style="display:table-row;">
                                             <div style="display:table-cell; width:100px; height:12px;">Nama barang</div>
                                             <div style="display:table-cell; width:10px; text-align:center;">:</div>
@@ -122,13 +122,13 @@
     </div>
 
     <!-- Penutup -->
-    <div style="width:100%; font-size:11pt; margin-top:10px;">
+    <div style="width:100%; font-size:10pt; margin-top:10px;">
         Demikian surat pernyataan ini saya buat dengan sebenarnya dan dengan penuh kesadaran serta rasa tanggung jawab.
     </div>
     
     <!-- Tanda Tangan -->
     
-    <div style="display:table; width:100%; font-size:11pt;">
+    <div style="display:table; width:100%; font-size:10pt;">
         <div style="display:table-row;">
             <div style="display:table-cell;" colspan="3" style="height:20px;">&nbsp;</div>
         </div>

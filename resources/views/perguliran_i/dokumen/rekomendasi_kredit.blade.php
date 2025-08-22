@@ -75,7 +75,7 @@
 <body>
     <main>
         <table border="0" width="100%" cellspacing="0" cellpadding="0"
-            style="font-size: 11pt; position: relative; top: -20pt;">
+            style="font-size: 10pt; position: relative; top: -20pt;">
             <tr class="b">
                 <td align="center">
                     <img src="../storage/app/public/logo_kab/{{ $kab->id }}.png" width="70"
@@ -98,13 +98,13 @@
             </tr>
         </table>
 
-        <table border="0" width="85%" align="center"cellspacing="0" cellpadding="0" style="font-size: 12pt;">
+        <table border="0" width="85%" align="center"cellspacing="0" cellpadding="0" style="font-size: 11pt;">
             <tr>
                 <td align="center">
                     <div style="font-size: 18pt;">
                         <b>REKOMENDASI KREDIT</b>
                     </div>
-                    <div style="font-size: 12pt;">
+                    <div style="font-size: 11pt;">
                         Nomor: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -118,7 +118,7 @@
                 <td height="5"></td>
             </tr>
         </table>
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
             <tr>
                 <td colspan="3" align="justify">
                     Yang bertanda tangan di bawah ini {{ $pinkel->anggota->d->sebutan_desa->sebutan_kades }}
@@ -184,7 +184,7 @@
             </tr>
         </table>
 
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
             <tr>
                 <td width="33%" height="30">&nbsp;</td>
                 <td width="33%">&nbsp;</td>

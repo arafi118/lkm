@@ -47,7 +47,7 @@
         }
 
         table tr th {
-            font-size: 12pt;
+            font-size: 11pt;
         }
 
         .break {
@@ -92,11 +92,11 @@
         @if ($no > 1)
             <div class="break"></div>
         @endif
-        <main style="position: relative; font-size: 12pt;">
-            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+        <main style="position: relative; font-size: 11pt;">
+            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
                 <tr>
                     <td rowspan="7" align="center" width="400">
-                        <div style="font-size: 14pt; font-weight: bold;">
+                        <div style="font-size: 12pt; font-weight: bold;">
                             {{ $kec->nama_lembaga_sort }} {{ $kec->nama_kec }}
                         </div>
                         <div>
@@ -109,7 +109,7 @@
                             <img width="150" src="data:image/png;base64,{{ $barcode }}"
                                 alt="{{ $pinkel->kelompok->kd_kelompok }}">
                         </div>
-                        <div style="font-size: 14pt;">{{ $pinkel->kelompok->kd_kelompok }}</div>
+                        <div style="font-size: 12pt;">{{ $pinkel->kelompok->kd_kelompok }}</div>
                     </td>
                     <td width="150">Jenis Piutang</td>
                     <td width="5" align="center">:</td>
@@ -184,7 +184,7 @@
                 $baris_angsuran = ceil(count($rencana[$pinj->id]) / 2);
             @endphp
 
-            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
                 <tr>
                     <td width="40">&nbsp;</td>
                     <td colspan="9" style="font-weight: bold;" height="30">TABEL KEWAJIBAN PEMBAYARAN ANGSURAN
@@ -271,7 +271,7 @@
 
             </table>
 
-            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
                 <tr>
                     <td width="40" rowspan="{{ $rowspan }}">&nbsp;</td>
                     <td colspan="9" style="font-weight: bold;" height="30">REALISASI PEMBAYARAN ANGSURAN</td>
@@ -416,7 +416,7 @@
                 @endif
             </table>
 
-            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
                 <tr>
                     <td width="40" rowspan="5">&nbsp;</td>
                     <td colspan="3" style="font-weight: bold;" height="30">&nbsp;</td>
@@ -427,15 +427,15 @@
                         <div>Lembar 1 : Untuk Kelompok</div>
                         <div>Lembar 2 : Arsip Lembaga</div>
                     </td>
-                    <td style="font-weight: bold; font-size: 12pt;" width="350" align="center">Ketua Kelompok</td>
-                    <td style="font-weight: bold; font-size: 12pt;" width="350" align="center">
+                    <td style="font-weight: bold; font-size: 11pt;" width="350" align="center">Ketua Kelompok</td>
+                    <td style="font-weight: bold; font-size: 11pt;" width="350" align="center">
                         <div>Anggota Nasabah</div>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" height="50"></td>
                 </tr>
-                <tr style="font-weight: bold; font-size: 12pt; text-transform: uppercase;">
+                <tr style="font-weight: bold; font-size: 11pt; text-transform: uppercase;">
                     <td width="350" align="center">
                         {{ $pinkel->kelompok->ketua }}
                     </td>

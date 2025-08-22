@@ -4,13 +4,13 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 <br><br><br><br>
-        <table border="0" width="85%" align="center"cellspacing="0" cellpadding="0" style="font-size: 12pt;">
+        <table border="0" width="85%" align="center"cellspacing="0" cellpadding="0" style="font-size: 11pt;">
             <tr>
                 <td align="center">
                     <div style="font-size: 18pt;">
                         <b>REKOMENDASI HASIL VERIFIKASI/ANALISA KREDIT</b>
                     </div>
-                    <div style="font-size: 12pt;">
+                    <div style="font-size: 11pt;">
                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   Nomor:..................................... &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                        
@@ -24,7 +24,7 @@
                 <td height="5"></td>
             </tr>
         </table>
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
             <tr>
                 <td colspan=5" align="justify">
                 Setelah dilakukan pengkajian dokumen permohonan kredit dan Analisa lapangan atas permohonan kredit / permohonan pinjaman  sebagai  berikut :
@@ -115,7 +115,7 @@
             </tr>
         </table>
 
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
             <tr>
                 <td width="33%" height="30">&nbsp;</td>
                 <td width="33%">&nbsp;</td>

@@ -37,7 +37,7 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <tr>
             <td width="50">Nomor</td>
             <td width="10" align="center">:</td>
@@ -184,7 +184,7 @@
         </tr>
     </table>
     
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td width="50%">&nbsp;</td>
             <td width="25%">&nbsp;</td>

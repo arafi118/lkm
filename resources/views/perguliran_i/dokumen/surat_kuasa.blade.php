@@ -6,7 +6,7 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr class="b">
             <td colspan="3" align="center">
                 <div style="font-size: 18pt;">
@@ -22,7 +22,7 @@
         </tr>
     </table>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td colspan="4" align="justify">
                 Yang bertanda tangan di bawah ini, kami para anggota Kelompok {{ $pinkel->anggota->nama_kelompok }} alamat
@@ -97,11 +97,11 @@
         </tr>
     </table>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td style="padding: 0pt !important;">
                 <table border="0" width="100%" cellspacing="0" cellpadding="0"
-                    style="font-size: 11pt; margin-top: 8pt;" class="p0">
+                    style="font-size: 10pt; margin-top: 8pt;" class="p0">
                     @for ($i = 1; $i <= $batas_pemanfaat; $i++)
                         @php
                             $j = $i - 1;
@@ -133,7 +133,7 @@
                 </table>
 
                 <table border="0" width="100%" cellspacing="0" cellpadding="0"
-                    style="font-size: 11pt; margin-top: 8pt;" class="p0">
+                    style="font-size: 10pt; margin-top: 8pt;" class="p0">
                     <tr>
                         <td colspan="3" align="center">
                             Pengurus kelompok Selaku Penerima Kuasa :

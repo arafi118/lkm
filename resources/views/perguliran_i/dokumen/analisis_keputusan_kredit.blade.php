@@ -16,7 +16,7 @@
 @extends('perguliran_i.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <br>
         <br>
         <tr>
@@ -24,7 +24,7 @@
                 <div style="font-size: 18pt;">
                     <b>ANALISA DAN KEPUTUSAN KREDIT</b>
                 </div>
-                <div style="font-size: 12pt;">
+                <div style="font-size: 11pt;">
                     <b>Pengajuan Perorangan {{ $kec->nama_lembaga_sort }}</b>
                 </div>
                 <div style="font-size: 13pt;">
@@ -41,7 +41,7 @@
     </table>
 
     <h3><b> I. DATA POKOK PEMINJAM</b></h3>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td align="center"width="5%">1.</td>
             <td width="45%">Nama</td>
@@ -135,7 +135,7 @@
     </table>
 
     <h3><b>II. PERMOHONAN PIUTANG</b></h3>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td align="center"width="5%">1.</td>
             <td width="45%">Plafond diajukan</td>
@@ -187,7 +187,7 @@
         </tr>
     </table>
     <h3><b>III. PERHITUGAN KREDIT/RATE YANG DIGUNAKAN</b></h3>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td align="center"width="5%">1.</td>
             <td width="45%">Suku Bangun Flat Rate</td>
@@ -217,7 +217,7 @@
     <p>Berdasarkan hasil perhitungan tersebut diatas, kami simpulkan bahwa yang bersangkutan dapat dipertimbangkan
         permohonan kreditnya dengan syarat-syarat berikut :
     </p>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td align="center"width="5%">1.</td>
             <td colspan="2"width="45%">Jenis Kredit</td>
@@ -344,7 +344,7 @@
     </table>
     </div>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td width="50%">&nbsp;</td>
             <td width="25%">&nbsp;</td>
