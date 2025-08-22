@@ -19,36 +19,36 @@
         }
 
         html {
-            margin: 75.59pt;
-            margin-left: 94.48pt;
+            margin: 75.59px;
+            margin-left: 94.48px;
         }
 
         ul,
         ol {
-            margin-left: -10pt;
+            margin-left: -10px;
             page-break-inside: auto !important;
         }
 
         footer {
             position: fixed;
-            bottom: -50pt;
-            left: 0pt;
-            right: 0pt;
+            bottom: -50px;
+            left: 0px;
+            right: 0px;
         }
 
         table tr th,
         table tr td {
-            padding: 2pt 4pt;
+            padding: 2px 4px;
         }
 
         table.p tr th,
         table.p tr td {
-            padding: 4pt 4pt;
+            padding: 4px 4px;
         }
 
         table.p0 tr th,
         table.p0 tr td {
-            padding: 0pt !important;
+            padding: 0px !important;
         }
 
         table tr td table:not(.padding) tr td {
@@ -56,11 +56,11 @@
         }
 
         table tr.m td:first-child {
-            margin-left: 24pt;
+            margin-left: 24px;
         }
 
         table tr.m td:last-child {
-            margin-right: 24pt;
+            margin-right: 24px;
         }
 
         table tr.vt td,
@@ -82,19 +82,19 @@
         }
 
         .l {
-            border-left: 1pt solid #000;
+            border-left: 1px solid #000;
         }
 
         .t {
-            border-top: 1pt solid #000;
+            border-top: 1px solid #000;
         }
 
         .r {
-            border-right: 1pt solid #000;
+            border-right: 1px solid #000;
         }
 
         .b {
-            border-bottom: 1pt solid #000;
+            border-bottom: 1px solid #000;
         }
     </style>
 </head>
@@ -104,38 +104,35 @@
         <style>
             header {
                 position: fixed;
-                top: -30pt;
-                left: 0pt;
-                right: 0pt;
+                top: -30px;
+                left: 0px;
+                right: 0px;
             }
 
             main {
                 position: relative;
-                top: 60pt;
-                font-size: 12pt;
-                padding-bottom: 37.79pt;
+                top: 60px;
+                font-size: 11pt;
+                padding-bottom: 37.79px;
             }
         </style>
         <header>
-            <table width="100%" style="border-bottom: 1pt double #000; border-width: 4pt;">
+            <table width="100%" style="border-bottom: 1px double #000; border-width: 4px;">
                 <tr>
                     <td width="70">
                         <img src="../storage/app/public/logo/{{ $logo }}" height="70"
                             alt="{{ $kec->id }}">
                     </td>
                     <td>
-                        <div>{{ strtoupper($nama_lembaga) }}</div>
-                        <div>
+                        <div style="font-size: 11pt;">{{ strtoupper($nama_lembaga) }}</div>
+                        <div style="font-size: 11pt;">
                             <b>{{ strtoupper($nama_kecamatan) }}</b>
                         </div>
-                        <div style="font-size: 10px; color: grey;">
+                        <div style="font-size: 9px; color: grey;">
                             <i>{{ $nomor_usaha }}</i>
                         </div>
-                        <div style="font-size: 10px; color: grey;">
+                        <div style="font-size: 9px; color: grey;">
                             <i>{{ $info }}</i>
-                        </div>
-                        <div style="font-size: 10px; color: grey;">
-                            <i>{{ $email }}</i>
                         </div>
                     </td>
                 </tr>
@@ -145,8 +142,8 @@
         <style>
             main {
                 position: relative;
-                font-size: 12pt;
-                top: -20pt;
+                font-size: 11px;
+                top: -20px;
             }
         </style>
     @endif

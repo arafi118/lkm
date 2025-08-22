@@ -20,7 +20,7 @@
     <style>
         /* styles.css */
         .centered-text {
-            font-size: 11pt;
+            font-size: 10pt;
             text-align: center;
             text-align: justify;
         }
@@ -28,7 +28,7 @@
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12pt;">
         <tr>
             <td colspan="3" align="center">
-                <div style="font-size: 14pt;">
+                <div style="font-size: 12pt;">
                     <b> SURAT PERJANJIAN KREDIT (SPK)</b>
                 </div>
                 <div style="font-size: 12pt;">
@@ -52,7 +52,7 @@
         bertanda
         tangan dibawah ini;
     </div>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -86,7 +86,7 @@
         {{ $kec->nama_kec }}, Selanjutnya disebut
         <b> Pihak Pertama </b> , dan
     </div>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
         <tr>
             <td width="5"> &nbsp; </td>
             <td width="90"> Nama Lengkap </td>
@@ -156,6 +156,7 @@
                 kesepakatan.</li>
         </ol>
     </div>
+    <br>
     <br>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 3 </b><br>
@@ -334,9 +335,9 @@
             dan rohani, serta tanpa unsur paksaan dari pihak manapun.
         </div>
     </div>
-    <div style="text-align: center;" style="font-size: 11pt;">
+    <div style="text-align: center;" style="font-size: 10pt;">
         <br>
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;" class="p">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;" class="p">
             <tr>
                 <td>
                     {!! $ttd !!}
