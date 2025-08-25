@@ -162,7 +162,14 @@
             <tr>
                 <td width="120" style="vertical-align: top;">Pekerjaan</td>
                 <td align="center">:</td>
-                <td>{{ $pinkel->anggota->u->nama_usaha }} </td>
+                <td>
+                    @if(is_numeric($pinkel->anggota->usaha))
+                        {{ $pinkel->anggota->u->nama_usaha }}
+                    @else
+                        {{ $pinkel->anggota->usaha }}
+                    @endif
+                </td>
+
             </tr>
             <tr>
                 <td>&nbsp;</td>

@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\resources",
+    "\\resources\\views",
+    "\\resources\\views\\perguliran_i",
+    "\\resources\\views\\perguliran_i\\dokumen",
+    "\\resources\\views\\perguliran_i\\dokumen\\layout"
   ],
-  "SelectedNode": "\\C:\\laragon\\www\\lkm",
+  "SelectedNode": "\\resources\\views\\perguliran_i\\dokumen\\spk.blade.php",
   "PreviewInSolutionExplorer": false
 }
