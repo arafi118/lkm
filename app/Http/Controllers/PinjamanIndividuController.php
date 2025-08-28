@@ -1741,6 +1741,30 @@ class PinjamanIndividuController extends Controller
             return $view;
         }
     }
+
+    public function cek_list($id, $data)
+    {
+        $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
+            'anggota', 'jpp'
+        ])->first();
+
+        $data['kec'] = Kecamatan::where('id', Session::get('lokasi'))->first();
+        $data['dir'] = User::where([
+            ['level', '1'],
+            ['jabatan', '1'],
+            ['lokasi', Session::get('lokasi')]
+        ])->with(['j'])->first();
+        $data['judul'] = 'Surat Persetujuan dan Kuasa (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $view = view('perguliran_i.dokumen.cek_list', $data)->render();
+
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view);
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
+
     public function daftarHadirVerifikasi($id, $data)
     {
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([

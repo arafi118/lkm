@@ -784,7 +784,7 @@ class SimpananController extends Controller
                 $transaksi->id_pinj = 0;
                 $transaksi->id_pinj_i = 0;
                 $transaksi->id_simp = $simp->id;
-                $transaksi->keterangan_transaksi = "Admin ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulantahun;
+                $transaksi->keterangan_transaksi = "Admin ".$simp->nomor_rekening." ".$simp->anggota->namadepan;
                 $transaksi->relasi = $simp->anggota->namadepan;
                 $transaksi->jumlah = $admin;
                 $transaksi->urutan = 0;

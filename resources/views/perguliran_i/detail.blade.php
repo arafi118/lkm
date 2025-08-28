@@ -18,6 +18,11 @@
     $dokumen_proposal = [
         ['title' => 'Cover', 'file' => 'coverProposal', 'withExcel' => false],
         [
+            'title' => 'Check List',
+            'file' => 'cek_list',
+            'withExcel' => false,
+        ],
+        [
             'title' => 'Surat Permohonan Pinjaman',
             'file' => 'suratPengajuanPinjaman',
             'withExcel' => false,
