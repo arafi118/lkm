@@ -149,13 +149,13 @@
         </div>
         <div style="display:table-row;">
             <div style="display:table-cell; text-align:center;">
-                <b>{{ $pinkel->anggota->ketua }}</b>
+                <b>{{ $dir->namadepan}} {{ $dir->namabelakang}}</b>
             </div>
             <div style="display:table-cell; text-align:center;">
-                <b>____________________</b>
+                <b>{{ $pinkel->anggota->penjamin}}</b>
             </div>
             <div style="display:table-cell; text-align:center;">
-                <b>____________________</b>
+                <b>{{ $pinkel->anggota->namadepan}}</b>
             </div>
         </div>
     </div>

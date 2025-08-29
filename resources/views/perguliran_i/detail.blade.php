@@ -175,6 +175,11 @@
             'file' => 'formVerifikasi',
             'withExcel' => false,
         ],
+        [
+            'title' => 'Pengambilan Jaminan',
+            'file' => 'pengambilan_jaminan',
+            'withExcel' => false,
+        ],
     ];
 
     if ($kecamatan && ($kecamatan->id == 1 || $kecamatan->id == 98)) {
