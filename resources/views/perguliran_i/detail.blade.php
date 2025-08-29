@@ -72,6 +72,11 @@
             'file' => 'suratpernyataansuami',
             'withExcel' => false,
         ],
+        [
+            'title' => 'Pernyataan Agungan Pihak Ketiga',
+            'file' => 'agungan',
+            'withExcel' => false,
+        ],
     ];
 
     if ($kecamatan && ($kecamatan->id == 1 || $kecamatan->id == 279)) {
