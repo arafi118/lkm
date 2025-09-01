@@ -1772,6 +1772,30 @@ class PinjamanIndividuController extends Controller
         }
     }
 
+    public function terima_jaminan($id, $data)
+    {
+        $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
+            'anggota',
+            'user'
+        ])->first();
+
+        $data['kec'] = Kecamatan::where('id', Session::get('lokasi'))->first();
+        $data['dir'] = User::where([
+            ['level', '1'],
+            ['jabatan', '1'],
+            ['lokasi', Session::get('lokasi')]
+        ])->with(['j'])->first();
+        $data['judul'] = 'terima_jaminan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $view = view('perguliran_i.dokumen.terima_jaminan', $data)->render();
+
+        if ($data['type'] == 'pdf') {
+            $pdf = PDF::loadHTML($view);
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
+
     public function SuratPersetujuanKuasa($id, $data)
     {
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([

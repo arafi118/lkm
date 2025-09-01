@@ -176,6 +176,11 @@
             'withExcel' => false,
         ],
         [
+            'title' => 'Terima Jaminan',
+            'file' => 'terima_jaminan',
+            'withExcel' => false,
+        ],
+        [
             'title' => 'Pengambilan Jaminan',
             'file' => 'pengambilan_jaminan',
             'withExcel' => false,
