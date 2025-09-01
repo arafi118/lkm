@@ -1,11 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\resources",
-    "\\resources\\views",
-    "\\resources\\views\\perguliran_i",
-    "\\resources\\views\\perguliran_i\\dokumen"
+    ""
   ],
-  "SelectedNode": "\\resources\\views\\perguliran_i\\dokumen\\terima_jaminan.blade.php",
+  "SelectedNode": "\\C:\\laragon\\www\\lkm",
   "PreviewInSolutionExplorer": false
 }

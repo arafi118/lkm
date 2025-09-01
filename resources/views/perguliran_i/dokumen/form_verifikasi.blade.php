@@ -142,7 +142,23 @@
             <td colspan="3" class="style9 align-justify">: Rp. _____________________ </td>
         </tr>
         <tr>
-            <td colspan="2" class="style9 align-justify">Angsuran Piutang di bank/koperasi/perorangan</td>
+            <td colspan="2" class="style9 align-justify">Angsuran Piutang di bank/koperasi/perorangan [1]</td>
+            <td colspan="3" class="style9 align-justify">: Rp. _____________________ </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="style9 align-justify">Angsuran Piutang di bank/koperasi/perorangan [2]</td>
+            <td colspan="3" class="style9 align-justify">: Rp. _____________________ </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="style9 align-justify">Angsuran Piutang di bank/koperasi/perorangan [3]</td>
+            <td colspan="3" class="style9 align-justify">: Rp. _____________________ </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="style9 align-justify">Angsuran Piutang di bank/koperasi/perorangan [4]</td>
+            <td colspan="3" class="style9 align-justify">: Rp. _____________________ </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="style9 align-justify">Angsuran Piutang di bank/koperasi/perorangan [5]</td>
             <td colspan="3" class="style9 align-justify">: Rp. _____________________ </td>
         </tr>
         <tr>
