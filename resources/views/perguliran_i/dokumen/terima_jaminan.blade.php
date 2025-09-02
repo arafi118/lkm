@@ -83,7 +83,7 @@
     @elseif ($jaminan['jenis_jaminan'] == '4')
         <tr>
             <td colspan="3" class="style9" style="padding-top: 10px;">
-                Dengan ini menyatakan telah menerima secara utuh dokumen jaminan berupa <strong>Dokumen Jaminan</strong> dengan rincian:
+                Dengan ini menyatakan telah menyerahkan secara utuh dokumen jaminan berupa <strong>Dokumen Jaminan</strong> dengan rincian:
             </td>
         </tr>
         <tr><td>&nbsp;</td><td class="style9">Nomor Jaminan</td><td class="style27">: {{ $jaminan['nama_jaminan'] }}</td></tr>

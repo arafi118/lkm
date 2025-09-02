@@ -16,21 +16,29 @@ use Auth;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
-use Illuminate\Support\Str; // Tambahan penting
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 use Session;
 
 class AuthController extends Controller
 {
-    protected $lokasi = 433;
+    private const ID_KEC = 351;
 
     public function index()
     {
         $keuangan = new Keuangan;
         $host = request()->getHost();
 
-        $kec = Kecamatan::where('web_kec', $host)
-            ->orWhere('web_alternatif', $host)
-            ->first();
+        // Handle URL lokal
+        if (request()->server('SERVER_NAME') === '127.0.0.1' || 
+            request()->server('SERVER_NAME') === 'localhost' ||
+            str_ends_with(request()->server('SERVER_NAME'), '.test')) {
+            $kec = Kecamatan::where('id', self::ID_KEC)->first();
+        } else {
+            $kec = Kecamatan::where('web_kec', $host)
+                ->orWhere('web_alternatif', $host)
+                ->first();
+        }
 
         if (!$kec) {
             $kab = Kabupaten::where('web_kab', $host)
@@ -70,10 +78,19 @@ class AuthController extends Controller
             ]);
         }
 
-        $kec = Kecamatan::where('web_kec', $host)
-            ->orWhere('web_alternatif', $host)
-            ->with('kabupaten')
-            ->first();
+        // Handle URL lokal
+        if (request()->server('SERVER_NAME') === '127.0.0.1' || 
+            request()->server('SERVER_NAME') === 'localhost' ||
+            str_ends_with(request()->server('SERVER_NAME'), '.test')) {
+            $kec = Kecamatan::where('id', self::ID_KEC)
+                ->with('kabupaten')
+                ->first();
+        } else {
+            $kec = Kecamatan::where('web_kec', $host)
+                ->orWhere('web_alternatif', $host)
+                ->with('kabupaten')
+                ->first();
+        }
 
         if (!$kec) {
             return redirect()->back();
@@ -107,16 +124,27 @@ class AuthController extends Controller
                             ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
                     })
                     ->with([
-                        'child' => function ($query) use ($hak_akses) {
-                            $query->whereNotIn('id', $hak_akses);
+                        'child' => function ($query) use ($hak_akses, $lokasi) {
+                            $query->whereNotIn('id', $hak_akses)
+                                ->where(function ($query) use ($lokasi) {
+                                    $query->where('lokasi', '0')
+                                        ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
+                                });
                         },
-                        'child.child' => function ($query) use ($hak_akses) {
-                            $query->whereNotIn('id', $hak_akses);
+                        'child.child' => function ($query) use ($hak_akses, $lokasi) {
+                            $query->whereNotIn('id', $hak_akses)
+                                ->where(function ($query) use ($lokasi) {
+                                    $query->where('lokasi', '0')
+                                        ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
+                                });
                         }
                     ])
                     ->orderBy('sort', 'ASC')
                     ->orderBy('id', 'ASC')
                     ->get();
+
+                $AksesMenu = explode(',', $user->akses_menu);
+                $Menu = Menu::whereNotIn('id', $AksesMenu)->pluck('title')->toArray();
 
                 $AksesTombol = explode(',', $user->akses_tombol);
                 $MenuTombol = MenuTombol::whereNotIn('id', $AksesTombol)->pluck('akses')->toArray();
@@ -124,12 +152,20 @@ class AuthController extends Controller
                 $angsuran = !in_array('19', $hak_akses) && !in_array('21', $hak_akses);
                 $inv = $this->generateInvoice($kec);
 
+                $unpaidInvoice = AdminInvoice::where([
+                    ['lokasi', $lokasi],
+                    ['status', 'UNPAID']
+                ])
+                ->whereDate('tgl_invoice', '<', Carbon::now()->subMonth())
+                ->count();
+
                 $request->session()->regenerate();
                 session([
                     'nama_lembaga' => str_replace('DBM ', '', $kec->nama_lembaga_sort),
                     'nama' => $user->namadepan . ' ' . $user->namabelakang,
                     'foto' => $user->foto,
                     'logo' => $kec->logo,
+                    'unpaidInvoice' => $unpaidInvoice,
                     'lokasi' => $user->lokasi,
                     'lokasi_user' => $user->lokasi,
                     'menu' => $menu,
@@ -155,8 +191,9 @@ class AuthController extends Controller
         $request = request();
         $host = $request->getHost();
 
-        if ($host === 'localhost' || Str::endsWith($host, '.test')) {
-            $kec = Kecamatan::find($this->lokasi);
+        // Handle URL lokal
+        if ($host === '127.0.0.1' || $host === 'localhost' || Str::endsWith($host, '.test')) {
+            $kec = Kecamatan::where('id', self::ID_KEC)->first();
         } else {
             $kec = Kecamatan::where('web_kec', $host)
                 ->orWhere('web_alternatif', $host)
@@ -195,11 +232,19 @@ class AuthController extends Controller
                             ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
                     })
                     ->with([
-                        'child' => function ($query) use ($hak_akses) {
-                            $query->whereNotIn('id', $hak_akses);
+                        'child' => function ($query) use ($hak_akses, $lokasi) {
+                            $query->whereNotIn('id', $hak_akses)
+                                ->where(function ($query) use ($lokasi) {
+                                    $query->where('lokasi', '0')
+                                        ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
+                                });
                         },
-                        'child.child' => function ($query) use ($hak_akses) {
-                            $query->whereNotIn('id', $hak_akses);
+                        'child.child' => function ($query) use ($hak_akses, $lokasi) {
+                            $query->whereNotIn('id', $hak_akses)
+                                ->where(function ($query) use ($lokasi) {
+                                    $query->where('lokasi', '0')
+                                        ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
+                                });
                         }
                     ])
                     ->orderBy('sort', 'ASC')
