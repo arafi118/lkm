@@ -50,7 +50,7 @@
     @if ($jaminan['jenis_jaminan'] == '1')
         <tr>
             <td colspan="3" class="style9" style="padding-top: 10px;">
-                Dengan ini menyatakan telah menyerahkan secara utuh dokumen jaminan berupa <strong>Sertifikat Hak Milik (SHM)</strong> dengan rincian:
+                Dengan ini menyatakan telah menerima secara utuh dokumen jaminan berupa <strong>Sertifikat Hak Milik (SHM)</strong> dengan rincian:
             </td>
         </tr>
         <tr><td>&nbsp;</td><td class="style9">Nomor Sertifikat</td><td class="style27">: {{ $jaminan['nomor_sertifikat'] }}</td></tr>
@@ -62,7 +62,7 @@
     @elseif ($jaminan['jenis_jaminan'] == '2')
         <tr>
             <td colspan="3" class="style9" style="padding-top: 10px;">
-                Dengan ini menyatakan telah menyerahkan secara utuh dokumen jaminan berupa <strong>BPKB Kendaraan Bermotor</strong> dengan rincian:
+                Dengan ini menyatakan telah menerima secara utuh dokumen jaminan berupa <strong>BPKB Kendaraan Bermotor</strong> dengan rincian:
             </td>
         </tr>
         <tr><td>&nbsp;</td><td class="style9">Nomor</td><td class="style27">: {{ $jaminan['nomor'] }}</td></tr>
@@ -73,7 +73,7 @@
     @elseif ($jaminan['jenis_jaminan'] == '3')
         <tr>
             <td colspan="3" class="style9" style="padding-top: 10px;">
-                Dengan ini menyatakan telah menyerahkan secara utuh dokumen jaminan berupa <strong>Surat Kepegawaian</strong> dengan rincian:
+                Dengan ini menyatakan telah menerima secara utuh dokumen jaminan berupa <strong>Surat Kepegawaian</strong> dengan rincian:
             </td>
         </tr>
         <tr><td>&nbsp;</td><td class="style9">Nomor</td><td class="style27">: {{ $jaminan['nomor'] }}</td></tr>
@@ -83,7 +83,7 @@
     @elseif ($jaminan['jenis_jaminan'] == '4')
         <tr>
             <td colspan="3" class="style9" style="padding-top: 10px;">
-                Dengan ini menyatakan telah menyerahkan secara utuh dokumen jaminan berupa <strong>Dokumen Jaminan</strong> dengan rincian:
+                Dengan ini menyatakan telah menerima secara utuh dokumen jaminan berupa <strong>Dokumen Jaminan</strong> dengan rincian:
             </td>
         </tr>
         <tr><td>&nbsp;</td><td class="style9">Nomor Jaminan</td><td class="style27">: {{ $jaminan['nama_jaminan'] }}</td></tr>

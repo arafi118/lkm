@@ -22,31 +22,31 @@
         }
 
         html {
-            /* margin-left: 90pt; */
-            /* margin-right: 0pt; */
-            margin-bottom: 100pt;
+            /* margin-left: 90px; */
+            /* margin-right: 0px; */
+            margin-bottom: 100px;
         }
 
         ul,
         ol {
-            margin-left: -10pt;
+            margin-left: -10px;
             page-break-inside: auto !important;
         }
 
         header {
             position: fixed;
-            top: -10pt;
-            left: 0pt;
-            right: 0pt;
+            top: -10px;
+            left: 0px;
+            right: 0px;
         }
 
         table tr th,
         table tr td {
-            padding: 2pt 4pt;
+            padding: 2px 4px;
         }
 
         table tr th {
-            font-size: 11pt;
+            font-size: 12px;
         }
 
         .break {
@@ -58,29 +58,29 @@
         }
 
         .l {
-            border-left: 1pt solid #000;
+            border-left: 1px solid #000;
         }
 
         .t {
-            border-top: 1pt solid #000;
+            border-top: 1px solid #000;
         }
 
         .r {
-            border-right: 1pt solid #000;
+            border-right: 1px solid #000;
         }
 
         .b {
-            border-bottom: 1pt solid #000;
+            border-bottom: 1px solid #000;
         }
     </style>
 </head>
 
 <body onload="window.print()">
-    <main style="position: relative; font-size: 11pt;">
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
+    <main style="position: relative; font-size: 12px;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
             <tr>
                 <td rowspan="7" align="center" width="400">
-                    <div style="font-size: 12pt; font-weight: bold;">
+                    <div style="font-size: 14px; font-weight: bold;">
                         {{ $kec->nama_lembaga_sort }} {{ $kec->nama_kec }}
                     </div>
                     <div>
@@ -89,11 +89,11 @@
                     <div>
                         Telp. {{ $kec->telpon_kec }}
                     </div>
-                    <div style="margin-top: 8pt;">
+                    <div style="margin-top: 8px;">
                         <img width="150" src="data:image/png;base64,{{ $barcode }}"
                             alt="{{ $nia->anggota->nik }}">
                     </div>
-                    <div style="font-size: 12pt;">{{ $nia->anggota->nik }}</div>
+                    <div style="font-size: 14px;">{{ $nia->anggota->nik }}</div>
                 </td>
                 <td width="150">Jenis Pinjaman</td>
                 <td width="5" align="center">:</td>
@@ -164,7 +164,7 @@
                 <td style="font-weight: bold;">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="7" class="b t" style="font-weight: bold; font-size: 24pt;" align="center">
+                <td colspan="7" class="b t" style="font-weight: bold; font-size: 24px;" align="center">
                     KARTU ANGSURAN
                 </td>
             </tr>
@@ -179,7 +179,7 @@
             }
         @endphp
 
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
             <tr>
                 <td width="40">&nbsp;</td>
                 <td colspan="9" style="font-weight: bold;" height="30">TABEL KEWAJIBAN PEMBAYARAN ANGSURAN</td>
@@ -261,7 +261,7 @@
 
         </table>
 
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
             <tr>
                 <td width="40" rowspan="{{ $rowspan }}">&nbsp;</td>
                 <td colspan="9" style="font-weight: bold;" height="30">REALISASI PEMBAYARAN ANGSURAN</td>
@@ -330,7 +330,7 @@
             @endif
         </table>
 
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10pt;">
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
             <tr>
                 <td width="40" rowspan="5">&nbsp;</td>
                 <td colspan="3" style="font-weight: bold;" height="30">&nbsp;</td>
@@ -341,10 +341,10 @@
                     <div>Lembar 1 : Untuk Peminjam</div>
                     <div>Lembar 2 : Arsip Lembaga</div>
                 </td>
-                <td style="font-weight: bold; font-size: 11pt;" width="350" align="center">
+                <td style="font-weight: bold; font-size: 12px;" width="350" align="center">
                     <div>{{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}</div>
                 </td>
-                <td style="font-weight: bold; font-size: 11pt;" width="350" align="center">Peminjam</td>
+                <td style="font-weight: bold; font-size: 12px;" width="350" align="center">Peminjam</td>
             </tr>
         <tr>
             <td align="center">
