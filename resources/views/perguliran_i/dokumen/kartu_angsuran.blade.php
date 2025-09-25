@@ -356,7 +356,7 @@
                     <img src="/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
                 @else
                     <p>&nbsp;</p>
-                    <p>&nbsp;</p>a
+                    <p>&nbsp;</p>
                     <p>&nbsp;</p>
                 @endif
             </td>
@@ -370,8 +370,8 @@
             <td align="center" style="font-weight: bold;">
                 {{ $dir->namadepan }} {{ $dir->namabelakang }}
             </td>
-            <td colspan="2" align="center" style="font-weight: bold;">
-                {{ $nia->anggota->namadepan }}
+            <td align="center" style="font-weight: bold;">
+                {{ $nia->anggota->namadepan }} 
             </td>
         </tr>
             <tr>
