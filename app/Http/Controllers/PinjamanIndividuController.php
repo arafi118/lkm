@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Anggota;
 use App\Models\Agent;
 use App\Models\DataPemanfaat;
@@ -1774,16 +1775,17 @@ class PinjamanIndividuController extends Controller
 
     public function terima_jaminan($id, $data)
     {
+        $keuangan = new Keuangan;
+        $data['keuangan'] = $keuangan;
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
             'anggota',
             'user'
         ])->first();
-
+        $user = Auth::user(); 
         $data['kec'] = Kecamatan::where('id', Session::get('lokasi'))->first();
-        $data['dir'] = User::where([
-            ['level', '1'],
-            ['jabatan', '1'],
-            ['lokasi', Session::get('lokasi')]
+        
+        $data['login'] = User::where([
+            ['id', $user->id]
         ])->with(['j'])->first();
         $data['judul'] = 'terima_jaminan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
         $view = view('perguliran_i.dokumen.terima_jaminan', $data)->render();

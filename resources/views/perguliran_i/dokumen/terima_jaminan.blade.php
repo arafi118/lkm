@@ -1,5 +1,23 @@
 @php
     use App\Utils\Tanggal;
+    use Carbon\Carbon;
+    Carbon::setLocale('id');
+    $waktu = date('H:i');
+    $tempat = 'Kantor';
+    $wt_cair = explode('_', $pinkel->wt_cair);
+    if (count($wt_cair) == 1) {
+        $waktu = $wt_cair[0];
+    }
+    if (count($wt_cair) == 2) {
+        $waktu = $wt_cair[0];
+        $tempat = $wt_cair[1] ?? ' . . . . . . . ';
+    }
+
+    $redaksi_spk = '';
+    if ($kec->redaksi_spk) {
+        $redaksi_spk = str_replace('<ol>', '', str_replace('</ol>', '', $kec->redaksi_spk));
+        $redaksi_spk = str_replace('<ul>', '', str_replace('</ul>', '', $redaksi_spk));
+    }
     $jaminan  = json_decode($pinkel->jaminan, true);
 
     function rupiah($angka) {
@@ -20,30 +38,34 @@
 
     <tr>
         <td colspan="3" class="style9">
-            Sehubungan dengan <strong>Surat Perjanjian Kredit (SPK) Nomor: {{ $pinkel->spk_no }}</strong>, 
-            yang bertanda tangan di bawah ini:
+            Sehubungan dengan <strong>Surat Perjanjian Kredit (SPK) Nomor: {{ $pinkel->spk_no }}</strong>, {{ Tanggal::namaHari($pinkel->tgl_cair) }} tanggal
+        {{ $keuangan->terbilang(Tanggal::hari($pinkel->tgl_cair)) }} bulan {{ Tanggal::namaBulan($pinkel->tgl_cair) }}
+        tahun
+        {{ $keuangan->terbilang(Tanggal::tahun($pinkel->tgl_cair)) }}, bertempat di {{ $kec->nama_lembaga_sort }} kami yang
+        bertanda
+        tangan dibawah ini:
         </td>
     </tr>
 
     <tr>
         <td width="5">&nbsp;</td>
         <td class="style9" width="25%">Nama Lengkap</td>
-        <td class="style27">: {{ $pinkel->anggota->namadepan }}</td>
+        <td class="style27">: {{ $login->namadepan }}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td class="style9">NIK</td>
-        <td class="style27">: {{ $pinkel->anggota->nik }}</td>
+        <td class="style27">: {{ $login->nik }}</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td class="style9">Jabatan</td>
+        <td class="style27">: {{ $login->j->nama_jabatan }} {{ $kec->nama_lembaga_sort }}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td class="style9">Alamat</td>
-        <td class="style27">: {{ $pinkel->anggota->d->nama_desa }}</td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td class="style9">ID Pinjaman</td>
-        <td class="style27">: {{ $pinkel->id }}</td>
+        <td class="style27">: {{ $login->alamat }}</td>
     </tr>
 
     {{-- Pilihan Jaminan --}}
@@ -106,14 +128,19 @@
     <tr>
         <td width="50%">&nbsp;</td>
         <td width="50%" align="center" class="style9">
-            {{ $kab->nama_kab }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }} <br>
-            Hormat saya,
+            {{ $kab->nama_kab }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }} 
         </td>
     </tr>
     <tr>
-        <td>&nbsp;</td>
-        <td align="center" style="padding-top: 60px;">
+        <td align="center">
+            Yang Menyerahkan,
+            <br><br><br><br><br><br>
             <strong>{{ $pinkel->anggota->namadepan }}</strong>
+        </td>
+        <td align="center">
+            Yang Menerima,
+            <br><br><br><br><br><br>
+            <strong>{{ $login->namadepan }}</strong>
         </td>
     </tr>
 </table>
