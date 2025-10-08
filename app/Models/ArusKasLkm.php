@@ -8,12 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class ArusKasLkm extends Model
 {
     use HasFactory;
-    protected $table;
 
-    public function __construct(array $attributes = [])
+    public function getTable()
     {
-        parent::__construct($attributes);
-        $this->table = 'arus_kas_lkm';
+        $lokasi = session('lokasi');
+
+        $lokasiKop = [1, 351, 352, 353, 354];
+
+        if (in_array($lokasi, $lokasiKop)) {
+            return 'arus_kas_kop';
+        }
+
+        return 'arus_kas_lkm';
     }
 
     public function child()

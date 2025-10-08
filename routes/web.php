@@ -160,6 +160,7 @@ Route::put('/pengaturan/pesan_whatsapp/{kec}', [SopController::class, 'pesanWhat
 Route::put('/pengaturan/lembaga/{kec}', [SopController::class, 'lembaga'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/pengelola/{kec}', [SopController::class, 'pengelola'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/pinjaman/{kec}', [SopController::class, 'pinjaman'])->middleware('auth', 'is_aktif');
+Route::put('/pengaturan/kolek/{kec}', [SopController::class, 'kolek'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/simpanan/{kec}', [SopController::class, 'simpanan'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/asuransi/{kec}', [SopController::class, 'asuransi'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/spk/{kec}', [SopController::class, 'spk'])->middleware('auth', 'is_aktif');
