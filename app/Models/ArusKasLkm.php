@@ -13,7 +13,7 @@ class ArusKasLkm extends Model
     protected static function booted()
     {
         static::addGlobalScope('aktif', function (Builder $builder) {
-            $builder->where('status', 'Y');
+            $builder->where('aktif', 'Y');
         });
     }
 
