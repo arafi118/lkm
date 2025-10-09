@@ -910,7 +910,7 @@ class PelaporanController extends Controller
                 }
             ])->get();
 
-        $view = view('pelaporan.view.ojk.kolekbilitas_pinjaman', $data)->render();
+        $view = view('pelaporan.view.ojk.kolekbilitas_pinjaman2', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view)->setPaper('A4', 'landscape');

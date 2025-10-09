@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Utils;
+use DateTime;
 
 use App\Models\AkunLevel2;
 use App\Models\Kecamatan;
@@ -580,6 +581,7 @@ class Keuangan
 
     public function tingkat_kesehatan($tgl_kondisi, $data = [])
     {
+        $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $tgl = explode('-', $tgl_kondisi);
         $data['tahun'] = $tgl[0];
         $data['bulan'] = $tgl[1];
@@ -591,11 +593,24 @@ class Keuangan
         $sum_nunggak_jasa = 0;
         $sum_saldo_pokok = 0;
         $sum_saldo_jasa = 0;
-        $sum_kolek1 = 0;
-        $sum_kolek2 = 0;
-        $sum_kolek3 = 0;
-        $sum_kolek4 = 0;
-        $sum_kolek5 = 0;
+
+        $klk = json_decode($kec->kolek, true);
+    
+        $kolek_items = [];
+        if (is_array($klk)) {
+            foreach ($klk as $index => $item) {
+                if (!empty($item['nama'])) {
+                    $kolek_items[] = $item;
+                }
+            }
+        }
+    
+        $jumlah_kolek = count($kolek_items);
+    
+        $sum_kolek_total = [];
+        for ($i = 0; $i < $jumlah_kolek; $i++) {
+            $sum_kolek_total[$i] = 0;
+        }
 
         $pinjaman_anggota = PinjamanIndividu::where('sistem_angsuran', '!=', '12')
             ->where(function ($query) use ($data) {
@@ -660,14 +675,14 @@ class Keuangan
             $wajib_pokok = 0;
             $wajib_jasa = 0;
             $angsuran_ke = 0;
-                    $jatuh_tempo = 0;
+            $jatuh_tempo = 0;
             if ($pinkel->target) {
                 $target_pokok = $pinkel->target->target_pokok;
                 $target_jasa = $pinkel->target->target_jasa;
                 $wajib_pokok = $pinkel->target->wajib_pokok;
                 $wajib_jasa = $pinkel->target->wajib_jasa;
                 $angsuran_ke = $pinkel->target->angsuran_ke;
-                        $jatuh_tempo = $pinkel->target->jatuh_tempo;
+                $jatuh_tempo = $pinkel->target->jatuh_tempo;
             }
 
             $tunggakan_pokok = $target_pokok - $sum_pokok;
@@ -701,61 +716,93 @@ class Keuangan
             $bl_cair = $tgl_cair[1];
             $tg_cair = $tgl_cair[2];
 
-            $selisih_tahun = ($data['tahun'] - $th_cair) * 12;
-            $selisih_bulan = $data['bulan'] - $bl_cair;
+            $tgl_akhir = new DateTime($tgl_kondisi);
+            $tgl_awal = new DateTime($pinkel->tgl_cair);
+            $selisih = $tgl_akhir->diff($tgl_awal);
 
-            $selisih = $selisih_bulan + $selisih_tahun;
+            $selisih = $selisih->y * 12 + $selisih->m;
+
             $jum_nunggak = ceil($wajib_pokok == 0 ? 0 : $tunggakan_pokok/$wajib_pokok);
 
-                    $kolek = 0;
-                    if ($tunggakan_pokok <= 0) {
-                        $kolek = 0;
-                    } elseif ($jatuh_tempo != 0) {
-                        $kolek = round((strtotime($tgl_kondisi) - strtotime($jatuh_tempo)) / (60 * 60 * 24))+(($jum_nunggak-1)*30);
-                        if ($kolek < 0) {
-                            $kolek = 0;
-                        }
-                    }
-            $kolek1 = $kolek2 = $kolek3 = $kolek4 = $kolek5 = 0;
+            $_kolek = 0;
+            if ($wajib_pokok != '0') {
+                $_kolek = $tunggakan_pokok / $wajib_pokok;
+            }
+            $kolek_bulan = round($_kolek + ($selisih - $angsuran_ke));
 
-            if ($kolek < 10) {
-                $kolek1 = $saldo_pokok;
-            } elseif ($kolek < 90) {
-                $kolek2 = $saldo_pokok;
-            } elseif ($kolek < 120) {
-                $kolek3 = $saldo_pokok;
-            } elseif ($kolek < 180) {
-                $kolek4 = $saldo_pokok;
-            } else {
-                $kolek5 = $saldo_pokok;
+            $kolek_hari = 0;
+            if ($tunggakan_pokok <= 0) {
+                $kolek_hari = 0;
+            } elseif ($jatuh_tempo != 0) {
+                $kolek_hari = round((strtotime($tgl_kondisi) - strtotime($jatuh_tempo)) / (60 * 60 * 24))+(($jum_nunggak-1)*30);
+                if ($kolek_hari < 0) {
+                    $kolek_hari = 0;
+                }
+            }
+
+            $kolek_values = [];
+            for ($i = 0; $i < $jumlah_kolek; $i++) {
+                $kolek_values[$i] = 0;
+            }
+
+            $matched = false;
+            foreach ($kolek_items as $idx => $item) {
+                if (!is_array($item) || !isset($item['durasi'], $item['satuan'])) {
+                    continue;
+                }
+
+                $durasi = (int) $item['durasi'];
+                $match = false;
+            
+                if ($item['satuan'] === 'hari' && isset($kolek_hari) && $kolek_hari < $durasi) {
+                    $match = true;
+                } elseif ($item['satuan'] === 'bulan' && isset($kolek_bulan) && $kolek_bulan < $durasi) {
+                    $match = true;
+                }
+
+                if ($match) {
+                    $kolek_values[$idx] = $saldo_pokok;
+                    $matched = true;
+                    break;
+                }
+            }
+
+            if (!$matched && $jumlah_kolek > 0) {
+                $kolek_values[$jumlah_kolek - 1] = $saldo_pokok;
             }
 
             $sum_nunggak_pokok += $tunggakan_pokok;
             $sum_nunggak_jasa += $tunggakan_jasa;
             $sum_saldo_pokok += $saldo_pokok;
             $sum_saldo_jasa += $saldo_jasa;
-            $sum_kolek1 += $kolek1;
-            $sum_kolek2 += $kolek2;
-            $sum_kolek3 += $kolek3;
-            $sum_kolek4 += $kolek4;
-            $sum_kolek5 += $kolek5;
+        
+            for ($i = 0; $i < $jumlah_kolek; $i++) {
+                $sum_kolek_total[$i] += $kolek_values[$i];
+            }
         }
 
-        $kolek_1 = $sum_kolek1 * 0 / 100;
-        $kolek_2 = $sum_kolek2 * 5 / 100;
-        $kolek_3 = $sum_kolek3 * 15 / 100;
-        $kolek_4 = $sum_kolek4 * 50 / 100;
-        $kolek_5 = $sum_kolek5 * 100 / 100;
+        $total_risiko = 0;
+        $kolek_risiko = [];
+    
+        foreach ($kolek_items as $idx => $item) {
+            $prosentase = (float) $item['prosentase'];
+            $nilai_kolek = $sum_kolek_total[$idx] ?? 0;
+            $risiko = ($nilai_kolek * $prosentase) / 100;
+            $kolek_risiko[$idx] = $risiko;
+            $total_risiko += $risiko;
+        }
 
         return [
             'nunggak_pokok' => $sum_nunggak_pokok,
             'nunggak_jasa' => $sum_nunggak_jasa,
             'saldo_pokok' => $sum_saldo_pokok,
             'saldo_jasa' => $sum_saldo_jasa,
-            'sum_kolek' => ($kolek_1 + $kolek_2 + $kolek_3 + $kolek_4 + $kolek_5)
+            'sum_kolek' => $total_risiko,
+            'kolek_items' => $kolek_items,
+            'sum_kolek_total' => $sum_kolek_total,
+            'kolek_risiko' => $kolek_risiko
         ];
     }
-
     public function aset($tgl_kondisi)
     {
         $data = [
