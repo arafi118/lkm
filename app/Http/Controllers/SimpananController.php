@@ -256,8 +256,15 @@ class SimpananController extends Controller
         $saldo = 0;
         $transaksi = Transaksi::where('idt', $idt)->with('realSimpanan')->orderBy('tgl_transaksi', 'asc')->first();
         $transaksiCount = Transaksi::where('id_simp', $transaksi->id_simp)
-                                   ->where('idt', '<=', $idt)
-                                   ->count();
+            ->where(function ($query) use ($transaksi) {
+                $query->where('tgl_transaksi', '<', $transaksi->tgl_transaksi)
+                      ->orWhere(function ($subQuery) use ($transaksi) {
+                          $subQuery->where('tgl_transaksi', $transaksi->tgl_transaksi)
+                                   ->where('idt', '<=', $transaksi->idt);
+                      });
+            })
+            ->count();
+
         $user = auth()->user();
         $userTransaksi = User::find($transaksi->id_user);
     
