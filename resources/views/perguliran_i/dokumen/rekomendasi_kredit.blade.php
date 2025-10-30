@@ -82,13 +82,13 @@
                         alt="{{ $kab->id }}.png" style="margin-bottom: 8pt;">
                 </td>
                 <td align="center">
-                    <div style="font-size: 18pt;">
+                    <div style="font-size: 14pt;">
                         PEMERINTAH DAERAH {{ strtoupper($nama_kabupaten) }}
                     </div>
-                    <div style="font-size: 18pt;">
+                    <div style="font-size: 14pt;">
                         {{ strtoupper($kec->sebutan_kec) }} {{ strtoupper($kec->nama_kec) }}
                     </div>
-                    <div style="font-size: 18pt;">
+                    <div style="font-size: 12pt;">
                         <b>
                             {{ strtoupper($pinkel->anggota->d->sebutan_desa->sebutan_desa) }}
                             {{ strtoupper($pinkel->anggota->d->nama_desa) }}
@@ -101,7 +101,7 @@
         <table border="0" width="85%" align="center"cellspacing="0" cellpadding="0" style="font-size: 11pt;">
             <tr>
                 <td align="center">
-                    <div style="font-size: 18pt;">
+                    <div style="font-size: 12pt;">
                         <b>REKOMENDASI KREDIT</b>
                     </div>
                     <div style="font-size: 11pt;">
