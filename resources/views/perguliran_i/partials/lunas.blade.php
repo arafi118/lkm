@@ -6,7 +6,7 @@
             in_array($kec->id, ['98', '351', '352', '353', '354']));
 
     $saldo_pokok = max(0, $ra->target_pokok - $real->sum_pokok);
-    $saldo_jasa = max(0, $ra_real->target_jasa - $real->sum_jasa);
+    $saldo_jasa = max(0, $ra->target_jasa - $real->sum_jasa);
 
     $keterangan1 = $saldo_pokok == 0 ? 'Lunas' : 'Belum Lunas';
     $keterangan2 = $saldo_jasa == 0 ? 'Lunas' : 'Belum Lunas';
@@ -72,7 +72,7 @@
                         </tr>
                         <tr>
                             <td>Jasa</td>
-                            <td>{{ number_format($ra_real->target_jasa) }}</td>
+                            <td>{{ number_format($ra->target_jasa) }}</td>
                             <td>{{ number_format($real->sum_jasa) }}</td>
                             <td>{{ number_format($saldo_jasa) }}</td>
                             <td>{{ $keterangan2 }}</td>
