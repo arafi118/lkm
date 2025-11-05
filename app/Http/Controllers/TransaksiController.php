@@ -2053,12 +2053,6 @@ class TransaksiController extends Controller
                 $pinkel = PinjamanAnggota::where('id', $id_pinj)->update([
                     'status' => 'W'
                 ]);
-
-                $pinj_anggota = PinjamanAnggota::where('id_pinkel', $id_pinj)->update([
-                    'status' => 'W',
-                    'kom_pokok' => 0,
-                    'kom_jasa' => 0
-                ]);
             }
 
             $trx = Transaksi::where('idt', $idt)->delete();
