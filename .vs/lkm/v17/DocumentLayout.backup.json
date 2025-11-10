@@ -203,8 +203,7 @@
               "ViewState": "AgIAAGUBAAAAAAAAAAAlwGoBAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2024-12-09T03:33:21.649Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -214,7 +213,7 @@
               "RelativeDocumentMoniker": "app\\Http\\Controllers\\AuthController.php",
               "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\AuthController.php",
               "RelativeToolTip": "app\\Http\\Controllers\\AuthController.php",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2025-03-10T05:35:44.153Z",
               "IsPinned": true,
@@ -694,8 +693,7 @@
               "RelativeToolTip": "resources\\views\\perguliran_i\\dokumen\\rekomendasi_kredit.blade.php",
               "ViewState": "AgIAAEcAAAAAAAAAAAAswGcAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-08-25T04:01:29.782Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-25T04:01:29.782Z"
             },
             {
               "$type": "Document",
