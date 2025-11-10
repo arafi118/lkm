@@ -11,6 +11,7 @@ use App\Models\RealAngsuranI;
 use App\Models\RencanaAngsuran;
 use App\Models\RencanaAngsuranI;
 use App\Utils\Keuangan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Session;
 use URL;
@@ -369,12 +370,12 @@ class GenerateController extends Controller
                 $tahun  = substr($tgl_cair, 0, 4);
                 if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
-                    $penambahan = "+$tambah days";
+    $jatuh = Carbon::parse($tgl_cair)->addDays($x);
+    $jatuh_tempo = $jatuh->toDateString();
                 } else {
-                    $penambahan = "+$x month";
+    $jatuh = Carbon::parse($tgl_cair)->addMonthsNoOverflow($x);
+    $jatuh_tempo = $jatuh->toDateString();
                 }
-
-                $jatuh_tempo = date('Y-m-d', strtotime($penambahan, strtotime($tgl_cair)));
                 // $jatuh_tempo = date('Y-m-t', strtotime($bulan_jatuh_tempo));
                 // if (date('d', strtotime($tgl_cair)) < date('d', strtotime($jatuh_tempo))) {
                 //     $jatuh_tempo = date('Y-m', strtotime($bulan_jatuh_tempo)) . '-' . date('d', strtotime($tgl_cair));
