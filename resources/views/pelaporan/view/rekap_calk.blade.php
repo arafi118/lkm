@@ -171,8 +171,8 @@
                     <tr style="background: #000; color: #fff;">
                         <td width="10%">Kode</td>
                         <td width="45%">Nama Akun</td>
-                        <td align="center" width="15%">Saldo Tahun Lalu</td>
-                        <td align="center" width="15%">Total Saldo</td>
+                        <td align="center" width="15%">Saldo Awal Tahun</td>
+                        <td align="center" width="15%">Saldo s.d. {{$sub_judul}}</td>
                     </tr>
                     <tr>
                         <td colspan="4" height="1"></td>
@@ -370,7 +370,7 @@
             </div>
             <div style="text-align: justify;">
                 Catatan atas Laporan Keuangan (CaLK) ini merupakan bagian tidak terpisahkan dari Laporan
-                Keuangan Koperasi untuk Laporan Operasi Bulan {{ $nama_tgl }}.
+                Keuangan Koperasi untuk Laporan Operasi {{ $nama_tgl }}.
                 Selanjutnya Catatan
                 atas Laporan Keuangan ini diharapkan untuk dapat berguna bagi pihak-pihak yang berkepentingan
                 (stakeholders) serta memenuhi prinsip-prinsip transparansi, akuntabilitas, pertanggungjawaban,
