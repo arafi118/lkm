@@ -88,6 +88,46 @@
             {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}
         </td>
     </tr>
+
+    
+    @if (in_array(session('lokasi'), [1, 351, 352, 353, 354]))
+    <tr>
+        <td align="center" colspan="6">Setuju Dibayarkan</td>
+        <td align="center" colspan="6">Diterima Oleh</td>
+    </tr>
+    <tr>
+        <td align="center" colspan="6">{{ $kec->sebutan_level_1 }}</td>
+        <td align="center" colspan="6"></td>
+    </tr>
+    <tr>
+        <td align="center" colspan="6">
+            @php
+                $qrDirPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
+            @endphp
+
+            @if (file_exists($qrDirPath))
+                <img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+            @else
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+            @endif
+        </td>
+        <td align="center" colspan="6">
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" colspan="6">
+            <b>{{ $dir->namadepan }} {{ $dir->namabelakang }}</b>
+        </td>
+        <td align="center" colspan="6">
+            <b>{{ $pinkel->anggota->namadepan }}</b>
+        </td>
+    </tr>
+    @else
     <tr>
         <td align="center" colspan="3">Setuju Dibayarkan</td>
         <td align="center" colspan="3">Dikeluarkan Oleh</td>
@@ -134,6 +174,7 @@
             <b>{{ $pinkel->anggota->namadepan }}</b>
         </td>
     </tr>
+    @endif
 </table>
 
         </div>

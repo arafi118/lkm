@@ -1,5 +1,7 @@
 @php
     use App\Utils\Tanggal;
+    use Session;
+    dd(session()->all());
 
     $waktu = date('H:i');
     $tempat = 'Kantor DBM';
@@ -94,6 +96,7 @@
                     {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}
                 </td>
             </tr>
+            @if(Session::get('lokasi'))
             <tr>
                 <td align="center" colspan="3">
                     Setuju Dibayarkan

@@ -309,8 +309,7 @@
             </li>
             <li>
                 Apabila tidak tercapai kata mufakat dalam proses penyelesaian perselisihan sebgaiman di maksud pasal 8 ayat
-                3 maka akan di selesaikan secara hukum sesuai hukum yang berlaku di Indonesia melalui pengadilan Negeri
-                Gunungkidul.
+                3 maka akan di selesaikan secara hukum sesuai hukum yang berlaku di Indonesia melalui pengadilan <strong>Kabupaten {{$kec->kabupaten->nama_kab}}</strong>.
             </li>
         </ol>
     </div> <br>

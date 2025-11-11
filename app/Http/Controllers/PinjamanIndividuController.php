@@ -2474,6 +2474,18 @@ class PinjamanIndividuController extends Controller
             ['lokasi', Session::get('lokasi')],
             ['level', '4']
         ])->with('j')->orderBy('id')->get();
+        
+        $data['dir'] = User::where([
+            ['level', '1'],
+            ['lokasi', Session::get('lokasi')]
+        ])
+        ->where(function($query) {
+            if (Session::get('lokasi') == '351') {
+                $query->where('jabatan', '3');
+            } else {
+                $query->where('jabatan', '1');
+            }
+        })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
 

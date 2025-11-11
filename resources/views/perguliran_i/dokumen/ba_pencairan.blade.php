@@ -34,7 +34,7 @@
 
 
     <p style="text-align: justify;">
-        Sesuai Surat Pengajuan Kredit (SPK) nomor : {{ $pinkel->spk_no }}. Pada hari ini
+        Sesuai Surat Pengajuan Kredit (SPK) nomor : {{ $pinkel->spk_no }}. Pada hari ini 
         {{ Tanggal::namaHari($pinkel->tgl_cair) }}
         tanggal
         {{ $keuangan->terbilang(Tanggal::hari($pinkel->tgl_cair)) }} bulan {{ Tanggal::namaBulan($pinkel->tgl_cair) }}
