@@ -3967,6 +3967,10 @@ class PelaporanController extends Controller
         foreach ($daftarLokasi as $lokasi) {
             $Lokasi[] = trim($lokasi);
         }
+        $data['th'] = Tanggal::tahun($tgl);
+        if ($data['bulanan']) {
+            $data['th'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+        }
 
         $kecamatan = DB::table('kecamatan')->whereIn('id', $Lokasi)->get();
         foreach ($kecamatan as $kec) {
@@ -4009,6 +4013,11 @@ class PelaporanController extends Controller
 
         $data['debit'] = 0;
         $data['kredit'] = 0;
+        
+        $data['th'] = Tanggal::tahun($tgl);
+        if ($data['bulanan']) {
+            $data['th'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+        }
 
         $data['akun1'] = AkunLevel1::where('lev1', '<=', '3')->with([
             'akun2',
@@ -4335,10 +4344,12 @@ class PelaporanController extends Controller
         $data['nama_tgl'] = 'Tahun ' . $thn;
         $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
         $data['tgl'] = Tanggal::tahun($tgl);
+        $data['th'] = Tanggal::tahun($tgl);
         if ($data['bulanan']) {
             $data['sub_judul'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
             $data['nama_tgl'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' Tahun ' . $thn;
             $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+            $data['th'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
         }
 
         $data['debit'] = 0;
@@ -4409,10 +4420,12 @@ class PelaporanController extends Controller
         $data['nama_tgl'] = 'Tahun ' . $thn;
         $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
         $data['tgl'] = Tanggal::tahun($tgl);
+        $data['th'] = Tanggal::tahun($tgl);
         if ($data['bulanan']) {
             $data['sub_judul'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
             $data['nama_tgl'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' Tahun ' . $thn;
             $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+            $data['th'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
         }
 
         $data['debit'] = 0;
