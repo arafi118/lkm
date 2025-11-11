@@ -171,7 +171,7 @@
                         <td width="10%">Kode</td>
                         <td width="45%">Nama Akun</td>
                         <td align="center" width="15%">Saldo Awal Tahun</td>
-                        <td align="center" width="15%">Saldo s.d. {{$sub_judul}}</td>
+                        <td align="center" width="15%">Saldo s.d. {{$th}}</td>
                     </tr>
                     <tr>
                         <td colspan="4" height="1"></td>
