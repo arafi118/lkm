@@ -371,7 +371,7 @@
                         </td>
                         <td align="right">{{ number_format($kredit, 2) }}</td>
                     </tr>
-                    @if($kredit!=$debit)
+                    @if(round($kredit, 2) != round($debit, 2))
                     <tr style="background: rgb(250, 0, 0); font-weight: bold;">
                         <td height="20" colspan="3" align="left">
                             <b>Terdapat selisih antara Aset dengan Liabilitas + Ekuitas</b> {{ number_format($debit, 2) }} != {{ number_format($kredit, 2) }}
