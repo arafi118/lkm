@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\resources",
+    "\\resources\\views",
+    "\\resources\\views\\pelaporan",
+    "\\resources\\views\\pelaporan\\view"
   ],
-  "SelectedNode": "\\C:\\laragon\\www\\lkm",
+  "SelectedNode": "\\resources\\views\\pelaporan\\view\\calk.blade.php",
   "PreviewInSolutionExplorer": false
 }

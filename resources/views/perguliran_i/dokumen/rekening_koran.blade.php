@@ -125,7 +125,8 @@
                 } elseif (
                     $trx->rekening_kredit == '4.1.01.04' or
                     $trx->rekening_kredit == '4.1.01.05' or
-                    $trx->rekening_kredit == '4.1.01.06'
+                    $trx->rekening_kredit == '4.1.01.06' or
+                    $trx->rekening_kredit == '4.1.02.03'
                 ) {
                     $denda = intval($trx->jumlah);
                 } elseif ($kredit == '1.1.01') {
