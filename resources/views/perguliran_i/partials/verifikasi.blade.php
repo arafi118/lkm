@@ -230,10 +230,16 @@
                             @if (!in_array('perguliran.balik_proposal', Session::get('tombol', []))) disabled @endif>
                             <b><i class="fa fa-refresh"></i> &nbsp; KEMBALI KE PROPOSAL</b>
                         </button>
-                        <button type="button" id="Simpan" class="btn btn-secondary flex-grow-1 ms-2"
+                        <button type="button" id="Simpan" class="btn btn-secondary float-end flex-grow-1 ms-2"
                             style="background-color: rgb(112, 109, 109);"
                             @if (!in_array('perguliran.simpan_dana', Session::get('tombol', []))) disabled @endif>
                             <b><i class="fa fa-search-plus"></i> &nbsp; SIMPAN KEPUTUSAN PENDANAAN</b>
+                        </button>
+                        <button type="button" id="tdklayak" class="btn btn-dark text-danger float-end  flex-grow-1 me-2"
+                            @if (!in_array('perguliran.simpan_verifikator', Session::get('tombol', [])))
+                                disabled
+                            @endif >
+                            <i class="fa fa-ban" aria-hidden="true"></i> &nbsp; TIDAK LAYAK
                         </button>
                     </div>
 
@@ -243,6 +249,9 @@
     </div>
 </form>
 <form action="/perguliran_i/kembali_proposal/{{ $perguliran_i->id }}" method="post" id="formKembaliProposal">
+    @csrf
+</form>
+<form action="/perguliran_i/tdklayak/{{ $perguliran_i->id }}" method="post" id="formtdklayak">
     @csrf
 </form>
 

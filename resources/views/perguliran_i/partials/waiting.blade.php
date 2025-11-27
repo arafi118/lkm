@@ -302,7 +302,7 @@
 
                         <button type="button" id="Simpan"
                             {{ $force_disable ? 'disabled' : '' }}
-                            class="btn btn-secondary flex-grow-1 ms-2" style="background-color: rgb(112, 109, 109);"
+                            class="btn btn-secondary float-end   flex-grow-1 ms-2" style="background-color: rgb(112, 109, 109);"
                     @if (!in_array('perguliran.cairkan', Session::get('tombol', [])))
                         disabled
                     @endif

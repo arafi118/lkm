@@ -478,6 +478,8 @@ class PinjamanIndividuController extends Controller
             $view = 'aktif';
         } elseif ($perguliran_i->status == 'W') {
             $view = 'waiting';
+        } elseif ($perguliran_i->status == 'T') {
+            $view = 'tl';
         } elseif ($perguliran_i->status == 'V') {
             $view = 'verifikasi';
         } elseif ($perguliran_i->status == 'P') {
@@ -1052,6 +1054,32 @@ class PinjamanIndividuController extends Controller
         return response()->json([
             'success' => true,
             'msg' => 'Pinjaman atas nama ' . $id->anggota->namadepan . ' Loan ID. ' . $id->id . ' berhasil dikembalikan menjadi status P (Pengajuan/Proposal)',
+            'id_pinkel' => $id->id
+        ]);
+    }
+
+    public function tdklayak(Request $request, PinjamanIndividu $id)
+    {
+        $pinjaman = PinjamanIndividu::findOrFail($id->id);
+        $catatanBaru = !empty($pinjaman->catatan_verifikasi) 
+            ? $pinjaman->catatan_verifikasi . "\ntidak layak"
+            : "tidak layak";
+    
+        $pinj_i = PinjamanIndividu::where('id', $id->id)->update([
+            'status' => 'T',
+            'catatan_verifikasi' => $catatanBaru
+        ]);
+    
+        $pemanfaat = DataPemanfaat::where([
+            ['id_pinkel', $id->id],
+            ['lokasi', Session::get('lokasi')]
+        ])->update([
+            'status' => 'T'
+        ]);
+    
+        return response()->json([
+            'success' => true,
+            'msg' => 'Pinjaman atas nama ' . $id->anggota->namadepan . ' Loan ID. ' . $id->id . ' berhasil ditetapkan sebagai Tidak Layak',
             'id_pinkel' => $id->id
         ]);
     }

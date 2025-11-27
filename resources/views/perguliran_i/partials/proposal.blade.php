@@ -164,12 +164,20 @@
                             </div>
                         </div>
                     </div>
-                    <button id="Simpan" class="mt-2 btn btn-primary float-end btn-sm"
-                @if (!in_array('perguliran.simpan_verifikator', Session::get('tombol', [])))
-                    disabled
-                @endif
-            >SIMPAN REKOM
-                        VERIFIKATOR</button>
+                    <div class="card-body">
+                        <button id="Simpan" class="btn btn-primary float-end  flex-grow-1 me-2"
+                            @if (!in_array('perguliran.simpan_verifikator', Session::get('tombol', [])))
+                                disabled
+                            @endif
+                            >SIMPAN REKOM VERIFIKATOR
+                        </button>
+                        <button type="button" id="tdklayak" class="btn btn-dark text-danger float-end  flex-grow-1 me-2"
+                            @if (!in_array('perguliran.simpan_verifikator', Session::get('tombol', [])))
+                                disabled
+                            @endif >
+                            <i class="fa fa-ban" aria-hidden="true"></i> &nbsp; TIDAK LAYAK
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -177,6 +185,9 @@
 
 </form>
 
+<form action="/perguliran_i/tdklayak/{{ $perguliran_i->id }}" method="post" id="formtdklayak">
+    @csrf
+</form>
 
 <script>
     $('.date').datepicker({

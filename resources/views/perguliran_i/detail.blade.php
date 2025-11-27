@@ -911,6 +911,35 @@
                 }
             })
         })
+        
+        $(document).on('click', '#tdklayak', function() {
+            Swal.fire({
+                title: 'Peringatan',
+                text: 'Anda yakin ingin menandai pengajuan ini sebagai Tidak Layak??',
+                showCancelButton: true,
+                confirmButtonText: 'Tidak Layak',
+                cancelButtonText: 'Batal',
+                icon: 'danger'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var form = $('#formtdklayak')
+                    $.ajax({
+                        type: form.attr('method'),
+                        url: form.attr('action'),
+                        data: form.serialize(),
+                        success: function(result) {
+                            if (result.success) {
+                                Swal.fire('Berhasil', result.msg, 'success').then(
+                                    () => {
+                                        window.location.href = '/detail_i/' + result
+                                            .id_pinkel
+                                    })
+                            }
+                        }
+                    })
+                }
+            })
+        })
 
         $(document).on('click', '#kembaliVerifikasi', function() {
             Swal.fire({
