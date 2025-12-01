@@ -370,7 +370,7 @@ class GenerateController extends Controller
                 $tahun  = substr($tgl_cair, 0, 4);
                 if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
-    $jatuh = Carbon::parse($tgl_cair)->addDays($x);
+    $jatuh = Carbon::parse($tgl_cair)->addDays($tambah);
     $jatuh_tempo = $jatuh->toDateString();
                 } else {
     $jatuh = Carbon::parse($tgl_cair)->addMonthsNoOverflow($x);
