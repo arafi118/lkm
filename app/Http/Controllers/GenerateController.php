@@ -323,7 +323,6 @@ class GenerateController extends Controller
             if ($jenis_jasa == '3') {
 
                 $bunga_per_bulan = ($pros_jasa / 100) / $jangka;
-
                 $angsuran_total = Keuangan::pembulatan(
                     ($alokasi * $bunga_per_bulan) / (1 - pow(1 + $bunga_per_bulan, -$jangka)),
                     (string) $kec->pembulatan
@@ -333,26 +332,21 @@ class GenerateController extends Controller
 
                 for ($j = $index; $j <= $jumlah_angsuran; $j++) {
 
-                    // Hitung bunga bulan ini dari sisa pokok
                     $jasa = Keuangan::pembulatan(
                         $sisa_pokok * $bunga_per_bulan,
                         (string) $kec->pembulatan
                     );
 
-                    // Pokok = angsuran total - bunga
                     $pokok = $angsuran_total - $jasa;
 
-                    // Bulan terakhir -> bayar sisa pokok apa adanya
                     if ($j == $jumlah_angsuran) {
                         $pokok = $sisa_pokok;
                         $angsuran_total = $pokok + $jasa;
                     }
 
-                    // Simpan ke array hasil
                     $ra[$j]['pokok'] = $pokok;
                     $ra[$j]['jasa']  = $jasa;
 
-                    // Kurangi saldo pokok
                     $sisa_pokok -= $pokok;
                 }
             }
