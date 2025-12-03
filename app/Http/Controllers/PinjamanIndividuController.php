@@ -2584,7 +2584,6 @@ class PinjamanIndividuController extends Controller
 
         $keuangan = new Keuangan;
 
-        if (request()->get('status') == 'A') {
             $data['rencana'] = RencanaAngsuranI::where([
                 ['loan_id', $id],
                 ['angsuran_ke' => function ($query) use ($data) {
@@ -2596,9 +2595,6 @@ class PinjamanIndividuController extends Controller
                 }],
 
             ])->orderBy('jatuh_tempo', 'ASC')->get();
-        } else {
-            $data['rencana'] = $this->generate($id)->getData()->rencana;
-        }
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
             'jpp',
             'anggota',
