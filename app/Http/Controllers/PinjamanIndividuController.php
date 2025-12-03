@@ -2584,6 +2584,7 @@ class PinjamanIndividuController extends Controller
 
         $keuangan = new Keuangan;
 
+        if (request()->get('status') == 'A') {
             $data['rencana'] = RencanaAngsuranI::where([
                 ['loan_id', $id],
                 ['angsuran_ke' => function ($query) use ($data) {
@@ -2595,6 +2596,9 @@ class PinjamanIndividuController extends Controller
                 }],
 
             ])->orderBy('jatuh_tempo', 'ASC')->get();
+        } else {
+            $data['rencana'] = $this->generate($id)->getData()->rencana;
+        }
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
             'jpp',
             'anggota',
@@ -3207,32 +3211,36 @@ class PinjamanIndividuController extends Controller
             $ra[$i]['pokok'] = $angsuran_pokok;
         }
 
-        if ($jenis_jasa != '1') {
-            for ($j = $index; $j <= $jumlah_angsuran; $j++) {
-                $sisa = $j % $sistem_jasa;
-                $ke = $j / $sistem_jasa;
+            if ($jenis_jasa == '3') {
 
-                $alokasi_jasa = $alokasi_pokok * ($pros_jasa / 100);
-                $wajib_jasa = $alokasi_jasa / $tempo_jasa;
-                $wajib_jasa = Keuangan::pembulatan($wajib_jasa, (string) $kec->pembulatan);
-                $sum_jasa = $wajib_jasa * ($tempo_jasa - 1);
+                $bunga_per_bulan = ($pros_jasa / 100) / $jangka;
+                $angsuran_total = Keuangan::pembulatan(
+                    ($alokasi * $bunga_per_bulan) / (1 - pow(1 + $bunga_per_bulan, -$jangka)),
+                    (string) $kec->pembulatan
+                );
 
-                if ($sisa == 0 and $ke != $tempo_jasa) {
-                    $angsuran_jasa = $wajib_jasa;
-                } elseif ($sisa == 0 and $ke == $tempo_jasa) {
-                    $angsuran_jasa = $alokasi_jasa - $sum_jasa;
-                } else {
-                    $angsuran_jasa = 0;
+                $sisa_pokok = $alokasi;
+
+                for ($j = $index; $j <= $jumlah_angsuran; $j++) {
+
+                    $jasa = Keuangan::pembulatan(
+                        $sisa_pokok * $bunga_per_bulan,
+                        (string) $kec->pembulatan
+                    );
+
+                    $pokok = $angsuran_total - $jasa;
+
+                    if ($j == $jumlah_angsuran) {
+                        $pokok = $sisa_pokok;
+                        $angsuran_total = $pokok + $jasa;
+                    }
+
+                    $ra[$j]['pokok'] = $pokok;
+                    $ra[$j]['jasa']  = $jasa;
+
+                    $sisa_pokok -= $pokok;
                 }
-
-                if ($jenis_jasa == '2') {
-                    $angsuran_jasa = $wajib_jasa;
-                    $alokasi_pokok -= $ra[$j]['pokok'];
-                }
-
-                $ra[$j]['jasa'] = $angsuran_jasa;
             }
-        }
 
         $ra['alokasi'] = $alokasi;
 
@@ -3351,8 +3359,6 @@ class PinjamanIndividuController extends Controller
             'rencana' => $rencana
         ], Response::HTTP_OK);
     }
-
-
 
     public function generateRA($id_pinj)
     {
