@@ -319,27 +319,40 @@ class GenerateController extends Controller
 					$ra[$i]['pokok'] = $angsuran_pokok;
 				}
             }
-			if ($jenis_jasa == '3') {
-                // Hitung angsuran anuitas
-                $bunga_per_bulan = $pros_jasa/$jangka/ 100;
+
+            if ($jenis_jasa == '3') {
+
+                $bunga_per_bulan = ($pros_jasa / 100) / $jangka;
+
                 $angsuran_total = Keuangan::pembulatan(
                     ($alokasi * $bunga_per_bulan) / (1 - pow(1 + $bunga_per_bulan, -$jangka)),
                     (string) $kec->pembulatan
                 );
 
                 $sisa_pokok = $alokasi;
+
                 for ($j = $index; $j <= $jumlah_angsuran; $j++) {
-                    $jasa = Keuangan::pembulatan($sisa_pokok * $bunga_per_bulan, (string) $kec->pembulatan);
+
+                    // Hitung bunga bulan ini dari sisa pokok
+                    $jasa = Keuangan::pembulatan(
+                        $sisa_pokok * $bunga_per_bulan,
+                        (string) $kec->pembulatan
+                    );
+
+                    // Pokok = angsuran total - bunga
                     $pokok = $angsuran_total - $jasa;
 
-                    // Pastikan total pokok tidak lebih dari alokasi
+                    // Bulan terakhir -> bayar sisa pokok apa adanya
                     if ($j == $jumlah_angsuran) {
-                        $pokok = $sisa_pokok; // Bayar semua sisa pokok di akhir
+                        $pokok = $sisa_pokok;
                         $angsuran_total = $pokok + $jasa;
                     }
 
+                    // Simpan ke array hasil
                     $ra[$j]['pokok'] = $pokok;
-                    $ra[$j]['jasa'] = $jasa;
+                    $ra[$j]['jasa']  = $jasa;
+
+                    // Kurangi saldo pokok
                     $sisa_pokok -= $pokok;
                 }
             }
