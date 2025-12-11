@@ -250,7 +250,7 @@
                         $_kolek = $tunggakan_pokok / $wajib_pokok;
                     }
                     
-                    $kolek_bulan = round($_kolek + ($selisih - $angsuran_ke));
+                    $kolek_bulan = ceil($_kolek + ($selisih - $angsuran_ke));
                     
                     // Tentukan tingkat kolek berdasarkan konfigurasi database
                     $tingkat_kolek = getTingkatKolek($kolek_bulan, $kolekData);

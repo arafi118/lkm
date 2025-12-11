@@ -202,21 +202,17 @@
                         $saldo_pokok = 0;
                         $saldo_jasa = 0;
                     }
-
-                    $tgl_cair = explode('-', $pinkel->tgl_cair);
-                    $th_cair = $tgl_cair[0];
-                    $bl_cair = $tgl_cair[1];
-
-                    $selisih_tahun = ($tahun - $th_cair) * 12;
-                    $selisih_bulan = $bulan - $bl_cair;
-                    $selisih = $selisih_bulan + $selisih_tahun;
+                    
+                    $tgl_akhir = new DateTime($tgl_kondisi);
+                    $tgl_awal = new DateTime($pinkel->tgl_cair);
+                    $selisih = $tgl_akhir->diff($tgl_awal);
+                    $selisih = $selisih->y * 12 + $selisih->m;
 
                     $_kolek = 0;
                     if ($wajib_pokok != '0') {
                         $_kolek = $tunggakan_pokok / $wajib_pokok;
                     }
                     
-                    // Gunakan ceil seperti kode asli
                     $kolek_bulan = ceil($_kolek + ($selisih - $angsuran_ke));
 
                     // Tentukan tingkat kolek berdasarkan konfigurasi database
