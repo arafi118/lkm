@@ -1,19 +1,19 @@
-@php
+﻿@php
     use App\Utils\Tanggal;
     $total_saldo = 0;
 
     if ($rek->jenis_mutasi == 'debet') {
-        $saldo_awal_tahun = $saldo['debit'] - $saldo['kredit'];
-        $saldo_awal_bulan = $d_bulan_lalu - $k_bulan_lalu;
-        $total_saldo = (float)($saldo_awal_tahun + $saldo_awal_bulan);
+        $saldo_awal_tahun = (float)$saldo['debit'] - (float)$saldo['kredit'];
+        $saldo_awal_bulan = (float)$d_bulan_lalu - (float)$k_bulan_lalu;
+        $total_saldo = $saldo_awal_tahun + $saldo_awal_bulan;
     } else {
-        $saldo_awal_tahun = $saldo['kredit'] - $saldo['debit'];
-        $saldo_awal_bulan = $k_bulan_lalu - $d_bulan_lalu;
-        $total_saldo = (float)($saldo_awal_tahun + $saldo_awal_bulan);
+        $saldo_awal_tahun = (float)$saldo['kredit'] - (float)$saldo['debit'];
+        $saldo_awal_bulan = (float)$k_bulan_lalu - (float)$d_bulan_lalu;
+        $total_saldo = $saldo_awal_tahun + $saldo_awal_bulan;
     }
 
-    $total_debit = (float)0;
-    $total_kredit = (float)0;
+    $total_debit = 0;
+    $total_kredit = 0;
 @endphp
 
 <table border="0" width="100%" cellspacing="0" cellpadding="0" class="table table-striped midle">
@@ -62,12 +62,12 @@
             @php
                 if ($trx->rekening_debit == $rek->kode_akun) {
                     $ref = $trx->rekening_kredit;
-                    $debit = (float) $trx->jumlah;
+                    $debit = (float)$trx->jumlah;
                     $kredit = 0;
                 } else {
                     $ref = $trx->rekening_debit;
                     $debit = 0;
-                    $kredit = (float) $trx->jumlah;
+                    $kredit = (float)$trx->jumlah;
                 }
 
                 if ($rek->jenis_mutasi == 'debet') {

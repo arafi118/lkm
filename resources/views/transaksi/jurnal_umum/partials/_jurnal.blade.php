@@ -5,15 +5,15 @@
     if ($rek->jenis_mutasi == 'debet') {
         $saldo_awal_tahun = $saldo['debit'] - $saldo['kredit'];
         $saldo_awal_bulan = $d_bulan_lalu - $k_bulan_lalu;
-        $total_saldo = $saldo_awal_tahun + $saldo_awal_bulan;
+        $total_saldo = (float)($saldo_awal_tahun + $saldo_awal_bulan);
     } else {
         $saldo_awal_tahun = $saldo['kredit'] - $saldo['debit'];
         $saldo_awal_bulan = $k_bulan_lalu - $d_bulan_lalu;
-        $total_saldo = $saldo_awal_tahun + $saldo_awal_bulan;
+        $total_saldo = (float)($saldo_awal_tahun + $saldo_awal_bulan);
     }
 
-    $total_debit = 0;
-    $total_kredit = 0;
+    $total_debit = (float)0;
+    $total_kredit = (float)0;
 @endphp
 
 <form action="/transaksi/dokumen/cetak" method="post" id="FormCetakDokumenTransaksi" target="_blank">
@@ -69,12 +69,12 @@
                 @php
                     if ($trx->rekening_debit == $rek->kode_akun) {
                         $ref = $trx->rekening_kredit;
-                        $debit = $trx->jumlah;
+                        $debit = (float) $trx->jumlah;
                         $kredit = 0;
                     } else {
                         $ref = $trx->rekening_debit;
                         $debit = 0;
-                        $kredit = $trx->jumlah;
+                        $kredit = (float) $trx->jumlah;
                     }
 
                     if ($rek->jenis_mutasi == 'debet') {
