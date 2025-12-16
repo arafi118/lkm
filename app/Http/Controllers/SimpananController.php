@@ -144,11 +144,12 @@ class SimpananController extends Controller
             $query->where('lokasi', '0')
                 ->where('kecuali', 'NOT LIKE', '%#'.session('lokasi').'#%');
         })
-            ->orWhere(function ($query) {
-                $query->where('lokasi', session('lokasi'))
-                    ->where('kecuali', 'NOT LIKE', '%#'.session('lokasi').'#%');
-            })
-            ->get();
+        ->orWhere(function ($query) {
+            $query->where('lokasi', session('lokasi'))
+                ->where('kecuali', 'NOT LIKE', '%#'.session('lokasi').'#%');
+        })
+        ->orderBy('rek_simp', 'ASC')
+        ->get();
             
         $js_dipilih = $js->first()->id;
         
