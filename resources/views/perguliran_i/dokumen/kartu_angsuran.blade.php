@@ -173,7 +173,7 @@
         @php
             $index = 1;
             $baris_angsuran = ceil($nia->rencana_count / 2) + 1;
-            if ($kec->jdwl_angsuran == '1') { // angsuran diawal
+            if ($kec->jdwl_angsuran == '1' && $nia->sistem_angsuran == '1') { // angsuran diawal
                 $index = 0;
                 $baris_angsuran = ceil($nia->rencana_count / 2);
             }
