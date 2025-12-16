@@ -214,6 +214,7 @@
 
                         if ($nia->sistem_angsuran != '1') {
                             $z = $j + 1;
+                            $baris = $baris_angsuran + 1;
                         }
                     }
                 @endphp
