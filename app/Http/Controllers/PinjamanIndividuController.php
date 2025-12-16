@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use App\Models\Anggota;
 use App\Models\Agent;
+use App\Models\Anggota;
 use App\Models\DataPemanfaat;
 use App\Models\JenisJasa;
 use App\Models\JenisProdukPinjaman;
 use App\Models\Kecamatan;
-use App\Models\PinjamanIndividu;
 use App\Models\PinjamanAnggota;
+use App\Models\PinjamanIndividu;
 use App\Models\RealAngsuranI;
 use App\Models\Rekening;
 use App\Models\RencanaAngsuranI;
@@ -21,14 +20,15 @@ use App\Models\User;
 use App\Utils\Keuangan;
 use App\Utils\Pinjaman;
 use App\Utils\Tanggal;
-use PDF;
 use DB;
+use DNS1D;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\DataTables;
-use DNS1D;
+use PDF;
 use Session;
+use Yajra\DataTables\DataTables;
 
 class PinjamanIndividuController extends Controller
 {
@@ -42,6 +42,7 @@ class PinjamanIndividuController extends Controller
         $status = strtolower($status);
 
         $title = 'Tahapan Perguliran Individu';
+
         return view('perguliran_i.index')->with(compact('title', 'status'));
     }
 
@@ -64,7 +65,6 @@ class PinjamanIndividuController extends Controller
              *      sts => []
              *  ]
              * ]
-             * 
              */
 
             return DataTables::of($pinj_i)
@@ -73,14 +73,16 @@ class PinjamanIndividuController extends Controller
                     $pros = $row->pros_jasa;
 
                     $jasa = number_format($pros / $jangka, 2);
-                    return $jasa . '% / ' . $jangka . ' bln';
+
+                    return $jasa.'% / '.$jangka.' bln';
                 })
                 ->editColumn('namadepan', function ($row) {
                     $jpp = $row->jpp;
                     $status = $row->sts->warna_status;
 
-                    $namadepan = $row->anggota->namadepan . '(' . $jpp->nama_jpp . ')';
-                    return '<div>' . $namadepan . ' <small class="float-end badge bg-' . $status . '">Loan ID.' . $row->id . '</small></div>';
+                    $namadepan = $row->anggota->namadepan.'('.$jpp->nama_jpp.')';
+
+                    return '<div>'.$namadepan.' <small class="float-end badge bg-'.$status.'">Loan ID.'.$row->id.'</small></div>';
                 })
                 ->editColumn('tgl_proposal', function ($row) {
                     return Tanggal::tglIndo($row->tgl_proposal);
@@ -89,7 +91,7 @@ class PinjamanIndividuController extends Controller
                     return number_format($row->proposal);
                 })
                 ->editColumn('anggota.alamat', function ($row) {
-                    return $row->anggota->alamat . ' ' . $row->anggota->d->nama_desa;
+                    return $row->anggota->alamat.' '.$row->anggota->d->nama_desa;
                 })
                 ->rawColumns(['namadepan'])
                 ->make(true);
@@ -109,15 +111,17 @@ class PinjamanIndividuController extends Controller
                     $pros = $row->pros_jasa;
 
                     $jasa = number_format($pros / $jangka, 2);
-                    return $jasa . '% / ' . $jangka . ' bln';
+
+                    return $jasa.'% / '.$jangka.' bln';
                 })
                 ->editColumn('namadepan', function ($row) {
                     $jpp = $row->jpp;
                     if ($row->sts) {
                         $status = $row->sts->warna_status;
 
-                        $namadepan = $row->anggota->namadepan . '(' . $jpp->nama_jpp . ')';
-                        return '<div>' . $namadepan . ' <small class="float-end badge bg-' . $status . '">Loan ID.' . $row->id . '</small></div>';
+                        $namadepan = $row->anggota->namadepan.'('.$jpp->nama_jpp.')';
+
+                        return '<div>'.$namadepan.' <small class="float-end badge bg-'.$status.'">Loan ID.'.$row->id.'</small></div>';
                     } else {
                         return '';
                     }
@@ -129,7 +133,7 @@ class PinjamanIndividuController extends Controller
                     return number_format($row->verifikasi);
                 })
                 ->editColumn('anggota.alamat', function ($row) {
-                    return $row->anggota->alamat . ' ' . $row->anggota->d->nama_desa;
+                    return $row->anggota->alamat.' '.$row->anggota->d->nama_desa;
                 })
                 ->rawColumns(['namadepan'])
                 ->make(true);
@@ -149,14 +153,16 @@ class PinjamanIndividuController extends Controller
                     $pros = $row->pros_jasa;
 
                     $jasa = number_format($pros / $jangka, 2);
-                    return $jasa . '% / ' . $jangka . ' bln';
+
+                    return $jasa.'% / '.$jangka.' bln';
                 })
                 ->editColumn('namadepan', function ($row) {
                     $jpp = $row->jpp;
                     $status = $row->sts->warna_status;
 
-                    $namadepan = $row->anggota->namadepan . '(' . $jpp->nama_jpp . ')';
-                    return '<div>' . $namadepan . ' <small class="float-end badge bg-' . $status . '">Loan ID.' . $row->id . '</small></div>';
+                    $namadepan = $row->anggota->namadepan.'('.$jpp->nama_jpp.')';
+
+                    return '<div>'.$namadepan.' <small class="float-end badge bg-'.$status.'">Loan ID.'.$row->id.'</small></div>';
                 })
                 ->editColumn('tgl_tunggu', function ($row) {
                     return Tanggal::tglIndo($row->tgl_tunggu);
@@ -165,7 +171,7 @@ class PinjamanIndividuController extends Controller
                     return number_format($row->alokasi);
                 })
                 ->editColumn('anggota.alamat', function ($row) {
-                    return $row->anggota->alamat . ' ' . $row->anggota->d->nama_desa;
+                    return $row->anggota->alamat.' '.$row->anggota->d->nama_desa;
                 })
                 ->rawColumns(['namadepan'])
                 ->make(true);
@@ -185,14 +191,16 @@ class PinjamanIndividuController extends Controller
                     $pros = $row->pros_jasa;
 
                     $jasa = number_format($pros / $jangka, 2);
-                    return $jasa . '% / ' . $jangka . ' bln';
+
+                    return $jasa.'% / '.$jangka.' bln';
                 })
                 ->editColumn('namadepan', function ($row) {
                     $jpp = $row->jpp;
                     $status = $row->sts->warna_status;
 
-                    $namadepan = $row->anggota->namadepan . '(' . $jpp->nama_jpp . ')';
-                    return '<div>' . $namadepan . ' <small class="float-end badge bg-' . $status . '">Loan ID.' . $row->id . '</small></div>';
+                    $namadepan = $row->anggota->namadepan.'('.$jpp->nama_jpp.')';
+
+                    return '<div>'.$namadepan.' <small class="float-end badge bg-'.$status.'">Loan ID.'.$row->id.'</small></div>';
                 })
                 ->editColumn('tgl_cair', function ($row) {
                     return Tanggal::tglIndo($row->tgl_cair);
@@ -201,7 +209,7 @@ class PinjamanIndividuController extends Controller
                     return number_format($row->alokasi);
                 })
                 ->editColumn('anggota.alamat', function ($row) {
-                    return $row->anggota->alamat . ' ' . $row->anggota->d->nama_desa;
+                    return $row->anggota->alamat.' '.$row->anggota->d->nama_desa;
                 })
                 ->rawColumns(['namadepan'])
                 ->make(true);
@@ -211,10 +219,10 @@ class PinjamanIndividuController extends Controller
     public function lunas()
     {
         if (request()->ajax()) {
-            $tb_pinkel = 'pinjaman_anggota_' . Session::get('lokasi');
+            $tb_pinkel = 'pinjaman_anggota_'.Session::get('lokasi');
             $pinj_i = PinjamanIndividu::where('status', 'A')
                 ->where('jenis_pinjaman', 'I')
-                ->whereRaw($tb_pinkel . '.alokasi<=(SELECT SUM(realisasi_pokok) FROM real_angsuran_i_' . Session::get('lokasi') . ' WHERE loan_id=' . $tb_pinkel . '.id)')
+                ->whereRaw($tb_pinkel.'.alokasi<=(SELECT SUM(realisasi_pokok) FROM real_angsuran_i_'.Session::get('lokasi').' WHERE loan_id='.$tb_pinkel.'.id)')
                 ->with('anggota', 'jpp', 'sts')->get();
 
             return DataTables::of($pinj_i)
@@ -223,14 +231,16 @@ class PinjamanIndividuController extends Controller
                     $pros = $row->pros_jasa;
 
                     $jasa = number_format($pros / $jangka, 2);
-                    return $jasa . '% / ' . $jangka . ' bln';
+
+                    return $jasa.'% / '.$jangka.' bln';
                 })
                 ->editColumn('namadepan', function ($row) {
                     $jpp = $row->jpp;
                     $status = $row->sts->warna_status;
 
-                    $namadepan = $row->anggota->namadepan . '(' . $jpp->nama_jpp . ')';
-                    return '<div>' . $namadepan . ' <small class="float-end badge bg-' . $status . '">Loan ID.' . $row->id . '</small></div>';
+                    $namadepan = $row->anggota->namadepan.'('.$jpp->nama_jpp.')';
+
+                    return '<div>'.$namadepan.' <small class="float-end badge bg-'.$status.'">Loan ID.'.$row->id.'</small></div>';
                 })
                 ->editColumn('tgl_cair', function ($row) {
                     return Tanggal::tglIndo($row->tgl_cair);
@@ -250,6 +260,7 @@ class PinjamanIndividuController extends Controller
     {
         $id_angg = request()->get('id_angg');
         $title = 'Registrasi Pinjaman Individu';
+
         return view('pinjaman_i.create')->with(compact('title', 'id_angg'));
     }
 
@@ -260,7 +271,7 @@ class PinjamanIndividuController extends Controller
             'd',
             'pinjaman' => function ($query) {
                 $query->orderBy('tgl_proposal', 'DESC');
-            }
+            },
         ])->orderBy('namadepan', 'ASC')->get();
 
         return view('pinjaman_i.partials.anggota')->with(compact('anggota', 'nia'));
@@ -272,7 +283,7 @@ class PinjamanIndividuController extends Controller
             'pinjaman' => function ($query) {
                 $query->orderBy('tgl_proposal', 'DESC');
             },
-            'pinjaman.sts'
+            'pinjaman.sts',
         ])->first();
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $jenis_jasa = JenisJasa::all();
@@ -280,15 +291,14 @@ class PinjamanIndividuController extends Controller
         $agent = Agent::where('lokasi', Session::get('lokasi'))->get();
         $jenis_pp = JenisProdukPinjaman::where(function ($query) {
             $query->where('lokasi', '0')
-                ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+                ->where('kecuali', 'NOT LIKE', '%#'.session('lokasi').'#%');
         })
             ->orWhere(function ($query) {
                 $query->where('lokasi', session('lokasi'))
-                    ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+                    ->where('kecuali', 'NOT LIKE', '%#'.session('lokasi').'#%');
             })
             ->orderBy('kode', 'asc')
             ->get();
-
 
         $jenis_pp_dipilih = $anggota->jenis_produk_pinjaman;
 
@@ -332,7 +342,7 @@ class PinjamanIndividuController extends Controller
 
         return response()->json([
             'success' => true,
-            'view' => view('pinjaman_i.partials.jenis_pinjaman')->with(compact('id', 'agent', 'jenis_produk'))->render()
+            'view' => view('pinjaman_i.partials.jenis_pinjaman')->with(compact('id', 'agent', 'jenis_produk'))->render(),
         ]);
     }
 
@@ -340,7 +350,7 @@ class PinjamanIndividuController extends Controller
     {
         return response()->json([
             'success' => true,
-            'view' => view('pinjaman_i.partials.jaminan')->with(compact('id'))->render()
+            'view' => view('pinjaman_i.partials.jaminan')->with(compact('id'))->render(),
         ]);
     }
 
@@ -361,7 +371,7 @@ class PinjamanIndividuController extends Controller
             'jenis_produk_pinjaman',
             'nama_barang',
             'id_agent',
-            'nomor_sertifikat'
+            'nomor_sertifikat',
         ]);
 
         $validate = Validator::make($request->all(), [
@@ -373,7 +383,7 @@ class PinjamanIndividuController extends Controller
             'sistem_angsuran_pokok' => 'required',
             'sistem_angsuran_jasa' => 'required',
             'jenis_produk_pinjaman' => 'required',
-            'data_jaminan' => 'required|array'
+            'data_jaminan' => 'required|array',
             // 'data_jaminan.*' => 'required',
         ]);
 
@@ -390,7 +400,6 @@ class PinjamanIndividuController extends Controller
         $jaminan['jenis_jaminan'] = $request->jaminan;
         $agen = $request->id_agent ?? 1;
         $barang = $request->nama_barang ?? 0;
-
 
         $insert = [
             'jenis_pinjaman' => 'I',
@@ -426,7 +435,7 @@ class PinjamanIndividuController extends Controller
             'jaminan' => json_encode($jaminan),
             'catatan_verifikasi' => '0',
             'lu' => date('Y-m-d H:i:s'),
-            'user_id' => auth()->user()->id
+            'user_id' => auth()->user()->id,
         ];
 
         $pinjaman_anggota = PinjamanIndividu::create($insert);
@@ -435,14 +444,14 @@ class PinjamanIndividuController extends Controller
             'nik' => $ang->nik,
             'id_pinkel' => 0,
             'idpa' => $pinjaman_anggota->id,
-            'status' => $insert['status']
+            'status' => $insert['status'],
         ]);
 
         return response()->json([
-            'msg' => 'Proposal Pinjaman anggota ' . $ang->namadepan . ' berhasil dibuat',
+            'msg' => 'Proposal Pinjaman anggota '.$ang->namadepan.' berhasil dibuat',
             'kode_anggota' => $ang->kd_anggota + 1,
             'desa' => $ang->desa,
-            'id' => $pinjaman_anggota->id
+            'id' => $pinjaman_anggota->id,
         ], Response::HTTP_ACCEPTED);
     }
 
@@ -460,7 +469,7 @@ class PinjamanIndividuController extends Controller
             'jpp',
             'jasa',
             'real_i',
-            'real_i.transaksi'
+            'real_i.transaksi',
         ])->where('id', $perguliran_i->id)->first();
         $jenis_jasa = JenisJasa::all();
         $sistem_angsuran = SistemAngsuran::all();
@@ -469,7 +478,7 @@ class PinjamanIndividuController extends Controller
             ['lev1', '1'],
             ['lev2', '1'],
             ['lev3', '3'],
-            ['lev4', $perguliran_i->jpp->kode]
+            ['lev4', $perguliran_i->jpp->kode],
         ])->first();
 
         $supplier = Supplier::where('lokasi', Session::get('lokasi'))->get();
@@ -493,19 +502,19 @@ class PinjamanIndividuController extends Controller
             $pinj_i_aktif = PinjamanIndividu::where([
                 ['nia', $perguliran_i->nia],
                 ['status', 'A'],
-                ['jenis_pinjaman', 'I']
+                ['jenis_pinjaman', 'I'],
                 // ])->with('anggota')->orderBy('tgl_cair', 'DESC')->first();
             ])->with('anggota')->orderBy('tgl_cair', 'DESC')->get();
 
             $pinj_aktif = $pinj_i_aktif;
         }
 
-        return view('perguliran_i.partials/' . $view)->with(compact('kec', 'supplier', 'perguliran_i', 'jenis_jasa', 'sistem_angsuran', 'sumber_bayar', 'debet', 'pinj_aktif'));
+        return view('perguliran_i.partials/'.$view)->with(compact('kec', 'supplier', 'perguliran_i', 'jenis_jasa', 'sistem_angsuran', 'sumber_bayar', 'debet', 'pinj_aktif'));
     }
 
     public function detail(PinjamanIndividu $perguliran_i)
     {
-        $title = 'Detail Pinjaman anggota ' . $perguliran_i->anggota->namadepan;
+        $title = 'Detail Pinjaman anggota '.$perguliran_i->anggota->namadepan;
         $real = RealAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('tgl_transaksi', 'DESC')->orderBy('id', 'DESC')->first();
         $sistem_angsuran = SistemAngsuran::all();
 
@@ -541,9 +550,10 @@ class PinjamanIndividuController extends Controller
     public function Waiting_Edit_Jaminan($id)
     {
         $jaminan = Session::get('jaminan');
+
         return response()->json([
             'success' => true,
-            'view' => view('perguliran_i.partials.jaminan')->with(compact('id', 'jaminan'))->render()
+            'view' => view('perguliran_i.partials.jaminan')->with(compact('id', 'jaminan'))->render(),
         ]);
     }
 
@@ -551,7 +561,7 @@ class PinjamanIndividuController extends Controller
     {
         $data = $request->only([
             'jenis_jaminan',
-            'data_jaminan'
+            'data_jaminan',
         ]);
 
         $validate = Validator::make($data, [
@@ -559,7 +569,7 @@ class PinjamanIndividuController extends Controller
             'data_jaminan' => 'array',
         ]);
         $data['data_jaminan']['jenis_jaminan'] = $data['jenis_jaminan'];
-        Session::put('jaminan',  $data['data_jaminan']);
+        Session::put('jaminan', $data['data_jaminan']);
 
         if ($data['jenis_jaminan'] == '1') {
             $data['data_jaminan']['nilai_jual_tanah'] = str_replace(',', '', str_replace('.00', '', $data['data_jaminan']['nilai_jual_tanah']));
@@ -572,29 +582,28 @@ class PinjamanIndividuController extends Controller
         }
 
         PinjamanIndividu::where('id', $pinjaman->id)->update([
-            'jaminan' => json_encode($data['data_jaminan'])
+            'jaminan' => json_encode($data['data_jaminan']),
         ]);
-
 
         return response()->json([
-            'success' => true
+            'success' => true,
         ]);
     }
-
 
     public function pelunasan(PinjamanIndividu $perguliran_i)
     {
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
-        $title = 'Detal Pinjaman anggota ' . $perguliran_i->anggota->namadepan;
+        $title = 'Detal Pinjaman anggota '.$perguliran_i->anggota->namadepan;
         $real = RealAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('tgl_transaksi', 'DESC')->orderBy('id', 'DESC')->first();
         $ra = RencanaAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('jatuh_tempo', 'DESC')->first();
         $ra_real = RencanaAngsuranI::where('loan_id', $perguliran_i->id)->where('jatuh_tempo', '<=', $real->tgl_transaksi)->orderBy('jatuh_tempo', 'DESC')->first();
+
         return view('perguliran_i.partials.lunas')->with(compact('title', 'perguliran_i', 'real', 'ra', 'ra_real', 'kec'));
     }
 
     public function keterangan(PinjamanIndividu $perguliran_i)
     {
-        $title = 'Cetak Keterangan Pelunasan ' . $perguliran_i->anggota->namadepan;
+        $title = 'Cetak Keterangan Pelunasan '.$perguliran_i->anggota->namadepan;
         $real = RealAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('tgl_transaksi', 'DESC')->orderBy('id', 'DESC')->first();
         $ra = RencanaAngsuranI::where('loan_id', $perguliran_i->id)->orderBy('jatuh_tempo', 'DESC')->first();
         $ra_real = RencanaAngsuranI::where('loan_id', $perguliran_i->id)->where('jatuh_tempo', '<=', $real->tgl_transaksi)->orderBy('jatuh_tempo', 'DESC')->first();
@@ -602,7 +611,7 @@ class PinjamanIndividuController extends Controller
         $dir = User::where([
             ['lokasi', Session::get('lokasi')],
             ['level', '1'],
-            ['jabatan', '1']
+            ['jabatan', '1'],
         ])->first();
 
         return view('perguliran_i.partials.cetak_keterangan')->with(compact('title', 'perguliran_i', 'real', 'ra', 'ra_real', 'kec', 'dir'));
@@ -618,11 +627,11 @@ class PinjamanIndividuController extends Controller
         $sistem_angsuran = SistemAngsuran::all();
         $jenis_pp = JenisProdukPinjaman::where(function ($query) {
             $query->where('lokasi', '0')
-                ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+                ->where('kecuali', 'NOT LIKE', '%#'.session('lokasi').'#%');
         })
             ->orWhere(function ($query) {
                 $query->where('lokasi', session('lokasi'))
-                    ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+                    ->where('kecuali', 'NOT LIKE', '%#'.session('lokasi').'#%');
             })
             ->orderBy('kode', 'asc')
             ->get();
@@ -666,11 +675,13 @@ class PinjamanIndividuController extends Controller
     public function EditJaminan($id)
     {
         $jaminan = Session::get('jaminan');
+
         return response()->json([
             'success' => true,
-            'view' => view('perguliran_i.partials.jaminan')->with(compact('id', 'jaminan'))->render()
+            'view' => view('perguliran_i.partials.jaminan')->with(compact('id', 'jaminan'))->render(),
         ]);
     }
+
     /**
      * Update the specified resource in storage.
      */
@@ -695,17 +706,17 @@ class PinjamanIndividuController extends Controller
 
         if ($request->status == 'L') {
             DataPemanfaat::where('id_pinkel', $perguliran_i->id)->where('lokasi', Session::get('lokasi'))->update([
-                'status' => 'L'
+                'status' => 'L',
             ]);
 
             PinjamanIndividu::where('id', $perguliran_i->id)->update([
                 'status' => 'L',
-                'tgl_lunas' => date('Y-m-d')
+                'tgl_lunas' => date('Y-m-d'),
             ]);
 
             return response()->json([
-                'msg' => 'Validasi Pelunasan Pinjaman anggota ' . $perguliran_i->anggota->namadepan . ' berhasil.',
-                'id' => $perguliran_i->id
+                'msg' => 'Validasi Pelunasan Pinjaman anggota '.$perguliran_i->anggota->namadepan.' berhasil.',
+                'id' => $perguliran_i->id,
             ], Response::HTTP_ACCEPTED);
         }
 
@@ -721,7 +732,7 @@ class PinjamanIndividuController extends Controller
                 'sistem_angsuran_pokok_proposal',
                 'nama_barang',
                 'id_agent',
-                'sistem_angsuran_jasa_proposal'
+                'sistem_angsuran_jasa_proposal',
             ]);
 
             $validate = Validator::make($data, [
@@ -732,8 +743,7 @@ class PinjamanIndividuController extends Controller
                 'jenis_jasa_proposal' => 'required',
                 'sistem_angsuran_pokok_proposal' => 'required',
                 'nama_barang' => 'required',
-                'id_agent' => 'required',
-                'sistem_angsuran_jasa_proposal' => 'required'
+                'sistem_angsuran_jasa_proposal' => 'required',
             ]);
 
             $jaminan = [];
@@ -748,7 +758,7 @@ class PinjamanIndividuController extends Controller
             $data['pros_jasa'] = $data['pros_jasa_proposal'];
             $data['jenis_jasa'] = $data['jenis_jasa_proposal'];
             $data['nama_barang'] = $data['nama_barang'];
-            $data['id_agent'] = $data['id_agent'];
+            $data['id_agent'] = $data['id_agent'] ?? 0;
             $data['sistem_angsuran_pokok'] = $data['sistem_angsuran_pokok_proposal'];
             $data['sistem_angsuran_jasa'] = $data['sistem_angsuran_jasa_proposal'];
         } elseif ($request->status == 'W') {
@@ -767,7 +777,7 @@ class PinjamanIndividuController extends Controller
                 // 'nomor_spk'
             ]);
 
-            $table = 'pinjaman_anggota_' . Session::get('lokasi');
+            $table = 'pinjaman_anggota_'.Session::get('lokasi');
             $validate = [
                 $tgl => 'required',
                 $harga => 'required',
@@ -818,18 +828,18 @@ class PinjamanIndividuController extends Controller
                 'jenis_jasa',
                 'sistem_angsuran_pokok',
                 'sistem_angsuran_jasa',
-                'catatan_verifikasi'
+                'catatan_verifikasi',
             ]);
 
             $validate = Validator::make($data, [
-                $tgl   => 'required',
+                $tgl => 'required',
                 $alokasi => 'required',
-                'jangka'  => 'required',
+                'jangka' => 'required',
                 'pros_jasa' => 'required',
                 'jenis_jasa' => 'required',
                 'sistem_angsuran_pokok' => 'required',
                 'sistem_angsuran_jasa' => 'required',
-                'catatan_verifikasi' => 'required'
+                'catatan_verifikasi' => 'required',
             ]);
         }
 
@@ -866,12 +876,12 @@ class PinjamanIndividuController extends Controller
                 'fee_supplier' => intval($fee_supplier),
                 'harga' => (intval($alokasi_pinjaman) + intval($admin) + intval($provisi)),
                 'id_supplier' => $data['supplier'],
-                'status' => 'A'
+                'status' => 'A',
             ];
             $jumlah_pencairan = $alokasi_pinjaman + $depe;
             // Transaksi [Warning]
-            $keterangan = 'Pencairan Kredit ' . $perguliran_i->anggota->namadepan . '-' . $perguliran_i->id;
-            $keterangan .= ' (' . $perguliran_i->jpp->nama_jpp . ')';
+            $keterangan = 'Pencairan Kredit '.$perguliran_i->anggota->namadepan.'-'.$perguliran_i->id;
+            $keterangan .= ' ('.$perguliran_i->jpp->nama_jpp.')';
 
             Transaksi::create([
                 'tgl_transaksi' => (string) Tanggal::tglNasional($data[$tgl]),
@@ -881,7 +891,7 @@ class PinjamanIndividuController extends Controller
                 'id_pinj' => '0',
                 'id_pinj_i' => $perguliran_i->id,
                 'keterangan_transaksi' => (string) $keterangan,
-                'relasi' => (string) $perguliran_i->anggota->namadepan . " [" . $perguliran_i->id . "]",
+                'relasi' => (string) $perguliran_i->anggota->namadepan.' ['.$perguliran_i->id.']',
                 'jumlah' => intval($jumlah_pencairan),
                 'urutan' => '0',
                 'id_user' => auth()->user()->id,
@@ -895,7 +905,7 @@ class PinjamanIndividuController extends Controller
                     'idtp' => '0',
                     'id_pinj' => '0',
                     'id_pinj_i' => $perguliran_i->id,
-                    'keterangan_transaksi' => "Pendapatan Admin kredit",
+                    'keterangan_transaksi' => 'Pendapatan Admin kredit',
                     'relasi' => '-',
                     'jumlah' => intval($admin),
                     'urutan' => '0',
@@ -907,11 +917,11 @@ class PinjamanIndividuController extends Controller
                 Transaksi::create([
                     'tgl_transaksi' => (string) Tanggal::tglNasional($data[$tgl]),
                     'rekening_debit' => (string) $request->sumber_pembayaran,
-                    'rekening_kredit' => '1.1.03.0' . $kodeJenisProduk,
+                    'rekening_kredit' => '1.1.03.0'.$kodeJenisProduk,
                     'idtp' => '0',
                     'id_pinj' => '0',
                     'id_pinj_i' => $perguliran_i->id,
-                    'keterangan_transaksi' => "Pembayaran DP an." . $perguliran_i->anggota->namadepan . '-' . $perguliran_i->id,
+                    'keterangan_transaksi' => 'Pembayaran DP an.'.$perguliran_i->anggota->namadepan.'-'.$perguliran_i->id,
                     'relasi' => '-',
                     'jumlah' => intval($depe),
                     'urutan' => '0',
@@ -929,7 +939,7 @@ class PinjamanIndividuController extends Controller
                     'idtp' => '0',
                     'id_pinj' => '0',
                     'id_pinj_i' => $perguliran_i->id,
-                    'keterangan_transaksi' => "Provisi Kredit " . $perguliran_i->anggota->namadepan,
+                    'keterangan_transaksi' => 'Provisi Kredit '.$perguliran_i->anggota->namadepan,
                     'relasi' => $perguliran_i->anggota->namadepan,
                     'jumlah' => intval($provisi),
                     'urutan' => '0',
@@ -953,7 +963,7 @@ class PinjamanIndividuController extends Controller
                 'alokasi' => intval(str_replace(',', '', str_replace('.00', '', $data[$harga]))) - intval(str_replace(',', '', str_replace('.00', '', $data['depe']))),
                 'depe' => str_replace(',', '', str_replace('.00', '', $data['depe'])),
                 // 'depe' => str_replace(',', '', str_replace('.00', '', $data[$harga])) * ($request->depe / 100),
-                'status' => $data['status']
+                'status' => $data['status'],
             ];
         } else {
             $update = [
@@ -964,7 +974,7 @@ class PinjamanIndividuController extends Controller
                 'jenis_jasa' => $data['jenis_jasa'],
                 'sistem_angsuran' => $data['sistem_angsuran_pokok'],
                 'sa_jasa' => $data['sistem_angsuran_jasa'],
-                'status' => $data['status']
+                'status' => $data['status'],
             ];
 
             if ($request->status == 'P') {
@@ -982,9 +992,9 @@ class PinjamanIndividuController extends Controller
         $pinj_i = PinjamanIndividu::where('id', $perguliran_i->id)->update($update);
         $data_pemanfaat = DataPemanfaat::where([
             'nik' => $perguliran_i->anggota->nik,
-            'idpa' => $perguliran_i->id
+            'idpa' => $perguliran_i->id,
         ])->update([
-            'status' => $update['status']
+            'status' => $update['status'],
         ]);
 
         if ($request->status == 'W' || $request->status == 'A') {
@@ -999,7 +1009,7 @@ class PinjamanIndividuController extends Controller
         } elseif ($perguliran_i->status == 'V') {
             $msg = 'Keputusan Pendanaan berhasil disimpan';
         } elseif ($perguliran_i->status == 'W') {
-            $msg = 'Proposal anggota ' . $perguliran_i->anggota->namadepan . ' berhasil dicairkan';
+            $msg = 'Proposal anggota '.$perguliran_i->anggota->namadepan.' berhasil dicairkan';
         } elseif ($perguliran_i->status == '0') {
             $msg = 'Proposal berhasil diedit';
         }
@@ -1007,7 +1017,7 @@ class PinjamanIndividuController extends Controller
         return response()->json([
             'success' => true,
             'msg' => $msg,
-            'id' => $perguliran_i->id
+            'id' => $perguliran_i->id,
         ], Response::HTTP_ACCEPTED);
     }
 
@@ -1017,90 +1027,90 @@ class PinjamanIndividuController extends Controller
             'spk_no',
             'tgl_cair',
             'waktu',
-            'tempat'
+            'tempat',
         ]);
 
         $pinj_i = PinjamanIndividu::where('id', $id)->with('anggota')->first();
 
-        $wt_cair = $data['waktu'] . '_' . $data['tempat'];
+        $wt_cair = $data['waktu'].'_'.$data['tempat'];
         $pinjaman = PinjamanIndividu::where('id', $id)->update([
             'spk_no' => $data['spk_no'],
             'tgl_cair' => Tanggal::tglNasional($data['tgl_cair']),
-            'wt_cair' => $wt_cair
+            'wt_cair' => $wt_cair,
         ]);
 
         $this->generate($id);
 
         return response()->json([
             'success' => true,
-            'msg' => 'Pinjaman Kredit ' . $pinj_i->anggota->namadepan . ' Berhasil Diperbarui',
-            'tgl_cair' => $data['tgl_cair']
+            'msg' => 'Pinjaman Kredit '.$pinj_i->anggota->namadepan.' Berhasil Diperbarui',
+            'tgl_cair' => $data['tgl_cair'],
         ]);
     }
 
     public function kembaliProposal(Request $request, PinjamanIndividu $id)
     {
         $pinj_i = PinjamanIndividu::where('id', $id->id)->update([
-            'status' => 'P'
+            'status' => 'P',
         ]);
 
         $pemanfaat = DataPemanfaat::where([
             ['id_pinkel', $id->id],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])->update([
-            'status' => 'P'
+            'status' => 'P',
         ]);
 
         return response()->json([
             'success' => true,
-            'msg' => 'Pinjaman atas nama ' . $id->anggota->namadepan . ' Loan ID. ' . $id->id . ' berhasil dikembalikan menjadi status P (Pengajuan/Proposal)',
-            'id_pinkel' => $id->id
+            'msg' => 'Pinjaman atas nama '.$id->anggota->namadepan.' Loan ID. '.$id->id.' berhasil dikembalikan menjadi status P (Pengajuan/Proposal)',
+            'id_pinkel' => $id->id,
         ]);
     }
 
     public function tdklayak(Request $request, PinjamanIndividu $id)
     {
         $pinjaman = PinjamanIndividu::findOrFail($id->id);
-        $catatanBaru = !empty($pinjaman->catatan_verifikasi) 
-            ? $pinjaman->catatan_verifikasi . "\ntidak layak"
-            : "tidak layak";
-    
+        $catatanBaru = ! empty($pinjaman->catatan_verifikasi)
+            ? $pinjaman->catatan_verifikasi."\ntidak layak"
+            : 'tidak layak';
+
         $pinj_i = PinjamanIndividu::where('id', $id->id)->update([
             'status' => 'T',
-            'catatan_verifikasi' => $catatanBaru
+            'catatan_verifikasi' => $catatanBaru,
         ]);
-    
+
         $pemanfaat = DataPemanfaat::where([
             ['id_pinkel', $id->id],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])->update([
-            'status' => 'T'
+            'status' => 'T',
         ]);
-    
+
         return response()->json([
             'success' => true,
-            'msg' => 'Pinjaman atas nama ' . $id->anggota->namadepan . ' Loan ID. ' . $id->id . ' berhasil ditetapkan sebagai Tidak Layak',
-            'id_pinkel' => $id->id
+            'msg' => 'Pinjaman atas nama '.$id->anggota->namadepan.' Loan ID. '.$id->id.' berhasil ditetapkan sebagai Tidak Layak',
+            'id_pinkel' => $id->id,
         ]);
     }
 
     public function kembaliverifikasi(Request $request, PinjamanIndividu $id)
     {
         $pinj_i = PinjamanIndividu::where('id', $id->id)->update([
-            'status' => 'V'
+            'status' => 'V',
         ]);
 
         $pemanfaat = DataPemanfaat::where([
             ['id_pinkel', $id->id],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])->update([
-            'status' => 'V'
+            'status' => 'V',
         ]);
 
         return response()->json([
             'success' => true,
-            'msg' => 'Pinjaman atas nama ' . $id->anggota->namadepan . ' Loan ID. ' . $id->id . ' berhasil dikembalikan menjadi status V (Verifikasi)',
-            'id_pinkel' => $id->id
+            'msg' => 'Pinjaman atas nama '.$id->anggota->namadepan.' Loan ID. '.$id->id.' berhasil dikembalikan menjadi status V (Verifikasi)',
+            'id_pinkel' => $id->id,
         ]);
     }
 
@@ -1118,11 +1128,11 @@ class PinjamanIndividuController extends Controller
         $pinj_i = PinjamanAnggota::where('id', $id)->with([
             'anggota',
             'sis_pokok',
-            'sis_jasa'
+            'sis_jasa',
         ])->first();
         $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinj_i->jenis_pp)->value('kode');
         $rekening_1 = '1.1.01.01';
-        $rekening_2 = '1.1.03.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
+        $rekening_2 = '1.1.03.'.str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
 
         $trx_resc = Transaksi::create([
             'tgl_transaksi' => (string) Tanggal::tglNasional($tgl_resceduling),
@@ -1131,18 +1141,18 @@ class PinjamanIndividuController extends Controller
             'idtp' => $last_idtp + 1,
             'id_pinj' => 0,
             'id_pinj_i' => $pinj_i->id,
-            'keterangan_transaksi' => (string) 'Angs. Resc. ' . $pinj_i->anggota->namadepan . ' (' . $pinj_i->id . ')',
+            'keterangan_transaksi' => (string) 'Angs. Resc. '.$pinj_i->anggota->namadepan.' ('.$pinj_i->id.')',
             'relasi' => (string) $pinj_i->anggota->namadepan,
             'jumlah' => $pengajuan,
             'urutan' => '0',
-            'id_user' => auth()->user()->id
+            'id_user' => auth()->user()->id,
         ]);
 
         $update_pinkel = PinjamanAnggota::where('id', $id)->update([
             'tgl_lunas' => Tanggal::tglNasional($tgl_resceduling),
             'status' => 'R',
             'lu' => date('Y-m-d H:i:s'),
-            'user_id' => auth()->user()->id
+            'user_id' => auth()->user()->id,
         ]);
 
         $pinjaman = PinjamanAnggota::create([
@@ -1151,9 +1161,9 @@ class PinjamanIndividuController extends Controller
             'id_pinkel' => '0',
             'jenis_pp' => $pinj_i->jenis_pp,
             'nama_barang' => $pinj_i->nama_barang,
-            'fee_supplier' =>  '0',
-            'fee_agent' =>  '0',
-            'depe' =>  '0',
+            'fee_supplier' => '0',
+            'fee_agent' => '0',
+            'depe' => '0',
             'nia' => $pinj_i->nia,
             'tgl_proposal' => Tanggal::tglNasional($tgl_resceduling),
             'tgl_verifikasi' => Tanggal::tglNasional($tgl_resceduling),
@@ -1182,7 +1192,7 @@ class PinjamanIndividuController extends Controller
             'jaminan' => $pinj_i->jaminan,
             'catatan_verifikasi' => $pinj_i->catatan_verifikasi,
             'lu' => date('Y-m-d H:i:s'),
-            'user_id' => auth()->user()->id
+            'user_id' => auth()->user()->id,
         ]);
 
         $trx_cair = Transaksi::create([
@@ -1192,11 +1202,11 @@ class PinjamanIndividuController extends Controller
             'idtp' => '0',
             'id_pinj' => 0,
             'id_pinj_i' => $pinjaman->id,
-            'keterangan_transaksi' => (string) 'Pencairan Resc ' . $pinj_i->anggota->namadepan . ' (' . $pinjaman->id . ')',
+            'keterangan_transaksi' => (string) 'Pencairan Resc '.$pinj_i->anggota->namadepan.' ('.$pinjaman->id.')',
             'relasi' => (string) $pinj_i->anggota->namadepan,
             'jumlah' => $pengajuan,
             'urutan' => '0',
-            'id_user' => auth()->user()->id
+            'id_user' => auth()->user()->id,
         ]);
 
         $this->generate($pinjaman->id, true);
@@ -1204,7 +1214,7 @@ class PinjamanIndividuController extends Controller
         return response()->json([
             'success' => true,
             'status' => 'A',
-            'id' => $pinjaman->id
+            'id' => $pinjaman->id,
         ]);
     }
 
@@ -1215,13 +1225,13 @@ class PinjamanIndividuController extends Controller
             'id',
             'saldo',
             'tgl_penghapusan',
-            'alasan_penghapusan'
+            'alasan_penghapusan',
         ]);
 
         $pinj_i = PinjamanIndividu::where('id', $data['id'])->with([
             'saldo',
             'target',
-            'anggota'
+            'anggota',
         ])->withCount('real_i')->firstOrFail();
 
         $tunggakan_pokok = 0;
@@ -1243,13 +1253,13 @@ class PinjamanIndividuController extends Controller
         }
 
         $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinj_i->jenis_pp)->value('kode');
-        $rekening_debit = '1.1.04' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
-        $rekening_kredit = '1.1.03' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
+        $rekening_debit = '1.1.04'.str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
+        $rekening_kredit = '1.1.03'.str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
 
         $pinj_anggota = PinjamanIndividu::where('id', $pinj_i->id)->update([
             'tgl_lunas' => Tanggal::tglNasional($data['tgl_penghapusan']),
             'catatan_verifikasi' => $data['alasan_penghapusan'],
-            'status' => 'H'
+            'status' => 'H',
         ]);
 
         $trx = Transaksi::create([
@@ -1259,17 +1269,17 @@ class PinjamanIndividuController extends Controller
             'idtp' => $last_idtp + 1,
             'id_pinj' => 0,
             'id_pinj_i' => $pinj_i->id,
-            'keterangan_transaksi' => (string) 'Penghapusan Pinjaman ' . $pinj_i->anggota->namadepan . ' (' . $pinj_i->id . ')',
+            'keterangan_transaksi' => (string) 'Penghapusan Pinjaman '.$pinj_i->anggota->namadepan.' ('.$pinj_i->id.')',
             'relasi' => (string) $pinj_i->anggota->namadepan,
             'jumlah' => $data['saldo'],
             'urutan' => '0',
-            'id_user' => auth()->user()->id
+            'id_user' => auth()->user()->id,
         ]);
 
         return response()->json([
             'success' => true,
-            'msg' => 'Penghapusan Pinjaman atas nama ' . $pinj_i->anggota->namadepan . ' (' . $pinj_i->id . ') berhasil',
-            'id' => $pinj_i->id
+            'msg' => 'Penghapusan Pinjaman atas nama '.$pinj_i->anggota->namadepan.' ('.$pinj_i->id.') berhasil',
+            'id' => $pinj_i->id,
         ]);
     }
 
@@ -1283,18 +1293,18 @@ class PinjamanIndividuController extends Controller
             DataPemanfaat::where([
                 'lokasi' => Session::get('lokasi'),
                 'nik' => $perguliran_i->anggota->nik,
-                'idpa' => $perguliran_i->id
+                'idpa' => $perguliran_i->id,
             ])->delete();
 
             return response()->json([
                 'hapus' => true,
-                'msg' => 'Proposal pinjaman atas nama ' . $perguliran_i->anggota->namadepan . ' berhasil dihapus'
+                'msg' => 'Proposal pinjaman atas nama '.$perguliran_i->anggota->namadepan.' berhasil dihapus',
             ]);
         }
 
         return response()->json([
             'hapus' => false,
-            'msg' => 'Proposal pinjaman anggota ' . $perguliran_i->anggota->namadepan . ' gagal dihapus'
+            'msg' => 'Proposal pinjaman anggota '.$perguliran_i->anggota->namadepan.' gagal dihapus',
         ]);
     }
 
@@ -1302,12 +1312,12 @@ class PinjamanIndividuController extends Controller
     {
         $param = request()->get('query');
         if (strlen($param) >= '0') {
-            $anggota = anggota::leftJoin('desa', 'desa.kd_desa', '=', 'anggota_' . Session::get('lokasi') . '.desa')
-                ->leftJoin('pinjaman_anggota_' . Session::get('lokasi') . ' as pk', 'pk.id_angg', '=', 'anggota_' . Session::get('lokasi') . '.id')
+            $anggota = anggota::leftJoin('desa', 'desa.kd_desa', '=', 'anggota_'.Session::get('lokasi').'.desa')
+                ->leftJoin('pinjaman_anggota_'.Session::get('lokasi').' as pk', 'pk.id_angg', '=', 'anggota_'.Session::get('lokasi').'.id')
                 ->where(function ($query) use ($param) {
-                    $query->where('anggota_' . Session::get('lokasi') . '.namadepan', 'like', '%' . $param . '%')
-                        ->orwhere('anggota_' . Session::get('lokasi') . '.kd_anggota', 'like', '%' . $param . '%')
-                        ->orwhere('anggota_' . Session::get('lokasi') . '.ketua', 'like', '%' . $param . '%');
+                    $query->where('anggota_'.Session::get('lokasi').'.namadepan', 'like', '%'.$param.'%')
+                        ->orwhere('anggota_'.Session::get('lokasi').'.kd_anggota', 'like', '%'.$param.'%')
+                        ->orwhere('anggota_'.Session::get('lokasi').'.ketua', 'like', '%'.$param.'%');
                 })
                 ->where('pk.status', 'A')
                 ->get();
@@ -1331,38 +1341,38 @@ class PinjamanIndividuController extends Controller
             ['lokasi', Session::get('lokasi')],
             ['jabatan', '1'],
             ['level', '1'],
-            ['sejak', '<=', date('Y-m-t', strtotime($data['tahun'] . '-' . $data['bulan'] . '-01'))]
+            ['sejak', '<=', date('Y-m-t', strtotime($data['tahun'].'-'.$data['bulan'].'-01'))],
         ])->first();
 
         $data['logo'] = $kec->logo;
         $data['nama_lembaga'] = $kec->nama_lembaga_sort;
-        $data['nama_kecamatan'] = $kec->sebutan_kec . ' ' . $kec->nama_kec;
+        $data['nama_kecamatan'] = $kec->sebutan_kec.' '.$kec->nama_kec;
 
         if (Keuangan::startWith($kab->nama_kab, 'KOTA') || Keuangan::startWith($kab->nama_kab, 'KAB')) {
-            $data['nama_kecamatan'] .= ' ' . ucwords(strtolower($kab->nama_kab));
+            $data['nama_kecamatan'] .= ' '.ucwords(strtolower($kab->nama_kab));
             $data['nama_kabupaten'] = ucwords(strtolower($kab->nama_kab));
             $data['kabupaten'] = ucwords(strtolower($kab->nama_kab));
             $data['nama_kab'] = ucwords(strtolower($kab->nama_kab));
         } else {
-            $data['nama_kecamatan'] .= ' Kabupaten ' . ucwords(strtolower($kab->nama_kab));
-            $data['nama_kabupaten'] = ' Kabupaten ' . ucwords(strtolower($kab->nama_kab));
-            $data['kabupaten'] = ' Kab. ' . ucwords(strtolower($kab->nama_kab));
+            $data['nama_kecamatan'] .= ' Kabupaten '.ucwords(strtolower($kab->nama_kab));
+            $data['nama_kabupaten'] = ' Kabupaten '.ucwords(strtolower($kab->nama_kab));
+            $data['kabupaten'] = ' Kab. '.ucwords(strtolower($kab->nama_kab));
             $data['nama_kab'] = ucwords(strtolower($kab->nama_kab));
         }
 
-        $data['nomor_usaha'] = 'SK Kemenkumham RI No.' . $kec->nomor_bh;
-        $data['info'] = $kec->alamat_kec . ', Telp.' . $kec->telpon_kec;
+        $data['nomor_usaha'] = 'SK Kemenkumham RI No.'.$kec->nomor_bh;
+        $data['info'] = $kec->alamat_kec.', Telp.'.$kec->telpon_kec;
         $data['email'] = $kec->email_kec;
         $data['kec'] = $kec;
         $data['kab'] = $kab;
         $data['dir'] = $dir;
 
         if (strlen($data['hari']) > 0 && strlen($data['bulan']) > 0) {
-            $data['tgl_kondisi'] = $data['tahun'] . '-' . $data['bulan'] . '-' . $data['hari'];
+            $data['tgl_kondisi'] = $data['tahun'].'-'.$data['bulan'].'-'.$data['hari'];
         } elseif (strlen($data['bulan']) > 0) {
-            $data['tgl_kondisi'] = $data['tahun'] . '-' . $data['bulan'] . '-' . date('t', strtotime($data['tahun'] . '-' . $data['bulan']));
+            $data['tgl_kondisi'] = $data['tahun'].'-'.$data['bulan'].'-'.date('t', strtotime($data['tahun'].'-'.$data['bulan']));
         } else {
-            $data['tgl_kondisi'] = $data['tahun'] . '-12-31';
+            $data['tgl_kondisi'] = $data['tahun'].'-12-31';
         }
 
         $report = explode('#', $request->report);
@@ -1380,7 +1390,7 @@ class PinjamanIndividuController extends Controller
             'jpp',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['judul'] = 'DOKUMEN PROPOSAL';
@@ -1388,6 +1398,7 @@ class PinjamanIndividuController extends Controller
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1399,7 +1410,7 @@ class PinjamanIndividuController extends Controller
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
             'jpp',
             'anggota',
-            'anggota.d'
+            'anggota.d',
         ])->first();
 
         $data['data'] = [
@@ -1414,11 +1425,12 @@ class PinjamanIndividuController extends Controller
 
         ];
 
-        $data['judul'] = 'Check List (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Check List ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.check', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1431,14 +1443,15 @@ class PinjamanIndividuController extends Controller
             'jpp',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
-        $data['judul'] = 'Surat Perngajuran Kredit (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Perngajuran Kredit ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.pengajuan_kredit', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1452,16 +1465,17 @@ class PinjamanIndividuController extends Controller
             'jpp',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['keuangan'] = $keuangan;
 
-        $data['judul'] = 'Surat Rekomendasi Kredit (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Rekomendasi Kredit ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.rekomendasi_kredit', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1477,14 +1491,15 @@ class PinjamanIndividuController extends Controller
             'anggota.usaha',
             'anggota.kegiatan',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
-        $data['judul'] = 'Profil anggota (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Profil anggota ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.profil_anggota', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1497,14 +1512,15 @@ class PinjamanIndividuController extends Controller
             'jpp',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
-        $data['judul'] = 'Susunan Pengurus (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Susunan Pengurus ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.pengurus', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1515,15 +1531,16 @@ class PinjamanIndividuController extends Controller
     {
         $data['pinjaman'] = PinjamanAnggota::where('id_pinkel', $id)->with([
             'anggota',
-            'anggota.d'
+            'anggota.d',
         ])->get();
 
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with('anggota')->first();
-        $data['judul'] = 'Daftar Anggota (Loan ID. ' . $id . ')';
+        $data['judul'] = 'Daftar Anggota (Loan ID. '.$id.')';
         $view = view('perguliran_i.dokumen.anggota', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1536,27 +1553,28 @@ class PinjamanIndividuController extends Controller
             'jpp',
             'sis_pokok',
             'anggota',
-            'pinjaman_anggota.anggota'
+            'pinjaman_anggota.anggota',
         ])->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })
-        ->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })
+            ->first();
 
-        $data['judul'] = 'Daftar Pemanfaat (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Daftar Pemanfaat ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.pemanfaat', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1570,14 +1588,15 @@ class PinjamanIndividuController extends Controller
             'anggota',
             'anggota.d',
             'anggota.d.sebutan_desa',
-            'pinjaman_anggota.anggota'
+            'pinjaman_anggota.anggota',
         ])->first();
 
-        $data['judul'] = 'Pernyataan Tanggung Renteng (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Pernyataan Tanggung Renteng ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.tanggung_renteng', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1591,11 +1610,12 @@ class PinjamanIndividuController extends Controller
             'anggota',
         ])->first();
 
-        $data['judul'] = 'FC KTP Pemanfaat dan Penjamin (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'FC KTP Pemanfaat dan Penjamin ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.ktp', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1613,25 +1633,26 @@ class PinjamanIndividuController extends Controller
             'anggota.d',
             'anggota.d.sebutan_desa',
         ])->first();
-        
+
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
-        $data['judul'] = 'Pernyataan Peminjam (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Pernyataan Peminjam ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.pernyataan_peminjam', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1652,11 +1673,12 @@ class PinjamanIndividuController extends Controller
 
         $data['keuangan'] = $keuangan;
 
-        $data['judul'] = 'Permohonan Kredit Barang (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Permohonan Kredit Barang ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.permohonan_kredit_barang', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1670,14 +1692,15 @@ class PinjamanIndividuController extends Controller
             'anggota',
             'anggota.d',
             'anggota.d.sebutan_desa',
-            'sis_pokok'
+            'sis_pokok',
         ])->first();
 
-        $data['judul'] = 'BA Musyawarah (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'BA Musyawarah ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.ba_musyawarah', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1695,23 +1718,24 @@ class PinjamanIndividuController extends Controller
             'anggota.d',
             'anggota.d.sebutan_desa',
             'sis_pokok',
-            'user'
+            'user',
         ])->first();
 
         $data['user'] = User::where([
             ['lokasi', Session::get('lokasi')],
             ['level', '4'],
-            ['jabatan', '13']
+            ['jabatan', '13'],
         ])->with('j')->orderBy('id')->get();
 
         $data['keuangan'] = $keuangan;
         $data['statusDokumen'] = request()->get('status');
 
-        $data['judul'] = 'Form Verifikasi (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Form Verifikasi ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.form_verifikasi', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1728,14 +1752,15 @@ class PinjamanIndividuController extends Controller
         $data['verifikator'] = User::where([
             ['lokasi', Session::get('lokasi')],
             ['level', '4'],
-            ['jabatan', '5']
+            ['jabatan', '5'],
         ])->orderBy('id', 'ASC')->get();
 
-        $data['judul'] = 'Form Verifikasi Anggota (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Form Verifikasi Anggota ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.form_verifikasi_anggota', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1746,92 +1771,95 @@ class PinjamanIndividuController extends Controller
     {
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
             'anggota',
-            'user'
+            'user',
         ])->first();
 
         $data['kec'] = Kecamatan::where('id', Session::get('lokasi'))->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
-        $data['judul'] = 'Tanda Terima Jaminan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Tanda Terima Jaminan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.tanda_terima_jaminan', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
         }
     }
-    
+
     public function agungan($id, $data)
     {
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
             'anggota',
-            'user'
+            'user',
         ])->first();
 
         $data['kec'] = Kecamatan::where('id', Session::get('lokasi'))->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
-        $data['judul'] = 'agungan_jaminan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'agungan_jaminan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.agungan_jaminan', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
         }
     }
-    
+
     public function pengambilan_jaminan($id, $data)
     {
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
             'anggota',
-            'user'
+            'user',
         ])->first();
 
         $data['kec'] = Kecamatan::where('id', Session::get('lokasi'))->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
-        $data['judul'] = 'pengambilan_jaminan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'pengambilan_jaminan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.pengambilan_jaminan', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1844,19 +1872,20 @@ class PinjamanIndividuController extends Controller
         $data['keuangan'] = $keuangan;
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
             'anggota',
-            'user'
+            'user',
         ])->first();
-        $user = Auth::user(); 
+        $user = Auth::user();
         $data['kec'] = Kecamatan::where('id', Session::get('lokasi'))->first();
-        
+
         $data['login'] = User::where([
-            ['id', $user->id]
+            ['id', $user->id],
         ])->with(['j'])->first();
-        $data['judul'] = 'terima_jaminan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'terima_jaminan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.terima_jaminan', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1866,28 +1895,29 @@ class PinjamanIndividuController extends Controller
     public function SuratPersetujuanKuasa($id, $data)
     {
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
-            'anggota'
+            'anggota',
         ])->first();
 
         $data['kec'] = Kecamatan::where('id', Session::get('lokasi'))->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
-        $data['judul'] = 'Surat Persetujuan dan Kuasa (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Persetujuan dan Kuasa ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.surat_persetujuan_kuasa', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1897,28 +1927,29 @@ class PinjamanIndividuController extends Controller
     public function cek_list($id, $data)
     {
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
-            'anggota', 'jpp'
+            'anggota', 'jpp',
         ])->first();
 
         $data['kec'] = Kecamatan::where('id', Session::get('lokasi'))->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
-        $data['judul'] = 'cek_list (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'cek_list ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.cek_list', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1932,14 +1963,15 @@ class PinjamanIndividuController extends Controller
             'anggota',
             'anggota.d',
             'anggota.d.sebutan_desa',
-            'pinjaman_anggota.anggota'
+            'pinjaman_anggota.anggota',
         ])->first();
 
-        $data['judul'] = 'Daftar Hadir Verifikasi (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Daftar Hadir Verifikasi ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.daftar_hadir_verifikasi', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1954,30 +1986,29 @@ class PinjamanIndividuController extends Controller
             'anggota.d',
             'anggota.d.sebutan_desa',
             'sis_pokok',
-            'jasa'
+            'jasa',
         ])->first();
-
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
-
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['transaksi'] = Transaksi::where('id_pinj_i', $id)->orderBy('tgl_transaksi', 'ASC')->with('user')->orderBy('idtp', 'ASC')->get();
 
-        $data['judul'] = 'Rekening Koran (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Rekening Koran ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.rekening_koran', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -1996,11 +2027,12 @@ class PinjamanIndividuController extends Controller
             // 'pinjaman_anggota.anggota'
         ])->first();
 
-        $data['judul'] = 'Daftar Penerima IPTW (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Daftar Penerima IPTW ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.iptw', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2018,14 +2050,15 @@ class PinjamanIndividuController extends Controller
             'pinjaman_anggota' => function ($query) {
                 $query->where('status', 'A')->orwhere('status', 'W');
             },
-            'pinjaman_anggota.anggota'
+            'pinjaman_anggota.anggota',
         ])->first();
 
-        $data['judul'] = 'Daftar Peserta Asuransi (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Daftar Peserta Asuransi ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.peserta_asuransi', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2038,7 +2071,7 @@ class PinjamanIndividuController extends Controller
             'jpp',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['judul'] = 'DOKUMEN PENCAIRAN';
@@ -2046,6 +2079,7 @@ class PinjamanIndividuController extends Controller
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2062,27 +2096,25 @@ class PinjamanIndividuController extends Controller
             'sis_jasa',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
-
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
-
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
-        $data['judul'] = 'Surat Perjanjian Kredit (Umum) (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Perjanjian Kredit (Umum) ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         if (Session::get('lokasi') == '15' || Session::get('lokasi') == '1') {
             $data['redaksi_spk'] = Pinjaman::spk($data['kec']->redaksi_spk, $data);
             $view = view('perguliran_i.dokumen.spk_15', $data)->render();
@@ -2092,6 +2124,7 @@ class PinjamanIndividuController extends Controller
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2108,35 +2141,36 @@ class PinjamanIndividuController extends Controller
             'sis_jasa',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['saksi'] = User::with('j')->where([
             ['level', '1'],
             ['jabatan', '7'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])->first();
 
         $data['keuangan'] = $keuangan;
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
-        $data['judul'] = 'Surat Kuasa Menjual (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Kuasa Menjual ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.sk_menjual', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2153,30 +2187,30 @@ class PinjamanIndividuController extends Controller
             'sis_jasa',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
-
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
-        $data['judul'] = 'Surat Perjanjian Kredit (Umum) (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Perjanjian Kredit (Umum) ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.perjanjian_kredit', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2193,29 +2227,30 @@ class PinjamanIndividuController extends Controller
             'sis_jasa',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
-        $data['judul'] = 'Surat Perjanjian Kredit (Barang) (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Perjanjian Kredit (Barang) ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.spk_kredit_barang', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2234,31 +2269,32 @@ class PinjamanIndividuController extends Controller
             'anggota',
             'anggota.u',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['tgl_terakhir'] = RencanaAngsuranI::where('loan_id', $id)->orderBy(DB::raw('CAST(angsuran_ke AS SIGNED)'), 'desc')->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
-        $data['judul'] = 'Surat Perjanjian Hutang (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Perjanjian Hutang ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.sph', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2275,29 +2311,30 @@ class PinjamanIndividuController extends Controller
             'sis_jasa',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
-        $data['judul'] = 'analisis keputusan kredit (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'analisis keputusan kredit ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.analisis_keputusan_kredit', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2312,35 +2349,36 @@ class PinjamanIndividuController extends Controller
             'anggota',
             'anggota.d',
             'anggota.d.sebutan_desa',
-            'sis_pokok'
+            'sis_pokok',
         ])->first();
 
         $data['real_i'] = RealAngsuranI::where('loan_id', $id)->orderBy('tgl_transaksi', 'DESC')->orderBy('id', 'DESC')->first();
         $data['ra'] = RencanaAngsuranI::where([
             ['loan_id', $id],
-            ['jatuh_tempo', '<=', date('Y-m-d')]
+            ['jatuh_tempo', '<=', date('Y-m-d')],
         ])->orderBy('jatuh_tempo', 'DESC')->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
-        $data['judul'] = 'Surat pemberitahuan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat pemberitahuan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.surat_pemberitahuan', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2357,35 +2395,35 @@ class PinjamanIndividuController extends Controller
             'sis_jasa',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
-        $data['judul'] = 'pengikat diri sebagai penjamin (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'pengikat diri sebagai penjamin ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.pengikat_diri_sebagai_penjamin', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
         }
     }
-
 
     public function suratKelayakan($id, $data)
     {
@@ -2394,29 +2432,30 @@ class PinjamanIndividuController extends Controller
             'jpp',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
-        $data['judul'] = 'Surat Kelayakan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Kelayakan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.surat_kelayakan', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2433,31 +2472,32 @@ class PinjamanIndividuController extends Controller
             'sis_jasa',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
 
         $data['keuangan'] = $keuangan;
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
-        $data['judul'] = 'surat pernyataan suami (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'surat pernyataan suami ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.surat_pernyataan_suami', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2474,11 +2514,12 @@ class PinjamanIndividuController extends Controller
             'pinjaman_anggota.anggota.d.sebutan_desa',
         ])->first();
 
-        $data['judul'] = 'Surat Kuasa (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Kuasa ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.surat_kuasa', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2495,33 +2536,34 @@ class PinjamanIndividuController extends Controller
             'anggota.d',
             'anggota.u',
             'anggota.d.sebutan_desa',
-            'sis_pokok'
+            'sis_pokok',
         ])->first();
 
         $data['user'] = User::where([
             ['lokasi', Session::get('lokasi')],
-            ['level', '4']
+            ['level', '4'],
         ])->with('j')->orderBy('id')->get();
-        
+
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
 
-        $data['judul'] = 'Berita Acara Pencairan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Berita Acara Pencairan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.ba_pencairan', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2534,14 +2576,15 @@ class PinjamanIndividuController extends Controller
             'jpp',
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
-        $data['judul'] = 'Daftar Hadir Pencairan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Daftar Hadir Pencairan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.daftar_hadir_pencairan', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2558,21 +2601,22 @@ class PinjamanIndividuController extends Controller
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
-        $data['judul'] = 'Tanda Terima (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Tanda Terima ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.tanda_terima', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2606,27 +2650,28 @@ class PinjamanIndividuController extends Controller
             'anggota.d.sebutan_desa',
             'sis_pokok',
             'jasa',
-            'saldo_pinjaman'
+            'saldo_pinjaman',
         ])->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
-        $data['judul'] = 'Rencana Angsuran (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Rencana Angsuran ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.rencana_angsuran', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2650,28 +2695,29 @@ class PinjamanIndividuController extends Controller
             },
             'target' => function ($query) {
                 $query->where('angsuran_ke', '1');
-            }
+            },
         ])->withCount('real_i')->withCount([
             'rencana' => function ($query) {
                 $query->where('angsuran_ke', '!=', '0');
-            }
+            },
         ])->first();
         $data['barcode'] = DNS1D::getBarcodePNG($id, 'C128');
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
-        $data['laporan'] = 'Kartu Angsuran ' . $data['nia']->anggota->namadepan;
-        $data['laporan'] .= ' Loan ID. ' . $id;
+        $data['laporan'] = 'Kartu Angsuran '.$data['nia']->anggota->namadepan;
+        $data['laporan'] .= ' Loan ID. '.$id;
+
         return view('perguliran_i.dokumen.kartu_angsuran', $data);
     }
 
@@ -2696,29 +2742,32 @@ class PinjamanIndividuController extends Controller
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
-        $data['laporan'] = 'Kartu Angsuran Anggota ' . $data['pinkel']->anggota->namadepan;
+        $data['laporan'] = 'Kartu Angsuran Anggota '.$data['pinkel']->anggota->namadepan;
         if ($nia != null) {
             $anggota = PinjamanAnggota::where([
                 ['id_pinkel', $id],
-                ['nia', $nia]
+                ['nia', $nia],
             ])->with('anggota')->first();
 
-            if (!$anggota) abort(404);
+            if (! $anggota) {
+                abort(404);
+            }
 
-            $data['laporan'] = 'Kartu Angsuran ' . $anggota->anggota->namadepan . ' - ' . $data['pinkel']->anggota->namadepan;
+            $data['laporan'] = 'Kartu Angsuran '.$anggota->anggota->namadepan.' - '.$data['pinkel']->anggota->namadepan;
         }
 
-        $data['laporan'] .= ' Loan ID. ' . $id;
+        $data['laporan'] .= ' Loan ID. '.$id;
+
         return view('perguliran_i.dokumen.cetak_kartu_angsuran_anggota', $data);
     }
 
@@ -2733,21 +2782,22 @@ class PinjamanIndividuController extends Controller
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
-        $data['judul'] = 'Pemberitahuan Ke Desa (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Pemberitahuan Ke Desa ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.pemberitahuan_desa', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2760,28 +2810,29 @@ class PinjamanIndividuController extends Controller
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
 
-        $data['judul'] = 'Tanggung Renteng Kematian (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Tanggung Renteng Kematian ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.tanggung_renteng_kematian', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2797,11 +2848,12 @@ class PinjamanIndividuController extends Controller
             'anggota.d.sebutan_desa',
         ])->first();
 
-        $data['judul'] = 'Pernyataan Tanggung Renteng (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Pernyataan Tanggung Renteng ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.pernyataan_tanggung_renteng', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2814,40 +2866,41 @@ class PinjamanIndividuController extends Controller
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
             'anggota',
             'anggota.d',
-            'anggota.d.sebutan_desa'
+            'anggota.d.sebutan_desa',
         ])->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['bend'] = User::where([
             ['level', '1'],
             ['jabatan', '3'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])->first();
 
         $data['bp'] = User::where([
             ['level', '3'],
             ['jabatan', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])->first();
 
         $data['keuangan'] = $keuangan;
 
-        $data['judul'] = 'Kuitansi Pencairan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Kuitansi Pencairan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.kuitansi', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2904,34 +2957,35 @@ class PinjamanIndividuController extends Controller
             'anggota',
             'anggota.d',
             'anggota.d.sebutan_desa',
-            'sis_pokok'
+            'sis_pokok',
         ])->first();
 
         $data['real'] = RealAngsuranI::where('loan_id', $id)->orderBy('tgl_transaksi', 'DESC')->orderBy('id', 'DESC')->first();
         $data['ra'] = RencanaAngsuranI::where([
             ['loan_id', $id],
-            ['jatuh_tempo', '<=', date('Y-m-d')]
+            ['jatuh_tempo', '<=', date('Y-m-d')],
         ])->orderBy('jatuh_tempo', 'DESC')->first();
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['keuangan'] = $keuangan;
 
-        $data['judul'] = 'Surat Tagihan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Tagihan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.tagihan', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2946,14 +3000,13 @@ class PinjamanIndividuController extends Controller
             'anggota',
             'anggota.d',
             'anggota.d.sebutan_desa',
-            'sis_pokok'
+            'sis_pokok',
         ])->first();
 
         $data['real'] = RealAngsuranI::where('loan_id', $id)->orderBy('tgl_transaksi', 'DESC')->orderBy('id', 'DESC')->first();
 
-
-        $data['ra'] = RencanaAngsuranI::where('loan_id', $id) // SELECT * FROM rencana_angsuran_i_279 WHERE loan_id='80' 
-            ->whereDate('jatuh_tempo', '<=', date('Y-m-d')) // AND jatuh_tempo <= '2025-06-02' 
+        $data['ra'] = RencanaAngsuranI::where('loan_id', $id) // SELECT * FROM rencana_angsuran_i_279 WHERE loan_id='80'
+            ->whereDate('jatuh_tempo', '<=', date('Y-m-d')) // AND jatuh_tempo <= '2025-06-02'
             ->where('angsuran_ke', '!=', 0) // AND angsuran_ke != '0';
             ->orderBy('jatuh_tempo', 'asc')
             ->first();
@@ -2962,29 +3015,30 @@ class PinjamanIndividuController extends Controller
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
         $data['mgr'] = User::where([
             ['level', '2'],
             ['jabatan', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])->first();
 
         $data['keuangan'] = $keuangan;
 
-        $data['judul'] = 'Surat Pernyataan (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Pernyataan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.Surat_Pernyataan', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -2998,11 +3052,12 @@ class PinjamanIndividuController extends Controller
             'anggota',
         ])->first();
 
-        $data['judul'] = 'Surat Ahli Waris (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Surat Ahli Waris ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.surat_ahli_waris', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
@@ -3023,28 +3078,29 @@ class PinjamanIndividuController extends Controller
             },
             'target' => function ($query) {
                 $query->where('angsuran_ke', '1');
-            }
+            },
         ])->withCount('real_i')->withCount([
             'rencana' => function ($query) {
                 $query->where('angsuran_ke', '!=', '0');
-            }
+            },
         ])->first();
         $data['barcode'] = DNS1D::getBarcodePNG($id, 'C128');
 
         $data['dir'] = User::where([
             ['level', '1'],
-            ['lokasi', Session::get('lokasi')]
+            ['lokasi', Session::get('lokasi')],
         ])
-        ->where(function($query) {
-            if (Session::get('lokasi') == '351') {
-                $query->where('jabatan', '3');
-            } else {
-                $query->where('jabatan', '1');
-            }
-        })->with(['j'])->first();
+            ->where(function ($query) {
+                if (Session::get('lokasi') == '351') {
+                    $query->where('jabatan', '3');
+                } else {
+                    $query->where('jabatan', '1');
+                }
+            })->with(['j'])->first();
 
-        $data['laporan'] = 'Kartu Angsuran ' . $data['nia']->anggota->namadepan;
-        $data['laporan'] .= ' Loan ID. ' . $id;
+        $data['laporan'] = 'Kartu Angsuran '.$data['nia']->anggota->namadepan;
+        $data['laporan'] .= ' Loan ID. '.$id;
+
         return view('perguliran_i.dokumen.cetak_kartu_angsuran', $data);
     }
 
@@ -3059,7 +3115,7 @@ class PinjamanIndividuController extends Controller
                 'anggota.d',
                 'saldo_pinjaman' => function ($query) {
                     $query->where('lokasi', Session::get('lokasi'))->orderBy('tanggal', 'DESC');
-                }
+                },
             ])->firstOrFail();
 
             if ($pinj_i->status == 'P') {
@@ -3114,7 +3170,7 @@ class PinjamanIndividuController extends Controller
             $angsuran_desa = $pinj_i->anggota->d->jadwal_angsuran_desa;
             if ($angsuran_desa > 0) {
                 $tgl_pinjaman = date('Y-m', strtotime($tgl));
-                $tgl = $tgl_pinjaman . '-' . $angsuran_desa;
+                $tgl = $tgl_pinjaman.'-'.$angsuran_desa;
             }
         }
 
@@ -3129,15 +3185,15 @@ class PinjamanIndividuController extends Controller
         $sistem_jasa = $pinj_i->sis_jasa->sistem;
 
         if ($sa_pokok == 11) {
-            $tempo_pokok        = ($jangka) - 24 / $sistem_pokok;
-        } else if ($sa_pokok == 14) {
-            $tempo_pokok        = ($jangka) - 3 / $sistem_pokok;
-        } else if ($sa_pokok == 15) {
-            $tempo_pokok        = ($jangka) - 2 / $sistem_pokok;
-        } else if ($sa_pokok == 20) {
-            $tempo_pokok        = ($jangka) - 12 / $sistem_pokok;
+            $tempo_pokok = ($jangka) - 24 / $sistem_pokok;
+        } elseif ($sa_pokok == 14) {
+            $tempo_pokok = ($jangka) - 3 / $sistem_pokok;
+        } elseif ($sa_pokok == 15) {
+            $tempo_pokok = ($jangka) - 2 / $sistem_pokok;
+        } elseif ($sa_pokok == 20) {
+            $tempo_pokok = ($jangka) - 12 / $sistem_pokok;
         } else {
-            $tempo_pokok        = $jangka / $sistem_pokok;
+            $tempo_pokok = $jangka / $sistem_pokok;
             $tempo_pokok = floor($tempo_pokok);
             // if ($jangka % 2 == 0) {
             // } else {
@@ -3148,15 +3204,15 @@ class PinjamanIndividuController extends Controller
         // dd($tempo_pokok, $jangka, $sistem_pokok);
 
         if ($sa_jasa == 11) {
-            $tempo_jasa        = ($jangka) - 24 / $sistem_jasa;
-        } else if ($sa_jasa == 14) {
-            $tempo_jasa        = ($jangka) - 3 / $sistem_jasa;
-        } else if ($sa_jasa == 15) {
-            $tempo_jasa        = ($jangka) - 2 / $sistem_jasa;
-        } else if ($sa_jasa == 20) {
-            $tempo_jasa        = ($jangka) - 12 / $sistem_jasa;
+            $tempo_jasa = ($jangka) - 24 / $sistem_jasa;
+        } elseif ($sa_jasa == 14) {
+            $tempo_jasa = ($jangka) - 3 / $sistem_jasa;
+        } elseif ($sa_jasa == 15) {
+            $tempo_jasa = ($jangka) - 2 / $sistem_jasa;
+        } elseif ($sa_jasa == 20) {
+            $tempo_jasa = ($jangka) - 12 / $sistem_jasa;
         } else {
-            $tempo_jasa        = $jangka / $sistem_jasa;
+            $tempo_jasa = $jangka / $sistem_jasa;
             $tempo_jasa = floor($tempo_jasa);
             // if ($jangka % 2 == 0) {
             // } else {
@@ -3211,36 +3267,36 @@ class PinjamanIndividuController extends Controller
             $ra[$i]['pokok'] = $angsuran_pokok;
         }
 
-            if ($jenis_jasa == '3') {
+        if ($jenis_jasa == '3') {
 
-                $bunga_per_bulan = ($pros_jasa / 100) / $jangka;
-                $angsuran_total = Keuangan::pembulatan(
-                    ($alokasi * $bunga_per_bulan) / (1 - pow(1 + $bunga_per_bulan, -$jangka)),
+            $bunga_per_bulan = ($pros_jasa / 100) / $jangka;
+            $angsuran_total = Keuangan::pembulatan(
+                ($alokasi * $bunga_per_bulan) / (1 - pow(1 + $bunga_per_bulan, -$jangka)),
+                (string) $kec->pembulatan
+            );
+
+            $sisa_pokok = $alokasi;
+
+            for ($j = $index; $j <= $jumlah_angsuran; $j++) {
+
+                $jasa = Keuangan::pembulatan(
+                    $sisa_pokok * $bunga_per_bulan,
                     (string) $kec->pembulatan
                 );
 
-                $sisa_pokok = $alokasi;
+                $pokok = $angsuran_total - $jasa;
 
-                for ($j = $index; $j <= $jumlah_angsuran; $j++) {
-
-                    $jasa = Keuangan::pembulatan(
-                        $sisa_pokok * $bunga_per_bulan,
-                        (string) $kec->pembulatan
-                    );
-
-                    $pokok = $angsuran_total - $jasa;
-
-                    if ($j == $jumlah_angsuran) {
-                        $pokok = $sisa_pokok;
-                        $angsuran_total = $pokok + $jasa;
-                    }
-
-                    $ra[$j]['pokok'] = $pokok;
-                    $ra[$j]['jasa']  = $jasa;
-
-                    $sisa_pokok -= $pokok;
+                if ($j == $jumlah_angsuran) {
+                    $pokok = $sisa_pokok;
+                    $angsuran_total = $pokok + $jasa;
                 }
+
+                $ra[$j]['pokok'] = $pokok;
+                $ra[$j]['jasa'] = $jasa;
+
+                $sisa_pokok -= $pokok;
             }
+        }
 
         $ra['alokasi'] = $alokasi;
 
@@ -3257,14 +3313,14 @@ class PinjamanIndividuController extends Controller
                 'target_pokok' => '0',
                 'target_jasa' => '0',
                 'lu' => date('Y-m-d H:i:s'),
-                'id_user' => auth()->user()->id
+                'id_user' => auth()->user()->id,
             ]);
 
             $target_pokok = 0;
             $target_jasa = 0;
             for ($x = $index; $x <= $jumlah_angsuran; $x++) {
-                $bulan  = substr($tgl, 5, 2);
-                $tahun  = substr($tgl, 0, 4);
+                $bulan = substr($tgl, 5, 2);
+                $tahun = substr($tgl, 0, 4);
                 if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
                     $penambahan = "+$tambah days";
@@ -3301,7 +3357,7 @@ class PinjamanIndividuController extends Controller
                     'target_pokok' => $target_pokok,
                     'target_jasa' => $target_jasa,
                     'lu' => date('Y-m-d H:i:s'),
-                    'id_user' => auth()->user()->id
+                    'id_user' => auth()->user()->id,
                 ];
             }
 
@@ -3310,8 +3366,8 @@ class PinjamanIndividuController extends Controller
             $target_pokok = 0;
             $target_jasa = 0;
             for ($x = $index; $x <= $jumlah_angsuran; $x++) {
-                $bulan  = substr($tgl, 5, 2);
-                $tahun  = substr($tgl, 0, 4);
+                $bulan = substr($tgl, 5, 2);
+                $tahun = substr($tgl, 0, 4);
                 if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
                     $penambahan = "+$tambah days";
@@ -3348,7 +3404,7 @@ class PinjamanIndividuController extends Controller
                     'target_pokok' => $target_pokok,
                     'target_jasa' => $target_jasa,
                     'lu' => date('Y-m-d H:i:s'),
-                    'id_user' => auth()->user()->id
+                    'id_user' => auth()->user()->id,
                 ];
             }
         }
@@ -3356,7 +3412,7 @@ class PinjamanIndividuController extends Controller
         return response()->json([
             'success' => true,
             'ra' => $ra,
-            'rencana' => $rencana
+            'rencana' => $rencana,
         ], Response::HTTP_OK);
     }
 
@@ -3406,27 +3462,27 @@ class PinjamanIndividuController extends Controller
         $sistem_jasa = $pinj_i->sis_jasa->sistem;
 
         if ($sa_pokok == 11) {
-            $tempo_pokok        = ($jangka) - 24 / $sistem_pokok;
-        } else if ($sa_pokok == 14) {
-            $tempo_pokok        = ($jangka) - 3 / $sistem_pokok;
-        } else if ($sa_pokok == 15) {
-            $tempo_pokok        = ($jangka) - 2 / $sistem_pokok;
-        } else if ($sa_pokok == 20) {
-            $tempo_pokok        = ($jangka) - 12 / $sistem_pokok;
+            $tempo_pokok = ($jangka) - 24 / $sistem_pokok;
+        } elseif ($sa_pokok == 14) {
+            $tempo_pokok = ($jangka) - 3 / $sistem_pokok;
+        } elseif ($sa_pokok == 15) {
+            $tempo_pokok = ($jangka) - 2 / $sistem_pokok;
+        } elseif ($sa_pokok == 20) {
+            $tempo_pokok = ($jangka) - 12 / $sistem_pokok;
         } else {
-            $tempo_pokok        = floor($jangka / $sistem_pokok);
+            $tempo_pokok = floor($jangka / $sistem_pokok);
         }
 
         if ($sa_jasa == 11) {
-            $tempo_jasa        = ($jangka) - 24 / $sistem_jasa;
-        } else if ($sa_jasa == 14) {
-            $tempo_jasa        = ($jangka) - 3 / $sistem_jasa;
-        } else if ($sa_jasa == 15) {
-            $tempo_jasa        = ($jangka) - 2 / $sistem_jasa;
-        } else if ($sa_jasa == 20) {
-            $tempo_jasa        = ($jangka) - 12 / $sistem_jasa;
+            $tempo_jasa = ($jangka) - 24 / $sistem_jasa;
+        } elseif ($sa_jasa == 14) {
+            $tempo_jasa = ($jangka) - 3 / $sistem_jasa;
+        } elseif ($sa_jasa == 15) {
+            $tempo_jasa = ($jangka) - 2 / $sistem_jasa;
+        } elseif ($sa_jasa == 20) {
+            $tempo_jasa = ($jangka) - 12 / $sistem_jasa;
         } else {
-            $tempo_jasa        = floor($jangka / $sistem_jasa);
+            $tempo_jasa = floor($jangka / $sistem_jasa);
         }
 
         $ra = [];
@@ -3477,14 +3533,14 @@ class PinjamanIndividuController extends Controller
             'target_pokok' => '0',
             'target_jasa' => '0',
             'lu' => date('Y-m-d H:i:s'),
-            'id_user' => auth()->user()->id
+            'id_user' => auth()->user()->id,
         ]);
 
         $target_pokok = 0;
         $target_jasa = 0;
         for ($x = 1; $x <= $jangka; $x++) {
-            $bulan  = substr($tgl, 5, 2);
-            $tahun  = substr($tgl, 0, 4);
+            $bulan = substr($tgl, 5, 2);
+            $tahun = substr($tgl, 0, 4);
 
             if ($sa_pokok == 12) {
                 $tambah = $x * 7;
@@ -3517,7 +3573,7 @@ class PinjamanIndividuController extends Controller
                 'target_pokok' => $target_pokok,
                 'target_jasa' => $target_jasa,
                 'lu' => date('Y-m-d H:i:s'),
-                'id_user' => auth()->user()->id
+                'id_user' => auth()->user()->id,
             ]);
         }
         if (request()->get('save')) {
@@ -3525,8 +3581,8 @@ class PinjamanIndividuController extends Controller
             $target_pokok = 0;
             $target_jasa = 0;
             for ($x = 1; $x <= $jangka; $x++) {
-                $bulan  = substr($tgl, 5, 2);
-                $tahun  = substr($tgl, 0, 4);
+                $bulan = substr($tgl, 5, 2);
+                $tahun = substr($tgl, 0, 4);
 
                 if ($sa_pokok == 12) {
                     $tambah = $x * 7;
@@ -3550,7 +3606,6 @@ class PinjamanIndividuController extends Controller
                     $target_jasa += $jasa;
                 }
 
-
                 $rencana[] = [
                     'loan_id' => $id_pinj,
                     'angsuran_ke' => $x,
@@ -3560,7 +3615,7 @@ class PinjamanIndividuController extends Controller
                     'target_pokok' => $target_pokok,
                     'target_jasa' => $target_jasa,
                     'lu' => date('Y-m-d H:i:s'),
-                    'id_user' => auth()->user()->id
+                    'id_user' => auth()->user()->id,
                 ];
             }
         }
@@ -3568,27 +3623,28 @@ class PinjamanIndividuController extends Controller
         return response()->json([
             'success' => true,
             'ra' => $ra,
-            'rencana' => $rencana
+            'rencana' => $rencana,
         ], Response::HTTP_OK);
     }
 
     public function RekomendasiVerifikator($id, $data)
     {
         $data['pinkel'] = PinjamanIndividu::where('id', $id)->with([
-            'anggota'
+            'anggota',
         ])->first();
 
         $data['kec'] = Kecamatan::where('id', Session::get('lokasi'))->first();
         $data['user'] = User::where([
             ['lokasi', Session::get('lokasi')],
             ['level', '4'],
-            ['jabatan', '1']
+            ['jabatan', '1'],
         ])->with(['j'])->first();
-        $data['judul'] = 'Rekomendasi Verifikator (' . $data['pinkel']->anggota->namadepan . ' - Loan ID. ' . $data['pinkel']->id . ')';
+        $data['judul'] = 'Rekomendasi Verifikator ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.rekomendasi_verifikator', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
+
             return $pdf->stream();
         } else {
             return $view;
