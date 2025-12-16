@@ -2686,13 +2686,7 @@ class PinjamanIndividuController extends Controller
             'jpp',
             'sis_pokok',
             'real_i',
-            'rencana' => function ($query) use ($data) {
-                $operator = '!=';
-                if ($data['kec']->jdwl_angsuran == '1') {
-                    $operator = '>=';
-                }
-                $query->where('angsuran_ke', $operator, '0');
-            },
+            'rencana',
             'target' => function ($query) {
                 $query->where('angsuran_ke', '1');
             },
