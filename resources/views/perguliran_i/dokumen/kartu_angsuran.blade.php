@@ -214,13 +214,12 @@
 
                         if ($nia->sistem_angsuran != '1') {
                             $z = $j + 1;
-                            $baris = $baris_angsuran + 1;
                         }
                     }
                 @endphp
                 <tr>
                     <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
-                        {{ $z + 1 }}
+                        {{ $z + 1 - $index }}
                     </td>
                     <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
                         {{ Tanggal::tglIndo($nia->rencana[$z]->jatuh_tempo) }}
