@@ -875,7 +875,7 @@ class PinjamanIndividuController extends Controller
                 'fee_agent' => intval($fee_agent),
                 'fee_supplier' => intval($fee_supplier),
                 'harga' => (intval($alokasi_pinjaman) + intval($admin) + intval($provisi)),
-                'id_supplier' => $data['supplier'],
+                'id_supplier' => $data['supplier'] ?? 0,
                 'status' => 'A',
             ];
             $jumlah_pencairan = $alokasi_pinjaman + $depe;
