@@ -1,16 +1,15 @@
 @php
     use App\Utils\Tanggal;
+    use App\Utils\Pinjaman;
 
-    $data_nia = [];
-    if ($pinkel->pinkel) {
-        foreach ($pinkel->pinkel->pinjaman_anggota as $pinj) {
-            if ($pinj->anggota) {
-                $data_nia[$pinj->nia] = [
-                    'nama' => $pinj->anggota->namadepan,
-                    'alokasi' => $pinj->alokasi,
-                ];
-            }
-        }
+    $ketua = $pinkel->kelompok->ketua;
+    $sekretaris = $pinkel->kelompok->sekretaris;
+    $bendahara = $pinkel->kelompok->bendahara;
+    if ($pinkel->struktur_kelompok) {
+        $struktur_kelompok = json_decode($pinkel->struktur_kelompok, true);
+        $ketua = isset($struktur_kelompok['ketua']) ? $struktur_kelompok['ketua'] : '';
+        $sekretaris = isset($struktur_kelompok['sekretaris']) ? $struktur_kelompok['sekretaris'] : '';
+        $bendahara = isset($struktur_kelompok['bendahara']) ? $struktur_kelompok['bendahara'] : '';
     }
 @endphp
 
@@ -56,7 +55,7 @@
             <td>
                 <b>{{ $pinkel->kelompok->nama_kelompok }}</b>
             </td>
-            <td>Jenis Produk Pinjaman</td>
+            <td>Jenis Produk Piutang</td>
             <td>:</td>
             <td>
                 <b>{{ $pinkel->jpp->nama_jpp }}</b>
@@ -71,7 +70,7 @@
             <td>Jenis Usaha </td>
             <td>:</td>
             <td>
-                <b>{{ $pinkel->kelompok->usaha->nama_ju }}</b>
+                <b>{{ $pinkel->kelompok->usaha->nama_usaha }}</b>
             </td>
         </tr>
         <tr>
@@ -109,14 +108,14 @@
             <td>Fungsi Kelompok </td>
             <td>:</td>
             <td>
-                <b>{{ $pinkel->kelompok->fk->nama_fgs }}</b>
+                <b>{{ $pinkel->kelompok->fk->nama_fk }}</b>
             </td>
         </tr>
         <tr>
             <td>Nama Ketua</td>
             <td>:</td>
             <td>
-                <b>{{ $pinkel->kelompok->ketua }}</b>
+                <b>{{ $ketua }}</b>
             </td>
             <td>Last Update</td>
             <td>:</td>
@@ -128,12 +127,12 @@
             <td>Nama Sekretaris</td>
             <td>:</td>
             <td>
-                <b>{{ $pinkel->kelompok->sekretaris }}</b>
+                <b>{{ $sekretaris }}</b>
             </td>
             <td>Petugas/PJ</td>
             <td>:</td>
             <td>
-                <b> {{ $pinkel->user->namadepan }} {{ $pinkel->user->namabelakang }}</b>
+                <b>{{ $pinkel->user->namadepan }} {{ $pinkel->user->namabelakang }}</b>
             </td>
         </tr>
         <tr>
@@ -142,7 +141,7 @@
     </table>
 
     <div>
-        <b>DATA PINJAMAN KELOMPOK :</b>
+        <b>DATA PIUTANG KELOMPOK :</b>
     </div>
     <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr style="background: rgb(232,232,232)">
@@ -156,20 +155,35 @@
         </tr>
         <tr>
             <td align="center"><b>Data Proposal</b></td>
-            <td align="center">{{ Tanggal::tglLatin($pinkel->tgl_proposal) }}</td>
+            <td>{{ Tanggal::tglLatin($pinkel->tgl_proposal) }}</td>
             <td align="right">{{ number_format($pinkel->proposal) }}</td>
-            <td align="center">{{ $pinkel->pros_jasa / $pinkel->jangka }}%/{{ $pinkel->jasa->nama_jj }}</td>
+            <td align="center">
+                {{ number_format($pinkel->pros_jasa / $pinkel->jangka, 2) }}%/{{ $pinkel->jasa->nama_jj }}
+            </td>
             <td align="center">{{ $pinkel->jangka }} bulan</td>
             <td align="center">{{ $pinkel->sis_pokok->nama_sistem }}</td>
         </tr>
-        <tr>
-            <td align="center">Data Verifikasi</td>
-            <td align="center">&nbsp;</td>
-            <td align="right">&nbsp;</td>
-            <td align="center">&nbsp;</td>
-            <td align="center">&nbsp;</td>
-            <td align="center">&nbsp;</td>
-        </tr>
+        @if (!($pinkel->status == 'P' || $pinkel->status == 'V'))
+            <tr>
+                <td align="center">Data Verifikasi</td>
+                <td>{{ Tanggal::tglLatin($pinkel->tgl_verifikasi) }}</td>
+                <td align="right">{{ number_format($pinkel->verifikasi) }}</td>
+                <td align="center">
+                    {{ number_format($pinkel->pros_jasa / $pinkel->jangka, 2) }}%/{{ $pinkel->jasa->nama_jj }}
+                </td>
+                <td align="center">{{ $pinkel->jangka }} bulan</td>
+                <td align="center">{{ $pinkel->sis_pokok->nama_sistem }}</td>
+            </tr>
+        @else
+            <tr>
+                <td align="center">Data Verifikasi</td>
+                <td align="center">&nbsp;</td>
+                <td align="right">&nbsp;</td>
+                <td align="center">&nbsp;</td>
+                <td align="center">&nbsp;</td>
+                <td align="center">&nbsp;</td>
+            </tr>
+        @endif
         <tr>
             <td colspan="6" height="20">
                 Catatan Verifikasi :
@@ -179,7 +193,7 @@
     </table>
 
     <div style="margin-top: 12px;">
-        <b>DATA PINJAMAN ANGGOTA :</b>
+        <b>DATA PIUTANG ANGGOTA :</b>
     </div>
     <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
@@ -206,11 +220,9 @@
                 $alokasi += $pa->alokasi;
 
                 $pinjaman_lalu = 0;
-                if (isset($data_nia[$pa->nia])) {
-                    $proposal_lalu += $data_nia[$pa->nia]['alokasi'];
-                    $pinjaman_lalu = $data_nia[$pa->nia]['alokasi'];
-
-                    unset($data_nia[$pa->nia]);
+                if ($pa->pinj_ang) {
+                    $proposal_lalu += $pa->pinj_ang->alokasi;
+                    $pinjaman_lalu = $pa->pinj_ang->alokasi;
                 }
 
                 $no = $loop->iteration;
@@ -227,30 +239,9 @@
                     {!! $statusDokumen == 'W' || $statusDokumen == 'A' ? number_format($pa->alokasi) : '&nbsp;' !!}
                 </td>
                 <td>
-                    {!! $statusDokumen != 'P' || $pinkel->status == 'V' ? $pa->catatan_verifikasi : '&nbsp;' !!}
-                </td>
-            </tr>
-        @endforeach
-
-        @foreach ($data_nia as $nia => $val)
-            @php
-                $proposal_lalu += $val['alokasi'];
-                $pinjaman_lalu = $val['alokasi'];
-            @endphp
-
-            <tr>
-                <td align="center">{{ ++$no }}</td>
-                <td>{{ $val['nama'] }}</td>
-                <td align="right">{{ number_format($pinjaman_lalu) }}</td>
-                <td align="right">{{ number_format(0) }}</td>
-                <td align="right">
-                    {!! $statusDokumen != 'P' || $pinkel->status == 'V' ? number_format(0) : '&nbsp;' !!}
-                </td>
-                <td align="right">
-                    {!! $statusDokumen == 'W' || $statusDokumen == 'A' ? number_format(0) : '&nbsp;' !!}
-                </td>
-                <td>
-                    &nbsp;
+                    {!! !($statusDokumen == 'P' || $statusDokumen == 'L') || $pinkel->status == 'V'
+                        ? $pa->catatan_verifikasi
+                        : '&nbsp;' !!}
                 </td>
             </tr>
         @endforeach
@@ -273,39 +264,96 @@
 
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-            <td width="50%" align="justify" style="vertical-align: text-top;">
-                <div>Verified Sign:</div>
-                <div>
-                    Tim Verifikasi {{ $kec->nama_lembaga_sort }} Kecamatan {{ $kec->nama_kec }} menyatakan dengan
-                    sebenar-benarnya sesuai
-                    dengan hasil survey lapangan bahwa kelompok dengan identitas tersebut di atas <b>ADA/TIDAK ADA</b>
-                    keberadaannya dan dapat dipertanggungjawabkan sesuai dengan peraturan yang berlaku. Serta <b>LAYAK/TIDAK
-                        LAYAK</b> untuk diberikan pinjaman sesuai dengan hasil rekomendasi Verifikasi di atas. Form ini
-                    digunakan sebagai dasar Verified pada SI DBM.
-                </div>
-            </td>
-            <td width="50%" align="justify" style="vertical-align: top;">
-                <div>Diverifikasi oleh, Tim Verifikasi {{ $kec->nama_lembaga_sort }} Kecamatan {{ $kec->nama_kec }}</div>
-                <div style="margin-top: 12px;">
-                    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
-                        @foreach ($user as $u)
+            <td style="padding: 0px !important;">
+                <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
+                    style="font-size: 11px;">
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="50%" align="justify" style="vertical-align: text-top;">
+                            <div>Verified Sign:</div>
+                            <div>
+                                {{ $kec->nama_tv_sort }} {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
+                                {{ $kec->nama_kec }}
+                                menyatakan dengan sebenar-benarnya sesuai
+                                dengan hasil survey lapangan bahwa kelompok dengan identitas tersebut di atas <b>ADA/TIDAK
+                                    ADA</b>
+                                keberadaannya dan dapat dipertanggungjawabkan sesuai dengan peraturan yang berlaku. Serta
+                                <b>LAYAK/TIDAK
+                                    LAYAK</b> untuk diberikan piutang sesuai dengan hasil rekomendasi Verifikasi di atas.
+                                Form ini
+                                digunakan sebagai dasar Verified pada SI DBM.
+                            </div>
+                        </td>
+                        <td width="50%" align="justify" style="vertical-align: top;">
+                            <div>Diverifikasi oleh, {{ $kec->nama_tv_sort }} {{ $kec->nama_lembaga_sort }}
+                                {{ $kec->sebutan_kec }}
+                                {{ $kec->nama_kec }}</div>
+                            <div style="margin-top: 12px;">
+                                <table border="0" width="100%" cellspacing="0" cellpadding="0"
+                                    style="font-size: 11px;">
+                                    @foreach ($user as $u)
+                                        <tr>
+                                            <td width="70" height="20">
+                                                <div>{{ $u->namadepan }} {{ $u->namabelakang }}</div>
+                                                <div>
+                                                    @if ($u->jabatan == '1' && $u->level == '4')
+                                                        Ketua
+                                                    @else
+                                                        <b>{{ $u->j->nama_jabatan }}</b>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                            <td align="right" style="vertical-align: bottom;">
+                                                _____________________________________
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                @if ($tanda_tangan)
+                    @php
+                        $tanda_tangan_anggota = Pinjaman::keyword(json_encode($tanda_tangan), [
+                            'kec' => $kec,
+                            'jenis_laporan' => $jenis_laporan,
+                            'tgl_kondisi' => $tgl_kondisi,
+                            'pinkel' => $pinkel,
+                            'pinjaman_anggota' => $pa,
+                        ]);
+                    @endphp
+                    <div style="font-size: 14px;">
+                        {!! $tanda_tangan_anggota !!}
+                    </div>
+                @else
+                    @if ($kec->kd_kab == '33.13')
+                        <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
+                            style="font-size: 11px;">
                             <tr>
-                                <td width="70" height="20">
-                                    <div>{{ $u->namadepan }} {{ $u->namabelakang }}</div>
-                                    <div>
-                                        <b>{{ $u->j->nama_jabatan }}</b>
-                                    </div>
-                                </td>
-                                <td align="right" style="vertical-align: bottom;">
-                                    _____________________________________
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td align="center">
+                                    <div>Mengetahui</div>
+                                    <div>{{ $pinkel->kelompok->d->sebutan_desa->sebutan_kades }}
+                                        {{ $pinkel->kelompok->d->nama_desa }}</div>
                                 </td>
                             </tr>
-                        @endforeach
-                    </table>
-                </div>
+                            <tr>
+                                <td height="30">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td align="center">
+                                    {{ $pinkel->kelompok->d->kades }}
+                                </td>
+                            </tr>
+                        </table>
+                    @endif
+                @endif
             </td>
         </tr>
     </table>

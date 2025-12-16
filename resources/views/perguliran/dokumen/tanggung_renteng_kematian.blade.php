@@ -11,6 +11,16 @@
         $waktu = $wt_cair[0];
         $tempat = $wt_cair[1];
     }
+
+    $ketua = $pinkel->kelompok->ketua;
+    $sekretaris = $pinkel->kelompok->sekretaris;
+    $bendahara = $pinkel->kelompok->bendahara;
+    if ($pinkel->struktur_kelompok) {
+        $struktur_kelompok = json_decode($pinkel->struktur_kelompok, true);
+        $ketua = isset($struktur_kelompok['ketua']) ? $struktur_kelompok['ketua'] : '';
+        $sekretaris = isset($struktur_kelompok['sekretaris']) ? $struktur_kelompok['sekretaris'] : '';
+        $bendahara = isset($struktur_kelompok['bendahara']) ? $struktur_kelompok['bendahara'] : '';
+    }
 @endphp
 
 @extends('perguliran.dokumen.layout.base')
@@ -34,16 +44,11 @@
 
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
-            <td width="100">Tanggal</td>
-            <td width="5" align="center">:</td>
-            <td>{{ Tanggal::tglLatin($pinkel->tgl_cair) }}</td>
-        </tr>
-        <tr>
             <td colspan="3">Kami yang bertanda tangan di bawah ini :</td>
         </tr>
         <tr>
-            <td>Nama</td>
-            <td>:</td>
+            <td width="15%">Nama</td>
+            <td width="2%" align="center">:</td>
             <td>
                 <b>{{ $dir->namadepan }} {{ $dir->namabelakang }}</b>
             </td>
@@ -80,7 +85,7 @@
             <td>Nama</td>
             <td>:</td>
             <td>
-                <b>{{ $pinkel->kelompok->ketua }}</b>
+                <b>{{ $ketua }}</b>
             </td>
         </tr>
         <tr>
@@ -95,7 +100,7 @@
             <td>:</td>
             <td>
                 <b>
-                    {{ $pinkel->kelompok->alamat_anggota }} {{ $pinkel->kelompok->d->sebutan_desa->sebutan_desa }}
+                    {{ $pinkel->kelompok->alamat_kelompok }} {{ $pinkel->kelompok->d->sebutan_desa->sebutan_desa }}
                     {{ $pinkel->kelompok->d->nama_desa }}
                 </b>
             </td>
@@ -103,7 +108,7 @@
         <tr>
             <td colspan="3">
                 <p style="text-align: justify;">
-                    Dalam hal ini bertindak untuk dan atas nama diri sendiri dan anggota-anggota kelompok peminjam
+                    Dalam hal ini bertindak untuk dan atas nama diri sendiri dan anggota-anggota kelompok
                     {{ $pinkel->kelompok->nama_kelompok }} yang telah memberikan kuasa secara tertulis sebagaimana Surat
                     Kuasa terlampir yang menjadi bagian tidak terpisahkan dari dokumen perjanjian iuran tanggung renteng
                     kematian ini, selanjutnya disebut Pihak Kedua
@@ -128,29 +133,27 @@
 
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
-            <td colspan="2">&nbsp;</td>
+            <td colspan="2" height="24">&nbsp;</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
             <td align="center">{{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}</td>
         </tr>
         <tr>
-            <td align="center" width="50%">Pihak Pertama</td>
-            <td align="center" width="50%">Pihak Kedua</td>
+            <td align="center">
+                Pihak Pertama
+            </td>
+            <td align="center">Pihak Kedua</td>
         </tr>
         <tr>
-            <td align="center">{{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }},</td>
-            <td align="center">Ketua Kelompok,</td>
-        </tr>
-        <tr>
-            <td colspan="2" height="50">&nbsp;</td>
+            <td colspan="2" height="30"></td>
         </tr>
         <tr>
             <td align="center">
                 <b>{{ $dir->namadepan }} {{ $dir->namabelakang }}</b>
             </td>
             <td align="center">
-                <b>{{ $pinkel->kelompok->ketua }}</b>
+                <b>{{ $ketua }}</b>
             </td>
         </tr>
     </table>

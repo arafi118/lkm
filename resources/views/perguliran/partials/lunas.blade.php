@@ -43,7 +43,8 @@
 
     <div class="card">
         <div class="card-body text-sm">
-            Dengan mempertimbangkan Standar Operasional Prosedur (SOP) yang berlaku, dengan ini Saya selaku manajer,
+            Dengan mempertimbangkan Standar Operasional Prosedur (SOP) yang berlaku, dengan ini Saya selaku
+            {{ $kec->sebutan_level_1 }},
             menyatakan dengan sebenar-benarnya bahwa :
             <table class="table p-0 mb-3">
                 <tr>
@@ -111,12 +112,14 @@
                     </div>
 
                     <div class="d-flex justify-content-end" style="gap: .5em;">
-                        <button class="btn btn-warning btn-sm"
-                            onclick="window.open('/cetak_keterangan_lunas/{{ $perguliran->id }}')" type="button">
-                            <i class="fa fa-print"></i> Cetak Keterangan Pelunasan
-                        </button>
+                        @if (in_array('tahapan_perguliran.lunas.cetak_keterangan_pelunasan', Session::get('tombol')))
+                            <button class="btn btn-warning btn-sm"
+                                onclick="window.open('/cetak_keterangan_lunas/{{ $perguliran->id }}')" type="button">
+                                <i class="fa fa-print"></i> Cetak Keterangan Pelunasan
+                            </button>
+                        @endif
 
-                        @if ($is_dir)
+                        @if ($is_dir || in_array('tahapan_perguliran.lunas.validasi_lunas', Session::get('tombol')))
                             <button class="btn btn-danger btn-sm" type="button" id="TombolLunaskan" disabled>
                                 <i class="fa fa-gavel"></i> Validasi Lunas
                             </button>

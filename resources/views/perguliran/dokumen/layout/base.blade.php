@@ -64,12 +64,14 @@
         }
 
         table tr.vt td,
-        table tr.vb td.vt {
+        table tr.vb td.vt,
+        table tr td.vt {
             vertical-align: top;
         }
 
         table tr.vb td,
-        table tr.vt td.vb {
+        table tr.vt td.vb,
+        table tr td.vb {
             vertical-align: bottom;
         }
 
@@ -120,11 +122,12 @@
             <table width="100%" style="border-bottom: 1px solid grey;">
                 <tr>
                     <td width="30">
-                        <img src="../storage/app/public/logo/{{ $logo }}" width="40" height="40"
-                            alt="{{ $logo }}">
+                        <img src="{{ $logo }}" width="40" height="40" alt="{{ $logo }}">
                     </td>
                     <td>
-                        <div style="font-size: 12px;">{{ strtoupper($nama_lembaga) }}</div>
+                        <div style="font-size: 12px;">
+                            <b>{{ strtoupper($nama_lembaga) }}</b>
+                        </div>
                         <div style="font-size: 12px;">
                             <b>{{ strtoupper($nama_kecamatan) }}</b>
                         </div>

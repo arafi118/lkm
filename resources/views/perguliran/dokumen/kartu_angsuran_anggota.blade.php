@@ -7,6 +7,15 @@
     }
 
     $no = 0;
+    $ketua = $pinkel->kelompok->ketua;
+    $sekretaris = $pinkel->kelompok->sekretaris;
+    $bendahara = $pinkel->kelompok->bendahara;
+    if ($pinkel->struktur_kelompok) {
+        $struktur_kelompok = json_decode($pinkel->struktur_kelompok, true);
+        $ketua = isset($struktur_kelompok['ketua']) ? $struktur_kelompok['ketua'] : '';
+        $sekretaris = isset($struktur_kelompok['sekretaris']) ? $struktur_kelompok['sekretaris'] : '';
+        $bendahara = isset($struktur_kelompok['bendahara']) ? $struktur_kelompok['bendahara'] : '';
+    }
 @endphp
 
 <!DOCTYPE html>
@@ -85,6 +94,21 @@
                 }
             }
 
+            $keyId = 'id' . $pinj->id;
+            $rencana_angsuran = $generate->rencana_angsuran;
+            $rencana_angsuran_anggota = $generate->rencana_angsuran_anggota->$keyId;
+
+            $rencana_pokok = $rencana_angsuran_anggota->pokok;
+            $rencana_jasa = $rencana_angsuran_anggota->jasa;
+
+            $pros_jasa_anggota = $pinj->pros_jasa;
+            if (Session::get('lokasi') == '522') {
+                $pros_jasa_kelompok = $pinkel->pros_jasa / $pinkel->jangka + 0.2;
+                if ($pinkel->pinj >= '3') {
+                    $pros_jasa_anggota = $pros_jasa_kelompok * $pinkel->jangka;
+                }
+            }
+
             $jatuh_tempo = [];
             $no++;
         @endphp
@@ -111,7 +135,7 @@
                         </div>
                         <div style="font-size: 14px;">{{ $pinkel->kelompok->kd_kelompok }}</div>
                     </td>
-                    <td width="150">Jenis Pinjaman</td>
+                    <td width="150">Jenis Piutang</td>
                     <td width="5" align="center">:</td>
                     <td width="200">{{ $pinkel->jpp->nama_jpp }}</td>
                     <td width="150">Loan Id.</td>
@@ -150,25 +174,16 @@
                     <td>{{ number_format($pinj->alokasi) }}</td>
                     <td>Jasa</td>
                     <td align="center">:</td>
-                    <td>{{ $pinkel->pros_jasa / $pinkel->jangka . '%' }}</td>
+                    <td>{{ number_format($pros_jasa_anggota / $pinj->jangka, 2) . '%' }}</td>
                 </tr>
                 <tr>
                     <td>Angsuran</td>
                     <td align="center">:</td>
 
-                    @php
-                        $jumlah_angsuran = 0;
-                        foreach ($rencana[$pinj->id] as $key => $renc) {
-                            if ($jumlah_angsuran == 0) {
-                                if ($renc->wajib_pokok + $renc->wajib_jasa > $jumlah_angsuran) {
-                                    $jumlah_angsuran = $renc->wajib_pokok + $renc->wajib_jasa;
-                                }
-                            }
-                        }
-                    @endphp
-
-                    <td style="display: inline-block;">{{ number_format($jumlah_angsuran) }} /
-                        {{ $pinkel->sis_pokok->nama_sistem }}</td>
+                    <td style="display: inline-block;">
+                        {{ number_format($rencana_angsuran_anggota->jumlah_angsuran) }} /
+                        {{ $pinkel->sis_pokok->nama_sistem }}
+                    </td>
                     <td colspan="3">
                         Angsuran pada tanggal {{ explode('-', $pinkel->target->jatuh_tempo)[2] }}
                     </td>
@@ -181,15 +196,15 @@
             </table>
 
             @php
-                $baris_angsuran = ceil(count($rencana[$pinj->id]) / 2);
+                $baris_angsuran = ceil(count($rencana_angsuran) / 2);
             @endphp
 
             <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                 <tr>
-                    <td width="40">&nbsp;</td>
+                    <td width="5%">&nbsp;</td>
                     <td colspan="9" style="font-weight: bold;" height="30">TABEL KEWAJIBAN PEMBAYARAN ANGSURAN
                     </td>
-                    <td width="40">&nbsp;</td>
+                    <td width="5%">&nbsp;</td>
                 </tr>
 
                 <tr style="font-weight: bold;">
@@ -207,50 +222,71 @@
                     <th class="l t b r" align="center">Jasa</th>
                     <th rowspan="{{ $baris_angsuran + 1 }}">&nbsp;</th>
                 </tr>
+
+                @php
+                    $target_pokok1 = 0;
+                    $target_pokok2 = 0;
+                    $target_jasa1 = 0;
+                    $target_jasa2 = 0;
+                @endphp
                 @for ($j = 1; $j <= $baris_angsuran; $j++)
                     @php
                         $i = $j - 1;
-                        $jatuh_tempo[strtotime($rencana[$pinj->id][$i]->jatuh_tempo)] = [
-                            'pokok' => $rencana[$pinj->id][$i]->target_pokok,
-                            'jasa' => $rencana[$pinj->id][$i]->target_jasa,
-                            'jatuh_tempo' => $rencana[$pinj->id][$i]->jatuh_tempo,
+                        $ra = $rencana_angsuran[$i];
+                        $angsuran_ke = $ra->angsuran_ke;
+                        $wajib_pokok = $rencana_pokok->$angsuran_ke;
+                        $wajib_jasa = $rencana_jasa->$angsuran_ke;
+
+                        $target_pokok1 += $wajib_pokok;
+                        $target_jasa1 += $wajib_jasa;
+                        $jatuh_tempo[strtotime($ra->jatuh_tempo)] = [
+                            'pokok' => $target_pokok1,
+                            'jasa' => $target_jasa1,
+                            'jatuh_tempo' => $ra->jatuh_tempo,
                         ];
                     @endphp
                     <tr>
                         <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="center">
-                            {{ $rencana[$pinj->id][$i]->angsuran_ke }}
+                            {{ $ra->angsuran_ke }}
                         </td>
                         <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="center">
-                            {{ Tanggal::tglIndo($rencana[$pinj->id][$i]->jatuh_tempo) }}
+                            {{ Tanggal::tglIndo($ra->jatuh_tempo) }}
                         </td>
                         <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="right">
-                            {{ number_format($rencana[$pinj->id][$i]->wajib_pokok) }}
+                            {{ number_format($wajib_pokok) }}
                         </td>
                         <td class="l {{ $j == $baris_angsuran ? 'b' : '' }} r" align="right">
-                            {{ number_format($rencana[$pinj->id][$i]->wajib_jasa) }}
+                            {{ number_format($wajib_jasa) }}
                         </td>
 
                         <td>&nbsp;</td>
 
-                        @if (isset($rencana[$pinj->id][$i + $baris_angsuran]))
+                        @if (isset($rencana_angsuran[$i + $baris_angsuran]))
                             @php
-                                $jatuh_tempo[strtotime($rencana[$pinj->id][$i + $baris_angsuran]->jatuh_tempo)] = [
-                                    'pokok' => $rencana[$pinj->id][$i + $baris_angsuran]->target_pokok,
-                                    'jasa' => $rencana[$pinj->id][$i + $baris_angsuran]->target_jasa,
-                                    'jatuh_tempo' => $rencana[$pinj->id][$i + $baris_angsuran]->jatuh_tempo,
+                                $ra = $rencana_angsuran[$i + $baris_angsuran];
+                                $angsuran_ke = $ra->angsuran_ke;
+                                $wajib_pokok = $rencana_pokok->$angsuran_ke;
+                                $wajib_jasa = $rencana_jasa->$angsuran_ke;
+
+                                $target_pokok2 += $wajib_pokok;
+                                $target_jasa2 += $wajib_jasa;
+                                $jatuh_tempo[strtotime($ra->jatuh_tempo)] = [
+                                    'pokok' => $target_pokok2,
+                                    'jasa' => $target_jasa2,
+                                    'jatuh_tempo' => $ra->jatuh_tempo,
                                 ];
                             @endphp
                             <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="center">
-                                {{ $rencana[$pinj->id][$i + $baris_angsuran]->angsuran_ke }}
+                                {{ $ra->angsuran_ke }}
                             </td>
                             <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="center">
-                                {{ Tanggal::tglIndo($rencana[$pinj->id][$i + $baris_angsuran]->jatuh_tempo) }}
+                                {{ Tanggal::tglIndo($ra->jatuh_tempo) }}
                             </td>
                             <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="right">
-                                {{ number_format($rencana[$pinj->id][$i + $baris_angsuran]->wajib_pokok) }}
+                                {{ number_format($wajib_pokok) }}
                             </td>
                             <td class="l {{ $j == $baris_angsuran ? 'b' : '' }} r" align="right">
-                                {{ number_format($rencana[$pinj->id][$i + $baris_angsuran]->wajib_jasa) }}
+                                {{ number_format($wajib_jasa) }}
                             </td>
                         @else
                             <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="center">
@@ -273,25 +309,26 @@
 
             <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                 <tr>
-                    <td width="40" rowspan="{{ $rowspan }}">&nbsp;</td>
-                    <td colspan="9" style="font-weight: bold;" height="30">REALISASI PEMBAYARAN ANGSURAN</td>
-                    <td width="40" rowspan="{{ $rowspan }}">&nbsp;</td>
+                    <td width="5%" rowspan="{{ $rowspan }}">&nbsp;</td>
+                    <td width="90%" colspan="9" style="font-weight: bold;" height="30">REALISASI PEMBAYARAN
+                        ANGSURAN</td>
+                    <td width="5%" rowspan="{{ $rowspan }}">&nbsp;</td>
                 </tr>
                 <tr>
-                    <th class="l t b" rowspan="2">No</th>
-                    <th class="l t b" rowspan="2">Tanggal</th>
-                    <th class="l t" colspan="2">Pokok</th>
-                    <th class="l t" colspan="2">Jasa</th>
-                    <th class="l t" colspan="2">Saldo Piutang</th>
-                    <th class="l t r b" rowspan="2">Sign</th>
+                    <th width="3%" class="l t b" rowspan="2">No</th>
+                    <th width="10%" class="l t b" rowspan="2">Tanggal</th>
+                    <th width="22%" class="l t" colspan="2">Pokok</th>
+                    <th width="22%" class="l t" colspan="2">Jasa</th>
+                    <th width="22%"class="l t" colspan="2">Saldo Piutang</th>
+                    <th width="11%" class="l t r b" rowspan="2">Sign</th>
                 </tr>
                 <tr>
-                    <th class="l b t">Dibayar</th>
-                    <th class="l b t">Tunggakan</th>
-                    <th class="l b t">Dibayar</th>
-                    <th class="l b t">Tunggakan</th>
-                    <th class="l b t">Pokok</th>
-                    <th class="l b t">Jasa</th>
+                    <th width="12%" class="l b t">Dibayar</th>
+                    <th width="10%" class="l b t">Tunggakan</th>
+                    <th width="12%" class="l b t">Dibayar</th>
+                    <th width="10%" class="l b t">Tunggakan</th>
+                    <th width="11%" class="l b t">Pokok</th>
+                    <th width="11%" class="l b t">Jasa</th>
                 </tr>
 
                 @php
@@ -317,87 +354,98 @@
                     $target_pokok = 0;
                     $target_jasa = 0;
                 @endphp
-                @foreach ($pinkel->real as $real)
-                    @php
-                        $jumlah++;
-                        $nomor = $loop->iteration;
 
-                        $b = $nomor + 3 == $rowspan ? 'b' : '';
+                @if ($angsuran)
+                    @foreach ($pinkel->real as $real)
+                        @php
+                            $jumlah++;
+                            $nomor = $loop->iteration;
 
-                        $tgl_transaksi = $real->tgl_transaksi;
-                        $waktu_transaksi = strtotime($real->tgl_transaksi);
-                        ksort($jatuh_tempo);
-                        foreach ($jatuh_tempo as $key => $jt) {
-                            if ($key <= $waktu_transaksi) {
-                                $target_pokok = $jt['pokok'];
-                                $target_jasa = $jt['jasa'];
+                            $b = $nomor + 3 == $rowspan ? 'b' : '';
+
+                            $tgl_transaksi = $real->tgl_transaksi;
+                            $waktu_transaksi = strtotime($real->tgl_transaksi);
+                            ksort($jatuh_tempo);
+                            foreach ($jatuh_tempo as $key => $jt) {
+                                if ($key <= $waktu_transaksi) {
+                                    $target_pokok = $jt['pokok'];
+                                    $target_jasa = $jt['jasa'];
+                                }
                             }
-                        }
 
-                        $pokok = 0;
-                        $jasa = 0;
-                        $tunggakan_pokok = 0;
-                        $tunggakan_jasa = 0;
-
-                        if (!array_key_exists($real->id, $kom_pokok)) {
-                            $pros_pokok_anggota = ($pinj->alokasi / $pinkel->alokasi) * 100;
-                            $pokok = ($pros_pokok_anggota / 100) * $real->realisasi_pokok;
-                        } else {
-                            $pokok = $kom_pokok[$real->id];
-                        }
-
-                        if (!array_key_exists($real->id, $kom_jasa)) {
-                            $jasa_pinjaman = ($pinkel->pros_jasa / 100) * $pinkel->alokasi;
-
-                            $pros_jasa_anggota = ((($pinj->pros_jasa / 100) * $pinj->alokasi) / $jasa_pinjaman) * 100;
-                            $jasa = ($pros_jasa_anggota / 100) * $real->realisasi_jasa;
-                        } else {
-                            $jasa = $kom_jasa[$real->id];
-                        }
-
-                        $sum_pokok += $pokok;
-                        $sum_jasa += $jasa;
-
-                        $tunggakan_pokok = $target_pokok - $sum_pokok;
-                        if ($tunggakan_pokok < 0) {
+                            $pokok = 0;
+                            $jasa = 0;
                             $tunggakan_pokok = 0;
-                        }
-
-                        $tunggakan_jasa = $target_jasa - $sum_jasa;
-                        if ($tunggakan_jasa < 0) {
                             $tunggakan_jasa = 0;
-                        }
 
-                        $saldo_pokok = $alokasi_pokok - $sum_pokok;
-                        if ($saldo_pokok < 0) {
-                            $saldo_pokok = 0;
-                        }
-                        $saldo_jasa = $alokasi_jasa - $sum_jasa;
-                        if ($saldo_jasa < 0) {
-                            $saldo_jasa = 0;
-                        }
-                    @endphp
-                    <tr>
-                        <td class="l {{ $b }}" align="center">{{ $nomor }}</td>
-                        <td class="l {{ $b }}" align="center">
-                            {{ Tanggal::tglIndo($real->tgl_transaksi) }}
-                        </td>
-                        <td class="l {{ $b }}" align="right">{{ number_format($pokok) }}
-                        </td>
-                        <td class="l {{ $b }}" align="right">
-                            {{ number_format($tunggakan_pokok) }}
-                        </td>
-                        <td class="l {{ $b }}" align="right">{{ number_format($jasa) }}
-                        </td>
-                        <td class="l {{ $b }}" align="right">
-                            {{ number_format($tunggakan_jasa) }}
-                        </td>
-                        <td class="l {{ $b }}" align="right">{{ number_format($saldo_pokok) }}
-                        </td>
-                        <td class="l {{ $b }}" align="right">{{ number_format($saldo_jasa) }}</td>
-                        <td class="l {{ $b }} r" align="center">{{ $real->id }}</td>
-                    </tr>
-                @endforeach
+                            if (!array_key_exists($real->id, $kom_pokok)) {
+                                $pros_pokok_anggota = ($pinj->alokasi / $pinkel->alokasi) * 100;
+                                $pokok = ($pros_pokok_anggota / 100) * $real->realisasi_pokok;
+                            } else {
+                                $pokok = $kom_pokok[$real->id];
+                            }
+
+                            if (!array_key_exists($real->id, $kom_jasa)) {
+                                $jasa_pinjaman = ($pinkel->pros_jasa / 100) * $pinkel->alokasi;
+
+                                $pros_jasa_anggota =
+                                    ((($pinj->pros_jasa / 100) * $pinj->alokasi) / $jasa_pinjaman) * 100;
+                                $jasa = ($pros_jasa_anggota / 100) * $real->realisasi_jasa;
+                            } else {
+                                $jasa = $kom_jasa[$real->id];
+                            }
+
+                            $sum_pokok += $pokok;
+                            $sum_jasa += $jasa;
+
+                            $tunggakan_pokok = $target_pokok - $sum_pokok;
+                            if ($tunggakan_pokok < 0) {
+                                $tunggakan_pokok = 0;
+                            }
+
+                            $tunggakan_jasa = $target_jasa - $sum_jasa;
+                            if ($tunggakan_jasa < 0) {
+                                $tunggakan_jasa = 0;
+                            }
+
+                            $saldo_pokok = $alokasi_pokok - $sum_pokok;
+                            if ($saldo_pokok < 0) {
+                                $saldo_pokok = 0;
+                            }
+                            $saldo_jasa = $alokasi_jasa - $sum_jasa;
+                            if ($saldo_jasa < 0) {
+                                $saldo_jasa = 0;
+                            }
+
+                            $sign = 'TF';
+                            if ($real->transaksi->rekening_debit == '1.1.01.01') {
+                                $sign = 'TN';
+                            }
+                        @endphp
+                        <tr>
+                            <td class="l {{ $b }}" align="center">{{ $nomor }}</td>
+                            <td class="l {{ $b }}" align="center">
+                                {{ Tanggal::tglIndo($real->tgl_transaksi) }}
+                            </td>
+                            <td class="l {{ $b }}" align="right">{{ number_format($pokok) }}
+                            </td>
+                            <td class="l {{ $b }}" align="right">
+                                {{ number_format($tunggakan_pokok) }}
+                            </td>
+                            <td class="l {{ $b }}" align="right">{{ number_format($jasa) }}
+                            </td>
+                            <td class="l {{ $b }}" align="right">
+                                {{ number_format($tunggakan_jasa) }}
+                            </td>
+                            <td class="l {{ $b }}" align="right">{{ number_format($saldo_pokok) }}
+                            </td>
+                            <td class="l {{ $b }}" align="right">{{ number_format($saldo_jasa) }}</td>
+                            <td class="l {{ $b }} r" align="center">
+                                {{ $sign }}-{{ $real->id }}
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
 
                 @if ($jumlah < 16)
                     @for ($i = 1; $i <= 16 - $jumlah; $i++)
@@ -418,9 +466,9 @@
 
             <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
                 <tr>
-                    <td width="40" rowspan="5">&nbsp;</td>
+                    <td width="5%" rowspan="5">&nbsp;</td>
                     <td colspan="3" style="font-weight: bold;" height="30">&nbsp;</td>
-                    <td width="40" rowspan="5">&nbsp;</td>
+                    <td width="5%" rowspan="5">&nbsp;</td>
                 </tr>
                 <tr>
                     <td width="350" rowspan="3">
@@ -437,7 +485,7 @@
                 </tr>
                 <tr style="font-weight: bold; font-size: 12px; text-transform: uppercase;">
                     <td width="350" align="center">
-                        {{ $pinkel->kelompok->ketua }}
+                        {{ $ketua }}
                     </td>
                     <td width="350" align="center">
                         <div>{{ $pinj->anggota->namadepan }}</div>
@@ -447,7 +495,7 @@
                     <td colspan="3" style="font-weight: bold;" height="10">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td colspan="5">
+                    <td colspan="4">
                         <ol>
                             <b>Perhatian:</b>
                             <li>Bayarlah angsuran tepat waktu sesuai dengan jadwal diatas</li>
@@ -459,6 +507,11 @@
                             <li>Jika lembar ini tidak mencukupi, cetak pada lembar baliknya dengan dibubuhi stempel
                                 {{ $kec->nama_lembaga_sort }}</li>
                         </ol>
+                    </td>
+                    <td>
+                        <div style="display: flex; height: 100%; justify-content: center; align-items: center;">
+                            {{ $qrCode }}
+                        </div>
                     </td>
                 </tr>
             </table>

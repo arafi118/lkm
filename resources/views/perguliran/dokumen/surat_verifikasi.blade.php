@@ -1,15 +1,14 @@
 @php
     use App\Utils\Tanggal;
-    $waktu = '';
-    $tempat = '';
-    $wt_cair = explode('_', $pinkel->wt_cair);
-    if (count($wt_cair) == 1) {
-        $waktu = $wt_cair[0];
-    }
 
-    if (count($wt_cair) == 2) {
-        $waktu = $wt_cair[0];
-        $tempat = $wt_cair[1];
+    $ketua = $pinkel->kelompok->ketua;
+    $sekretaris = $pinkel->kelompok->sekretaris;
+    $bendahara = $pinkel->kelompok->bendahara;
+    if ($pinkel->struktur_kelompok) {
+        $struktur_kelompok = json_decode($pinkel->struktur_kelompok, true);
+        $ketua = isset($struktur_kelompok['ketua']) ? $struktur_kelompok['ketua'] : '';
+        $sekretaris = isset($struktur_kelompok['sekretaris']) ? $struktur_kelompok['sekretaris'] : '';
+        $bendahara = isset($struktur_kelompok['bendahara']) ? $struktur_kelompok['bendahara'] : '';
     }
 @endphp
 
@@ -21,14 +20,7 @@
             <td width="50">Nomor</td>
             <td width="10" align="center">:</td>
             <td colspan="2">
-                ______/DBM/{{ Tanggal::tglRomawi($pinkel->tgl_dana) }}
-            </td>
-        </tr>
-        <tr>
-            <td>Tanggal</td>
-            <td align="center">:</td>
-            <td colspan="2">
-                {{ Tanggal::tglLatin($pinkel->tgl_dana) }}
+                ______/{{ Tanggal::tglRomawi($pinkel->tgl_dana) }}
             </td>
         </tr>
         <tr>
@@ -42,7 +34,7 @@
             <td>Perihal</td>
             <td align="center">:</td>
             <td colspan="2">
-                <b>Kelayakan Piutang</b>
+                <b>Pemberitahuan dan Undangan Verifikasi</b>
             </td>
         </tr>
         <tr>
@@ -69,11 +61,11 @@
             <td colspan="3">
                 <div>Dengan hormat,</div>
                 <div style="text-align: justify;">
-                    Dengan ini memberitahukan bahwa keputusan rapat pendanaan Perguliran {{ $kec->nama_lembaga_sort }}
-                    Tanggal {{ Tanggal::tglLatin($pinkel->tgl_dana) }}. yang merupakan tindak lanjut hasil verifikasi atas
-                    Proposal Permohonan Kredit dari ;
+                    Menindaklanjuti tahapan perguliran, dengan ini diberitahukan tentang <b><u>JADWAL VERIFIKASI</u></b> di
+                    desa setempat dan diharap kehadirannya untuk kegiatan tersebut yang akan dilaksanakan dengan ketentuan
+                    sebagai berikut;
                 </div>
-                <table>
+                <table class="p0">
                     <tr>
                         <td width="10">1.</td>
                         <td width="120">Nama Kelompok</td>
@@ -91,30 +83,61 @@
                     </tr>
                     <tr>
                         <td>3.</td>
-                        <td>Tanggal Proposal</td>
+                        <td>Tanggal Verifikasi</td>
                         <td>:</td>
-                        <td>{{ Tanggal::tglLatin($pinkel->tgl_proposal) }}</td>
+                        <td>{{ Tanggal::tglLatin($pinkel->tgl_verifikasi) }}</td>
                     </tr>
                     <tr>
                         <td>4.</td>
-                        <td>Nilai Kelayakan</td>
+                        <td>Waktu</td>
                         <td>:</td>
-                        <td>Rp {{ number_format($pinkel->alokasi) }}</td>
+                        <td>Jam : {{ substr($pinkel->waktu_verifikasi, 0, 5) }}</td>
                     </tr>
                     <tr>
                         <td>5.</td>
-                        <td>Jumlah Pemanfaat</td>
+                        <td>Tempat</td>
                         <td>:</td>
-                        <td>{{ $pinkel->pinjaman_anggota_count }} orang</td>
+                        <td>Rumah Ketua kelompok / {{ $ketua }}</td>
+                    </tr>
+                    <tr>
+                        <td>6.</td>
+                        <td>Kegiatan</td>
+                        <td>:</td>
+                        <td>
+                            Verifikasi usulan kelompok {{ $pinkel->kelompok->nama_kelompok }} Rp.
+                            {{ number_format($pinkel->proposal) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="3">
+                            Catatan :
+                            <ul style="margin: 0px;">
+                                <li>
+                                    Peminjam harus hadir dan tidak boleh diwakilkan, bagi yang tidak hadir dianggap tidak
+                                    mengajukan pinjaman.
+                                </li>
+                                <li>
+                                    Untuk kelompok perguliran, buku-buku administrasi perguliran sebelumnya harap dibawa
+                                    untuk
+                                    pembinaan dan penilaian perguliran sebelumnya.
+                                </li>
+                                <li>
+                                    Tempat yang akan di kunjungi Tim verifikasi meliputi Balai desa, Kelompok dan anggota,
+                                    Lingkungan kelompok.
+                                </li>
+                                <li>
+                                    Dimohon kepala desa ikut hadir secara pribadi.
+                                </li>
+                            </ul>
+                        </td>
                     </tr>
                 </table>
 
-                <div style="text-align: justify;">
-                    Dinyatakan Layak/Tidak Layak didanai sebesar Rp. {{ number_format($pinkel->alokasi) }}
-                    ({{ $keuangan->terbilang($pinkel->alokasi) }}) dan dengan
-                    jadwal pencairan besok pada tanggal {{ Tanggal::tglLatin($pinkel->tgl_cair) }} bertempat di
-                    {{ $tempat }}.
-                </div>
+                <p style="text-align: justify;">
+                    Terkait hal tersebut kepada semua kelompok yang mengajukan pinjaman kelompok untuk mempersiapkan semua
+                    ketentuan di atas.
+                </p>
 
                 <div style="text-align: justify;">
                     Demikian surat pemberitahuan ini kami sampaikan, atas perhatian dan kerjasamanya kami ucapkan
@@ -123,6 +146,7 @@
             </td>
         </tr>
     </table>
+
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
         <tr>
             <td colspan="2" height="24">&nbsp;</td>
@@ -130,12 +154,12 @@
         <tr>
             <td width="50%">&nbsp;</td>
             <td width="50%" align="center">
-                {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_dana) }}
+                {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_verifikasi) }}
             </td>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td align="center">{{ $kec->sebutan_level_1 }}</td>
+            <td align="center">{{ $kec->sebutan_level_1 }} DBM</td>
         </tr>
         <tr>
             <td colspan="2" height="40">&nbsp;</td>

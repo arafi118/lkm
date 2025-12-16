@@ -26,26 +26,43 @@
         $tgl = $pinkel->tgl_cair;
     }
 
+    $pros_jasa = $pinkel->pros_jasa;
+    // if (count($pinkel->pinjaman_anggota) >= 3 && Session::get('lokasi') == '522') {
+    //     $pros_jasa_kelompok = $pinkel->pros_jasa / $pinkel->jangka + 0.2;
+    //     $pros_jasa = $pros_jasa_kelompok * $pinkel->jangka;
+    // }
+
     $saldo_pokok = $alokasi;
     $alokasi_pinjaman = $alokasi;
-    $saldo_jasa = $keuangan->pembulatan(($saldo_pokok * $pinkel->pros_jasa) / 100);
+    $saldo_jasa = $saldo_pokok * ($pros_jasa / 100);
 
     $sum_pokok = 0;
     $sum_jasa = 0;
+
+    $ketua = $pinkel->kelompok->ketua;
+    $sekretaris = $pinkel->kelompok->sekretaris;
+    $bendahara = $pinkel->kelompok->bendahara;
+    if ($pinkel->struktur_kelompok) {
+        $struktur_kelompok = json_decode($pinkel->struktur_kelompok, true);
+        $ketua = isset($struktur_kelompok['ketua']) ? $struktur_kelompok['ketua'] : '';
+        $sekretaris = isset($struktur_kelompok['sekretaris']) ? $struktur_kelompok['sekretaris'] : '';
+        $bendahara = isset($struktur_kelompok['bendahara']) ? $struktur_kelompok['bendahara'] : '';
+    }
 @endphp
 
 @extends('perguliran.dokumen.layout.base')
 
 @section('content')
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
-        <tr class="b">
+        <tr>
             <td colspan="3" align="center">
                 <div style="font-size: 18px;">
-                    <b>RENCANA ANGSURAN PINJAMAN {{ $pinkel->jpp->nama_jpp }}</b>
+                    <b>RENCANA ANGSURAN PIUTANG {{ strtoupper($pinkel->jpp->nama_jpp) }}</b>
                 </div>
-                <div style="font-size: 16px;">
+                <div style="font-size: 16px; text-decoration: underline;">
                     <b>
-                        KELOMPOK {{ strtoupper($pinkel->kelompok->nama_kelompok) }}
+                        {{ $pinkel->jenis_pp != '3' ? 'KELOMPOK' : '' }}
+                        {{ strtoupper($pinkel->kelompok->nama_kelompok) }}
                         {{ strtoupper($pinkel->kelompok->d->sebutan_desa->sebutan_desa) }}
                         {{ strtoupper($pinkel->kelompok->d->nama_desa) }}
                     </b>
@@ -94,7 +111,7 @@
             </td>
         </tr>
         <tr>
-            <td>Alokasi Pinjaman</td>
+            <td>Alokasi Piutang</td>
             <td align="center">:</td>
             <td>
                 <b>Rp. {{ number_format($alokasi_pinjaman) }}</b>
@@ -124,6 +141,9 @@
         </tr>
         @foreach ($rencana as $ra)
             @php
+                if ($ra->angsuran_ke == 0) {
+                    continue;
+                }
                 $wajib_angsur = $ra->wajib_pokok + $ra->wajib_jasa;
                 $jumlah_angsuran += $wajib_angsur;
                 $saldo_pokok -= $ra->wajib_pokok;
@@ -135,16 +155,26 @@
 
                 $sum_pokok += $ra->wajib_pokok;
                 $sum_jasa += $ra->wajib_jasa;
+
+                $sa_pokok = $pinkel->sistem_angsuran;
+                $sa_jasa = $pinkel->sa_jasa;
+
+                $jangka = $pinkel->jangka;
+
+                $b = '';
+                if ($ra->angsuran_ke == $jangka) {
+                    $b = 'b';
+                }
             @endphp
             <tr>
-                <td class="l" align="center">{{ $ra->angsuran_ke }}</td>
-                <td class="l" align="center">{{ Tanggal::tglIndo($ra->jatuh_tempo) }}</td>
-                <td class="l" align="right">{{ number_format($ra->wajib_pokok) }}</td>
-                <td class="l" align="right">{{ number_format($ra->wajib_jasa) }}</td>
-                <td class="l" align="right">{{ number_format($wajib_angsur) }}</td>
-                <td class="l" align="right">{{ number_format($jumlah_angsuran) }}</td>
-                <td class="l" align="right">{{ number_format($saldo_pokok) }}</td>
-                <td class="l r" align="right">{{ number_format($saldo_jasa) }}</td>
+                <td class="l {{ $b }}" align="center">{{ $ra->angsuran_ke }}</td>
+                <td class="l {{ $b }}" align="center">{{ Tanggal::tglIndo($ra->jatuh_tempo) }}</td>
+                <td class="l {{ $b }}" align="right">{{ number_format($ra->wajib_pokok) }}</td>
+                <td class="l {{ $b }}" align="right">{{ number_format($ra->wajib_jasa) }}</td>
+                <td class="l {{ $b }}" align="right">{{ number_format($wajib_angsur) }}</td>
+                <td class="l {{ $b }}" align="right">{{ number_format($jumlah_angsuran) }}</td>
+                <td class="l {{ $b }}" align="right">{{ number_format($saldo_pokok) }}</td>
+                <td class="l {{ $b }} r" align="right">{{ number_format($saldo_jasa) }}</td>
             </tr>
         @endforeach
 
@@ -165,34 +195,39 @@
                     </tr>
                 </table>
 
-                <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
-                    style="font-size: 11px;">
-                    <tr>
-                        <td align="center" colspan="5">&nbsp;</td>
-                        <td align="center" colspan="3">
-                            {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($tgl) }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" colspan="5">
-                            {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
-                        </td>
-                        <td align="center" colspan="3">
-                            Ketua Kelompok {{ $pinkel->kelompok->nama_kelompok }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" colspan="8" height="40">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td align="center" colspan="5">
-                            <b>{{ $dir->namadepan }} {{ $dir->namabelakang }}</b>
-                        </td>
-                        <td align="center" colspan="3">
-                            <b>{{ $pinkel->kelompok->ketua }}</b>
-                        </td>
-                    </tr>
-                </table>
+                @if ($tanda_tangan)
+                    {!! $tanda_tangan !!}
+                @else
+                    <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
+                        style="font-size: 11px;">
+                        <tr>
+                            <td align="center" colspan="5">&nbsp;</td>
+                            <td align="center" colspan="3">
+                                {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($tgl) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="5">
+                                {{ $kec->sebutan_level_1 }}
+                            </td>
+                            <td align="center" colspan="3">
+                                {{ $pinkel->jenis_pp != '3' ? 'Ketua Kelompok' : 'Pimpinan' }}
+                                {{ $pinkel->kelompok->nama_kelompok }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="8" height="40">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="5">
+                                <b>{{ $dir->namadepan }} {{ $dir->namabelakang }}</b>
+                            </td>
+                            <td align="center" colspan="3">
+                                <b>{{ $ketua }}</b>
+                            </td>
+                        </tr>
+                    </table>
+                @endif
             </td>
         </tr>
     </table>

@@ -1,11 +1,14 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="card mb-3">
-        <div class="card-body p-3" id="SelectKelompok"></div>
+    <div class="app-main__inner">
+        <div class="main-card mb-3 card">
+            <div class="card-body p-3" id="SelectKelompok"></div>
+        </div>
+        <div class="main-card mb-3 card">
+            <div class="card-body p-3" id="RegisterProposal"></div>
+        </div>
     </div>
-
-    <div class="mt-4 pt-1" id="RegisterProposal"></div>
 @endsection
 
 @section('script')

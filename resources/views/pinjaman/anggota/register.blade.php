@@ -29,8 +29,14 @@
         </div>
     </div>
     <div class="col-lg-8 mb-3">
-        @if ($jumlah_pinjaman_anggota > 0)
-            @if ($pinjaman_anggota->jenis_pinjaman == 'K')
+        @if ($anggota->status == '0')
+            <div class="alert alert-danger text-white" role="alert">
+                <span class="text-sm">
+                    Pemanfaat saat ini berada dalam status <b>blokir</b> sehingga tidak bisa mengajukan pinjaman.
+                </span>
+            </div>
+        @else
+            @if ($jumlah_pinjaman_anggota > 0)
                 <div class="alert alert-danger text-white" role="alert">
                     <span class="text-sm">
                         Yang bersangkutan memiliki Proposal dalam Proses
@@ -40,25 +46,14 @@
                     </span>
                 </div>
             @else
-                <div class="alert alert-danger text-white" role="alert">
+                <div class="alert alert-success text-white" role="alert">
                     <span class="text-sm">
-                        Yang bersangkutan memiliki Proposal Individu dalam Proses
-                        dengan status <b>{{ $pinjaman_anggota->status }}</b> - <b>Loan ID.
-                            {{ $pinjaman_anggota->id }}</b> dengan pengajuan sebesar <b>Rp.
-                            {{ number_format($pinjaman_anggota->proposal) }}</b>!
+                        Yang bersangkutan tidak memiliki Proposal dalam Proses
                     </span>
                 </div>
             @endif
-        @else
-            <div class="alert alert-success text-white" role="alert">
-                <span class="text-sm">
-                    Yang bersangkutan tidak memiliki Proposal dalam Proses
-                </span>
-            </div>
-        @endif
 
-        @if ($jumlah_pinjaman_anggota_a > 0)
-            @if ($pinjaman_anggota_a->jenis_pinjaman == 'K')
+            @if ($jumlah_pinjaman_anggota_a > 0)
                 <div class="alert alert-warning text-white" role="alert">
                     <span class="text-sm">
                         Yang bersangkutan memiliki Pinjaman Aktif pada kelompok
@@ -68,51 +63,42 @@
                     </span>
                 </div>
             @else
-                <div class="alert alert-warning text-white" role="alert">
+                <div class="alert alert-success text-white" role="alert">
                     <span class="text-sm">
-                        Yang bersangkutan memiliki Pinjaman Individu Aktif - Loan ID.
-                        {{ $pinjaman_anggota_a->id }}</b>, dengan alokasi sebesar <b>Rp.
-                            {{ number_format($pinjaman_anggota_a->alokasi) }}</b>!
+                        Yang bersangkutan tidak memiliki Pinjaman Aktif
                     </span>
                 </div>
             @endif
-        @else
-            <div class="alert alert-success text-white" role="alert">
-                <span class="text-sm">
-                    Yang bersangkutan tidak memiliki Pinjaman Aktif
-                </span>
-            </div>
-        @endif
 
+            @if ($jumlah_data_pemanfaat > 0)
+                <div class="alert alert-danger text-white" role="alert">
+                    <span class="text-sm">
+                        Yang bersangkutan memiliki Proposal dalam Proses di {{ $data_pemanfaat->kec->sebutan_kec }}
+                        {{ $data_pemanfaat->kec->nama_kec }}</b>!
+                    </span>
+                </div>
+            @else
+                <div class="alert alert-success text-white" role="alert">
+                    <span class="text-sm">
+                        Yang bersangkutan tidak memiliki Proposal dalam Proses di Kecamatan Lain
+                    </span>
+                </div>
+            @endif
 
-        @if ($jumlah_data_pemanfaat > 0)
-            <div class="alert alert-danger text-white" role="alert">
-                <span class="text-sm">
-                    Yang bersangkutan memiliki Proposal dalam Proses di {{ $data_pemanfaat->kec->sebutan_kec }}
-                    {{ $data_pemanfaat->kec->nama_kec }}</b>!
-                </span>
-            </div>
-        @else
-            <div class="alert alert-success text-white" role="alert">
-                <span class="text-sm">
-                    Yang bersangkutan tidak memiliki Proposal dalam Proses di Kecamatan Lain
-                </span>
-            </div>
-        @endif
-
-        @if ($jumlah_data_pemanfaat_a > 0)
-            <div class="alert alert-warning text-white" role="alert">
-                <span class="text-sm">
-                    Yang bersangkutan memiliki Pinjaman Aktif di {{ $data_pemanfaat->kec->sebutan_kec }}
-                    {{ $data_pemanfaat->kec->nama_kec }}</b>!
-                </span>
-            </div>
-        @else
-            <div class="alert alert-success text-white" role="alert">
-                <span class="text-sm">
-                    Yang bersangkutan tidak memiliki Pinjaman Aktif di Kecamatan Lain
-                </span>
-            </div>
+            @if ($jumlah_data_pemanfaat_a > 0)
+                <div class="alert alert-warning text-white" role="alert">
+                    <span class="text-sm">
+                        Yang bersangkutan memiliki Pinjaman Aktif di {{ $data_pemanfaat->kec->sebutan_kec }}
+                        {{ $data_pemanfaat->kec->nama_kec }}</b>!
+                    </span>
+                </div>
+            @else
+                <div class="alert alert-success text-white" role="alert">
+                    <span class="text-sm">
+                        Yang bersangkutan tidak memiliki Pinjaman Aktif di Kecamatan Lain
+                    </span>
+                </div>
+            @endif
         @endif
     </div>
 </div>

@@ -13,15 +13,16 @@
         $saldo_pokok = 0;
     }
 
+    $jenis_pinjaman = '';
+    if ($perguliran->jenis_pp != '3') {
+        $jenis_pinjaman = 'Kelompok';
+    }
+
     $dokumen_proposal = [
-        [
-            'title' => 'Cover',
-            'file' => 'coverProposal',
-            'withExcel' => false,
-        ],
+        ['title' => 'Cover', 'file' => 'coverProposal', 'withExcel' => false],
         [
             'title' => 'Check List',
-            'file' => 'check',
+            'file' => 'cek_list',
             'withExcel' => false,
         ],
         [
@@ -34,64 +35,49 @@
             'file' => 'suratRekomendasi',
             'withExcel' => false,
         ],
-        [
-            'title' => 'Profil Kelompok',
-            'file' => 'profilKelompok',
-            'withExcel' => false,
-        ],
-        [
-            'title' => 'Susunan Pengurus',
-            'file' => 'susunanPengurus',
-            'withExcel' => false,
-        ],
-        [
-            'title' => 'Daftar Anggota Kelompok',
-            'file' => 'anggotaKelompok',
-            'withExcel' => false,
-        ],
-        [
-            'title' => 'Daftar Pemanfaat',
-            'file' => 'daftarPemanfaat',
-            'withExcel' => false,
-        ],
-        [
-            'title' => 'Pernyataan Tanggung Renteng',
-            'file' => 'tanggungRenteng',
-            'withExcel' => false,
-        ],
-        [
-            'title' => 'FC KTP Pemanfaat & Penjamin',
-            'file' => 'fotoCopyKTP',
-            'withExcel' => false,
-        ],
+
         [
             'title' => 'Surat Pernyataan Peminjam',
             'file' => 'pernyataanPeminjam',
             'withExcel' => false,
         ],
-        [
-            'title' => 'BA Musyawarah Kelompok',
-            'file' => 'baMusyawarahDesa',
-            'withExcel' => false,
-        ],
+
         [
             'title' => 'Form Verifikasi',
             'file' => 'formVerifikasi',
             'withExcel' => false,
         ],
-        [
-            'title' => 'Daftar Hadir Verifikasi',
-            'file' => 'daftarHadirVerifikasi',
-            'withExcel' => false,
-        ],
+
         [
             'title' => 'Rencana Angsuran',
             'file' => 'rencanaAngsuran',
             'withExcel' => false,
         ],
         [
-            'title' => 'Form Verifikasi Anggota',
-            'file' => 'formVerifikasiAnggota',
+            'title' => 'Surat Kuasa Khusus',
+            'file' => 'SuratPersetujuanKuasa',
+            'withExcel' => false,
+        ],
+        [
+            'title' => 'Kesanggupan Penyerahan Jaminan',
+            'file' => 'tandaTerimaJaminan',
+            'withExcel' => false,
+        ],
+
+        [
+            'title' => 'Permohonan Kredit Barang',
+            'file' => 'PermohonanKreditBarang',
+            'withExcel' => false,
+        ],
+
+        [
+            'title' => 'Surat Pernyataan Penjamin',
+            'file' => 'suratpernyataansuami',
+            'withExcel' => false,
+        ],
+        [
+            'title' => 'Pernyataan Agungan Pihak Ketiga',
+            'file' => 'agungan',
             'withExcel' => false,
         ],
     ];
@@ -103,43 +89,18 @@
             'withExcel' => false,
         ],
         [
-            'title' => 'Surat Perjanjian Kredit',
+            'title' => 'Surat Perjanjian Kredit (Umum)',
             'file' => 'spk',
             'withExcel' => false,
         ],
         [
-            'title' => 'Surat Kelayakan',
-            'file' => 'suratKelayakan',
+            'title' => 'Surat Perjanjian Kredit (Barang)',
+            'file' => 'spkkreditbarang',
             'withExcel' => false,
         ],
         [
-            'title' => 'Surat Kuasa',
-            'file' => 'suratKuasa',
-            'withExcel' => false,
-        ],
-        [
-            'title' => 'Berita Acara Pencairan',
-            'file' => 'BaPencairan',
-            'withExcel' => false,
-        ],
-        [
-            'title' => 'Daftar Hadir Pencairan',
-            'file' => 'daftarHadirPencairan',
-            'withExcel' => false,
-        ],
-        [
-            'title' => 'Tanda Terima',
-            'file' => 'tandaTerima',
-            'withExcel' => false,
-        ],
-        [
-            'title' => 'Kartu Angsuran',
-            'file' => 'kartuAngsuran',
-            'withExcel' => false,
-        ],
-        [
-            'title' => 'Kartu Angsuran Anggota',
-            'file' => 'kartuAngsuranAnggota',
+            'title' => 'Surat Perjanjian Hutang',
+            'file' => 'sph',
             'withExcel' => false,
         ],
         [
@@ -148,28 +109,8 @@
             'withExcel' => false,
         ],
         [
-            'title' => 'Pemberitahuan Ke Desa',
-            'file' => 'pemberitahuanDesa',
-            'withExcel' => false,
-        ],
-        [
-            'title' => 'Penerima IPTW',
-            'file' => 'iptw',
-            'withExcel' => false,
-        ],
-        // [
-        //     'title' => 'Peserta Asuransi',
-        //     'file' => 'pesertaAsuransi',
-        //     'withExcel' => false,
-        // ],
-        [
-            'title' => 'Tanggung Renteng Kematian',
-            'file' => 'tanggungRentengKematian',
-            'withExcel' => false,
-        ],
-        [
-            'title' => 'Pernyataan Tanggung Renteng',
-            'file' => 'pernyataanTanggungRenteng',
+            'title' => 'Berita Acara Pencairan',
+            'file' => 'BaPencairan',
             'withExcel' => false,
         ],
         [
@@ -178,8 +119,23 @@
             'withExcel' => false,
         ],
         [
-            'title' => 'Kuitansi Anggota',
-            'file' => 'kuitansiAnggota',
+            'title' => 'Kartu Angsuran',
+            'file' => 'kartuAngsuran',
+            'withExcel' => false,
+        ],
+        [
+            'title' => 'Analisis keputusan kredit',
+            'file' => 'analisiskeputusankredit',
+            'withExcel' => false,
+        ],
+        [
+            'title' => 'SP2K',
+            'file' => 'suratpemberitahuan',
+            'withExcel' => false,
+        ],
+        [
+            'title' => 'pengikat diri sebagai penjamin',
+            'file' => 'pengikatdirisebagaipenjamin',
             'withExcel' => false,
         ],
         [
@@ -187,6 +143,22 @@
             'file' => 'suratTagihan',
             'withExcel' => false,
         ],
+        [
+            'title' => 'Surat Kelayakan',
+            'file' => 'suratKelayakan',
+            'withExcel' => false,
+        ],
+        // [
+        // 'title' => 'Daftar Hadir Pencairan',
+        // 'file' => 'daftarHadirPencairan',
+        // 'withExcel' => false,
+        // ],
+        [
+            'title' => 'Pemberitahuan Ke Desa',
+            'file' => 'pemberitahuanDesa',
+            'withExcel' => false,
+        ],
+
         [
             'title' => 'Surat Ahli Waris',
             'file' => 'suratAhliWaris',
@@ -197,7 +169,28 @@
             'file' => 'formVerifikasi',
             'withExcel' => false,
         ],
+        [
+            'title' => 'Terima Jaminan',
+            'file' => 'terima_jaminan',
+            'withExcel' => false,
+        ],
+        [
+            'title' => 'Pengambilan Jaminan',
+            'file' => 'pengambilan_jaminan',
+            'withExcel' => false,
+        ],
     ];
+
+
+    $TombolEdit = false;
+    if (in_array('tahapan_perguliran.proposal.edit_proposal', Session::get('tombol'))) {
+        $TombolEdit = true;
+    }
+
+    $TombolHapus = false;
+    if (in_array('tahapan_perguliran.proposal.hapus_proposal', Session::get('tombol'))) {
+        $TombolHapus = true;
+    }
 @endphp
 
 @extends('layouts.base')
@@ -206,7 +199,7 @@
     <div class="card mb-3">
         <div class="card-body p-3">
             <h5 class="mb-1">
-                Kelompok {{ $perguliran->kelompok->nama_kelompok }} Loan ID. {{ $perguliran->id }}
+                {{ $jenis_pinjaman }} {{ $perguliran->kelompok->nama_kelompok }} Loan ID. {{ $perguliran->id }}
                 ({{ $perguliran->jpp->nama_jpp }})
             </h5>
             <p class="mb-0">
@@ -222,11 +215,15 @@
         </div>
     </div>
 
-    @if ($perguliran->status == 'P')
+    @if ($perguliran->status == 'P' && ($TombolEdit || $TombolHapus))
         <div class="card mb-3">
             <div class="card-body p-2 pb-0">
-                <button type="button" class="btn btn-success btn-sm mb-2" id="BtnEditProposal">Edit Proposal</button>
-                <button type="button" id="HapusProposal" class="btn btn-danger btn-sm mb-2">Hapus Proposal</button>
+                @if ($TombolEdit)
+                    <button type="button" class="btn btn-success btn-sm mb-2" id="BtnEditProposal">Edit Proposal</button>
+                @endif
+                @if ($TombolHapus)
+                    <button type="button" id="HapusProposal" class="btn btn-danger btn-sm mb-2">Hapus Proposal</button>
+                @endif
             </div>
         </div>
     @endif
@@ -238,7 +235,9 @@
     <div class="card mt-3">
         <div class="card-body p-2">
             @if ($perguliran->status == 'L' || $perguliran->status == 'H')
-                @if ($perguliran->status != 'H')
+                @if (
+                    $perguliran->status != 'H' &&
+                        in_array('tahapan_perguliran.lunas.cetak_keterangan_pelunasan', Session::get('tombol')))
                     <button class="btn btn-warning btn-sm float-end ms-2"
                         onclick="window.open('/cetak_keterangan_lunas/{{ $perguliran->id }}')" type="button">
                         <i class="fa fa-print"></i> Cetak Keterangan Pelunasan
@@ -249,6 +248,36 @@
             @else
                 <a href="/perguliran?status={{ $perguliran->status }}"
                     class="btn btn-info float-end btn-sm mb-0">Kembali</a>
+
+                @if (
+                    !in_array('tahapan_perguliran.verifikasi.simpan_keputusan_pendanaan', Session::get('tombol')) &&
+                        $perguliran->status == 'V')
+                    @if (in_array('tahapan_perguliran.verifikasi.tidak_layak_dicairkan', Session::get('tombol')))
+                        <button type="button" id="tidakLayakDicairkan" class="btn btn-danger btn-sm">
+                            Tidak Layak Dicairkan
+                        </button>
+                    @endif
+
+                    @if (in_array('tahapan_perguliran.verifikasi.kembalikan_ke_proposal', Session::get('tombol')))
+                        <button type="button" id="kembaliProposal" class="btn float-end btn-warning btn-sm me-2 mb-2 ms-1">
+                            Kembalikan Ke Proposal
+                        </button>
+                    @endif
+                @endif
+
+                @if (!in_array('tahapan_perguliran.waiting.pencairan', Session::get('tombol')) && $perguliran->status == 'W')
+                    @if (in_array('tahapan_perguliran.waiting.tidak_layak_dicairkan', Session::get('tombol')))
+                        <button type="button" id="tidakLayakDicairkan" class="btn btn-danger btn-sm">
+                            Tidak Layak Dicairkan
+                        </button>
+                    @endif
+
+                    @if (in_array('tahapan_perguliran.waiting.kembalikan_ke_proposal', Session::get('tombol')))
+                        <button type="button" id="kembaliProposal" class="btn float-end btn-warning btn-sm me-2 mb-2 ms-1">
+                            Kembalikan Ke Proposal
+                        </button>
+                    @endif
+                @endif
             @endif
         </div>
     </div>
@@ -259,7 +288,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="EditProposalLabel">
-                        Edit Proposal Kelompok {{ $perguliran->kelompok->nama_kelompok }} Loan ID. {{ $perguliran->id }}
+                        Edit Proposal {{ $jenis_pinjaman }} {{ $perguliran->kelompok->nama_kelompok }} Loan ID.
+                        {{ $perguliran->id }}
                     </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -284,26 +314,38 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="input-group input-group-outline my-3">
-                                <label class="form-label" for="tglProposal">Tanggal Proposal</label>
-                                <input autocomplete="off" type="text" name="tglProposal" id="tglProposal"
-                                    class="form-control" readonly
-                                    value="{{ Tanggal::tglIndo($perguliran->tgl_proposal) }}">
+                    <form action="/perguliran/simpan_data/{{ $perguliran->id }}?jenis=dokumen_proposal&save=true"
+                        method="post" id="simpanDataProposal">
+                        @csrf
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="input-group input-group-outline my-3">
+                                    <label class="form-label" for="tglProposal">Tanggal Proposal</label>
+                                    <input autocomplete="off" type="text" name="tglProposal" id="tglProposal"
+                                        class="form-control date simpan-proposal"
+                                        value="{{ Tanggal::tglIndo($perguliran->tgl_proposal) }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="input-group input-group-outline my-3">
+                                    <label class="form-label" for="tglVerifikasi">Tanggal Verifikasi</label>
+                                    <input autocomplete="off" type="text" name="tglVerifikasi" id="tglVerifikasi"
+                                        class="form-control date simpan-proposal"
+                                        value="{{ Tanggal::tglIndo($perguliran->tgl_verifikasi) }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="input-group input-group-outline my-3">
+                                    <label class="form-label" for="waktuVerifikasi">Waktu Verifikasi</label>
+                                    <input autocomplete="off" type="text" name="waktuVerifikasi" id="waktuVerifikasi"
+                                        class="form-control time simpan-proposal"
+                                        value="{{ $perguliran->waktu_verifikasi ?: date('H:') . '00' }}">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="input-group input-group-outline my-3">
-                                <label class="form-label" for="tglVerifikasi">Tanggal Verifikasi</label>
-                                <input autocomplete="off" type="text" name="tglVerifikasi" id="tglVerifikasi"
-                                    class="form-control" readonly
-                                    value="{{ Tanggal::tglIndo($perguliran->tgl_verifikasi) }}">
-                            </div>
-                        </div>
-                    </div>
+                    </form>
 
-                    <form action="/perguliran/dokumen?status=P" target="_blank" method="post">
+                    <form action="/perguliran/dokumen?status=P&jenis=dokumen_proposal" target="_blank" method="post">
                         @csrf
 
                         <input type="hidden" name="id" value="{{ $perguliran->id }}">
@@ -312,12 +354,12 @@
                                 <div class="col-md-3 d-grid">
                                     @if ($val['withExcel'])
                                         <div class="btn-group">
-                                            <button class="btn btn-linkedin btn-sm text-start" type="submit" name="report"
-                                                value="{{ $val['file'] }}#pdf">
+                                            <button class="btn btn-linkedin btn-sm text-start" type="submit"
+                                                name="report" value="{{ $val['file'] }}#pdf">
                                                 {{ $loop->iteration }}. {{ $val['title'] }}
                                             </button>
-                                            <button class="btn btn-icon btn-sm btn-instagram" type="submit" name="report"
-                                                value="{{ $val['file'] }}#excel">
+                                            <button class="btn btn-icon btn-sm btn-instagram" type="submit"
+                                                name="report" value="{{ $val['file'] }}#excel">
                                                 <i class="fas fa-file-excel"></i>
                                             </button>
                                         </div>
@@ -366,8 +408,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="/perguliran/simpan_data/{{ $perguliran->id }}?save=true" method="post"
-                        id="simpanData">
+                    <form action="/perguliran/simpan_data/{{ $perguliran->id }}?jenis=dokumen_pencairan&save=true"
+                        method="post" id="simpanDataPencairan">
                         @csrf
 
                         <div class="row">
@@ -375,21 +417,23 @@
                                 <div class="input-group input-group-outline my-3">
                                     <label class="form-label" for="spk_no">Nomor SPK</label>
                                     <input autocomplete="off" type="text" name="spk_no" id="spk_no"
-                                        class="form-control save" {{ $readonly }} value="{{ $perguliran->spk_no }}">
+                                        class="form-control simpan-pencairan" {{ $readonly }}
+                                        value="{{ $perguliran->spk_no }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="input-group input-group-outline my-3">
                                     <label class="form-label" for="tempat">Tempat</label>
                                     <input autocomplete="off" type="text" name="tempat" id="tempat"
-                                        class="form-control save" {{ $readonly }} value="{{ $tempat }}">
+                                        class="form-control simpan-pencairan" {{ $readonly }}
+                                        value="{{ $tempat }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="input-group input-group-outline my-3">
                                     <label class="form-label" for="tgl_cair">Tanggal Cair</label>
                                     <input autocomplete="off" type="text" name="tgl_cair" id="tgl_cair"
-                                        class="form-control date save" {{ $readonly }}
+                                        class="form-control date simpan-pencairan" {{ $readonly }}
                                         value="{{ Tanggal::tglIndo($perguliran->tgl_cair) }}">
                                 </div>
                             </div>
@@ -397,13 +441,59 @@
                                 <div class="input-group input-group-outline my-3">
                                     <label class="form-label" for="waktu">Waktu</label>
                                     <input autocomplete="off" type="text" name="waktu" id="waktu"
-                                        class="form-control save" {{ $readonly }} value="{{ $waktu }}">
+                                        class="form-control simpan-pencairan" {{ $readonly }}
+                                        value="{{ $waktu }}">
                                 </div>
                             </div>
                         </div>
                     </form>
 
-                    <form action="/perguliran/dokumen?status={{ $perguliran->status }}" target="_blank" method="post">
+                    @if ($perguliran->status == 'W')
+                        @if ($pinj_a['jumlah_pinjaman'] > 0)
+                            <div class="alert border border-danger text-danger" role="alert">
+                                <span class="text-sm">
+                                    <b>Anggota Kelompok</b>
+                                    terdeteksi memiliki kewajiban angsuran pinjaman
+                                </span>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th align="center" width="10"><span class="text-danger">No</span></th>
+                                            <th align="center"><span class="text-danger">Nama</span></th>
+                                            <th><span class="text-danger">Loan ID.</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($pinj_a['pinjaman'] as $pa)
+                                            <tr>
+                                                <td align="center">
+                                                    <span class="text-danger">
+                                                        {{ $loop->iteration }}
+                                                    </span>
+                                                </td>
+                                                <td align="left">
+                                                    <span class="text-danger">
+                                                        {{ ucwords(strtolower($pa->anggota->namadepan)) }}
+                                                        ({{ $pa->nia }})
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="/detail/{{ $pa->id_pinkel }}" target="_blank"
+                                                        class="text-danger text-gradient font-weight-bold">
+                                                        {{ $pa->kelompok ? $pa->kelompok->nama_kelompok : '-' }} Loan ID.
+                                                        {{ $pa->id_pinkel }}
+                                                    </a>.
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
+                    @endif
+
+                    <form action="/perguliran/dokumen?status={{ $perguliran->status }}&jenis=dokumen_pencairan"
+                        target="_blank" method="post">
                         @csrf
 
                         <input type="hidden" name="id" value="{{ $perguliran->id }}">
@@ -492,7 +582,122 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" id="ImportPemanfaat" class="btn btn-outline-info btn-sm">
+                        Import Pemanfaat
+                    </button>
                     <button type="button" id="SimpanPemanfaat" disabled class="btn btn-github btn-sm">Tambahkan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal Import Pemanfaat --}}
+    <div class="modal fade" id="ImportPemanfaatModal" tabindex="-1" aria-labelledby="ImportPemanfaatModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="ImportPemanfaatModalLabel">
+                        Import Pemanfaat
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/pinjaman_anggota/import" method="post" id="FormImportPemanfaat">
+                        @csrf
+
+                        <input type="hidden" name="id_pinkel" id="id_pinkel" value="{{ $perguliran->id }}">
+                        <div id="LayoutImportPemanfaatModal"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" id="SimpanImportPemanfaat" class="btn btn-github btn-sm">
+                        Import Pemanfaat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal Catatan Bimbingan --}}
+    <div class="modal fade" id="CatatanBimbingan" tabindex="-1" aria-labelledby="CatatanBimbinganLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="CatatanBimbinganLabel">
+                        Catatan Bimbingan <span class="badge badge-info">Kelompok.
+                            {{ $perguliran->kelompok->nama_kelompok }}</span>
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="LayoutCatatanBimbingan">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-success btn-sm" id="CetakCatatanBimbingan">
+                        Cetak
+                    </button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#TambahCatatan"
+                        class="btn btn-github btn-sm">
+                        Tambah Catatan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form action="/perguliran/dokumen?status={{ $perguliran->status }}" target="_blank" method="post"
+        id="FormCetakCatatanBimbingan">
+        @csrf
+
+        <input type="hidden" name="id" value="{{ $perguliran->id }}">
+        <input type="hidden" name="report" value="CetakCatatanBimbingan#pdf">
+    </form>
+
+    {{-- Modal Tambah Catatan Bimbingan --}}
+    <div class="modal fade" id="TambahCatatan" tabindex="-1" aria-labelledby="TambahCatatanLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="TambahCatatanLabel">
+                        Tambah Catatan Bimbingan
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/perguliran/catatan_bimbingan/{{ $perguliran->id }}" method="post"
+                        id="FormCatatanBimbingan">
+                        @csrf
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group input-group-static my-3">
+                                    <label for="tanggal_catatan">Tanggal</label>
+                                    <input autocomplete="off" type="text" name="tanggal_catatan" id="tanggal_catatan"
+                                        class="form-control date" value="{{ Tanggal::tglIndo(date('Y-m-d')) }}">
+                                    <small class="text-danger" id="msg_tanggal_catatan"></small>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label for="catatan_bimbingan">Catatan</label>
+                                    <div id="editor"></div>
+                                </div>
+
+                                <textarea name="catatan_bimbingan" id="catatan_bimbingan" class="d-none"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" id="TutupFormTambahCatatan">Tutup</button>
+                    <button type="button" id="SimpanCatatanBimbingan" class="btn btn-github btn-sm">
+                        Simpan
+                    </button>
                 </div>
             </div>
         </div>
@@ -698,6 +903,13 @@
         @method('DELETE')
     </form>
 
+    <form action="/perguliran/catatan/{{ $perguliran->id }}" method="post" id="FormDeleteCatatan">
+        @csrf
+        @method('DELETE')
+
+        <input type="hidden" id="index" name="index">
+    </form>
+
     <div id="placeholder" class="d-none">
         <div class="row">
             <div class="col-lg-4 mb-3">
@@ -743,8 +955,20 @@
             }
         })
 
+        var quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+
+
         $(".date").flatpickr({
             dateFormat: "d/m/Y"
+        })
+
+        $(".time").flatpickr({
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true
         })
 
         var formatter = new Intl.NumberFormat('en-US', {
@@ -851,6 +1075,15 @@
             }
         });
 
+        $(document).on('click', '#btnCatatanBimbingan', function() {
+            catatan()
+        })
+
+        $(document).on('click', '#TutupFormTambahCatatan', function() {
+            $('#CatatanBimbingan').modal('show')
+            $('#TambahCatatan').modal('hide')
+        })
+
         $(document).on('click', '#BtnTambahPemanfaat', function(e) {
             e.preventDefault()
             $('small').html('')
@@ -859,6 +1092,61 @@
             $('#alokasi_pengajuan').val('')
 
             $('#LayoutTambahPemanfaat').html($('#placeholder').html())
+        })
+
+        $(document).on('click', '#CetakCatatanBimbingan', function() {
+            $('#FormCetakCatatanBimbingan').submit()
+        })
+
+        $(document).on('click', '#SimpanCatatanBimbingan', function(e) {
+            e.preventDefault()
+
+            $('#catatan_bimbingan').val(quill.container.firstChild.innerHTML)
+            var form = $('#FormCatatanBimbingan')
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(result) {
+                    Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                        catatan()
+                    })
+                },
+                error: function(error) {
+                    Swal.fire('Error', 'Cek kembali input yang anda masukkan', 'error')
+                }
+            })
+        })
+
+        $(document).on('click', '.delete-catatan', function(e) {
+            e.preventDefault();
+
+            var index = $(this).attr('data-id')
+            $('input#index').val(index)
+
+            Swal.fire({
+                title: 'Hapus Catatan',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var form = $('#FormDeleteCatatan')
+                    $.ajax({
+                        type: form.attr('method'),
+                        url: form.attr('action'),
+                        data: form.serialize(),
+                        success: function(result) {
+                            if (result.success) {
+                                Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                                    $('#CatatanBimbingan').modal('hide')
+                                })
+                            }
+                        }
+                    })
+                }
+            })
         })
 
         $(document).on('click', '#SimpanEditProposal', function(e) {
@@ -890,6 +1178,46 @@
                                 'is-invalid')
                         $('#FormEditProposal #msg_' + key).html(res)
                     })
+                }
+            })
+        })
+
+        $(document).on('click', '#ImportPemanfaat', function(e) {
+            e.preventDefault()
+
+            $.get('/pinjaman_anggota/ambil_daftar_pemanfaat', {
+                'id_kelompok': '{{ $perguliran->id_kel }}',
+                'id_pinkel': '{{ $perguliran->id }}'
+            }, function(result) {
+                if (result.success) {
+                    $('#TambahPemanfaat').modal('hide')
+
+                    $('#LayoutImportPemanfaatModal').html(result.view)
+                    $('#ImportPemanfaatModal').modal('show')
+                }
+            })
+        })
+
+        $(document).on('click', '#SimpanImportPemanfaat', function(e) {
+            e.preventDefault()
+
+            var form = $('#FormImportPemanfaat')
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(result) {
+                    if (result.success) {
+                        Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                            $.get('/perguliran/{{ $perguliran->id }}', function(result) {
+                                $('#layout').html(result)
+                            })
+
+                            $('#ImportPemanfaatModal').modal('hide')
+                        })
+                    } else {
+                        Swal.fire('Error', result.msg, 'error')
+                    }
                 }
             })
         })
@@ -960,8 +1288,8 @@
             })
         })
 
-        $(document).on('change', '.save', function() {
-            var form = $('#simpanData')
+        $(document).on('change', '.simpan-pencairan', function() {
+            var form = $('#simpanDataPencairan')
             $.ajax({
                 type: form.attr('method'),
                 url: form.attr('action'),
@@ -971,6 +1299,49 @@
                         $('[name=tgl_cair]').val(result.tgl_cair)
                         Swal.fire('Berhasil', result.msg, 'success')
                     }
+                }
+            })
+        })
+
+        $(document).on('change', '.simpan-proposal', function() {
+            setTimeout(() => {
+                var form = $('#simpanDataProposal')
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function(result) {
+                        if (result.success) {
+                            Swal.fire('Berhasil', result.msg, 'success')
+                        }
+                    }
+                })
+            }, 1000);
+        })
+
+        $(document).on('click', '#tidakLayakDicairkan', function() {
+            Swal.fire({
+                title: 'Tidak Layak',
+                text: 'Setelah klik lanjutkan, pinjaman ini akan berstatus T (Tidak Layak) dan tidak dapat dicairkan. Lanjutkan?',
+                showCancelButton: true,
+                confirmButtonText: 'Lanjutkan',
+                cancelButtonText: 'Batal',
+                icon: 'error'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var form = $('#formTidakLayakDicairkan')
+                    $.ajax({
+                        type: form.attr('method'),
+                        url: form.attr('action'),
+                        data: form.serialize(),
+                        success: function(result) {
+                            if (result.success) {
+                                Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                                    window.location.href = '/detail/' + result.id_pinkel
+                                })
+                            }
+                        }
+                    })
                 }
             })
         })
@@ -1016,6 +1387,15 @@
             })
 
             if (spk) {
+                var loading = Swal.fire({
+                    title: "Mohon Menunggu..",
+                    timerProgressBar: true,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+
                 var form = $('#formRescedule')
                 $.ajax({
                     type: 'POST',
@@ -1023,11 +1403,13 @@
                     data: form.serialize(),
                     success: function(result) {
                         if (result.success) {
+                            loading.close()
+
                             var id = result.id
                             $.get('/perguliran/generate/' + result.id + '?status=' + result.status +
-                                '&save',
-                                function(result) {
-                                    if (result.success) {
+                                '&save=true',
+                                function(res) {
+                                    if (res.success) {
                                         Swal.fire('Berhasil', result.msg, 'success').then(
                                             () => {
                                                 window.location.href = '/detail/' + id
@@ -1120,14 +1502,16 @@
             e.preventDefault()
 
             var id_pinj = $(this).attr('data-id')
-            $.get('/pinjaman_anggota/form_hapus/' + id_pinj, function(result) {
-                if (result.success) {
-                    $('#LayoutPenghapusanPinjamanAnggota').html(result.view)
+            if (id_pinj) {
+                $.get('/pinjaman_anggota/form_hapus/' + id_pinj, function(result) {
+                    if (result.success) {
+                        $('#LayoutPenghapusanPinjamanAnggota').html(result.view)
 
-                    $('#PenghapusanPinjamanAnggota').modal('show')
-                    $('#PinjamanAnggota').modal('hide')
-                }
-            })
+                        $('#PenghapusanPinjamanAnggota').modal('show')
+                        $('#PinjamanAnggota').modal('hide')
+                    }
+                })
+            }
         })
 
         $(document).on('click', '#tutupFormPenghapusan', function(e) {
@@ -1181,6 +1565,20 @@
 
             open_window(action)
         })
+
+        function catatan() {
+            $.ajax({
+                type: 'GET',
+                url: '/perguliran/catatan/{{ $perguliran->id }}',
+                success: function(result) {
+                    if (result.success) {
+                        $('#LayoutCatatanBimbingan').html(result.view)
+                        $('#CatatanBimbingan').modal('show')
+                        $('#TambahCatatan').modal('hide')
+                    }
+                }
+            })
+        }
 
         $(".money").maskMoney();
     </script>

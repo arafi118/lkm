@@ -12,16 +12,27 @@
         $tempat = $wt_cair[1];
     }
 
+    $minus = 0;
     $no = 0;
+
+    $ketua = $pinkel->kelompok->ketua;
+    $sekretaris = $pinkel->kelompok->sekretaris;
+    $bendahara = $pinkel->kelompok->bendahara;
+    if ($pinkel->struktur_kelompok) {
+        $struktur_kelompok = json_decode($pinkel->struktur_kelompok, true);
+        $ketua = isset($struktur_kelompok['ketua']) ? $struktur_kelompok['ketua'] : '';
+        $sekretaris = isset($struktur_kelompok['sekretaris']) ? $struktur_kelompok['sekretaris'] : '';
+        $bendahara = isset($struktur_kelompok['bendahara']) ? $struktur_kelompok['bendahara'] : '';
+    }
 @endphp
 
 @extends('perguliran.dokumen.layout.base')
 
 @section('content')
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
-        <tr class="b">
+        <tr>
             <td align="center">
-                <div style="font-size: 18px;">
+                <div style="font-size: 18px; text-decoration: underline;">
                     <b>DAFTAR HADIR PENCAIRAN {{ $pinkel->jpp->nama_jpp }}</b>
                 </div>
             </td>
@@ -75,7 +86,12 @@
         </tr>
         @foreach ($pinkel->pinjaman_anggota as $pa)
             @php
-                $no = $loop->iteration;
+                if ($pa->alokasi == 0) {
+                    $minus += 1;
+                    continue;
+                }
+
+                $no = $loop->iteration - $minus;
             @endphp
             <tr>
                 <td height="15" align="center"><b>{{ $no }}.</b></td>
@@ -86,7 +102,7 @@
             </tr>
         @endforeach
 
-        @for ($i = $no + 1; $i <= 25; $i++)
+        @for ($i = $no + 1; $i <= 20; $i++)
             <tr>
                 <td height="15" align="center"><b>{{ $i }}.</b></td>
                 <td>&nbsp;</td>
@@ -109,13 +125,13 @@
             <td align="center">Ketua Kelompok {{ $pinkel->kelompok->nama_kelompok }}</td>
         </tr>
         <tr>
-            <td colspan="2" height="40">&nbsp;</td>
+            <td colspan="2" height="50">&nbsp;</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
             <td align="center">
                 <u>
-                    <b>{{ $pinkel->kelompok->ketua }}</b>
+                    <b>{{ $ketua }}</b>
                 </u>
             </td>
         </tr>

@@ -60,11 +60,18 @@
     }
 </style>
 
+@php
+    $resc = '';
+    if ($pinkel->sumber == '2') {
+        $resc = 'Reschedule ';
+    }
+@endphp
+
 <body>
     <header>
         <h1 style="margin: 0px;">{{ strtoupper($judul) }}</h1>
         <div style="margin: 0px; font-size: 24px;">
-            {{ strtoupper('Pinjaman Kelompok ' . $pinkel->jpp->nama_jpp) }}
+            {{ strtoupper($resc . 'Piutang Kelompok ' . $pinkel->jpp->nama_jpp) }}
         </div>
         <div style="margin: 0px;">
             Nomor SPK : {{ $pinkel->spk_no }}
@@ -73,7 +80,7 @@
 
     <main>
         <div class="center">
-            <img src="../storage/app/public/logo/{{ $logo }}" width="290" alt="{{ $logo }}">
+            <img src="{{ $logo }}" width="290" alt="{{ $logo }}">
             <div style="margin-top: 10px; font-size: 24px;">
                 Kelompok {{ $pinkel->kelompok->nama_kelompok }}
             </div>

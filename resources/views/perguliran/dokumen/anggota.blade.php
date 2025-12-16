@@ -6,13 +6,13 @@
 @extends('perguliran.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
-        <tr class="b">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" styzle="font-size: 14px;">
+        <tr>
             <td colspan="3" align="center">
                 <div style="font-size: 18px;">
                     <b>DAFTAR ANGGOTA</b>
                 </div>
-                <div style="font-size: 16px;">
+                <div style="font-size: 16px; text-decoration: underline;">
                     <b>KELOMPOK {{ strtoupper($pinkel->kelompok->nama_kelompok) }}</b>
                 </div>
             </td>
@@ -21,7 +21,7 @@
             <td colspan="3" height="5"></td>
         </tr>
     </table>
-    <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 14px;">
         <tr style="background: rgb(232, 232, 232)">
             <th width="10" height="20" align="center">No</th>
             <th width="80" align="center">NIK</th>
@@ -42,7 +42,7 @@
             </tr>
         @endforeach
 
-        @for ($i = $no + 1; $i <= 40; $i++)
+        @for ($i = $no + 1; $i <= 30; $i++)
             <tr>
                 <td align="center">{{ $i }}.</td>
                 <td>&nbsp;</td>

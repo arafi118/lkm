@@ -11,6 +11,18 @@
         $waktu = $wt_cair[0];
         $tempat = $wt_cair[1];
     }
+
+    $minus = 0;
+
+    $ketua = $pinkel->kelompok->ketua;
+    $sekretaris = $pinkel->kelompok->sekretaris;
+    $bendahara = $pinkel->kelompok->bendahara;
+    if ($pinkel->struktur_kelompok) {
+        $struktur_kelompok = json_decode($pinkel->struktur_kelompok, true);
+        $ketua = isset($struktur_kelompok['ketua']) ? $struktur_kelompok['ketua'] : '';
+        $sekretaris = isset($struktur_kelompok['sekretaris']) ? $struktur_kelompok['sekretaris'] : '';
+        $bendahara = isset($struktur_kelompok['bendahara']) ? $struktur_kelompok['bendahara'] : '';
+    }
 @endphp
 
 @extends('perguliran.dokumen.layout.base')
@@ -23,7 +35,7 @@
                     <b>BERITA ACARA PENCAIRAN</b>
                 </div>
                 <div style="font-size: 16px;">
-                    <b>PINJAMAN KELOMPOK {{ $pinkel->jpp->nama_jpp }}</b>
+                    <b>PIUTANG KELOMPOK {{ $pinkel->jpp->nama_jpp }}</b>
                 </div>
             </td>
         </tr>
@@ -32,7 +44,7 @@
         </tr>
     </table>
 
-    <p style="text-align: justify;">
+    <div style="text-align: justify;">
         Pada hari ini {{ Tanggal::namaHari($pinkel->tgl_cair) }} tanggal
         {{ $keuangan->terbilang(Tanggal::hari($pinkel->tgl_cair)) }} bulan {{ Tanggal::namaBulan($pinkel->tgl_cair) }} tahun
         {{ $keuangan->terbilang(Tanggal::tahun($pinkel->tgl_cair)) }}, telah diadakan pencairan dana perguliran
@@ -42,12 +54,12 @@
         {{ $tempat }},
         sebesar Rp.
         {{ number_format($pinkel->alokasi) }} ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah), sesuai dengan
-        Register Pinjaman pada Data Base Pinjaman Nomor nomor : {{ $pinkel->kelompok->kd_kelompok }} dan Surat Perjanjian
+        Register Piutang pada Data Base Piutang Nomor nomor : {{ $pinkel->kelompok->kd_kelompok }} dan Surat Perjanjian
         Kredit (SPK) nomor: {{ $pinkel->spk_no }}.
-    </p>
+    </div>
 
     <div style="text-align: justify;">
-        Adapun rincian pinjaman dan data kelompok (Profil Kelompok) adalah sebagai berikut :
+        Adapun rincian piutang dan data kelompok (Profil Kelompok) adalah sebagai berikut :
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
             <tr>
                 <td width="10" align="center">1.</td>
@@ -76,7 +88,7 @@
                 <td>Fungsi Kelompok</td>
                 <td align="center">:</td>
                 <td>
-                    <b>{{ $pinkel->kelompok->fk->nama_fgs }}</b>
+                    <b>{{ $pinkel->kelompok->fk->nama_fk }}</b>
                 </td>
             </tr>
             <tr>
@@ -91,7 +103,7 @@
                 <td>Nama Ketua</td>
                 <td align="center">:</td>
                 <td>
-                    <b>{{ $pinkel->kelompok->ketua }}</b>
+                    <b>{{ $ketua }}</b>
                 </td>
             </tr>
             <tr>
@@ -126,14 +138,14 @@
             </tr>
             <tr>
                 <td align="center">6.</td>
-                <td>Jenis Pinjaman</td>
+                <td>Jenis Piutang</td>
                 <td align="center">:</td>
                 <td>
                     <b>{{ $pinkel->jpp->nama_jpp }} Orang</b>
                 </td>
 
                 <td align="center">14.</td>
-                <td>Alokasi Pinjaman</td>
+                <td>Alokasi Piutang</td>
                 <td align="center">:</td>
                 <td>
                     <b>{{ number_format($pinkel->alokasi) }}</b>
@@ -166,16 +178,13 @@
                 <td>Prosentase Jasa</td>
                 <td align="center">:</td>
                 <td>
-                    <b>{{ $pinkel->pros_jasa / $pinkel->jangka }}%</b>
+                    <b>{{ number_format($pinkel->pros_jasa / $pinkel->jangka, 2) }}%</b>
                 </td>
             </tr>
         </table>
-
-        <p>
-            Untuk bertindak mewakili Kelompok dalam perjanjian kredit dengan {{ $kec->nama_lembaga_sort }}
-            {{ $kec->nama_kec }} sesuai
-            dengan registrasi pinjaman nomor {{ $pinkel->kelompok->kd_kelompok }} dan data pinjaman sebagai berikut :
-        </p>
+        Untuk bertindak mewakili Kelompok dalam perjanjian kredit dengan {{ $kec->nama_lembaga_sort }}
+        {{ $kec->nama_kec }} sesuai
+        dengan registrasi piutang nomor {{ $pinkel->kelompok->kd_kelompok }} dan data piutang sebagai berikut :
 
         <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px; table-layout: fixed;">
             <tr style="background: rgb(232, 232, 232)">
@@ -188,8 +197,16 @@
             </tr>
 
             @foreach ($pinkel->pinjaman_anggota as $pa)
+                @php
+                    if ($pa->alokasi == 0) {
+                        $minus += 1;
+                        continue;
+                    }
+
+                    $no = $loop->iteration - $minus;
+                @endphp
                 <tr>
-                    <td align="center">{{ $loop->iteration }}</td>
+                    <td align="center">{{ $no }}</td>
                     <td align="center">{{ $pa->anggota->nik }}</td>
                     <td>{{ $pa->anggota->namadepan }}</td>
                     <td align="center">{{ $pa->anggota->hp }}</td>
@@ -198,37 +215,53 @@
                 </tr>
             @endforeach
         </table>
-        <p>
-            Demikian, berita acara ini dibuat sekaligus sebagai bukti pencairan dana pinjaman di atas.
-        </p>
-    </div>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
-        <tr>
-            <td width="50%">&nbsp;</td>
-            <td width="25%">&nbsp;</td>
-            <td width="25%">&nbsp;</td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td align="center" colspan="2">
-                {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}
-            </td>
-        </tr>
-        <tr>
-            <td align="center">
-                {{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}
-            </td>
-            <td colspan="2" align="center">Ketua Kelompok</td>
-        </tr>
-        <tr>
-            <td colspan="3" height="40">&nbsp;</td>
-        </tr>
-        <tr>
-            <td align="center" style="font-weight: bold;">
-                {{ $dir->namadepan }} {{ $dir->namabelakang }}
-            </td>
-            <td colspan="2" align="center" style="font-weight: bold;">{{ $pinkel->kelompok->ketua }}</td>
-        </tr>
-    </table>
+        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+            <tr>
+                <td style="padding: 0px !important;">
+                    <div>
+                        Catatan Pencairan :
+                    </div>
+
+                    <p style="margin-top: 24px;">
+                        Demikian, berita acara ini dibuat sekaligus sebagai bukti pencairan dana piutang di atas.
+                    </p>
+
+                    @if ($tanda_tangan)
+                        {!! $tanda_tangan !!}
+                    @else
+                        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                            <tr>
+                                <td width="50%">&nbsp;</td>
+                                <td width="25%">&nbsp;</td>
+                                <td width="25%">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td align="center" colspan="2">
+                                    {{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" height="40">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="font-weight: bold;">
+                                    {{ $dir->namadepan }} {{ $dir->namabelakang }}
+                                </td>
+                                <td colspan="2" align="center" style="font-weight: bold;">{{ $ketua }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center">
+                                    {{ $kec->sebutan_level_1 }}
+                                </td>
+                                <td colspan="2" align="center">Ketua Kelompok</td>
+                            </tr>
+                        </table>
+                    @endif
+                </td>
+            </tr>
+        </table>
+    </div>
 @endsection

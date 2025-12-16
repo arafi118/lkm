@@ -64,15 +64,16 @@
     <header>
         <h1 style="margin: 0px;">{{ strtoupper($judul) }}</h1>
         <div style="margin: 0px; font-size: 24px;">
-            {{ strtoupper('Pinjaman Kelompok ' . $pinkel->jpp->nama_jpp) }}
+            PIUTANG {{ $pinkel->jenis_pp != '3' ? 'KELOMPOK' : '' }}
+            {{ strtoupper($pinkel->jpp->nama_jpp) }}
         </div>
     </header>
 
     <main>
         <div class="center">
-            <img src="../storage/app/public/logo/{{ $logo }}" width="290" alt="{{ $logo }}">
+            <img src="{{ $logo }}" width="290" alt="{{ $logo }}">
             <div style="margin-top: 10px; font-size: 24px;">
-                Kelompok {{ $pinkel->kelompok->nama_kelompok }}
+                {{ $pinkel->jenis_pp != '3' ? 'Kelompok' : '' }} {{ $pinkel->kelompok->nama_kelompok }}
             </div>
             <div style="font-size: 20px;">
                 {{ $pinkel->kelompok->d->sebutan_desa->sebutan_desa }} {{ $pinkel->kelompok->d->nama_desa }}

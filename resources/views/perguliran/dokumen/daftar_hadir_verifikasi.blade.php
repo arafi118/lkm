@@ -1,14 +1,24 @@
 @php
     $no = 0;
+
+    $ketua = $pinkel->kelompok->ketua;
+    $sekretaris = $pinkel->kelompok->sekretaris;
+    $bendahara = $pinkel->kelompok->bendahara;
+    if ($pinkel->struktur_kelompok) {
+        $struktur_kelompok = json_decode($pinkel->struktur_kelompok, true);
+        $ketua = isset($struktur_kelompok['ketua']) ? $struktur_kelompok['ketua'] : '';
+        $sekretaris = isset($struktur_kelompok['sekretaris']) ? $struktur_kelompok['sekretaris'] : '';
+        $bendahara = isset($struktur_kelompok['bendahara']) ? $struktur_kelompok['bendahara'] : '';
+    }
 @endphp
 
 @extends('perguliran.dokumen.layout.base')
 
 @section('content')
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
-        <tr class="b">
+        <tr>
             <td align="center">
-                <div style="font-size: 18px;">
+                <div style="font-size: 18px; text-decoration: underline;">
                     <b>DAFTAR HADIR VERIFIKASI {{ $pinkel->jpp->nama_jpp }}</b>
                 </div>
             </td>
@@ -52,7 +62,7 @@
             <th width="130" align="center">Nama Lengkap</th>
             <th width="70" align="center">Unsur / Jabatan</th>
             <th align="center">Alamat</th>
-            <th width="80" align="center">Tanda Tangan</th>
+            <th width="70" align="center">Tanda Tangan</th>
         </tr>
         @foreach ($pinkel->pinjaman_anggota as $pa)
             @php
@@ -98,7 +108,7 @@
             <td>&nbsp;</td>
             <td align="center">
                 <u>
-                    <b>{{ $pinkel->kelompok->ketua }}</b>
+                    <b>{{ $ketua }}</b>
                 </u>
             </td>
         </tr>

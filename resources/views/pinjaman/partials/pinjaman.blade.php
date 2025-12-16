@@ -3,12 +3,34 @@
 
     $perguliran = $kelompok->pinjaman;
 @endphp
-
+<style>
+    /* CSS untuk .app-wrapper-title */
+    .app-title {
+        background-color: #ffa200; /* Warna latar belakang untuk app-page-title */
+        padding: 15px; /* Padding untuk ruang di sekitar konten */
+        border-radius: 8px; /* Membuat sudut melengkung */
+        margin-bottom: 20px; /* Jarak bawah dari elemen lain */
+    }
+    /* CSS untuk .page-title-subheading */
+    .app-text_fount {
+    font-size: 18px; /* Ukuran font untuk subjudul */
+    color: #ffffff; /* Warna teks untuk subjudul */
+    margin-top: 0px; /* Jarak atas dari judul */
+    text-align: center; /* Pusatkan teks secara horizontal */
+}
+</style>
+<div class="card-body">
 <div class="card">
-    <div class="card-header p-3 pt-2">
-        <div class="alert alert-warning text-white shadow text-center border-radius-xl mt-n4 me-3">
-            Kelompok <b>{{ $kelompok->nama_kelompok }}</b> masih memiliki pinjaman dengan status
-            <b>{{ $perguliran->sts->nama_status }} ({{ $perguliran->status }})</b>
+    <div class="app-title">
+        <div class="app-wrapper">
+            <div class="app-heading">
+                <div class="app-text_fount">
+                    <div>
+                        Kelompok <b>{{ $kelompok->nama_kelompok }}</b> masih memiliki pinjaman dengan status
+                        <b>{{ $perguliran->sts->nama_status }} ({{ $perguliran->status }})</b>
+                    </div>
+                </div>
+            </div> 
         </div>
     </div>
     <div class="card-body pt-0">
@@ -302,4 +324,5 @@
             <a href="detail/{{ $perguliran->id }}" class="btn btn-info btn-sm mb-0">Detail Pinjaman</a>
         </div>
     </div>
+</div>
 </div>

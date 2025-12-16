@@ -57,17 +57,49 @@
                     'value' => '',
                 ],
             ];
-            $informasi_dalam_kelompok = ['Apakah anggota ini aktif dalam pertemuan kelompok', 'Apakah anggota ini aktif memberikan usul, pendapat, sadan dan sebagainya', 'Apakah anggota ini menunjukkan sikap tenang dan terbuka', 'Apakah anggota ini jujur, disiplin dan berusaha menepati janji', 'Apakah anggota ini bersedia membayar iuran-iuran di kelompok', 'Apakah anggota ini disiplin dalam membayar pinjamannya', 'Apakah anggota ini rajin menabung di kelompok', 'Apakah bersedia menjaminkan harta/tabungan sebagai jaminan kredit yang diminta', 'Apakah bersedia menandatangani perjanjian kredit berdua (suami/istri/orang tua)'];
-            $pendapatan_pengeluaran = [['Pendapatan keluarga 1 (satu) bulan', 'Pendapatan dan usaha suami', 'Pendapatan dan usaha istri', 'Pendapatan dari hasil kebun, sawah, ladang', 'Pendapatan lain-lain'], ['Pengeluaran keluarga', 'Pembelian alat/barang dagangan', 'Pengeluaran kebutuhan makan/minum', 'Pengeluaran sabun-cuci-mandi', 'Pengeluaran untuk sekolah', 'Pengeluaran untuk sosial', 'Pengeluaran listrik, telpon, dll', 'Angsuran pinjaman di bank/koperasi/perorangan', 'Pengeluaran lain-lain']];
-            $jaminan = ['Tabungan di kelompok atas nama pribadi', 'Nilai harta lain berupa ....................................'];
-            $penilaian = ['Ratio pendapatan keluarga (bersih) per bulan dibagi angsuran per bulan', 'Ratio tabungan di kelompok dibagi kredit yang diajukan'];
+            $informasi_dalam_kelompok = [
+                'Apakah anggota ini aktif dalam pertemuan kelompok',
+                'Apakah anggota ini aktif memberikan usul, pendapat, sadan dan sebagainya',
+                'Apakah anggota ini menunjukkan sikap tenang dan terbuka',
+                'Apakah anggota ini jujur, disiplin dan berusaha menepati janji',
+                'Apakah anggota ini bersedia membayar iuran-iuran di kelompok',
+                'Apakah anggota ini disiplin dalam membayar piutangnya',
+                'Apakah anggota ini rajin menabung di kelompok',
+                'Apakah bersedia menjaminkan harta/tabungan sebagai jaminan kredit yang diminta',
+                'Apakah bersedia menandatangani perjanjian kredit berdua (suami/istri/orang tua)',
+            ];
+            $pendapatan_pengeluaran = [
+                [
+                    'Pendapatan keluarga 1 (satu) bulan',
+                    'Pendapatan dan usaha suami',
+                    'Pendapatan dan usaha istri',
+                    'Pendapatan dari hasil kebun, sawah, ladang',
+                    'Pendapatan lain-lain',
+                ],
+                [
+                    'Pengeluaran keluarga',
+                    'Pembelian alat/barang dagangan',
+                    'Pengeluaran kebutuhan makan/minum',
+                    'Pengeluaran sabun-cuci-mandi',
+                    'Pengeluaran untuk sekolah',
+                    'Pengeluaran untuk sosial',
+                    'Pengeluaran listrik, telpon, dll',
+                    'Angsuran piutang di bank/koperasi/perorangan',
+                    'Pengeluaran lain-lain',
+                ],
+            ];
+            $jaminan = ['Tabungan tanggung renteng', 'Nilai harta lain berupa ....................................'];
+            $penilaian = [
+                'Ratio pendapatan keluarga (bersih) per bulan dibagi angsuran per bulan',
+                'Ratio tabungan di kelompok dibagi kredit yang diajukan',
+            ];
         @endphp
 
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
             <tr>
                 <td class="b" colspan="3" align="center">
                     <div style="font-size: 16px;">
-                        PENILAIAN PERMOHONAN PINJAMAN ANGGOTA KELOMPOK
+                        PENILAIAN PERMOHONAN PIUTANG ANGGOTA KELOMPOK
                     </div>
                 </td>
             </tr>
@@ -80,14 +112,39 @@
                     <td colspan="6">IDENTITAS PEMINJAM (ANGGOTA)</td>
                 </tr>
 
-                @foreach ($identitas_peminjam as $dt => $val)
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td align="center" width="3%">{{ $loop->iteration }}.</td>
-                        <td width="45%">{{ $val['label'] }}</td>
-                        <td colspan="4">: {{ $val['value'] }}</td>
-                    </tr>
-                @endforeach
+                @php
+                    $length = ceil(count($identitas_peminjam) / 2);
+
+                @endphp
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td colspan="6">
+                        <table border="0" width="100%" cellspacing="0" cellpadding="0"
+                            style="font-size: 11px; table-layout: fixed;">
+                            @for ($i = 0; $i < $length; $i++)
+                                @php
+                                    $label1 = $identitas_peminjam[$i]['label'];
+                                    $value1 = ': ' . $identitas_peminjam[$i]['value'];
+
+                                    $label2 = '';
+                                    $value2 = '';
+                                    if (isset($identitas_peminjam[$i + $length])) {
+                                        $label2 = $identitas_peminjam[$i + $length]['label'];
+                                        $value2 = ': ' . $identitas_peminjam[$i + $length]['value'];
+                                    }
+                                @endphp
+
+                                <tr>
+                                    <td width="21%">{{ $label1 }}</td>
+                                    <td width="25%">{{ $value1 }}</td>
+                                    <td width="29%">{{ $label2 }}</td>
+                                    <td width="25%">{{ $value2 }}</td>
+                                </tr>
+                            @endfor
+                        </table>
+                    </td>
+                </tr>
 
                 <tr style="font-weight: bold;">
                     <td class="t l b" align="center" height="15">B.</td>
@@ -195,7 +252,7 @@
                     <td>&nbsp;</td>
                     <td colspan="2">
                         <div>
-                            Anggota/pemanfaat ini LAYAK / TIDAK LAYAK untuk diberikan pinjaman sebesar:
+                            Anggota/pemanfaat ini LAYAK / TIDAK LAYAK untuk diberikan piutang sebesar:
                         </div>
                         <div>
                             ........................................................................
@@ -210,22 +267,24 @@
                         </div>
                     </td>
                     <td colspan="4">
-                        <div>Diverifikasi pada : .....................................</div>
-                        <div>Oleh: Tim Verifikasi Kecamatan</div>
+                        <div>Diverifikasi oleh, Tim Verifikasi {{ $kec->nama_lembaga_sort }} Kecamatan
+                            {{ $kec->nama_kec }}</div>
                         <table border="0" width="100%" cellspacing="0" cellpadding="0"
                             style="font-size: 11px; table-layout: fixed;">
                             @foreach ($verifikator as $verif)
                                 <tr>
-                                    <td width="60%">
+                                    <td width="70" height="20">
+                                        <div>{{ $verif->namadepan }} {{ $verif->namabelakang }}</div>
                                         <div>
-                                            <b>{{ $verif->namadepan . ' ' . $verif->namabelakang }}</b>
-                                        </div>
-                                        <div>
-                                            <b>(Verifikator)</b>
+                                            @if ($verif->jabatan == '1' && $verif->level == '4')
+                                                Ketua
+                                            @else
+                                                <b>{{ $verif->j->nama_jabatan }}</b>
+                                            @endif
                                         </div>
                                     </td>
-                                    <td width="40%" align="right">
-                                        <b>__________________</b>
+                                    <td align="right" style="vertical-align: bottom;">
+                                        <b>____________________________________</b>
                                     </td>
                                 </tr>
                             @endforeach

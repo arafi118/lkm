@@ -1,5 +1,15 @@
 @php
     use App\Utils\Tanggal;
+
+    $ketua = $pinkel->kelompok->ketua;
+    $sekretaris = $pinkel->kelompok->sekretaris;
+    $bendahara = $pinkel->kelompok->bendahara;
+    if ($pinkel->struktur_kelompok) {
+        $struktur_kelompok = json_decode($pinkel->struktur_kelompok, true);
+        $ketua = isset($struktur_kelompok['ketua']) ? $struktur_kelompok['ketua'] : '';
+        $sekretaris = isset($struktur_kelompok['sekretaris']) ? $struktur_kelompok['sekretaris'] : '';
+        $bendahara = isset($struktur_kelompok['bendahara']) ? $struktur_kelompok['bendahara'] : '';
+    }
 @endphp
 
 @extends('perguliran.dokumen.layout.base')
@@ -12,7 +22,9 @@
                     <b>BERITA ACARA PERTEMUAN</b>
                 </div>
                 <div style="font-size: 16px;">
-                    <b>KELOMPOK SIMPAN PINJAM KHUSUS PEREMPUAN (SPP)</b>
+                    <b>
+                        {{ $pinkel->jenis_pp != '3' ? 'KELOMPOK' : '' }} {{ strtoupper($pinkel->jpp->deskripsi_jpp) }}
+                    </b>
                 </div>
             </td>
         </tr>
@@ -22,7 +34,7 @@
     </table>
 
     <div style="text-align: justify;">
-        Sehubungan dengan rencana kelompok mengajukan pinjaman kepada {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
+        Sehubungan dengan rencana kelompok mengajukan piutang kepada {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
         {{ $kec->nama_kec }}, maka pada hari ini _________ tanggal ___ bulan ____________ tahun _____ , bertempat di
         {{ $pinkel->kelompok->alamat_kelompok }} {{ $pinkel->kelompok->d->sebutan_desa->sebutan_desa }}
         {{ $pinkel->kelompok->d->nama_desa }}, nama kelompok {{ $pinkel->kelompok->nama_kelompok }}
@@ -34,8 +46,8 @@
     <div style="text-align: justify;">
         Adapun materi atau topik yang dibahas dalam musyawarah ini adalah sebagai berikut :
         <ol style="list-style: lower-alpha;">
-            <li>Jumlah anggota peminjam dan besar pinjaman yang diajukan</li>
-            <li>Penetapan bunga pinjaman kepada anggota</li>
+            <li>Jumlah anggota peminjam dan besar piutang yang diajukan</li>
+            <li>Penetapan bunga piutang kepada anggota</li>
             <li>Rencana penggunaan selisih angsuran bunga</li>
             <li>Sanksi kelompok bagi anggota peminjam yang menunggak</li>
         </ol>
@@ -43,14 +55,14 @@
 
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
-            <td width="130">Acara Musnyawarah dipimpin oleh</td>
+            <td width="130">Acara musyawarah dipimpin oleh</td>
             <td width="5" align="center">:</td>
-            <td>{{ $pinkel->kelompok->ketua }}</td>
+            <td>{{ $ketua }}</td>
         </tr>
         <tr>
             <td>Notulen</td>
             <td>:</td>
-            <td>{{ $pinkel->kelompok->sekretaris }}</td>
+            <td>{{ $sekretaris }}</td>
         </tr>
         <tr>
             <td>Narasumber</td>
@@ -71,16 +83,16 @@
 
         <ol style="list-style: lower-alpha;">
             <li>
-                Forum menyepakati jumlah anggota kelompok yang akan mengajukan pinjaman yaitu
-                {{ $pinkel->pinjaman_anggota_count }} orang dan besar pinjamanyang akan diajukan kepada
+                Forum menyepakati jumlah anggota kelompok yang akan mengajukan piutang yaitu
+                {{ $pinkel->pinjaman_anggota_count }} orang dan besar piutang yang akan diajukan kepada
                 {{ $kec->nama_lembaga_sort }} sebesar Rp {{ number_format($pinkel->proposal) }}
             </li>
             <li>
                 Forum menyepakati anggota kelompok wajib mengangsur setiap {{ $pinkel->sis_pokok->nama_sistem }} sesuai
-                dengan jumlah pinjaman yang diterima dan tanggal yang telah disepakati.
+                dengan jumlah piutang yang diterima dan tanggal yang telah disepakati.
             </li>
             <li>
-                Forum menyepakati bunga pinjaman yang akan diberlakukan kepada anggota kelompok sebesar
+                Forum menyepakati bunga piutang yang akan diberlakukan kepada anggota kelompok sebesar
                 {{ $pinkel->pros_jasa / $pinkel->jangka }}% setiap bulan dalam {{ $pinkel->jangka }} bulan.
             </li>
             <li>
@@ -104,26 +116,26 @@
                     <li>Setiap Kelompok harus membuat proposal sesuai petunjuk</li>
                     <li>Proposal Wajib melampirkan KK dan KTP</li>
                     <li>
-                        Setiap peminjam wajib melunasi pinjamannya sesuai dengan jangka waktu yang disepakati atau
+                        Setiap peminjam wajib melunasi piutangnya sesuai dengan jangka waktu yang disepakati atau
                         diperjanjikan angsuran pokok beserta bunganya
                     </li>
                     <li>
                         Setiap peminjam wajib menyimpan dana pada rekening tabungan beku atau tanggung renteng kelompok
-                        sebesar ___% dari besar pinjamannya
+                        sebesar ___% dari besar piutangnya
                     </li>
                     <li>
                         Apabila peminjam meninggal dunia dan masih memiliki sisa angsuran, maka sisa angsuran tersebut harus
                         dilunasi oleh Ahli Warisnya atau oleh pribadi yang menandatangani pada surat pernyataann persetujuan
-                        pinjaman
+                        piutang
                     </li>
                 </ul>
 
-                Saksi :
+                Sanksi :
                 <ul style="list-style: decimal;">
                     <li>
-                        Apabila peminjam tidak melunasi pinjamannya, maka yang bersangkutan akan diberi peringatan dan atau
+                        Apabila peminjam tidak melunasi piutangnya, maka yang bersangkutan akan diberi peringatan dan atau
                         dilakukan proses hukum yang berlaku. Jika ahli waris atau penanggung jawab adalah warga yang tidak
-                        mampu, maka bisa mengajukan permohonan Penghapusan Pinjaman sesuai dengan aturan yang berlaku di
+                        mampu, maka bisa mengajukan permohonan Penghapusan Piutang sesuai dengan aturan yang berlaku di
                         {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }} {{ $kec->nama_kec }}
                     </li>
                 </ul>
@@ -181,10 +193,10 @@
             </tr>
             <tr>
                 <td align="center">
-                    <b>{{ $pinkel->kelompok->ketua }}</b>
+                    <b>{{ $ketua }}</b>
                 </td>
                 <td align="center" colspan="2">
-                    <b>{{ $pinkel->kelompok->sekretaris }}</b>
+                    <b>{{ $sekretaris }}</b>
                 </td>
             </tr>
         </table>

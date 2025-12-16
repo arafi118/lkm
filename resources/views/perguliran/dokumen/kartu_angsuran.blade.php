@@ -6,6 +6,16 @@
     if ($pinkel->real_count > 16) {
         $rowspan = $pinkel->real_count + 3;
     }
+
+    $ketua = $pinkel->kelompok->ketua;
+    $sekretaris = $pinkel->kelompok->sekretaris;
+    $bendahara = $pinkel->kelompok->bendahara;
+    if ($pinkel->struktur_kelompok) {
+        $struktur_kelompok = json_decode($pinkel->struktur_kelompok, true);
+        $ketua = isset($struktur_kelompok['ketua']) ? $struktur_kelompok['ketua'] : '';
+        $sekretaris = isset($struktur_kelompok['sekretaris']) ? $struktur_kelompok['sekretaris'] : '';
+        $bendahara = isset($struktur_kelompok['bendahara']) ? $struktur_kelompok['bendahara'] : '';
+    }
 @endphp
 
 <!DOCTYPE html>
@@ -90,12 +100,12 @@
                         Telp. {{ $kec->telpon_kec }}
                     </div>
                     <div style="margin-top: 8px;">
-                        <img width="150" src="data:image/png;base64,{{ $barcode }}"
+                        <img height="40" src="data:image/png;base64,{{ $barcode }}"
                             alt="{{ $pinkel->kelompok->kd_kelompok }}">
                     </div>
                     <div style="font-size: 14px;">{{ $pinkel->kelompok->kd_kelompok }}</div>
                 </td>
-                <td width="150">Jenis Pinjaman</td>
+                <td width="150">Jenis Piutang</td>
                 <td width="5" align="center">:</td>
                 <td width="200">{{ $pinkel->jpp->nama_jpp }}</td>
                 <td width="150">Loan Id.</td>
@@ -134,7 +144,7 @@
                 <td>{{ number_format($pinkel->alokasi) }}</td>
                 <td>Jasa</td>
                 <td align="center">:</td>
-                <td>{{ $pinkel->pros_jasa / $pinkel->jangka . '%' }}</td>
+                <td>{{ number_format($pinkel->pros_jasa / $pinkel->jangka, 2) . '%' }}</td>
             </tr>
             <tr>
                 <td>Angsuran</td>
@@ -170,9 +180,9 @@
 
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
             <tr>
-                <td width="40">&nbsp;</td>
+                <td width="5%">&nbsp;</td>
                 <td colspan="9" style="font-weight: bold;" height="30">TABEL KEWAJIBAN PEMBAYARAN ANGSURAN</td>
-                <td width="40">&nbsp;</td>
+                <td width="5%">&nbsp;</td>
             </tr>
 
             <tr style="font-weight: bold;">
@@ -244,55 +254,69 @@
 
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
             <tr>
-                <td width="40" rowspan="{{ $rowspan }}">&nbsp;</td>
-                <td colspan="9" style="font-weight: bold;" height="30">REALISASI PEMBAYARAN ANGSURAN</td>
-                <td width="40" rowspan="{{ $rowspan }}">&nbsp;</td>
+                <td width="5%" rowspan="{{ $rowspan }}">&nbsp;</td>
+                <td width="90%" colspan="9" style="font-weight: bold;" height="30">
+                    REALISASI PEMBAYARAN ANGSURAN
+                </td>
+                <td width="5%" rowspan="{{ $rowspan }}">&nbsp;</td>
             </tr>
             <tr>
-                <th class="l t b" rowspan="2">No</th>
-                <th class="l t b" rowspan="2">Tanggal</th>
-                <th class="l t" colspan="2">Pokok</th>
-                <th class="l t" colspan="2">Jasa</th>
-                <th class="l t" colspan="2">Saldo Piutang</th>
-                <th class="l t r b" rowspan="2">Sign</th>
+                <th width="3%" class="l t b" rowspan="2">No</th>
+                <th width="10%" class="l t b" rowspan="2">Tanggal</th>
+                <th width="22%" class="l t" colspan="2">Pokok</th>
+                <th width="22%" class="l t" colspan="2">Jasa</th>
+                <th width="22%"class="l t" colspan="2">Saldo Piutang</th>
+                <th width="11%" class="l t r b" rowspan="2">Sign</th>
             </tr>
             <tr>
-                <th class="l b t">Dibayar</th>
-                <th class="l b t">Tunggakan</th>
-                <th class="l b t">Dibayar</th>
-                <th class="l b t">Tunggakan</th>
-                <th class="l b t">Pokok</th>
-                <th class="l b t">Jasa</th>
+                <th width="12%" class="l b t">Dibayar</th>
+                <th width="10%" class="l b t">Tunggakan</th>
+                <th width="12%" class="l b t">Dibayar</th>
+                <th width="10%" class="l b t">Tunggakan</th>
+                <th width="11%" class="l b t">Pokok</th>
+                <th width="11%" class="l b t">Jasa</th>
             </tr>
 
             @php
                 $jumlah = 0;
             @endphp
-            @foreach ($pinkel->real as $real)
-                @php
-                    $jumlah++;
-                    $nomor = $loop->iteration;
+            @if ($angsuran)
+                @foreach ($pinkel->real as $real)
+                    @php
+                        $jumlah++;
+                        $nomor = $loop->iteration;
 
-                    $b = $nomor + 3 == $rowspan ? 'b' : '';
-                @endphp
-                <tr>
-                    <td class="l {{ $b }}" align="center">{{ $nomor }}</td>
-                    <td class="l {{ $b }}" align="center">{{ Tanggal::tglIndo($real->tgl_transaksi) }}
-                    </td>
-                    <td class="l {{ $b }}" align="right">{{ number_format($real->realisasi_pokok) }}
-                    </td>
-                    <td class="l {{ $b }}" align="right">
-                        {{ number_format($real->tunggakan_pokok < 0 ? 0 : $real->tunggakan_pokok) }}
-                    </td>
-                    <td class="l {{ $b }}" align="right">{{ number_format($real->realisasi_jasa) }}</td>
-                    <td class="l {{ $b }}" align="right">
-                        {{ number_format($real->tunggakan_jasa < 0 ? 0 : $real->tunggakan_jasa) }}
-                    </td>
-                    <td class="l {{ $b }}" align="right">{{ number_format($real->saldo_pokok) }}</td>
-                    <td class="l {{ $b }}" align="right">{{ number_format($real->saldo_jasa) }}</td>
-                    <td class="l {{ $b }} r" align="center">{{ $real->id }}</td>
-                </tr>
-            @endforeach
+                        $b = $nomor + 3 == $rowspan ? 'b' : '';
+
+                        $sign = 'TF';
+                        if ($real->transaksi->rekening_debit == '1.1.01.01') {
+                            $sign = 'TN';
+                        }
+                    @endphp
+                    <tr>
+                        <td class="l {{ $b }}" align="center">{{ $nomor }}</td>
+                        <td class="l {{ $b }}" align="center">
+                            {{ Tanggal::tglIndo($real->tgl_transaksi) }}
+                        </td>
+                        <td class="l {{ $b }}" align="right">{{ number_format($real->realisasi_pokok) }}
+                        </td>
+                        <td class="l {{ $b }}" align="right">
+                            {{ number_format($real->tunggakan_pokok < 0 ? 0 : $real->tunggakan_pokok) }}
+                        </td>
+                        <td class="l {{ $b }}" align="right">{{ number_format($real->realisasi_jasa) }}
+                        </td>
+                        <td class="l {{ $b }}" align="right">
+                            {{ number_format($real->tunggakan_jasa < 0 ? 0 : $real->tunggakan_jasa) }}
+                        </td>
+                        <td class="l {{ $b }}" align="right">{{ number_format($real->saldo_pokok) }}
+                        </td>
+                        <td class="l {{ $b }}" align="right">{{ number_format($real->saldo_jasa) }}</td>
+                        <td class="l {{ $b }} r" align="center">
+                            {{ $sign }}-{{ $real->id }}
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
 
             @if ($jumlah < 16)
                 @for ($i = 1; $i <= 16 - $jumlah; $i++)
@@ -313,9 +337,9 @@
 
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
             <tr>
-                <td width="40" rowspan="5">&nbsp;</td>
+                <td width="5%" rowspan="5">&nbsp;</td>
                 <td colspan="3" style="font-weight: bold;" height="30">&nbsp;</td>
-                <td width="40" rowspan="5">&nbsp;</td>
+                <td width="5%" rowspan="5">&nbsp;</td>
             </tr>
             <tr>
                 <td width="350" rowspan="3">
@@ -323,7 +347,7 @@
                     <div>Lembar 2 : Arsip Lembaga</div>
                 </td>
                 <td style="font-weight: bold; font-size: 12px;" width="350" align="center">
-                    <div>{{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}</div>
+                    <div>{{ $kec->sebutan_level_1 }}</div>
                 </td>
                 <td style="font-weight: bold; font-size: 12px;" width="350" align="center">Ketua Kelompok</td>
             </tr>
@@ -335,14 +359,14 @@
                     <div>{{ $dir->namadepan }} {{ $dir->namabelakang }}</div>
                 </td>
                 <td width="350" align="center">
-                    {{ $pinkel->kelompok->ketua }}
+                    {{ $ketua }}
                 </td>
             </tr>
             <tr>
                 <td colspan="3" style="font-weight: bold;" height="10">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="5">
+                <td colspan="4">
                     <ol>
                         <b>Perhatian:</b>
                         <li>Bayarlah angsuran tepat waktu sesuai dengan jadwal diatas</li>
@@ -353,6 +377,11 @@
                         <li>Jika lembar ini tidak mencukupi, cetak pada lembar baliknya dengan dibubuhi stempel
                             {{ $kec->nama_lembaga_sort }}</li>
                     </ol>
+                </td>
+                <td>
+                    <div style="display: flex; height: 100%; justify-content: center; align-items: center;">
+                        {{ $qrCode }}
+                    </div>
                 </td>
             </tr>
         </table>

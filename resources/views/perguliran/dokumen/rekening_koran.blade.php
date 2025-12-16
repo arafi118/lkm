@@ -13,12 +13,12 @@
 
 @section('content')
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
-        <tr class="b">
+        <tr>
             <td colspan="3" align="center">
                 <div style="font-size: 18px;">
                     <b>REKENING KORAN</b>
                 </div>
-                <div style="font-size: 16px;">
+                <div style="font-size: 16px; text-decoration: underline;">
                     <b>KELOMPOK {{ strtoupper($pinkel->kelompok->nama_kelompok) }}</b>
                 </div>
             </td>
@@ -65,7 +65,7 @@
             </td>
         </tr>
         <tr>
-            <td>Alokasi Pinjaman</td>
+            <td>Alokasi Piutang</td>
             <td align="center">:</td>
             <td>
                 <b>Rp. {{ number_format($alokasi) }}</b>
@@ -108,11 +108,26 @@
                 $denda = 0;
                 $pencairan = 0;
 
-                if ($kredit == '1.1.03') {
+                if (
+                    $trx->rekening_kredit == '1.1.03.01' or
+                    $trx->rekening_kredit == '1.1.03.02' or
+                    $trx->rekening_kredit == '1.1.03.03'
+                ) {
                     $pokok = intval($trx->jumlah);
-                } elseif ($trx->rekening_kredit == '4.1.01.01' or $trx->rekening_kredit == '4.1.01.02' or $trx->rekening_kredit == '4.1.01.03') {
+                } elseif (
+                    $trx->rekening_kredit == '4.1.01.01' or
+                    $trx->rekening_kredit == '4.1.01.02' or
+                    $trx->rekening_kredit == '4.1.01.03' or
+                    $trx->rekening_kredit == '1.1.03.04' or
+                    $trx->rekening_kredit == '1.1.03.05' or
+                    $trx->rekening_kredit == '1.1.03.06'
+                ) {
                     $jasa = intval($trx->jumlah);
-                } elseif ($trx->rekening_kredit == '4.1.01.04' or $trx->rekening_kredit == '4.1.01.05' or $trx->rekening_kredit == '4.1.01.06') {
+                } elseif (
+                    $trx->rekening_kredit == '4.1.01.04' or
+                    $trx->rekening_kredit == '4.1.01.05' or
+                    $trx->rekening_kredit == '4.1.01.06'
+                ) {
                     $denda = intval($trx->jumlah);
                 } elseif ($kredit == '1.1.01') {
                     $pencairan = intval($trx->jumlah);

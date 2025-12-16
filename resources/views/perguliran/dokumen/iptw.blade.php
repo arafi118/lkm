@@ -4,9 +4,16 @@
     $jasa = 0;
     $iptw = 0;
 
-    $alokasi_pinjaman = $pinkel->proposal;
-    if (Request::get('status') == 'A') {
-        $alokasi_pinjaman = $pinkel->alokasi;
+    $alokasi_pinjaman = $pinkel->alokasi;
+
+    $ketua = $pinkel->kelompok->ketua;
+    $sekretaris = $pinkel->kelompok->sekretaris;
+    $bendahara = $pinkel->kelompok->bendahara;
+    if ($pinkel->struktur_kelompok) {
+        $struktur_kelompok = json_decode($pinkel->struktur_kelompok, true);
+        $ketua = isset($struktur_kelompok['ketua']) ? $struktur_kelompok['ketua'] : '';
+        $sekretaris = isset($struktur_kelompok['sekretaris']) ? $struktur_kelompok['sekretaris'] : '';
+        $bendahara = isset($struktur_kelompok['bendahara']) ? $struktur_kelompok['bendahara'] : '';
     }
 @endphp
 
@@ -14,9 +21,9 @@
 
 @section('content')
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
-        <tr class="b">
+        <tr>
             <td colspan="3" align="center">
-                <div style="font-size: 18px;">
+                <div style="font-size: 18px; text-decoration: underline;">
                     <b>DAFTAR PENERIMA IPTW</b>
                 </div>
             </td>
@@ -130,7 +137,7 @@
         <tr>
             <td>&nbsp;</td>
             <td align="center">
-                <b>{{ $pinkel->kelompok->ketua }}</b>
+                <b>{{ $ketua }}</b>
             </td>
         </tr>
     </table>

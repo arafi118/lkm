@@ -416,21 +416,24 @@ class SimpananController extends Controller
         $maxIdt = Transaksi::max('idt');
         
         //admin register
-        Transaksi::create([
-            'tgl_transaksi' => Tanggal::tglNasional($request->tgl_buka_rekening),
-            'rekening_debit' => $js->rek_kas,
-            'rekening_kredit' =>  $js->rek_adm,
-            'idtp' => '0',
-            'id_pinj' => '0',
-            'id_pinj_i' => '0',
-            'id_simp' => '0',
-            'keterangan_transaksi' => 'Pendapatan Admin Simpanan ' . $js->nama_js . ' ' . $anggota->namadepan . '',
-            'relasi' => $anggota->namadepan . '[' . $request->nia . ']',
-            'jumlah' => str_replace(',', '', str_replace('.00', '', $request->admin_register)),
-            'urutan' => '0',
-            'id_user' => auth()->user()->id,
-        ]);
-        
+        $jumlahAdmin = str_replace(',', '', str_replace('.00', '', $request->admin_register));
+
+        if ($jumlahAdmin > 0) {
+            Transaksi::create([
+                'tgl_transaksi' => Tanggal::tglNasional($request->tgl_buka_rekening),
+                'rekening_debit' => $js->rek_kas,
+                'rekening_kredit' =>  $js->rek_adm,
+                'idtp' => '0',
+                'id_pinj' => '0',
+                'id_pinj_i' => '0',
+                'id_simp' => '0',
+                'keterangan_transaksi' => 'Pendapatan Admin Simpanan ' . $js->nama_js . ' ' . $anggota->namadepan . '',
+                'relasi' => $anggota->namadepan . '[' . $request->nia . ']',
+                'jumlah' => $jumlahAdmin,
+                'urutan' => '0',
+                'id_user' => auth()->user()->id,
+            ]);
+        }
         //real setoran awalx
         RealSimpanan::create([
             'cif' => $maxId,

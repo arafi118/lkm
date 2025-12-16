@@ -1,11 +1,11 @@
 <form action="/database/kelompok" method="post" id="FormRegistrasiKelompok">
     @csrf
-    <br>
+
     <div class="row">
         <div class="col-md-4">
             <div class="position-relative mb-3">
-                <label for="desa" class="form-label">Desa/Kelurahan</label>
-                <select class="form-select" name="desa" id="desa">
+                <label class="form-label" for="desa">Desa/Kelurahan</label>
+                <select class="js-example-basic-single form-select" name="desa" id="desa" style="width: 100%;">
                     @foreach ($desa as $ds)
                         <option {{ $desa_dipilih == $ds->kd_desa ? 'selected' : '' }} value="{{ $ds->kd_desa }}">
                             {{ $ds->sebutan_desa->sebutan_desa }} {{ $ds->nama_desa }}
@@ -34,9 +34,8 @@
     <div class="row">
         <div class="col-md-4">
             <div class="position-relative mb-3">
-                <label for="jenis_produk_pinjaman" class="form-label">Jenis Produk
-                    Pinjaman</label>
-                <select class="form-select" name="jenis_produk_pinjaman" id="jenis_produk_pinjaman">
+                <label class="form-label" for="jenis_produk_pinjaman">Jenis Produk Pinjaman</label>
+                <select class="js-example-basic-single form-select" name="jenis_produk_pinjaman" id="jenis_produk_pinjaman" style="width: 100%;">
                     @foreach ($jenis_produk_pinjaman as $jpp)
                         <option value="{{ $jpp->id }}">
                             {{ $jpp->nama_jpp }} ({{ $jpp->deskripsi_jpp }})
@@ -56,7 +55,7 @@
         </div>
         <div class="col-md-4">
             <div class="position-relative mb-3">
-                <label for="exampleState" class="form-label">No. HP (Aktif WA)</label>
+                <label for="telpon" class="form-label">No. HP (Aktif WA)</label>
                 <input autocomplete="off" type="text" name="telpon" id="telpon" class="form-control"
                     value="628">
                 <small class="text-danger" id="msg_telpon"></small>
@@ -96,8 +95,8 @@
     <div class="row">
         <div class="col-md-3">
             <div class="position-relative mb-3">
-                <label for="jenis_usaha" class="form-label">Jenis Usaha</label>
-                <select class="form-select" name="jenis_usaha" id="jenis_usaha">
+                <label class="form-label" for="jenis_usaha">Jenis Usaha</label>
+                <select class="js-example-basic-single form-select" name="jenis_usaha" id="jenis_usaha" style="width: 100%;">
                     @foreach ($jenis_usaha as $ju)
                         <option value="{{ $ju->id }}">
                             {{ $ju->nama_ju }} ({{ $ju->deskripsi_ju }})
@@ -109,8 +108,8 @@
         </div>
         <div class="col-md-3">
             <div class="position-relative mb-3">
-                <label for="jenis_kegiatan" class="form-label">Jenis Kegiatan</label>
-                <select class="form-select" name="jenis_kegiatan" id="jenis_kegiatan">
+                <label class="form-label" for="jenis_kegiatan">Jenis Kegiatan</label>
+                <select class="js-example-basic-single form-select" name="jenis_kegiatan" id="jenis_kegiatan" style="width: 100%;">
                     @foreach ($jenis_kegiatan as $jk)
                         <option value="{{ $jk->id }}">
                             {{ $jk->nama_jk }} ({{ $jk->deskripsi_jk }})
@@ -122,8 +121,8 @@
         </div>
         <div class="col-md-3">
             <div class="position-relative mb-3">
-                <label for="tingkat_kelompok" class="form-label">Tingkat Kelompok</label>
-                <select class="form-control" name="tingkat_kelompok" id="tingkat_kelompok">
+                <label class="form-label" for="tingkat_kelompok">Tingkat Kelompok</label>
+                <select class="js-example-basic-single form-select" name="tingkat_kelompok" id="tingkat_kelompok" style="width: 100%;">
                     @foreach ($tingkat_kelompok as $tk)
                         <option value="{{ $tk->id }}">
                             {{ $tk->nama_tk }} ({{ $tk->deskripsi_tk }})
@@ -135,8 +134,8 @@
         </div>
         <div class="col-md-3">
             <div class="position-relative mb-3">
-                <label for="fungsi_kelompok" class="form-label">Fungsi Kelompok</label>
-                <select class="form-control" name="fungsi_kelompok" id="fungsi_kelompok">
+                <label class="form-label" for="fungsi_kelompok">Fungsi Kelompok</label>
+                <select class="js-example-basic-single form-select" name="fungsi_kelompok" id="fungsi_kelompok" style="width: 100%;">
                     @foreach ($fungsi_kelompok as $fk)
                         <option value="{{ $fk->id }}">
                             {{ $fk->nama_fgs }} ({{ $fk->deskripsi_fgs }})
@@ -147,5 +146,23 @@
             </div>
         </div>
     </div>
-</form><br>
-<button type="submit" id="SimpanKelompok" class=" btn btn-dark btn-sm">Simpan Kelompok</button>
+</form>
+
+<button type="submit" id="SimpanKelompok" class="btn btn-dark btn-sm float-end">Simpan Kelompok</button>
+
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2({
+            theme: 'bootstrap-5'
+        });
+    });
+
+    $('.date').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+
+    var kd_desa = $('#desa').val()
+    $.get('/database/kelompok/generatekode?kode=' + kd_desa, function(result) {
+        $('#kode_kelompok').val(result.kd_kelompok)
+    })
+</script>

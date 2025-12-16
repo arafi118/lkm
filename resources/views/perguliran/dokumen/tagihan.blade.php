@@ -6,7 +6,7 @@
     $sum_pokok = 0;
     $sum_jasa = 0;
     $saldo_pokok = $pinkel->alokasi;
-    $saldo_jasa = $pinkel->alokasi / $pinkel->pros_jasa;
+    $saldo_jasa = $pinkel->pros_jasa == 0 ? 0 : $pinkel->alokasi / $pinkel->pros_jasa;
     if ($real) {
         $real_pokok = $real->realisasi_pokok;
         $real_jasa = $real->realisasi_jasa;
@@ -41,14 +41,14 @@
             <td width="50">Nomor</td>
             <td width="10" align="center">:</td>
             <td colspan="2">
-                <b>______/DBM/{{ Tanggal::tglRomawi(date('Y-m-d')) }}</b>
+                ______/DBM/{{ Tanggal::tglRomawi(date('Y-m-d')) }}
             </td>
         </tr>
         <tr>
             <td>Sifat</td>
             <td align="center">:</td>
             <td colspan="2">
-                <b>Penting dan Rahasia</b>
+                Penting dan Rahasia
             </td>
         </tr>
         <tr>
@@ -61,15 +61,12 @@
         <tr>
             <td colspan="3">&nbsp;</td>
             <td align="left" width="140">
-                <div>KEPADA YTH.</div>
-                <div style="font-weight: bold;">
-                    {{ $pinkel->kelompok->ketua }}
+                <div>Kepada Yth.</div>
+                <div>
+                    Ketua dan Anggota Kelompok {{ $pinkel->kelompok->nama_kelompok }}
                 </div>
-                <div style="font-weight: bold;">
-                    a.n. Ketua Kelompok {{ $pinkel->kelompok->nama_kelompok }}
-                </div>
-                <div style="font-weight: bold;">Di</div>
-                <div style="font-weight: bold; text-align: center;">
+                <div>Di</div>
+                <div style=" text-align: center;">
                     {{ strtoupper($pinkel->kelompok->d->nama_desa) }}
                 </div>
             </td>
@@ -84,13 +81,13 @@
                 <div style="text-align: justify;">
                     Mendasar kepada Surat Perjanjian Kredit ({{ $pinkel->jpp->nama_jpp }}) antara
                     {{ $pinkel->kelompok->nama_kelompok }} {{ $pinkel->kelompok->d->nama_desa }} dengan
-                    {{ $kec->nama_lembaga_sort }} Tanggal {{ Tanggal::tglLatin($pinkel->tgl_cair) }} dengan rincian pinjaman
+                    {{ $kec->nama_lembaga_sort }} Tanggal {{ Tanggal::tglLatin($pinkel->tgl_cair) }} dengan rincian piutang
                     sebagai berikut ;
                 </div>
                 <table>
                     <tr>
                         <td width="10">1.</td>
-                        <td width="140">Alokasi Pinjaman</td>
+                        <td width="140">Alokasi Piutang</td>
                         <td width="5">:</td>
                         <td>
                             <b>Rp. {{ number_format($pinkel->alokasi) }}</b>
@@ -109,7 +106,10 @@
                         <td>Prosentase Jasa</td>
                         <td>:</td>
                         <td>
-                            <b>{{ $pinkel->pros_jasa / $pinkel->jangka }}% per Bulan</b>
+                            <b>
+                                {{ number_format($pinkel->pros_jasa > 0 ? $pinkel->pros_jasa / $pinkel->jangka : 0, 2) }}%
+                                per Bulan
+                            </b>
                         </td>
                     </tr>
                     <tr>
@@ -165,7 +165,7 @@
                 <p style="text-align: justify;">
                     Demikian surat ini kami sampaikan, apabila terjadi perbedaan hasil perhitungan angsuran/ tunggakan
                     mohon untuk melakukan klarifikasi dengan {{ $kec->nama_lembaga_sort }} dan terima kasih untuk
-                    segera melakukan pelunasan tunggakan pinjamannya
+                    segera melakukan pelunasan tunggakan piutangnya
 
                 </p>
             </td>
@@ -183,7 +183,7 @@
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td align="center">{{ $kec->sebutan_level_1 }} DBM</td>
+            <td align="center">{{ $kec->sebutan_level_1 }}</td>
         </tr>
         <tr>
             <td colspan="2" height="40">&nbsp;</td>

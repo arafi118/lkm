@@ -1,18 +1,28 @@
 @php
     use App\Utils\Tanggal;
+
+    $ketua = $pinkel->kelompok->ketua;
+    $sekretaris = $pinkel->kelompok->sekretaris;
+    $bendahara = $pinkel->kelompok->bendahara;
+    if ($pinkel->struktur_kelompok) {
+        $struktur_kelompok = json_decode($pinkel->struktur_kelompok, true);
+        $ketua = isset($struktur_kelompok['ketua']) ? $struktur_kelompok['ketua'] : '';
+        $sekretaris = isset($struktur_kelompok['sekretaris']) ? $struktur_kelompok['sekretaris'] : '';
+        $bendahara = isset($struktur_kelompok['bendahara']) ? $struktur_kelompok['bendahara'] : '';
+    }
 @endphp
 
 @extends('perguliran.dokumen.layout.base')
 
 @section('content')
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
         <tr>
             <td colspan="3" align="center">
                 <div style="font-size: 18px;">
-                    <b>DAFTAR PENERIMA</b>
+                    <b>DAFTAR CALON PEMANFAAT</b>
                 </div>
-                <div style="font-size: 16px;">
-                    <b>PINJAMAN/PEMANFAAT {{ $pinkel->jpp->nama_jpp }}</b>
+                <div style="font-size: 16px; text-decoration: underline;">
+                    <b>PIUTANG {{ $pinkel->jpp->nama_jpp }}</b>
                 </div>
             </td>
         </tr>
@@ -20,12 +30,12 @@
             <td colspan="3" height="5"></td>
         </tr>
     </table>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px;">
         <tr>
-            <td width="70">Nama Kelompok</td>
+            <td width="70">Kelompok</td>
             <td width="5" align="right">:</td>
             <td>{{ $pinkel->kelompok->nama_kelompok }} - {{ $pinkel->id }}</td>
-            <td width="70">Alokasi Pinjaman</td>
+            <td width="70">Pengajuan</td>
             <td width="5" align="right">:</td>
             <td>Rp. {{ number_format($pinkel->proposal) }}</td>
         </tr>
@@ -33,52 +43,70 @@
             <td>Alamat</td>
             <td align="right">:</td>
             <td>{{ $pinkel->kelompok->alamat_kelompok }}</td>
-            <td>Sistem Angsuran</td>
+            <td>Sistem Angs.</td>
             <td align="right">:</td>
             <td>{{ $pinkel->sis_pokok->nama_sistem }}</td>
         </tr>
         <tr>
-            <td>Tanggal Proposal</td>
+            <td>Tgl. Proposal</td>
             <td align="right">:</td>
             <td>{{ Tanggal::tglLatin($pinkel->tgl_proposal) }}</td>
-            <td>Prosentase Jasa</td>
+            <td>Pros. Jasa</td>
             <td align="right">:</td>
             <td>{{ $pinkel->pros_jasa }}% / {{ $pinkel->jangka }} bulan</td>
         </tr>
         <tr>
-            <td>Nomor SPK</td>
+            <td>Piutang Ke-</td>
             <td align="right">:</td>
-            <td>{{ $pinkel->spk_no }}</td>
-            <td>Pinjaman Ke-</td>
-            <td align="right">:</td>
-            <td>0</td>
+            <td>{{ str_pad($pinjaman_ke + 1, 2, '0', STR_PAD_LEFT) }}</td>
+            <td colspan="3"></td>
         </tr>
     </table>
-    <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 12px; table-layout: fixed;">
         <tr style="background: rgb(232, 232, 232)">
-            <th height="20" width="10">No</th>
-            <th width="60">Nik</th>
-            <th width="60">Nama Anggota</th>
-            <th width="10">JK</th>
-            <th>Alamat</th>
-            <th width="60">Penjamin</th>
-            <th width="50">Pengajuan</th>
-            <th width="50">Ttd</th>
+            <th class="t l b" height="20" width="5%">No</th>
+            <th class="t l b" width="20%">Nik</th>
+            <th class="t l b" width="15%">Nama Anggota</th>
+            @if ($version == 'v1')
+                <th class="t l b" width="5%">JK</th>
+            @endif
+            <th class="t l b" width="5%">Usia</th>
+            @if ($version == 'v1')
+                <th class="t l b" width="15%">Penjamin</th>
+            @else
+                <th class="t l b" width="20%">Jenis Usaha</th>
+            @endif
+            <th class="t l b" width="15%">Pengajuan</th>
+            <th class="t l b r" width="10%">Ttd</th>
         </tr>
 
         @php
             $proposal = 0;
         @endphp
         @foreach ($pinkel->pinjaman_anggota as $pa)
+            @php
+                $tgl_lahir = new DateTime($pa->anggota->tgl_lahir);
+                $today = new DateTime();
+
+                $jarak = $today->diff($tgl_lahir);
+                $usia = $jarak->y;
+            @endphp
             <tr>
-                <td height="15" align="center">{{ $loop->iteration }}</td>
-                <td>{{ $pa->anggota->nik }}</td>
-                <td>{{ $pa->anggota->namadepan }}</td>
-                <td align="center">{{ $pa->anggota->jk }}</td>
-                <td>{{ $pa->anggota->alamat }}</td>
-                <td>{{ $pa->anggota->penjamin }}</td>
-                <td align="right">{{ number_format($pa->proposal) }}</td>
-                <td>&nbsp;</td>
+                <td class="t l b" height="15" align="center">{{ $loop->iteration }}</td>
+                <td class="t l b">{{ $pa->anggota->nik }}</td>
+                <td class="t l b">{{ $pa->anggota->namadepan }}</td>
+                @if ($version == 'v1')
+                    <td class="t l b" align="center">{{ $pa->anggota->jk }}</td>
+                @endif
+                <td class="t l b">{{ $usia }}</td>
+                @if ($version == 'v1')
+                    <td class="t l b">{{ $pa->anggota->penjamin }}</td>
+                @else
+                    <td class="t l b">{{ $pa->anggota->usaha }}</td>
+                @endif
+                <td class="t l b" align="right">{{ number_format($pa->proposal) }}</td>
+                <td class="t l b r">&nbsp;</td>
             </tr>
             @php
                 $proposal += $pa->proposal;
@@ -86,46 +114,43 @@
         @endforeach
 
         <tr style="font-weight: bold;">
-            <td height="15" colspan="6" align="center">JUMLAH</td>
-            <td align="right">{{ number_format($proposal) }}</td>
-            <td>&nbsp;</td>
+            @if ($version == 'v1')
+                <td class="t l b" height="15" align="center" colspan="6">JUMLAH</td>
+            @else
+                <td class="t l b" height="15" align="center" colspan="5">JUMLAH</td>
+            @endif
+            <td class="t l b" align="right">{{ number_format($proposal) }}</td>
+            <td class="t l b r">&nbsp;</td>
         </tr>
-    </table>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+
         <tr>
-            <td colspan="4">&nbsp;</td>
-        </tr>
-        <tr>
-            <td width="60%">&nbsp;</td>
-            <td width="60">Diterima Di</td>
-            <td width="2">:</td>
-            <td>{{ substr($pinkel->wt_cair, 6) }}</td>
-        </tr>
-        <tr>
-            <td width="60%">&nbsp;</td>
-            <td width="60">Pada Tanggal</td>
-            <td width="2">:</td>
-            <td>{{ Tanggal::tglLatin($pinkel->tgl_proposal) }}</td>
-        </tr>
-    </table>
-    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
-        <tr>
-            <td colspan="2" height="20">&nbsp;</td>
-        </tr>
-        <tr>
-            <td align="center" width="50%">Mengetahui,</td>
-            <td align="center" width="50%">&nbsp;</td>
-        </tr>
-        <tr>
-            <td align="center">{{ $kec->sebutan_level_1 }} {{ $kec->nama_lembaga_sort }}</td>
-            <td align="center">Ketua Kelompok</td>
-        </tr>
-        <tr>
-            <td align="center" colspan="2" height="30">&nbsp;</td>
-        </tr>
-        <tr style="font-weight: bold;">
-            <td align="center">{{ $dir->namadepan }} {{ $dir->namabelakang }}</td>
-            <td align="center">{{ $pinkel->kelompok->ketua }}</td>
+            <td colspan="{{ $version == 'v1' ? 8 : 7 }}" style="padding: 0px !important;">
+                @if ($tanda_tangan)
+                    <div>
+                        {!! $tanda_tangan !!}
+                    </div>
+                @else
+                    <table class="p0" border="0" width="100%" cellspacing="0" cellpadding="0"
+                        style="font-size: 12px;">
+                        <tr>
+                            <td colspan="3" height="10">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="center" width="33%">Ketua</td>
+                            <td align="center" width="33%">Sekretaris</td>
+                            <td align="center" width="33%">Bendahara</td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="3" height="30">&nbsp;</td>
+                        </tr>
+                        <tr style="font-weight: bold;">
+                            <td align="center">{{ $ketua }}</td>
+                            <td align="center">{{ $sekretaris }}</td>
+                            <td align="center">{{ $bendahara }}</td>
+                        </tr>
+                    </table>
+                @endif
+            </td>
         </tr>
     </table>
 @endsection

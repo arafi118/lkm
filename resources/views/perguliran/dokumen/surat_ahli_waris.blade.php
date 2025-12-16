@@ -19,9 +19,9 @@
             <tr>
                 <td colspan="3">&nbsp;</td>
             </tr>
-            <tr class="b">
+            <tr>
                 <td colspan="3" align="center">
-                    <div style="font-size: 16px;">
+                    <div style="font-size: 16px; text-decoration: underline;">
                         SURAT PERNYATAAN AHLI WARIS
                     </div>
                 </td>
@@ -68,8 +68,8 @@
                 <td colspan="3" align="justify">
                     <p>
                         Adalah benar-benar ahli waris dari <b>{{ $pinj->anggota->namadepan }}</b> Dengan ini menyatakan
-                        bersedia menanggung beban pinjaman {{ $pinkel->jpp->nama_jpp }} sampai lunas. Apabila terjadi
-                        hal-hal yang tidak diinginkan yang menyebabkan peminjaman tidak bisa melunasi kewajibannya seperti :
+                        bersedia menanggung beban piutang {{ $pinkel->jpp->nama_jpp }} sampai lunas. Apabila terjadi
+                        hal-hal yang tidak diinginkan yang menyebabkan peminjam tidak bisa melunasi kewajibannya seperti :
                         Meninggal Dunia, Melarikan Diri, Berpindah domisili di luar desa, gangguan kejiwaan, sakit parah,
                         dll.
                     </p>
@@ -80,22 +80,38 @@
             </tr>
         </table>
 
-        <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
-            <tr>
-                <td align="center" width="50%">&nbsp;</td>
-                <td align="center" width="50%">{{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}</td>
-            </tr>
-            <tr>
-                <td align="center">Ketua Kelompok</td>
-                <td align="center">Nama Penjamin</td>
-            </tr>
-            <tr>
-                <td align="center" colspan="2" height="30">&nbsp;</td>
-            </tr>
-            <tr style="font-weight: bold;">
-                <td align="center">{{ $pinkel->kelompok->ketua }}</td>
-                <td align="center">{{ $pinj->anggota->penjamin }}</td>
-            </tr>
-        </table>
+        @if ($tanda_tangan)
+            @php
+                $tanda_tangan_anggota = Pinjaman::keyword(json_encode($tanda_tangan), [
+                    'kec' => $kec,
+                    'jenis_laporan' => $jenis_laporan,
+                    'tgl_kondisi' => $tgl_kondisi,
+                    'pinkel' => $pinkel,
+                    'pinjaman_anggota' => $pinj,
+                ]);
+            @endphp
+            <div style="font-size: 14px;">
+                {!! $tanda_tangan_anggota !!}
+            </div>
+        @else
+            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                <tr>
+                    <td align="center" width="50%">&nbsp;</td>
+                    <td align="center" width="50%">{{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}</td>
+                </tr>
+                <tr>
+                    <td align="center">Peminjam</td>
+                    <td align="center">Nama Penjamin</td>
+                </tr>
+
+                <tr>
+                    <td align="center" colspan="2" height="30">&nbsp;</td>
+                </tr>
+                <tr style="font-weight: bold;">
+                    <td align="center">{{ $pinj->anggota->namadepan }}</td>
+                    <td align="center">{{ $pinj->anggota->penjamin }}</td>
+                </tr>
+            </table>
+        @endif
     @endforeach
 @endsection

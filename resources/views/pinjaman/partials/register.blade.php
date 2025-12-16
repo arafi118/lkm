@@ -1,152 +1,285 @@
-<div class="card">
-    <div class="card-header p-3 pt-2">
-        <div class="icon icon-lg icon-shape bg-gradient-dark shadow text-center border-radius-xl mt-n4 me-3 float-start">
-            <i class="material-icons opacity-10">note_add</i>
-        </div>
-        <h6 class="mb-0">
-            Register Proposal Kelompok {{ $kelompok->nama_kelompok }}
-        </h6>
-        <div class="text-xs">
-            {{ $kelompok->d->sebutan_desa->sebutan_desa }} {{ $kelompok->d->nama_desa }},
-            {{ $kelompok->d->kd_desa }}
+<style>
+    /* CSS untuk .app-wrapper-title */
+    .app-title {
+        background-color: #c0c4c5;
+        /* Warna latar belakang untuk app-page-title */
+        padding: 20px;
+        /* Padding untuk ruang di sekitar konten */
+        border-radius: 8px;
+        /* Membuat sudut melengkung */
+        margin-bottom: 10px;
+        /* Jarak bawah dari elemen lain */
+    }
+
+    /* CSS untuk .page-title-wrapper */
+    .app-wrapper {
+        display: flex;
+        /* Gunakan flexbox untuk mengatur tata letak */
+        align-items: center;
+        /* Menyelaraskan item di tengah secara vertikal */
+    }
+
+    /* CSS untuk .page-title-heading */
+    .app-heading {
+        display: flex;
+        /* Gunakan flexbox untuk mengatur tata letak */
+        align-items: center;
+        /* Menyelaraskan item di tengah secara vertikal */
+    }
+
+    /* CSS untuk .app-bg-icon */
+    .app-bg-icon {
+        display: flex;
+        /* Gunakan flexbox untuk mengatur tata letak ikon */
+        align-items: center;
+        /* Menyelaraskan ikon di tengah secara vertikal */
+        justify-content: center;
+        /* Menyelaraskan ikon di tengah secara horizontal */
+        width: 40px;
+        /* Lebar tetap untuk ikon */
+        height: 40px;
+        /* Tinggi tetap untuk ikon */
+        background-color: #c0c4c505;
+        /* Warna latar belakang untuk ikon */
+        border-radius: 10%;
+        /* Membuat ikon menjadi lingkaran */
+        margin-right: 15px;
+        /* Jarak kanan dari teks */
+    }
+
+
+    /* CSS untuk .page-title-subheading */
+    .app-text_fount {
+        font-size: 14px;
+        /* Ukuran font untuk subjudul */
+        color: #373636;
+        /* Warna teks untuk subjudul */
+        margin-top: 15px;
+        /* Jarak atas dari judul */
+    }
+
+    .custom-button {
+        width: 200px;
+        /* Atur panjang tombol sesuai kebutuhan */
+        float: right;
+        /* Tempatkan tombol di sebelah kanan */
+        margin: 20px;
+        /* Atur margin untuk tata letak */
+        padding: 10px;
+        /* Atur padding untuk ukuran tombol */
+        text-align: center;
+        /* Pusatkan teks di tombol */
+        background-color: #343a40;
+        /* Warna latar belakang */
+        color: white;
+        /* Warna teks */
+        border: none;
+        /* Hilangkan border */
+        border-radius: 5px;
+        /* Atur radius sudut */
+        cursor: pointer;
+        /* Ubah kursor saat dihover */
+    }
+
+    .custom-button:hover {
+        background-color: #495057;
+        /* Warna latar belakang saat dihover */
+    }
+</style>
+
+<div class="card-body">
+    <div class="app-title">
+        <div class="app-wrapper">
+            <div class="app-heading">
+                <div class="app-bg-icon fa-solid fa-file-circle-plus"> </div>
+                <div class="app-text_fount">
+                    <h5><b>Register Proposal {{ $kelompok->jenis_produk_pinjaman != '3' ? 'Kelompok' : 'Usaha' }}
+                            {{ $kelompok->nama_kelompok }}</b></h5>
+                    <div>
+                        {{ $kelompok->d->sebutan_desa->sebutan_desa }} {{ $kelompok->d->nama_desa }},
+                        <b>{{ $kelompok->d->kd_desa }}</b>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="card-body pt-0">
-        <form action="/perguliran" method="post" id="FormRegisterProposal">
-            @csrf
+    <form action="/perguliran" method="post" id="FormRegisterProposal">
+        @csrf
 
-            <input type="hidden" name="id_kel" id="id_kel" value="{{ $kelompok->id }}">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="input-group input-group-static my-3">
-                        <label for="tgl_proposal">Tgl Proposal</label>
-                        <input autocomplete="off" type="text" name="tgl_proposal" id="tgl_proposal"
-                            class="form-control date" value="{{ date('d/m/Y') }}">
-                        <small class="text-danger" id="msg_tgl_proposal"></small>
-                    </div>
+        <input type="hidden" name="id_kel" id="id_kel" value="{{ $kelompok->id }}">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="position-relative mb-3">
+                    <label for="tgl_proposal" class="form-label">Tgl Proposal</label>
+                    <input autocomplete="off" type="text" name="tgl_proposal" id="tgl_proposal"
+                        class="form-control date" value="{{ date('d/m/Y') }}">
+                    <small class="text-danger" id="msg_tgl_proposal"></small>
                 </div>
-                <div class="col-md-3">
-                    <div class="input-group input-group-static my-3">
-                        <label for="pengajuan">Pengajuan Rp.</label>
-                        <input autocomplete="off" type="text" name="pengajuan" id="pengajuan" class="form-control">
-                        <small class="text-danger" id="msg_pengajuan"></small>
-                    </div>
+            </div>
+            <div class="col-md-3">
+                <div class="position-relative mb-3">
+                    <label for="pengajuan" class="form-label">Pengajuan Rp.</label>
+                    <input autocomplete="off" type="text" name="pengajuan" id="pengajuan" class="form-control">
+                    <small class="text-danger" id="msg_pengajuan"></small>
                 </div>
-                <div class="col-md-3">
-                    <div class="input-group input-group-static my-3">
-                        <label for="jangka">Jangka</label>
-                        <input autocomplete="off" type="number" name="jangka" id="jangka" class="form-control"
-                            value="{{ $kec->def_jangka }}">
-                        <small class="text-danger" id="msg_jangka"></small>
-                    </div>
+            </div>
+            <div class="col-md-3">
+                <div class="position-relative mb-3">
+                    <label for="jangka" class="form-label">Jangka</label>
+                    <input autocomplete="off" type="number" name="jangka" id="jangka" class="form-control"
+                        value="{{ $kec->def_jangka }}">
+                    <small class="text-danger" id="msg_jangka"></small>
                 </div>
-                <div class="col-md-3">
-                    <div class="input-group input-group-static my-3">
-                        <label for="pros_jasa">Prosentase Jasa (%)</label>
-                        <input autocomplete="off" type="number" name="pros_jasa" id="pros_jasa" class="form-control"
-                            value="{{ $kec->def_jasa }}">
-                        <small class="text-danger" id="msg_pros_jasa"></small>
-                    </div>
+            </div>
+            <div class="col-md-3">
+                <div class="position-relative mb-3">
+                    <label for="pros_jasa" class="form-label">Prosentase Jasa (%)</label>
+                    <input autocomplete="off" type="number" name="pros_jasa" id="pros_jasa" class="form-control"
+                        value="{{ $kec->def_jasa }}">
+                    <small class="text-danger" id="msg_pros_jasa"></small>
+                </div>
+            </div>
+        </div>
+
+        @php
+            $class1 = 'col-md-6';
+            $class2 = 'col-md-6';
+            $class3 = 'col-md-6';
+            if ($kelompok->jenis_produk_pinjaman == '3') {
+                $class1 = 'col-md-2';
+                $class2 = 'col-md-5';
+                $class3 = 'col-md-5';
+            }
+        @endphp
+
+        <div class="row">
+            <div class="{{ $class1 }}">
+                <div class="position-relative mb-3">
+                    <label class="form-label" for="jenis_jasa">Jenis Jasa</label>
+                    <select class="js-example-basic-single form-control" name="jenis_jasa" id="jenis_jasa"
+                        style="width: 100%;">
+                        @foreach ($jenis_jasa as $jj)
+                            <option value="{{ $jj->id }}">
+                                {{ $jj->nama_jj }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <small class="text-danger" id="msg_jenis_jasa"></small>
+                </div>
+            </div>
+            <div class="{{ $class1 }} {{ $kelompok->jenis_produk_pinjaman == '3' ? 'd-none' : '' }}">
+                <div class="position-relative mb-3">
+                    <label class="form-label" for="jenis_produk_pinjaman">Jenis Produk Pinjaman</label>
+                    <select class="js-example-basic-single form-control" name="jenis_produk_pinjaman"
+                        id="jenis_produk_pinjaman" style="width: 100%;">
+                        @foreach ($jenis_pp as $jpp)
+                            <option {{ $jenis_pp_dipilih == $jpp->id ? 'selected' : '' }} value="{{ $jpp->id }}">
+                                {{ $jpp->nama_jpp }} ({{ $jpp->deskripsi_jpp }})
+                            </option>
+                        @endforeach
+                    </select>
+                    <small class="text-danger" id="msg_jenis_produk_pinjaman"></small>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="my-2">
-                        <label class="form-label" for="jenis_jasa">Jenis Jasa</label>
-                        <select class="form-control" name="jenis_jasa" id="jenis_jasa">
-                            @foreach ($jenis_jasa as $jj)
-                                <option value="{{ $jj->id }}">
-                                    {{ $jj->nama_jj }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <small class="text-danger" id="msg_jenis_jasa"></small>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="my-2">
-                        <label class="form-label" for="jenis_produk_pinjaman">Jenis Produk Pinjaman</label>
-                        <select class="form-control" name="jenis_produk_pinjaman" id="jenis_produk_pinjaman">
-                            @foreach ($jenis_pp as $jpp)
-                                <option {{ $jenis_pp_dipilih == $jpp->id ? 'selected' : '' }}
-                                    value="{{ $jpp->id }}">
-                                    {{ $jpp->nama_jpp }} ({{ $jpp->deskripsi_jpp }})
-                                </option>
-                            @endforeach
-                        </select>
-                        <small class="text-danger" id="msg_jenis_produk_pinjaman"></small>
-                    </div>
+            <div class="{{ $class2 }}">
+                <div class="position-relative mb-3">
+                    <label class="form-label" for="sistem_angsuran_pokok">Sistem Angs. Pokok</label>
+                    <select class="js-example-basic-single form-control" name="sistem_angsuran_pokok"
+                        id="sistem_angsuran_pokok" style="width: 100%;">
+                        @foreach ($sistem_angsuran as $sa)
+                            <option value="{{ $sa->id }}">
+                                {{ $sa->nama_sistem }} ({{ $sa->deskripsi_sistem }})
+                            </option>
+                        @endforeach
+                    </select>
+                    <small class="text-danger" id="msg_sistem_angsuran_pokok"></small>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="my-2">
-                        <label class="form-label" for="sistem_angsuran_pokok">Sistem Angs. Pokok</label>
-                        <select class="form-control" name="sistem_angsuran_pokok" id="sistem_angsuran_pokok">
-                            @foreach ($sistem_angsuran as $sa)
-                                <option value="{{ $sa->id }}">
-                                    {{ $sa->nama_sistem }} ({{ $sa->deskripsi_sistem }})
-                                </option>
-                            @endforeach
-                        </select>
-                        <small class="text-danger" id="msg_sistem_angsuran_pokok"></small>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="my-2">
-                        <label class="form-label" for="sistem_angsuran_jasa">Sistem Angs. Jasa</label>
-                        <select class="form-control" name="sistem_angsuran_jasa" id="sistem_angsuran_jasa">
-                            @foreach ($sistem_angsuran as $sa)
-                                <option value="{{ $sa->id }}">
-                                    {{ $sa->nama_sistem }} ({{ $sa->deskripsi_sistem }})
-                                </option>
-                            @endforeach
-                        </select>
-                        <small class="text-danger" id="msg_sistem_angsuran_jasa"></small>
-                    </div>
+            <div class="{{ $class3 }}">
+                <div class="position-relative mb-3">
+                    <label class="form-label" for="sistem_angsuran_jasa">Sistem Angs. Jasa</label>
+                    <select class="js-example-basic-single form-control" name="sistem_angsuran_jasa"
+                        id="sistem_angsuran_jasa" style="width: 100%;">
+                        @foreach ($sistem_angsuran as $sa)
+                            <option value="{{ $sa->id }}">
+                                {{ $sa->nama_sistem }} ({{ $sa->deskripsi_sistem }})
+                            </option>
+                        @endforeach
+                    </select>
+                    <small class="text-danger" id="msg_sistem_angsuran_jasa"></small>
                 </div>
             </div>
-        </form>
+        </div>
 
-        <button type="submit" id="SimpanProposal" class="btn btn-github btn-sm float-end">Simpan Proposal</button>
-    </div>
+        <div class="card mb-3">
+            <div class="card-body p-2">
+                <div class="text-center fw-bold">
+                    Struktur {{ $kelompok->jenis_produk_pinjaman != '3' ? 'Kelompok' : 'Lembaga Usaha' }}
+                </div>
+                <div class="row">
+                    @if ($kelompok->jenis_produk_pinjaman != '3')
+                        <div class="col-md-4">
+                            <div class="position-relative mb-3">
+                                <label for="ketua" class="form-label">Ketua</label>
+                                <input autocomplete="off" type="text" name="ketua" id="ketua" class="form-control"
+                                    value="{{ $kelompok->ketua }}">
+                                <small class="text-danger" id="msg_ketua"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative mb-3">
+                                <label for="sekretaris" class="form-label">Sekretaris</label>
+                                <input autocomplete="off" type="text" name="sekretaris" id="sekretaris"
+                                    class="form-control" value="{{ $kelompok->sekretaris }}">
+                                <small class="text-danger" id="msg_sekretaris"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative mb-3">
+                                <label for="bendahara" class="form-label">Bendahara</label>
+                                <input autocomplete="off" type="text" name="bendahara" id="bendahara"
+                                    class="form-control" value="{{ $kelompok->bendahara }}">
+                                <small class="text-danger" id="msg_bendahara"></small>
+                            </div>
+                        </div>
+                    @else
+                        <div class="col-md-6">
+                            <div class="position-relative mb-3">
+                                <label for="pimpinan" class="form-label">Pimpinan</label>
+                                <input autocomplete="off" type="text" name="pimpinan" id="pimpinan"
+                                    class="form-control" value="{{ $kelompok->ketua }}">
+                                <small class="text-danger" id="msg_pimpinan"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative mb-3">
+                                <label for="penanggung_jawab" class="form-label">Penanggung Jawab</label>
+                                <input autocomplete="off" type="text" name="penanggung_jawab" id="penanggung_jawab"
+                                    class="form-control" value="{{ $kelompok->sekretaris }}">
+                                <small class="text-danger" id="msg_penanggung_jawab"></small>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <button type="submit" id="SimpanProposal" class="btn btn-dark btn-sm custom-button">Simpan Proposal</button>
+    <br><br><br>
 </div>
 
 <script>
-    new Choices($('#jenis_jasa')[0], {
-        shouldSort: false,
-        fuseOptions: {
-            threshold: 0.1,
-            distance: 1000
-        }
-    })
-    new Choices($('#sistem_angsuran_pokok')[0], {
-        shouldSort: false,
-        fuseOptions: {
-            threshold: 0.1,
-            distance: 1000
-        }
-    })
-    new Choices($('#sistem_angsuran_jasa')[0], {
-        shouldSort: false,
-        fuseOptions: {
-            threshold: 0.1,
-            distance: 1000
-        }
-    })
-    new Choices($('#jenis_produk_pinjaman')[0], {
-        shouldSort: false,
-        fuseOptions: {
-            threshold: 0.1,
-            distance: 1000
-        }
-    })
+    $('.date').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2({
+            theme: 'bootstrap4',
+        });
+    });
 
     $("#pengajuan").maskMoney();
-
-    $(".date").flatpickr({
-        dateFormat: "d/m/Y"
-    })
 </script>
