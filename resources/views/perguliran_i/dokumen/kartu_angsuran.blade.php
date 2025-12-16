@@ -208,7 +208,7 @@
 
                     $z = $j - 1;
                     $baris = $baris_angsuran - 1;
-                    if ($index == 0 && $nia->sistem_angsuran == '1') { //angsuran diawal
+                    if ($index == 0) { //angsuran diawal
                         $z = $j;
                         $baris = $baris_angsuran;
                     }
