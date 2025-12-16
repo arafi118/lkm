@@ -140,13 +140,14 @@ class SimpananController extends Controller
         ])->first();
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $sistem_angsuran = SistemAngsuran::all();
-        $js = JenisSimpanan::where(function ($query) use ($kec) {
+        $js = JenisSimpanan::where(function ($query) {
             $query->where('lokasi', '0')
-                ->orWhere(function ($query) use ($kec) {
-                    $query->where('kecuali', 'NOT LIKE', "%-{$kec['id']}-%")
-                        ->where('lokasi', 'LIKE', "%-{$kec['id']}-%");
-                });
-        })->get();
+                ->where('kecuali', 'NOT LIKE', '%#'.session('lokasi').'#%');
+        })
+            ->orWhere(function ($query) {
+                $query->where('lokasi', session('lokasi'))
+                    ->where('kecuali', 'NOT LIKE', '%#'.session('lokasi').'#%');
+            })->get();
 
         $js_dipilih = $anggota->jenis_produk_pinjaman;
 
