@@ -201,7 +201,7 @@ class GenerateController extends Controller
 
             $index = 1;
             $jumlah_angsuran = $jangka;
-            if ($kec->jdwl_angsuran == '1' && $sa_pokok == '1') {
+            if ($kec->jdwl_angsuran == '1') {
                 $index = 0;
                 $jumlah_angsuran = $jangka - 1;
                 $tgl_cair = date('Y-m-d', strtotime(' 0 month', strtotime($tgl_cair)));
