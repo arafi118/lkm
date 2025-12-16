@@ -2916,7 +2916,6 @@ class PelaporanController extends Controller
             ->orWhere(function ($query) {
                 $query->where('lokasi', session('lokasi'))
                     ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
-            })
         })->with([
             'pinjaman_anggota' => function ($query) use ($data) {
                 $tb_pinj_i = 'pinjaman_anggota_' . $data['kec']->id;
