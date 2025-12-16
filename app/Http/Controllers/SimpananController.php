@@ -149,8 +149,9 @@ class SimpananController extends Controller
                     ->where('kecuali', 'NOT LIKE', '%#'.session('lokasi').'#%');
             })
             ->get();
-        $js_dipilih = 2;
-
+            
+        $js_dipilih = $js->first()->id;
+        
         return view('simpanan.partials.register')->with(compact('anggota', 'kec', 'sistem_angsuran', 'js', 'js_dipilih'));
     }
 
@@ -158,7 +159,7 @@ class SimpananController extends Controller
     {
         $nia = $request->input('nia');
         $js = JenisSimpanan::where('id',$id)->first();
-        $file = js->file;
+        $file = $js->file ?? 1;
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $urutan = Simpanan::where('nia', $nia)->count();
         $anggota = Anggota::where('id', $nia)->first();
