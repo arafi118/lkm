@@ -177,6 +177,8 @@
                 $index = 0;
                 $baris_angsuran = ceil($nia->rencana_count / 2);
             }
+
+            $isBulanan = ($kec->jdwl_angsuran == '1' && $nia->sistem_angsuran == '1')
         @endphp
 
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
@@ -219,7 +221,7 @@
                 @endphp
                 <tr>
                     <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
-                        {{ $z + 1 }}
+                        {{ ($isBulanan) $z + 1 : $z }}
                     </td>
                     <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
                         {{ Tanggal::tglIndo($nia->rencana[$z]->jatuh_tempo) }}
