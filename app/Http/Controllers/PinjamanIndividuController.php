@@ -743,7 +743,6 @@ class PinjamanIndividuController extends Controller
                 'jenis_jasa_proposal' => 'required',
                 'sistem_angsuran_pokok_proposal' => 'required',
                 'nama_barang' => 'required',
-                'id_agent' => 'required',
                 'sistem_angsuran_jasa_proposal' => 'required',
             ]);
 
