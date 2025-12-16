@@ -83,7 +83,7 @@
             });  
             $(document).ready(function() {
              // Atur nilai awal jenis_simpanan ke 1
-            $('#jenis_simpanan').val('1');
+            $('#jenis_simpanan').val('{{ $js_dipilih }}');
     
             // Panggil fungsi jenis_simpanan() saat halaman dimuat
             jenis_simpanan();

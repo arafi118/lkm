@@ -140,15 +140,16 @@ class SimpananController extends Controller
         ])->first();
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $sistem_angsuran = SistemAngsuran::all();
-        $js = JenisSimpanan::where(function ($query) use ($kec) {
+        $js = JenisSimpanan::where(function ($query) {
             $query->where('lokasi', '0')
-                ->orWhere(function ($query) use ($kec) {
-                    $query->where('kecuali', 'NOT LIKE', "%#{$kec['id']}#%")
-                        ->where('lokasi', 'LIKE', "%#{$kec['id']}#%");
-                });
-        })->get();
-
-        $js_dipilih = $anggota->jenis_produk_pinjaman;
+                ->where('kecuali', 'NOT LIKE', '%#'.session('lokasi').'#%');
+        })
+            ->orWhere(function ($query) {
+                $query->where('lokasi', session('lokasi'))
+                    ->where('kecuali', 'NOT LIKE', '%#'.session('lokasi').'#%');
+            })
+            ->get();
+        $js_dipilih = 2;
 
         return view('simpanan.partials.register')->with(compact('anggota', 'kec', 'sistem_angsuran', 'js', 'js_dipilih'));
     }
@@ -156,6 +157,8 @@ class SimpananController extends Controller
     public function jenis_simpanan($id, Request $request)
     {
         $nia = $request->input('nia');
+        $js = JenisSimpanan::where('id',$id)->first();
+        $file = js->file;
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $urutan = Simpanan::where('nia', $nia)->count();
         $anggota = Anggota::where('id', $nia)->first();
@@ -186,7 +189,7 @@ class SimpananController extends Controller
         ];
         return response()->json([
             'success' => true,
-            'view' => view('simpanan.partials.simpanan', compact('id', 'kec', 'anggota', 'nomor_rekening', 'fromkuasa', 'hubungan', 'hubungan_dipilih'))->render()
+            'view' => view('simpanan.partials.simpanan', compact('id','file', 'kec', 'anggota', 'nomor_rekening', 'fromkuasa', 'hubungan', 'hubungan_dipilih'))->render()
         ]);
     }
 
