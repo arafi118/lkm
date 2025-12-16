@@ -2148,7 +2148,8 @@ class PelaporanController extends Controller
             'simpanan.realSimpananTerbesar' => function ($query) use ($data) {
                 $query->where('tgl_transaksi', '<=', $data['tgl_kondisi'])->orderBy('id', 'desc');
             },
-        ])->get();
+        ])
+        ->orderBy('rek_simp', 'ASC')->get();
 
         $data['lunas'] = Simpanan::where([
             ['tgl_tutup', '<', $thn . '-01-01'],
