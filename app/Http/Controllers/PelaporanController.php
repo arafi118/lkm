@@ -2801,13 +2801,15 @@ class PelaporanController extends Controller
         $data['tgl_lalu'] = $data['tahun'] . '-' . $data['bulan'] . '-01';
 
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
-        $data['jenis_pp'] = JenisProdukPinjaman::where(function ($query) use ($kec) {
+        $data['jenis_pp'] = JenisProdukPinjaman::where(function ($query) {
             $query->where('lokasi', '0')
-                ->orWhere(function ($query) use ($kec) {
-                    $query->where('kecuali', 'NOT LIKE', "%-{$kec['id']}-%")
-                        ->where('lokasi', 'LIKE', "%-{$kec['id']}-%");
-                });
-        })->with([
+                ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+        })
+            ->orWhere(function ($query) {
+                $query->where('lokasi', session('lokasi'))
+                    ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+            })
+                ->with([
             'pinjaman_individu' => function ($query) use ($data) {
                 $tb_pinj_i = 'pinjaman_anggota_' . $data['kec']->id;
                 $tb_angg = 'anggota_' . $data['kec']->id;
