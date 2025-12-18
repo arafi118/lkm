@@ -62,6 +62,28 @@ class AnggotaController extends Controller
         $title = 'Daftar Penduduk';
         return view('penduduk.index')->with(compact('title', 'status_pinjaman'));
     }
+    
+    public function kartu($id)
+    {
+        // Ambil data anggota + relasi desa
+        $anggota = Anggota::with('d')->findOrFail($id);
+
+        // Ambil kecamatan (sesuaikan kalau sumber kec berbeda)
+        $kec = Kecamatan::find($anggota->lokasi);
+
+        // Logo background (watermark)
+        $logo = null;
+        if ($kec && $kec->logo) {
+            $logo = '/storage/logo/' . $kec->logo;
+        }
+        $title = 'Kartu Anggota';
+
+        return view('penduduk.kartu', compact(
+            'anggota',
+            'logo',
+            'title'
+        ));
+    }
 
     public function register()
     {

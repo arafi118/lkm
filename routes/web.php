@@ -221,6 +221,8 @@ Route::post('/perguliran/rescedule', [PinjamanKelompokController::class, 'resced
 Route::post('/perguliran/hapus', [PinjamanKelompokController::class, 'hapus'])->middleware('auth', 'is_aktif');
 Route::resource('/perguliran', PinjamanKelompokController::class)->middleware('auth', 'is_aktif');
 
+Route::get('/anggota/{id}/kartu', [AnggotaController::class, 'kartu'])->name('anggota.kartu')->middleware('auth', 'is_aktif');
+
 Route::get('/perguliran/dokumen/kartu_angsuran/{id}', [PinjamanKelompokController::class, 'kartuAngsuran'])->middleware('auth', 'is_aktif');
 Route::get('/perguliran/dokumen/kartu_angsuran_i/{id}', [PinjamanAnggotaController::class, 'kartuAngsuranIndividu'])->middleware('auth', 'is_aktif');
 
