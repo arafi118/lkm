@@ -22,7 +22,7 @@
         overflow: hidden;
     }
 
-    .bg-primary-soft {
+    . {
         background-color: #e7f1ff;
     }
 
@@ -77,8 +77,9 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 90%;
         height: 90%;
+        width: auto;
+        aspect-ratio: 1 / 1;
         background-image: url('{{ $logo ?? '' }}');
         background-repeat: no-repeat;
         background-position: center center;
@@ -99,8 +100,7 @@
             KARTU ANGGOTA
         </div>
 
-        <div class="kartu-body bg-primary-soft" style="padding:4px; border-radius:4px;">
-            <div class="kartu-foto">
+        <div class="kartu-body" style="padding:4px; border-radius:4px;">iv class="kartu-foto">
                 @if($anggota->foto)
                     <img src="{{ asset('storage/'.$anggota->foto) }}" alt="Foto Anggota">
                 @else
@@ -161,10 +161,25 @@
 
 <style>
 @media print {
+    body * {
+        visibility: hidden;
+    }
+    .kartu, .kartu * {
+        visibility: visible;
+    }
+    .kartu {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
     .kartu::before {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
+    button {
+        display: none;
+    }
+}
     body * {
         visibility: hidden;
     }
