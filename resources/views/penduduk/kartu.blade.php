@@ -77,12 +77,12 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 260px;
-        height: 260px;
+        width: 90%;
+        height: 90%;
         background-image: url('{{ $logo ?? '' }}');
         background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
+        background-position: center center;
+        background-size: auto 100%;
         opacity: 0.08;
         transform: translate(-50%, -50%);
         z-index: 0;
@@ -124,7 +124,7 @@
                     </tr>
                     <tr>
                         <td><strong>TTL</strong></td>
-                        <td>: {{ $anggota->tempat_lahir }}, {{$anggota->tgl_lahir }}</td>
+                        <td>: {{ $anggota->tempat_lahir }}, {{ $anggota->terdaftar }}</td>
                     </tr>
                     <tr>
                         <td><strong>Alamat</strong></td>
@@ -147,7 +147,7 @@
         </div>
 
         <div class="kartu-footer">
-            Terdaftar: {{$anggota->terdaftar }}<br>
+            Terdaftar: {{ $anggota->terdaftar }}<br>
             Petugas: {{ $anggota->petugas }}
         </div>
     </div>
@@ -161,6 +161,10 @@
 
 <style>
 @media print {
+    .kartu::before {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
     body * {
         visibility: hidden;
     }
