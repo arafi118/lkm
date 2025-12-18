@@ -100,7 +100,8 @@
             KARTU ANGGOTA
         </div>
 
-        <div class="kartu-body" style="padding:4px; border-radius:4px;">iv class="kartu-foto">
+        <div class="kartu-body" style="padding:4px; border-radius:4px;">
+            <div class="kartu-foto">
                 @if($anggota->foto)
                     <img src="{{ asset('storage/'.$anggota->foto) }}" alt="Foto Anggota">
                 @else
