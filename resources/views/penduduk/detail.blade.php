@@ -289,6 +289,11 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <a href="{{ url('anggota/'.$penduduk->id.'/kartu') }}" target="_blank" class="btn btn-warning btn-sm float-start mb-0">
+                                        <i class="fa fa-id-card"></i> Kartu Anggota
+                                    </a>
+
                                     <button type="submit"
                                         class="btn btn-github btn-sm float-end btn btn-sm btn-dark mb-0"
                                         id="SimpanPenduduk">

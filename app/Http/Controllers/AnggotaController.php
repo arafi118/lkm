@@ -10,6 +10,7 @@ use App\Models\PinjamanAnggota;
 use App\Models\PinjamanIndividu;
 use App\Models\StatusPinjaman;
 use App\Models\Usaha;
+use App\Models\User;
 use App\Utils\Tanggal;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -72,15 +73,18 @@ class AnggotaController extends Controller
         $kec = Kecamatan::find($anggota->lokasi);
 
         // Logo background (watermark)
-        $logo = null;
+        $logo = '/storage/logo/1.png';
         if ($kec && $kec->logo) {
             $logo = '/storage/logo/' . $kec->logo;
         }
         $title = 'Kartu Anggota';
+        
+        $user = User::where('id', $id)->first();
 
         return view('penduduk.kartu', compact(
             'anggota',
             'logo',
+            'user',
             'title'
         ));
     }
