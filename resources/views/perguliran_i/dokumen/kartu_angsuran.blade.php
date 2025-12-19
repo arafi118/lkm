@@ -180,6 +180,8 @@
             }
 
             $isBulanan = $kec->jdwl_angsuran == '1' && $nia->sistem_angsuran == '1';
+            $a=0;
+            $no = 0;
         @endphp
 
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
@@ -205,21 +207,29 @@
                 <th rowspan="{{ $baris_angsuran + 1 }}">&nbsp;</th>
             </tr>
 
-            @for ($j = $index; $j < $baris_angsuran; $j++)
+            @for ($j = $index; $j <= $baris_angsuran; $j++)
                 @php
-                    $i = $j + 1;
-
+                    $i = $j + 1 + $a;
                     $z = $j - 1;
+                    $no++;
+                    $pokok1 = $nia->rencana[$z]->wajib_pokok ?? 0;
+                    $jasa1  = $nia->rencana[$z]->wajib_jasa ?? 0;
+                    if($pokok1 != 0 && $jasa1 != 0){
+                    }else{
+                        $j = $j + 1;
+                        $a = $a - 1;
+                        $z = $j - 1;
+                    }
+
                     $baris = $baris_angsuran - 1;
                     if ($index == 0 && $nia->sistem_angsuran == '1') {
-                        //angsuran diawal
                         $z = $j;
                         $baris = $baris_angsuran;
                     }
                 @endphp
                 <tr>
                     <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
-                        {{ $z + 1 }}
+                        {{ $no }}
                     </td>
                     <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
                         {{ Tanggal::tglIndo($nia->rencana[$z]->jatuh_tempo) }}
@@ -235,7 +245,7 @@
 
                     @if (isset($nia->rencana[$z + $baris]))
                         <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
-                            {{ $z + 1 + $baris }}
+                            {{ $no + $baris }}
                         </td>
                         <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
                             {{ Tanggal::tglIndo($nia->rencana[$z + $baris]->jatuh_tempo) }}
