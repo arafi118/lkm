@@ -172,16 +172,24 @@
 
         @php
             $index = 1;
-            $baris_angsuran = ceil($nia->rencana_count / 2) + 1;
             if ($kec->jdwl_angsuran == '1') {
                 // angsuran diawal
                 $index = 0;
-                $baris_angsuran = ceil($nia->rencana_count / 2);
             }
 
+            $baris_angsuran = ceil(
+                (
+                    $nia->rencana
+                        ->filter(function ($r) {
+                            return $r->wajib_pokok != 0 || $r->wajib_jasa != 0;
+                        })
+                        ->count()
+                ) / 2
+            );
+
+
             $isBulanan = $kec->jdwl_angsuran == '1' && $nia->sistem_angsuran == '1';
-            $a=0;
-            $no = 0;
+            $cek = 0;
         @endphp
 
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
@@ -192,87 +200,111 @@
             </tr>
 
             <tr style="font-weight: bold;">
-                <th rowspan="{{ $baris_angsuran + 1 }}">&nbsp;</th>
-                <th height="30" class="l t b" align="center">Ke</th>
-                <th class="l t b" align="center">Tanggal</th>
-                <th class="l t b" align="center">Pokok</th>
-                <th class="l t b r" align="center">Jasa</th>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>
+                    <table border="0" width="100%" cellspacing="0" cellpadding="0"
+                        style="font-size: 11px;">
+                        <tr>
+                            <th class="l t b" align="center">Ke</th>
+                            <th class="l t b" align="center">Tanggal</th>
+                            <th class="l t b" align="center">Pokok</th>
+                            <th class="l t b r" align="center">Jasa</th>
+                        </tr>
+@foreach(
+    $nia->rencana
+        ->filter(function ($r) {
+            return $r->wajib_pokok != 0 || $r->wajib_jasa != 0;
+        })
+        ->take($baris_angsuran)
+    as $rencana
+)
 
-                <th>&nbsp;</th>
-
-                <th class="l t b" align="center">Ke</th>
-                <th class="l t b" align="center">Tanggal</th>
-                <th class="l t b" align="center">Pokok</th>
-                <th class="l t b r" align="center">Jasa</th>
-                <th rowspan="{{ $baris_angsuran + 1 }}">&nbsp;</th>
-            </tr>
-
-            @for ($j = $index; $j <= $baris_angsuran; $j++)
-                @php
-                    $i = $j + 1 + $a;
-                    $z = $j - 1;
-                    $no++;
-                    $pokok1 = $nia->rencana[$z]->wajib_pokok ?? 0;
-                    $jasa1  = $nia->rencana[$z]->wajib_jasa ?? 0;
-                    if($pokok1 != 0 && $jasa1 != 0){
-                    }else{
-                        $j = $j + 1;
-                        $a = $a - 1;
-                        $z = $j - 1;
-                    }
-
-                    $baris = $baris_angsuran - 1;
-                    if ($index == 0 && $nia->sistem_angsuran == '1') {
-                        $z = $j;
-                        $baris = $baris_angsuran;
-                    }
-                @endphp
+                            @php
+                            $cek++;
+                            @endphp
                 <tr>
-                    <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
-                        {{ $no }}
+                    <td class="l {{ $cek == $baris_angsuran ? 'b' : '' }}" align="center">
+                        {{$cek}}
                     </td>
-                    <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
-                        {{ Tanggal::tglIndo($nia->rencana[$z]->jatuh_tempo) }}
+                    <td class="l {{ $cek == $baris_angsuran ? 'b' : '' }}" align="center">
+                        {{ Tanggal::tglIndo($rencana->jatuh_tempo) }}
                     </td>
-                    <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="right">
-                        {{ number_format($nia->rencana[$z]->wajib_pokok) }}
+                    <td class="l {{ $cek == $baris_angsuran ? 'b' : '' }}" align="right">
+                        {{ number_format($rencana->wajib_pokok) }}
                     </td>
-                    <td class="l {{ $i == $baris_angsuran ? 'b' : '' }} r" align="right">
-                        {{ number_format($nia->rencana[$z]->wajib_jasa) }}
+                    <td class="l {{ $cek == $baris_angsuran ? 'b' : '' }} r" align="right">
+                        {{ number_format($rencana->wajib_jasa) }}
                     </td>
+                    </tr>
+                        @endforeach
 
-                    <td>&nbsp;</td>
+                        </table>
+                </td>
+                <td>&nbsp;</td>
 
-                    @if (isset($nia->rencana[$z + $baris]))
-                        <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
-                            {{ $no + $baris }}
-                        </td>
-                        <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
-                            {{ Tanggal::tglIndo($nia->rencana[$z + $baris]->jatuh_tempo) }}
-                        </td>
-                        <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="right">
-                            {{ number_format($nia->rencana[$z + $baris]->wajib_pokok) }}
-                        </td>
-                        <td class="l {{ $i == $baris_angsuran ? 'b' : '' }} r" align="right">
-                            {{ number_format($nia->rencana[$z + $baris]->wajib_jasa) }}
-                        </td>
-                    @else
-                        <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
 
-                        </td>
-                        <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="center">
+                <td>
+                    <table border="0" width="100%" cellspacing="0" cellpadding="0"
+                        style="font-size: 11px;">
+                        <tr>
+                            <th class="l t b" align="center">Ke</th>
+                            <th class="l t b" align="center">Tanggal</th>
+                            <th class="l t b" align="center">Pokok</th>
+                            <th class="l t b r" align="center">Jasa</th>
+                        </tr>
+@foreach(
+    $nia->rencana
+        ->filter(function ($r) {
+            return $r->wajib_pokok != 0 || $r->wajib_jasa != 0;
+        })
+        ->skip($baris_angsuran)
+    as $rencana
+)
 
-                        </td>
-                        <td class="l {{ $i == $baris_angsuran ? 'b' : '' }}" align="right">
+                            @php
+                            $cek++;
+                            @endphp
+                <tr>
+                    <td class="l {{ $cek-$baris_angsuran == $baris_angsuran ? 'b' : '' }}" align="center">
+                        {{$cek}}
+                    </td>
+                    <td class="l {{ $cek-$baris_angsuran == $baris_angsuran ? 'b' : '' }}" align="center">
+                        {{ Tanggal::tglIndo($rencana->jatuh_tempo) }}
+                    </td>
+                    <td class="l {{ $cek-$baris_angsuran == $baris_angsuran ? 'b' : '' }}" align="right">
+                        {{ number_format($rencana->wajib_pokok) }}
+                    </td>
+                    <td class="l {{ $cek-$baris_angsuran == $baris_angsuran ? 'b' : '' }} r" align="right">
+                        {{ number_format($rencana->wajib_jasa) }}
+                    </td>
+                    </tr>
+                        @endforeach
 
-                        </td>
-                        <td class="l {{ $i == $baris_angsuran ? 'b' : '' }} r" align="right">
+                        @if($cek-$baris_angsuran != $baris_angsuran)
+                <tr>
+                    <td class="l b" align="center">
+                        &nbsp;
+                    </td>
+                    <td class="l b" align="center">
+                        &nbsp;
+                    </td>
+                    <td class="l b" align="right">
+                        &nbsp;
+                    </td>
+                    <td class="l b r" align="right">
+                        &nbsp;
+                    </td>
+                    </tr>
 
-                        </td>
-                    @endif
-                </tr>
-            @endfor
+                        @endif
 
+                        </table>
+                 </td>
+
+                <td>&nbsp;</td>
+            </tr>
+            
         </table>
 
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
