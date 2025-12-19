@@ -201,7 +201,7 @@ class GenerateController extends Controller
 
             $index = 1;
             $jumlah_angsuran = $jangka;
-            if ($kec->jdwl_angsuran == '1' && $sa_pokok == '1') {
+            if ($kec->jdwl_angsuran == '1') {
                 $index = 0;
                 $jumlah_angsuran = $jangka - 1;
                 $tgl_cair = date('Y-m-d', strtotime(' 0 month', strtotime($tgl_cair)));
@@ -377,13 +377,17 @@ class GenerateController extends Controller
                 $tahun  = substr($tgl_cair, 0, 4);
                 if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
-                    $jatuh = Carbon::parse($tgl_cair)->addDays($tambah);
-                    $jatuh_tempo = $jatuh->toDateString();
+    $jatuh = Carbon::parse($tgl_cair)->addDays($tambah);
+    $jatuh_tempo = $jatuh->toDateString();
                 } else {
-                    $jatuh = Carbon::parse($tgl_cair)->addMonthsNoOverflow($x);
-                    $jatuh_tempo = $jatuh->toDateString();
+    $jatuh = Carbon::parse($tgl_cair)->addMonthsNoOverflow($x);
+    $jatuh_tempo = $jatuh->toDateString();
                 }
-                
+                // $jatuh_tempo = date('Y-m-t', strtotime($bulan_jatuh_tempo));
+                // if (date('d', strtotime($tgl_cair)) < date('d', strtotime($jatuh_tempo))) {
+                //     $jatuh_tempo = date('Y-m', strtotime($bulan_jatuh_tempo)) . '-' . date('d', strtotime($tgl_cair));
+                // }
+
                 $pokok = $ra[$x]['pokok'];
                 $jasa = $ra[$x]['jasa'];
 
