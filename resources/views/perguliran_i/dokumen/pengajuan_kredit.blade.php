@@ -65,7 +65,6 @@
         <td width="30">Nomor</td>
         <td width="5" align="right">:</td>
         <td width="500">
-            ______/ ______/{{ Tanggal::tglRomawi($pinkel->tgl_proposal) }}
         </td>
     </tr>
 
