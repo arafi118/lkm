@@ -259,8 +259,8 @@
 
                                 </div>
                             </td>
-                            <td align="right" style="vertical-align: bottom;">
-                                _____________________________________
+                            <td align="right" style="align:right; vertical-align: bottom;">
+                                ____________________
                             </td>
                         </tr>
                     @endforeach

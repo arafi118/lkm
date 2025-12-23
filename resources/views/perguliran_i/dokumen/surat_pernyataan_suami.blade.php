@@ -54,7 +54,7 @@
             <td width="5%">&nbsp;</td>
             <td>No KTP</td>
             <td align="center">:</td>
-            <td>{{ $pinkel->anggota->nik }}</td>
+            <td>{{ $pinkel->anggota->nik_penjamin }}</td>
             {{-- <td>
                 @if ($pinkel->anggota->keluarga)
                     {{ $pinkel->anggota->keluarga->kekeluargaan }}
@@ -68,7 +68,7 @@
         </tr>
         <tr>
             <td width="5%">&nbsp;</td>
-            <td width="28%">Nama Penjamin</td>
+            <td width="28%">Nama Peminjam</td>
             <td width="2%" align="center">:</td>
             <td width="70%">{{ $pinkel->anggota->namadepan }}</td>
         </tr>
@@ -85,7 +85,7 @@
             <td width="5%">&nbsp;</td>
             <td>No KTP.</td>
             <td align="center">:</td>
-            <td>{{ $pinkel->anggota->nik_penjamin }}</td>
+            <td>{{ $pinkel->anggota->nik }}</td>
         </tr>
         <tr>
             <td colspan="4" align="justify">

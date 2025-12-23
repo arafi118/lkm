@@ -55,7 +55,8 @@
     <tr>
         <td>&nbsp;</td>
         <td class="style9">NIK</td>
-        <td class="style27">: {{ $login->nik }}</td>
+        <td class="style27">: {{ strval($login->nik) }}</td>
+
     </tr>
     <tr>
         <td>&nbsp;</td>
