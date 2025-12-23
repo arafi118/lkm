@@ -138,7 +138,7 @@
 										@endphp
 
 										@if (file_exists($logoPath))
-											<img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="70" alt="{{ $kec->id }}">
+											<center><img src="../storage/app/public/qr/{{ session('lokasi') }}.jpeg" height="150" alt="{{ $kec->id }}"></center>
 										@else
 											<p>&nbsp;</p>
 											<p>&nbsp;</p>
