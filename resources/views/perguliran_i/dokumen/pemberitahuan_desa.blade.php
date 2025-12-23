@@ -132,7 +132,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" >
+                                    <td colspan="2" >
 										@php
 											$logoPath = storage_path('app/public/qr/' . session('lokasi') . '.jpeg');
 										@endphp
@@ -145,9 +145,10 @@
 											<p>&nbsp;</p>
 										@endif
 									</td>
-                                </tr>
-                                <tr>
                                     <td align="center">
+											<p>&nbsp;</p>
+											<p>&nbsp;</p>
+											<p>&nbsp;</p>
                                         <u>
                                             <b>{{ $dir->namadepan }} {{ $dir->namabelakang }}</b>
                                         </u>
