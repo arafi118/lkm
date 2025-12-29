@@ -40,18 +40,20 @@ class KelompokController extends Controller
                 ->addColumn('status', function ($row) {
                     $pinjaman = $row->pinjaman;
 
-                    $status = '<span class="badge badge-secondary">n</span>';
+                    $status = '<span class="badge bg-secondary">n</span>';
                     if ($row->pinjaman) {
                         $status_pinjaman = $pinjaman->status;
 
-                        $badge = ($pinjaman->sts) ? $pinjaman->sts->warna_status : '';
-                        $status = '<span class="badge bg-' . $badge . '">' . $status_pinjaman . '</span>';
+                        if ($pinjaman->sts) {
+                            $badge = $pinjaman->sts->warna_status;
+                            $status = '<span class="badge bg-' . $badge . '">' . $status_pinjaman . '</span>';
+                        }
                     }
 
                     return $status;
                 })
-                ->editColumn('alamat_kelompok', function ($row) {
-                    return $row->alamat_kelompok . ' ' . $row->d->sebutan_desa->sebutan_desa . ' ' . $row->d->nama_desa;
+                ->editColumn('alamat', function ($row) {
+                    return $row->alamat . ' ' . $row->d->sebutan_desa->sebutan_desa . ' ' . $row->d->nama_desa;
                 })
                 ->rawColumns(['status'])
                 ->make(true);
@@ -200,13 +202,14 @@ class KelompokController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Kelompok $kelompok)
+    public function show($kd_kelompok)
     {
-        $kelompok = $kelompok->with([
+        $kelompok = Kelompok::with([
             'pinkel',
             'pinkel.sts',
             'pinkel.saldo'
-        ])->where('id', $kelompok->id)->first();
+        ])->where('kd_kelompok', $kd_kelompok)->firstOrFail();
+    
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $desa = Desa::where('kd_kec', $kec['kd_kec'])->with('sebutan_desa')->get();
         $jenis_produk_pinjaman = JenisProdukPinjaman::where('lokasi', '0')->orderBy('id', 'ASC')->get();
@@ -214,13 +217,12 @@ class KelompokController extends Controller
         $jenis_kegiatan = JenisKegiatan::all();
         $tingkat_kelompok = TingkatKelompok::all();
         $fungsi_kelompok = FungsiKelompok::all();
-
         $desa_dipilih = $kelompok->desa;
-
+    
         $title = 'Kelompok ' . $kelompok->nama_kelompok;
-        return view('kelompok.detail')->with(compact('title', 'kelompok', 'desa', 'jenis_produk_pinjaman', 'jenis_usaha', 'jenis_kegiatan', 'tingkat_kelompok', 'fungsi_kelompok', 'desa_dipilih'));
+    
+        return view('kelompok.detail_kelompok')->with(compact('title', 'kelompok', 'desa', 'jenis_produk_pinjaman', 'jenis_usaha', 'jenis_kegiatan', 'tingkat_kelompok', 'fungsi_kelompok', 'desa_dipilih'));
     }
-
     /**
      * Show the form for editing the specified resource.
      */

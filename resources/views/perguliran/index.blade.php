@@ -1,7 +1,6 @@
 @extends('layouts.base')
 
 @section('content')
-
     <div class="app-main__inner">
         <div class="card-body">
             <ul class="nav nav-pills nav-fill">
@@ -41,18 +40,16 @@
                 }
             }
         </style>
-        
 
         <div class="tab-content">
-            <div class="tab-pane tabs-animation fade  {{ $status == 'p' ? 'show active' : '' }}" id="Proposal" role="tabpanel">
+            <div class="tab-pane tabs-animation fade {{ $status == 'p' ? 'show active' : '' }}" id="Proposal" role="tabpanel">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="main-card mb-3 card">
-
                             <div class="card-body">
                                 <h5 class="card-title"></h5>
                                 <div class="table-responsive">
-                                    <table class="table table-flush table-hover table-click " width="100%" id="TbProposal">
+                                    <table class="table table-flush table-hover table-click" width="100%" id="TbProposal">
                                         <thead>
                                             <tr>
                                                 <th>Kelompok</th>
@@ -69,16 +66,15 @@
                                     </table>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane tabs-animation fade{{ $status == 'v' ? 'show active' : '' }}" id="Verified" role="tabpanel" >
+            
+            <div class="tab-pane tabs-animation fade {{ $status == 'v' ? 'show active' : '' }}" id="Verified" role="tabpanel">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-3 card">
-
                             <div class="card-body">
                                 <h5 class="card-title"></h5>
                                 <div class="table-responsive">
@@ -99,13 +95,12 @@
                                     </table>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
-            <div class="tab-pane tabs-animation fade{{ $status == 'w' ? 'show active' : '' }}" id="Waiting" role="tabpanel" >
+            
+            <div class="tab-pane tabs-animation fade {{ $status == 'w' ? 'show active' : '' }}" id="Waiting" role="tabpanel">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="main-card mb-3 card">
@@ -133,7 +128,8 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane tabs-animation fade{{ $status == 'a' ? 'show active' : '' }}" id="Aktif" role="tabpanel" >
+            
+            <div class="tab-pane tabs-animation fade {{ $status == 'a' ? 'show active' : '' }}" id="Aktif" role="tabpanel">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="main-card mb-3 card">
@@ -161,7 +157,8 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane tabs-animation fade{{ $status == 'l' ? 'show active' : '' }}" id="Lunas" role="tabpanel" >
+            
+            <div class="tab-pane tabs-animation fade {{ $status == 'l' ? 'show active' : '' }}" id="Lunas" role="tabpanel">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="main-card mb-3 card">
@@ -193,182 +190,249 @@
     </div>
 @endsection
 
-
 @section('script')
     <script>
-        var tbProposal = CreateTable('#TbProposal', '/perguliran/proposal', [{
-            data: 'nama_kelompok',
-            name: 'nama_kelompok'
-        }, {
-            data: 'kelompok.alamat_kelompok',
-            name: 'kelompok.alamat_kelompok'
-        }, {
-            data: 'tgl_proposal',
-            name: 'tgl_proposal',
-            render: function(data, type, row) {
-                return moment(new Date(data).toString()).format('DD/MM/YYYY');
-            }
-        }, {
-            data: 'proposal',
-            name: 'proposal'
-        }, {
-            data: 'jasa',
-            name: 'jasa',
-            orderable: false,
-            searchable: false
-        }, {
-            data: 'pinjaman_anggota_count',
-            name: 'pinjaman_anggota_count'
-        }])
-
-        var tbVerified = CreateTable('#TbVerified', '/perguliran/verified', [{
-            data: 'nama_kelompok',
-            name: 'nama_kelompok'
-        }, {
-            data: 'kelompok.alamat_kelompok',
-            name: 'kelompok.alamat_kelompok'
-        }, {
-            data: 'tgl_verifikasi',
-            name: 'tgl_verifikasi',
-            render: function(data, type, row) {
-                return moment(new Date(data).toString()).format('DD/MM/YYYY');
-            }
-        }, {
-            data: 'verifikasi',
-            name: 'verifikasi'
-        }, {
-            data: 'jasa',
-            name: 'jasa',
-            orderable: false,
-            searchable: false
-        }, {
-            data: 'pinjaman_anggota_count',
-            name: 'pinjaman_anggota_count'
-        }])
-
-        var tbWaiting = CreateTable('#TbWaiting', '/perguliran/waiting', [{
-            data: 'nama_kelompok',
-            name: 'nama_kelompok'
-        }, {
-            data: 'kelompok.alamat_kelompok',
-            name: 'kelompok.alamat_kelompok'
-        }, {
-            data: 'tgl_tunggu',
-            name: 'tgl_tunggu',
-            render: function(data, type, row) {
-                return moment(new Date(data).toString()).format('DD/MM/YYYY');
-            }
-        }, {
-            data: 'alokasi',
-            name: 'alokasi'
-        }, {
-            data: 'jasa',
-            name: 'jasa',
-            orderable: false,
-            searchable: false
-        }, {
-            data: 'pinjaman_anggota_count',
-            name: 'pinjaman_anggota_count'
-        }])
-
-        var tbAktif = CreateTable('#TbAktif', '/perguliran/aktif', [{
-            data: 'nama_kelompok',
-            name: 'nama_kelompok'
-        }, {
-            data: 'kelompok.alamat_kelompok',
-            name: 'kelompok.alamat_kelompok'
-        }, {
-            data: 'tgl_cair',
-            name: 'tgl_cair',
-            render: function(data, type, row) {
-                return moment(new Date(data).toString()).format('DD/MM/YYYY');
-            }
-        }, {
-            data: 'alokasi',
-            name: 'alokasi'
-        }, {
-            data: 'jasa',
-            name: 'jasa',
-            orderable: false,
-            searchable: false
-        }, {
-            data: 'pinjaman_anggota_count',
-            name: 'pinjaman_anggota_count'
-        }])
-
-        var tbLunas = CreateTable('#TbLunas', '/perguliran/lunas', [{
-            data: 'nama_kelompok',
-            name: 'nama_kelompok'
-        }, {
-            data: 'kelompok.alamat_kelompok',
-            name: 'kelompok.alamat_kelompok'
-        }, {
-            data: 'tgl_cair',
-            name: 'tgl_cair',
-            render: function(data, type, row) {
-                return moment(new Date(data).toString()).format('DD/MM/YYYY');
-            }
-        }, {
-            data: 'alokasi',
-            name: 'alokasi'
-        }, {
-            data: 'jasa',
-            name: 'jasa',
-            orderable: false,
-            searchable: false
-        }, {
-            data: 'pinjaman_anggota_count',
-            name: 'pinjaman_anggota_count'
-        }])
-
-        function CreateTable(tabel, url, column) {
-            var table = $(tabel).DataTable({
-                language: {
-                    paginate: {
-                        previous: "&laquo;",
-                        next: "&raquo;"
-                    }
+        $(document).ready(function() {
+            // Initialize DataTables
+            var tbProposal = CreateTable('#TbProposal', '/perguliran/proposal', [{
+                data: 'nama_kelompok',
+                name: 'nama_kelompok',
+                render: function(data, type, row) {
+                    return data;
                 },
-                processing: true,
-                serverSide: true,
-                ajax: url,
-                columns: column,
-                order: [
-                    [2, 'desc']
-                ]
-            })
+                createdCell: function(td, cellData, rowData, row, col) {
+                    $(td).html(cellData);
+                }
+            }, {
+                data: 'kelompok.alamat_kelompok',
+                name: 'kelompok.alamat_kelompok'
+            },             {
+                data: 'tgl_proposal',
+                name: 'tgl_proposal',
+                render: function(data, type, row) {
+                    if (!data) return '';
+                    var date = new Date(data);
+                    var day = ('0' + date.getDate()).slice(-2);
+                    var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                    var year = date.getFullYear();
+                    return day + '/' + month + '/' + year;
+                }
+            }, {
+                data: 'proposal',
+                name: 'proposal',
+                render: function(data, type, row) {
+                    return new Intl.NumberFormat('id-ID').format(data);
+                }
+            }, {
+                data: 'jasa',
+                name: 'jasa',
+                orderable: false,
+                searchable: false
+            }, {
+                data: 'pinjaman_anggota_count',
+                name: 'pinjaman_anggota_count'
+            }]);
 
-            return table
-        }
+            var tbVerified = CreateTable('#TbVerified', '/perguliran/verified', [{
+                data: 'nama_kelompok',
+                name: 'nama_kelompok',
+                render: function(data, type, row) {
+                    return data;
+                },
+                createdCell: function(td, cellData, rowData, row, col) {
+                    $(td).html(cellData);
+                }
+            }, {
+                data: 'kelompok.alamat_kelompok',
+                name: 'kelompok.alamat_kelompok'
+            },             {
+                data: 'tgl_verifikasi',
+                name: 'tgl_verifikasi',
+                render: function(data, type, row) {
+                    if (!data) return '';
+                    var date = new Date(data);
+                    var day = ('0' + date.getDate()).slice(-2);
+                    var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                    var year = date.getFullYear();
+                    return day + '/' + month + '/' + year;
+                }
+            }, {
+                data: 'verifikasi',
+                name: 'verifikasi',
+                render: function(data, type, row) {
+                    return new Intl.NumberFormat('id-ID').format(data);
+                }
+            }, {
+                data: 'jasa',
+                name: 'jasa',
+                orderable: false,
+                searchable: false
+            }, {
+                data: 'pinjaman_anggota_count',
+                name: 'pinjaman_anggota_count'
+            }]);
 
-        $('#TbProposal').on('click', 'tbody tr', function(e) {
-            var data = tbProposal.row(this).data();
+            var tbWaiting = CreateTable('#TbWaiting', '/perguliran/waiting', [{
+                data: 'nama_kelompok',
+                name: 'nama_kelompok',
+                render: function(data, type, row) {
+                    return data;
+                },
+                createdCell: function(td, cellData, rowData, row, col) {
+                    $(td).html(cellData);
+                }
+            }, {
+                data: 'kelompok.alamat_kelompok',
+                name: 'kelompok.alamat_kelompok'
+            },             {
+                data: 'tgl_tunggu',
+                name: 'tgl_tunggu',
+                render: function(data, type, row) {
+                    if (!data) return '';
+                    var date = new Date(data);
+                    var day = ('0' + date.getDate()).slice(-2);
+                    var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                    var year = date.getFullYear();
+                    return day + '/' + month + '/' + year;
+                }
+            }, {
+                data: 'alokasi',
+                name: 'alokasi',
+                render: function(data, type, row) {
+                    return new Intl.NumberFormat('id-ID').format(data);
+                }
+            }, {
+                data: 'jasa',
+                name: 'jasa',
+                orderable: false,
+                searchable: false
+            }, {
+                data: 'pinjaman_anggota_count',
+                name: 'pinjaman_anggota_count'
+            }]);
 
-            window.location.href = '/detail/' + data.id
-        })
+            var tbAktif = CreateTable('#TbAktif', '/perguliran/aktif', [{
+                data: 'nama_kelompok',
+                name: 'nama_kelompok',
+                render: function(data, type, row) {
+                    return data;
+                },
+                createdCell: function(td, cellData, rowData, row, col) {
+                    $(td).html(cellData);
+                }
+            }, {
+                data: 'kelompok.alamat_kelompok',
+                name: 'kelompok.alamat_kelompok'
+            }, {
+                data: 'tgl_cair',
+                name: 'tgl_cair',
+                render: function(data, type, row) {
+                    if (!data) return '';
+                    var date = new Date(data);
+                    var day = ('0' + date.getDate()).slice(-2);
+                    var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                    var year = date.getFullYear();
+                    return day + '/' + month + '/' + year;
+                }
+            }, {
+                data: 'alokasi',
+                name: 'alokasi',
+                render: function(data, type, row) {
+                    return new Intl.NumberFormat('id-ID').format(data);
+                }
+            }, {
+                data: 'jasa',
+                name: 'jasa',
+                orderable: false,
+                searchable: false
+            }, {
+                data: 'pinjaman_anggota_count',
+                name: 'pinjaman_anggota_count'
+            }]);
 
-        $('#TbVerified').on('click', 'tbody tr', function(e) {
-            var data = tbVerified.row(this).data();
+            var tbLunas = CreateTable('#TbLunas', '/perguliran/lunas', [{
+                data: 'nama_kelompok',
+                name: 'nama_kelompok',
+                render: function(data, type, row) {
+                    return data;
+                },
+                createdCell: function(td, cellData, rowData, row, col) {
+                    $(td).html(cellData);
+                }
+            }, {
+                data: 'kelompok.alamat_kelompok',
+                name: 'kelompok.alamat_kelompok'
+            }, {
+                data: 'tgl_cair',
+                name: 'tgl_cair',
+                render: function(data, type, row) {
+                    if (!data) return '';
+                    var date = new Date(data);
+                    var day = ('0' + date.getDate()).slice(-2);
+                    var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                    var year = date.getFullYear();
+                    return day + '/' + month + '/' + year;
+                }
+            }, {
+                data: 'alokasi',
+                name: 'alokasi',
+                render: function(data, type, row) {
+                    return new Intl.NumberFormat('id-ID').format(data);
+                }
+            }, {
+                data: 'jasa',
+                name: 'jasa',
+                orderable: false,
+                searchable: false
+            }, {
+                data: 'pinjaman_anggota_count',
+                name: 'pinjaman_anggota_count'
+            }]);
 
-            window.location.href = '/detail/' + data.id
-        })
+            function CreateTable(tabel, url, column) {
+                var table = $(tabel).DataTable({
+                    language: {
+                        paginate: {
+                            previous: "&laquo;",
+                            next: "&raquo;"
+                        }
+                    },
+                    processing: true,
+                    serverSide: true,
+                    ajax: url,
+                    columns: column,
+                    order: [
+                        [2, 'desc']
+                    ]
+                });
 
-        $('#TbWaiting').on('click', 'tbody tr', function(e) {
-            var data = tbWaiting.row(this).data();
+                return table;
+            }
 
-            window.location.href = '/detail/' + data.id
-        })
+            $('#TbProposal').on('click', 'tbody tr', function(e) {
+                var data = tbProposal.row(this).data();
+                window.location.href = '/detail/' + data.id;
+            });
 
-        $('#TbAktif').on('click', 'tbody tr', function(e) {
-            var data = tbAktif.row(this).data();
+            $('#TbVerified').on('click', 'tbody tr', function(e) {
+                var data = tbVerified.row(this).data();
+                window.location.href = '/detail/' + data.id;
+            });
 
-            window.location.href = '/detail/' + data.id
-        })
+            $('#TbWaiting').on('click', 'tbody tr', function(e) {
+                var data = tbWaiting.row(this).data();
+                window.location.href = '/detail/' + data.id;
+            });
 
-        $('#TbLunas').on('click', 'tbody tr', function(e) {
-            var data = tbLunas.row(this).data();
+            $('#TbAktif').on('click', 'tbody tr', function(e) {
+                var data = tbAktif.row(this).data();
+                window.location.href = '/detail/' + data.id;
+            });
 
-            window.location.href = '/lunas/' + data.id
-        })
+            $('#TbLunas').on('click', 'tbody tr', function(e) {
+                var data = tbLunas.row(this).data();
+                window.location.href = '/lunas/' + data.id;
+            });
+        });
     </script>
 @endsection
