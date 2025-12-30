@@ -573,7 +573,9 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')
+                        ->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'A'],
                                 [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
@@ -660,7 +662,9 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')
+                        ->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'L'],
                                 [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
@@ -733,7 +737,9 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')
+                        ->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'A'],
                                 [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
@@ -960,7 +966,9 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')
+                        ->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'A'],
                                 [$data['tb_pinj_i'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
@@ -1051,7 +1059,9 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')
+                        ->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'A'],
                                 [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
@@ -1153,7 +1163,9 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')
+                        ->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'A'],
                                 [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
@@ -1327,7 +1339,9 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')
+                        ->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'A'],
                                 [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
@@ -1424,7 +1438,7 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'A'],
                                 [$data['tb_pinj_i'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
@@ -1973,7 +1987,7 @@ class PelaporanController extends Controller
                         ->withSum(['real' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinkel . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinkel . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinkel'] . '.status', 'A'],
                                 [$data['tb_pinkel'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
@@ -2048,7 +2062,7 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'A'],
                                 [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
@@ -2211,7 +2225,7 @@ class PelaporanController extends Controller
                         ->join($tb_kel, $tb_kel . '.id', '=', $tb_pinj . '.id_kel')
                         ->join('desa', $tb_angg . '.desa', '=', 'desa.kd_desa')
                         ->join('sebutan_desa', 'sebutan_desa.id', '=', 'desa.sebutan')
-                        ->where($tb_pinj . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj'] . '.status', 'A'],
                                 [$data['tb_pinj'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
@@ -2274,7 +2288,7 @@ class PelaporanController extends Controller
                         ->join($tb_ang, $tb_ang . '.id', '=', $tb_pinj . '.nia')
                         ->join('desa', $tb_ang . '.desa', '=', 'desa.kd_desa')
                         ->join('sebutan_desa', 'sebutan_desa.id', '=', 'desa.sebutan')
-                        ->where($tb_pinj . '.sistem_angsuran', '!=', '12')->where($tb_pinj . '.status', 'P')
+                        ->where($tb_pinj . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where($tb_pinj . '.status', 'P')
                         ->orderBy($tb_ang . '.desa', 'ASC')
                         ->orderBy($tb_pinj . '.tgl_proposal', 'ASC');
                 },
@@ -2323,7 +2337,7 @@ class PelaporanController extends Controller
                         ->join($tb_ang, $tb_ang . '.id', '=', $tb_pinj . '.nia')
                         ->join('desa', $tb_ang . '.desa', '=', 'desa.kd_desa')
                         ->join('sebutan_desa', 'sebutan_desa.id', '=', 'desa.sebutan')
-                        ->where($tb_pinj . '.sistem_angsuran', '!=', '12')->where($tb_pinj . '.status', 'V')
+                        ->where($tb_pinj . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where($tb_pinj . '.status', 'V')
                         ->orderBy($tb_ang . '.desa', 'ASC')
                         ->orderBy($tb_pinj . '.tgl_verifikasi', 'ASC');
                 },
@@ -2372,7 +2386,7 @@ class PelaporanController extends Controller
                         ->join($tb_ang, $tb_ang . '.id', '=', $tb_pinj . '.nia')
                         ->join('desa', $tb_ang . '.desa', '=', 'desa.kd_desa')
                         ->join('sebutan_desa', 'sebutan_desa.id', '=', 'desa.sebutan')
-                        ->where($tb_pinj . '.sistem_angsuran', '!=', '12')->where($tb_pinj . '.status', 'W')
+                        ->where($tb_pinj . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where($tb_pinj . '.status', 'W')
                         ->orderBy($tb_ang . '.desa', 'ASC')
                         ->orderBy($tb_pinj . '.tgl_tunggu', 'ASC');
                 },
@@ -2430,7 +2444,7 @@ class PelaporanController extends Controller
                         ->withSum(['real' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinkel . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinkel . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinkel'] . '.status', 'A'],
                                 [$data['tb_pinkel'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
@@ -2530,7 +2544,7 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'A'],
                                 [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
@@ -2632,7 +2646,7 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'A'],
                                 [$data['tb_pinj_i'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
@@ -2726,7 +2740,7 @@ class PelaporanController extends Controller
                         ->withSum(['real' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinkel . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinkel . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinkel'] . '.status', 'A'],
                                 [$data['tb_pinkel'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
@@ -2828,7 +2842,7 @@ class PelaporanController extends Controller
                     ->withSum(['real_i' => function ($query) use ($data) {
                         $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                     }], 'realisasi_jasa')
-                    ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                    ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                         $query->where([
                             [$data['tb_pinj_i'] . '.status', 'A'],
                             [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
@@ -2933,7 +2947,7 @@ class PelaporanController extends Controller
                     ->withSum(['real_i' => function ($query) use ($data) {
                         $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                     }], 'realisasi_jasa')
-                    ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                    ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                         $query->where([
                             [$data['tb_pinj_i'] . '.status', 'A'],
                             [$data['tb_pinj_i'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
@@ -3025,7 +3039,7 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'A'],
                                 [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
@@ -3126,7 +3140,7 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj_i'] . '.status', 'A'],
                                 [$data['tb_pinj_i'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
@@ -3220,7 +3234,7 @@ class PelaporanController extends Controller
                         ->join($tb_angg, $tb_angg . '.id', '=', $tb_pinj_i . '.nia')
                         ->join('desa', $tb_angg . '.desa', '=', 'desa.kd_desa')
                         ->join('sebutan_desa', 'sebutan_desa.id', '=', 'desa.sebutan')
-                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')
+                        ->where($tb_pinj_i . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')
                         ->where(function ($query) use ($data) {
                             $query->where($data['tb_pinj_i'] . '.tgl_cair', 'LIKE', $data['tgl_cair'] . '%')
                                 ->where(function ($query) use ($data) {
@@ -3322,7 +3336,7 @@ class PelaporanController extends Controller
                         ->join($tb_kel, $tb_kel . '.id', '=', $tb_pinkel . '.id_kel')
                         ->join('desa', $tb_kel . '.desa', '=', 'desa.kd_desa')
                         ->join('sebutan_desa', 'sebutan_desa.id', '=', 'desa.sebutan')
-                        ->where($tb_pinkel . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinkel . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinkel'] . '.status', 'A'],
                                 [$data['tb_pinkel'] . '.tgl_cair', '<=', $data['tgl_akhir']]
@@ -3419,7 +3433,7 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj . '.sistem_angsuran', '!=', '12')->where(function ($query) use ($data) {
+                        ->where($tb_pinj . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj'] . '.status', 'A'],
                                 [$data['tb_pinj'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
@@ -3669,6 +3683,7 @@ class PelaporanController extends Controller
             }], 'realisasi_jasa')
             ->where([
                 [$tb_pinkel . '.sistem_angsuran', '!=', '12'],
+                [$tb_pinkel . '.sistem_angsuran', '!=', '25'],
                 [$tb_pinkel . '.status', 'A']
             ])
             ->whereRaw('(TIMESTAMPDIFF(MONTH, DATE_ADD(' . $tb_pinkel . '.tgl_cair, INTERVAL ' . $tb_pinkel . '.jangka MONTH), CURRENT_DATE)) BETWEEN -3 AND 0')
