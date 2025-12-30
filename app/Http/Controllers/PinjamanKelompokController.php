@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataPemanfaat;
-use App\Models\DokumenPinjaman;
 use App\Models\JenisJasa;
 use App\Models\JenisProdukPinjaman;
 use App\Models\Kecamatan;
@@ -1582,14 +1581,7 @@ class PinjamanKelompokController extends Controller
         ])->withCount('pinjaman_anggota')->first();
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', $data['report']],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['judul'] = 'Surat Pengajuan Kredit ('.$data['pinkel']->kelompok->nama_kelompok.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran.dokumen.pengajuan_kredit', $data)->render();
@@ -1714,14 +1706,7 @@ class PinjamanKelompokController extends Controller
         $data['pinjaman_ke'] = PinjamanKelompok::where('id_kel', $data['pinkel']->kelompok->id)->where('tgl_proposal', '<', $data['pinkel']->tgl_proposal)->count();
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', str_replace('V2', '', $data['report'])],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['judul'] = 'Daftar Pemanfaat ('.$data['pinkel']->kelompok->nama_kelompok.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran.dokumen.pemanfaat', $data)->render();
@@ -1754,14 +1739,7 @@ class PinjamanKelompokController extends Controller
         ])->first();
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', $data['report']],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['judul'] = 'Pernyataan Tanggung Renteng ('.$data['pinkel']->kelompok->nama_kelompok.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran.dokumen.tanggung_renteng', $data)->render();
@@ -1812,14 +1790,7 @@ class PinjamanKelompokController extends Controller
         $data['keuangan'] = $keuangan;
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', $data['report']],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['judul'] = 'Pernyataan Peminjam ('.$data['pinkel']->kelompok->nama_kelompok.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran.dokumen.pernyataan_peminjam', $data)->render();
@@ -1889,14 +1860,7 @@ class PinjamanKelompokController extends Controller
         $data['statusDokumen'] = request()->get('status');
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', $data['report']],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['judul'] = 'Form Verifikasi ('.$data['pinkel']->kelompok->nama_kelompok.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran.dokumen.form_verifikasi', $data)->render();
@@ -1935,14 +1899,7 @@ class PinjamanKelompokController extends Controller
         ])->first();
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', $data['report']],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['judul'] = 'BA Pendanaan '.Tanggal::tglLatin($data['pinkel']->tgl_tunggu);
         $view = view('perguliran.dokumen.ba_pendanaan', $data)->render();
@@ -2037,14 +1994,7 @@ class PinjamanKelompokController extends Controller
         ])->first();
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', $data['report']],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['keuangan'] = $keuangan;
         $data['judul'] = 'Rencana Angsuran ('.$data['pinkel']->kelompok->nama_kelompok.' - Loan ID. '.$data['pinkel']->id.')';
@@ -2185,14 +2135,7 @@ class PinjamanKelompokController extends Controller
         $data['keuangan'] = $keuangan;
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', $data['report']],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['judul'] = 'Surat Perjanjian Kredit ('.$data['pinkel']->kelompok->nama_kelompok.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran.dokumen.spk', $data)->render();
@@ -2287,14 +2230,7 @@ class PinjamanKelompokController extends Controller
         $data['keuangan'] = $keuangan;
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', $data['report']],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['judul'] = 'Berita Acara Pencairan ('.$data['pinkel']->kelompok->nama_kelompok.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran.dokumen.ba_pencairan', $data)->render();
@@ -2348,14 +2284,7 @@ class PinjamanKelompokController extends Controller
         ])->first();
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', $data['report']],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['judul'] = 'Tanda Terima ('.$data['pinkel']->kelompok->nama_kelompok.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran.dokumen.tanda_terima', $data)->render();
@@ -2566,14 +2495,7 @@ class PinjamanKelompokController extends Controller
         ])->first();
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', $data['report']],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['judul'] = 'Pernyataan Tanggung Renteng ('.$data['pinkel']->kelompok->nama_kelompok.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran.dokumen.pernyataan_tanggung_renteng', $data)->render();
@@ -2617,14 +2539,7 @@ class PinjamanKelompokController extends Controller
         $data['keuangan'] = $keuangan;
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', $data['report']],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['judul'] = 'Kuitansi Pencairan ('.$data['pinkel']->kelompok->nama_kelompok.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran.dokumen.kuitansi', $data)->render();
@@ -2732,14 +2647,7 @@ class PinjamanKelompokController extends Controller
         ])->withCount('pinjaman_anggota')->first();
 
         $jenis_dokumen = request()->get('jenis') ?: 'dokumen_proposal';
-        $dokumenPinjaman = DokumenPinjaman::where([
-            ['file', $data['report']],
-            ['jenis_dokumen', $jenis_dokumen],
-        ])->with('tanda_tangan')->first();
         $data['tanda_tangan'] = '';
-        if ($dokumenPinjaman->tanda_tangan) {
-            $data['tanda_tangan'] = Pinjaman::keyword($dokumenPinjaman->tanda_tangan->tanda_tangan, $data);
-        }
 
         $data['judul'] = 'Surat Ahli Waris ('.$data['pinkel']->kelompok->nama_kelompok.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran.dokumen.surat_ahli_waris', $data)->render();
@@ -3835,22 +3743,38 @@ class PinjamanKelompokController extends Controller
 
     private function supabaseToBase64($url)
     {
-        $response = Http::get($url);
-
-        if (! $response->successful()) {
-            return null;
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            $supabaseUrl = env('SUPABASE_URL'); 
+            $bucket = env('SUPABASE_BUCKET', 'uploads'); 
+        
+            $url = "{$supabaseUrl}/storage/v1/object/public/{$bucket}/{$url}";
         }
 
-        $binary = $response->body();
+        try {
+            $response = Http::timeout(10)->get($url);
+        
+            if (!$response->successful()) {
+                \Log::warning("Failed to fetch image", ['url' => $url]);
+                return null;
+            }
 
-        $extension = pathinfo($url, PATHINFO_EXTENSION);
-        $mime = [
-            'jpg' => 'image/jpeg',
-            'jpeg' => 'image/jpeg',
-            'png' => 'image/png',
-            'webp' => 'image/webp',
-        ][$extension] ?? 'application/octet-stream';
+            $binary = $response->body();
+            $extension = pathinfo($url, PATHINFO_EXTENSION);
+            $mime = [
+                'jpg' => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'png' => 'image/png',
+                'webp' => 'image/webp',
+            ][$extension] ?? 'application/octet-stream';
 
-        return "data:$mime;base64,".base64_encode($binary);
+            return "data:$mime;base64,".base64_encode($binary);
+        
+        } catch (\Exception $e) {
+            \Log::error("Error in supabaseToBase64", [
+                'url' => $url, 
+                'error' => $e->getMessage()
+            ]);
+            return null;
+        }
     }
 }

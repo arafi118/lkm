@@ -118,6 +118,33 @@
 @endsection
 
 @section('modal')
+    <div id="placeholder" class="d-none">
+        <div class="row">
+            <div class="col-lg-4 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <span class="placeholder rounded-circle border" style="width: 150px; height: 150px;"></span>
+
+                        <h5 class="mb-2">
+                            <b><span class="placeholder col-12"></span></b>
+                        </h5>
+
+                        <div class="text-muted">
+                            <span class="placeholder col-12"></span>
+                        </div>
+                        <div class="text-muted"><span class="placeholder col-12"></span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="alert placeholder col-12 p-4"></div>
+                <div class="alert placeholder col-12 p-5"></div>
+                <div class="alert placeholder col-12 p-5"></div>
+                <div class="alert placeholder col-12 p-4"></div>
+            </div>
+        </div>
+    </div>
+
     {{-- Modal Edit Proposal --}}
     <div class="modal fade" id="EditProposal" tabindex="-1" aria-labelledby="EditProposalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
@@ -308,6 +335,97 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal Tambah Pemanfaat --}}
+    <div class="modal fade" id="TambahPemanfaat" tabindex="-1" aria-labelledby="TambahPemanfaatLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="TambahPemanfaatLabel">
+                        Tambah Calon Pemanfaat ({{ $perguliran->id }})
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/pinjaman_anggota" method="post" id="FormTambahPemanfaat">
+                        @csrf
+
+                        <input type="hidden" name="id_pinkel" id="id_pinkel" value="{{ $perguliran->id }}">
+                        <input type="hidden" name="nia_pemanfaat" id="nia_pemanfaat">
+                        <input type="hidden" name="catatan_pinjaman" id="catatan_pinjaman">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <div class="position-relative">
+                                    <input type="text" id="cariNik" name="cariNik" class="form-control"
+                                        placeholder="Ketikkan NIK atau Nama" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="position-relative">
+                                    <input type="text" id="alokasi_pengajuan" disabled name="alokasi_pengajuan"
+                                        class="form-control money" placeholder="Alokasi Pengajuan">
+                                </div>
+                                <small class="text-danger" id="msg_alokasi_pengajuan"></small>
+                            </div>
+                        </div>
+
+                        <div class="fw-bold text-center">
+                            <div>
+                                {{ $perguliran->kelompok->nama_kelompok }} -
+                                {{ $perguliran->kelompok->d->sebutan_desa->sebutan_desa }}
+                                {{ $perguliran->kelompok->d->nama_desa }}
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="card border">
+                        <div class="card-body pt-3 pb-0 ps-3 pe-3">
+                            <div id="LayoutTambahPemanfaat">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" id="ImportPemanfaat" class="btn btn-outline-info btn-sm">
+                        Import Pemanfaat
+                    </button>
+                    <button type="button" id="SimpanPemanfaat" disabled class="btn btn-dark btn-sm">Tambahkan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal Import Pemanfaat --}}
+    <div class="modal fade" id="ImportPemanfaatModal" tabindex="-1" aria-labelledby="ImportPemanfaatModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="ImportPemanfaatModalLabel">
+                        Import Pemanfaat
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/pinjaman_anggota/import" method="post" id="FormImportPemanfaat">
+                        @csrf
+
+                        <input type="hidden" name="id_pinkel" id="id_pinkel" value="{{ $perguliran->id }}">
+                        <div id="LayoutImportPemanfaatModal"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" id="SimpanImportPemanfaat" class="btn btn-dark btn-sm">
+                        Import Pemanfaat
+                    </button>
                 </div>
             </div>
         </div>
@@ -528,15 +646,19 @@
         
         $(".money").maskMoney();
 
-        $.get('/perguliran/{{ $perguliran->id }}', function(result) {
-            $('#layout').html(result)
-        })
+        // Pastikan DOM sudah siap
+        $(document).ready(function() {
+            $.get('/perguliran/{{ $perguliran->id }}', function(result) {
+                $('#layout').html(result)
+            })
+        });
 
         $('#BtnEditProposal').click(function(e) {
             e.preventDefault()
 
             $.get('/perguliran/{{ $perguliran->id }}/edit', function(result) {
                 $('#LayoutEditProposal').html(result)
+                // Gunakan jQuery untuk modal
                 $('#EditProposal').modal('show')
             })
         })
@@ -570,6 +692,62 @@
                 }
             })
         })
+
+        // Typeahead untuk pencarian NIK
+        $(document).ready(function() {
+            if ($('#cariNik').length) {
+                $('#cariNik').typeahead({
+                    source: function(query, process) {
+                        var states = [];
+                        return $.get('/pinjaman_anggota/cari_pemanfaat', {
+                            loan_id: '{{ $perguliran->id }}',
+                            query: query
+                        }, function(result) {
+                            var resultList = result.map(function(item) {
+                                var disable = false
+                                if (item.status == '0') {
+                                    disable = true
+                                }
+
+                                states.push({
+                                    "id": item.id,
+                                    "name": item.namadepan + ' [' + item.nik + ']' + '[' + item.alamat + ']',
+                                    "value": item.nik,
+                                    "id_pinkel": '{{ $perguliran->id }}',
+                                    "disable": disable
+                                });
+                            });
+
+                            return process(states);
+                        })
+                    },
+                    afterSelect: function(item) {
+                        if (item != '') {
+                            $.ajax({
+                                url: '/pinjaman_anggota/register/' + item.id_pinkel,
+                                type: 'get',
+                                data: item,
+                                success: function(result) {
+                                    if (result.enable_alokasi) {
+                                        $('#alokasi_pengajuan').removeAttr('disabled')
+                                        $('#SimpanPemanfaat').removeAttr('disabled')
+                                    } else {
+                                        $('#alokasi_pengajuan').attr('disabled', true)
+                                        $('#SimpanPemanfaat').attr('disabled', true)
+                                    }
+
+                                    $('#nia_pemanfaat').val(result.nia)
+                                    $('#catatan_pinjaman').val(result.catatan)
+                                    $('#LayoutTambahPemanfaat').html(result.html)
+                                }
+                            });
+                        } else {
+                            Swal.fire('Error', 'Pemanfaat diblokir. Tidak dapat mengajukan pinjaman', 'error')
+                        }
+                    }
+                });
+            }
+        });
 
         $(document).on('click', '#SimpanEditProposal', function(e) {
             e.preventDefault()
@@ -673,7 +851,12 @@
         $(document).on('click', '#SimpanRescedule', async function(e) {
             e.preventDefault()
             $('#Rescedule').modal('hide')
-            $('.modal-backdrop').remove()
+            
+            // Hapus backdrop secara manual
+            setTimeout(function() {
+                $('.modal-backdrop').remove()
+                $('body').removeClass('modal-open')
+            }, 500);
 
             const {
                 value: spk
@@ -739,6 +922,226 @@
         $(document).on('click', '.btn-link', function(e) {
             var action = $(this).attr('data-action')
             open_window(action)
+        })
+
+        // Fungsi Tambah Pemanfaat
+        $('#cariNik').typeahead({
+            source: function(query, process) {
+                var states = [];
+                return $.get('/pinjaman_anggota/cari_pemanfaat', {
+                    loan_id: '{{ $perguliran->id }}',
+                    query: query
+                }, function(result) {
+                    var resultList = result.map(function(item) {
+
+                        var disable = false
+                        if (item.status == '0') {
+                            disable = true
+                        }
+
+                        states.push({
+                            "id": item.id,
+                            "name": item.namadepan + ' [' + item.nik + ']' + '[' + item
+                                .alamat + ']',
+                            "value": item.nik,
+                            "id_pinkel": '{{ $perguliran->id }}',
+                            "disable": disable
+                        });
+                    });
+
+                    return process(states);
+                })
+            },
+            afterSelect: function(item) {
+                if (item != '') {
+                    $.ajax({
+                        url: '/pinjaman_anggota/register/' + item.id_pinkel,
+                        type: 'get',
+                        data: item,
+                        success: function(result) {
+                            if (result.enable_alokasi) {
+                                $('#alokasi_pengajuan').removeAttr('disabled')
+                                $('#SimpanPemanfaat').removeAttr('disabled')
+                            } else {
+                                $('#alokasi_pengajuan').attr('disabled', true)
+                                $('#SimpanPemanfaat').attr('disabled', true)
+                            }
+
+                            $('#nia_pemanfaat').val(result.nia)
+                            $('#catatan_pinjaman').val(result.catatan)
+                            $('#LayoutTambahPemanfaat').html(result.html)
+                        }
+                    });
+                } else {
+                    Swal.fire('Error', 'Pemanfaat diblokir. Tidak dapat mengajukan pinjaman', 'error')
+                }
+            }
+        });
+
+        $(document).on('click', '#BtnTambahPemanfaat', function(e) {
+            e.preventDefault()
+            $('small').html('')
+
+            $('#cariNik').val('')
+            $('#alokasi_pengajuan').val('')
+
+            $('#LayoutTambahPemanfaat').html($('#placeholder').html())
+        })
+
+        $(document).on('click', '#ImportPemanfaat', function(e) {
+            e.preventDefault()
+
+            $('#TambahPemanfaat').modal('hide')
+            
+            // Hapus backdrop dan tunggu sebentar sebelum buka modal baru
+            setTimeout(function() {
+                $('.modal-backdrop').remove()
+                $('body').removeClass('modal-open')
+                $('body').css('padding-right', '')
+                
+                $.get('/pinjaman_anggota/ambil_daftar_pemanfaat', {
+                    'id_kelompok': '{{ $perguliran->id_kel }}',
+                    'id_pinkel': '{{ $perguliran->id }}'
+                }, function(result) {
+                    if (result.success) {
+                        $('#LayoutImportPemanfaatModal').html(result.view)
+                        $('#ImportPemanfaatModal').modal('show')
+                    }
+                })
+            }, 300);
+        })
+
+        $(document).on('click', '#SimpanImportPemanfaat', function(e) {
+            e.preventDefault()
+
+            var btn = $(this)
+            if (btn.attr('data-processing') === 'true') {
+                return false
+            }
+            btn.attr('data-processing', 'true')
+            btn.prop('disabled', true)
+
+            var form = $('#FormImportPemanfaat')
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(result) {
+                    $('#ImportPemanfaatModal').modal('hide')
+                    
+                    // Hapus backdrop secara manual
+                    setTimeout(function() {
+                        $('.modal-backdrop').remove()
+                        $('body').removeClass('modal-open')
+                        $('body').css('padding-right', '')
+                    }, 300);
+
+                    if (result.success) {
+                        Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                            $.get('/perguliran/{{ $perguliran->id }}', function(result) {
+                                $('#layout').html(result)
+                            })
+                            
+                            btn.attr('data-processing', 'false')
+                            btn.prop('disabled', false)
+                        })
+                    } else {
+                        Swal.fire('Error', result.msg, 'error')
+                        btn.attr('data-processing', 'false')
+                        btn.prop('disabled', false)
+                    }
+                }
+            })
+        })
+
+        // Fungsi Simpan Pemanfaat - Unbind dulu untuk mencegah double binding
+        $(document).off('click', '#SimpanPemanfaat').on('click', '#SimpanPemanfaat', function(e) {
+            e.preventDefault()
+            $('small').html('')
+
+            // Disable button untuk mencegah double click
+            var btn = $(this)
+            if (btn.attr('data-processing') === 'true') {
+                return false
+            }
+            btn.attr('data-processing', 'true')
+            btn.prop('disabled', true)
+
+            var form = $('#FormTambahPemanfaat')
+            $.ajax({
+                type: 'post',
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(result) {
+                    $('#TambahPemanfaat').modal('hide')
+                    
+                    // Hapus backdrop secara manual
+                    setTimeout(function() {
+                        $('.modal-backdrop').remove()
+                        $('body').removeClass('modal-open')
+                        $('body').css('padding-right', '')
+                    }, 300);
+
+                    Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                        $.get('/perguliran/{{ $perguliran->id }}', function(result) {
+                            $('#layout').html(result)
+                        })
+                        
+                        // Reset form dan button
+                        $('#cariNik').val('')
+                        $('#alokasi_pengajuan').val('')
+                        $('#LayoutTambahPemanfaat').html('')
+                        btn.attr('data-processing', 'false')
+                        btn.prop('disabled', true)
+                    })
+                },
+                error: function(result) {
+                    const respons = result.responseJSON;
+
+                    Swal.fire('Error', 'Cek kembali input yang anda masukkan', 'error')
+                    $.map(respons, function(res, key) {
+                        $('#' + key).parent('.position-relative').addClass('is-invalid')
+                        $('#FormTambahPemanfaat #msg_' + key).html(res)
+                    })
+                    btn.attr('data-processing', 'false')
+                    btn.prop('disabled', false)
+                }
+            })
+        })
+
+        $(document).on('click', '.HapusPinjamanAnggota', function(e) {
+            e.preventDefault()
+
+            var id = $(this).attr('id')
+            Swal.fire({
+                title: 'Hapus Pemanfaat Ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'get',
+                        url: '/hapus_pemanfaat/' + id,
+                        data: {
+                            'id': id
+                        },
+                        success: function(result) {
+                            if (result.hapus) {
+                                Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                                    $.get('/perguliran/{{ $perguliran->id }}',
+                                        function(result) {
+                                            $('#layout').html(result)
+                                        })
+                                })
+                            } else {
+                                Swal.fire('Berhasil', result.msg, 'warning')
+                            }
+                        }
+                    })
+                }
+            })
         })
     </script>
 @endsection
