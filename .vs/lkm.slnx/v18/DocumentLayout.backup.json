@@ -222,7 +222,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 28,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
@@ -235,8 +235,7 @@
               "ViewState": "AgIAANIAAAAAAAAAAAD4v9wAAABvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2025-11-17T04:11:32.292Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -249,7 +248,35 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2025-11-17T04:11:40.799Z",
-              "IsPinned": true,
+              "IsPinned": true
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "detail.blade.php",
+              "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\penduduk\\detail.blade.php",
+              "RelativeDocumentMoniker": "resources\\views\\penduduk\\detail.blade.php",
+              "ToolTip": "C:\\laragon\\www\\lkm\\resources\\views\\penduduk\\detail.blade.php",
+              "RelativeToolTip": "resources\\views\\penduduk\\detail.blade.php",
+              "ViewState": "AgIAAM0BAAAAAAAAAAAIwOsBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2025-12-29T02:56:51.65Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "detail.blade.php",
+              "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\perguliran\\detail.blade.php",
+              "RelativeDocumentMoniker": "resources\\views\\perguliran\\detail.blade.php",
+              "ToolTip": "C:\\laragon\\www\\lkm\\resources\\views\\perguliran\\detail.blade.php",
+              "RelativeToolTip": "resources\\views\\perguliran\\detail.blade.php",
+              "ViewState": "AgIAAAkGAAAAAAAAAAAIwBoGAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2025-12-15T06:34:44.058Z",
               "EditorCaption": ""
             },
             {
@@ -262,21 +289,7 @@
               "RelativeToolTip": "resources\\views\\kelompok\\detail_kelompok.blade.php",
               "ViewState": "AgIAAI0BAAAAAAAAAAAIwJYBAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-12-29T03:00:19.336Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "detail.blade.php",
-              "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\penduduk\\detail.blade.php",
-              "RelativeDocumentMoniker": "resources\\views\\penduduk\\detail.blade.php",
-              "ToolTip": "C:\\laragon\\www\\lkm\\resources\\views\\penduduk\\detail.blade.php",
-              "RelativeToolTip": "resources\\views\\penduduk\\detail.blade.php",
-              "ViewState": "AgIAAM0BAAAAAAAAAAAIwOsBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-12-29T02:56:51.65Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T03:00:19.336Z"
             },
             {
               "$type": "Document",
@@ -288,8 +301,7 @@
               "RelativeToolTip": "resources\\views\\kelompok\\index.blade.php",
               "ViewState": "AgIAAI0AAAAAAAAAAAAmwJoAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-12-29T02:30:38.589Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T02:30:38.589Z"
             },
             {
               "$type": "Document",
@@ -301,8 +313,7 @@
               "RelativeToolTip": "resources\\views\\penduduk\\index.blade.php",
               "ViewState": "AgIAAHoAAAAAAAAAAAAswJMAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-12-29T02:30:34.639Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T02:30:34.639Z"
             },
             {
               "$type": "Document",
@@ -314,8 +325,7 @@
               "RelativeToolTip": "app\\Http\\Controllers\\AnggotaController.php",
               "ViewState": "AgIAAJoAAAAAAAAAAAAAADsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-12-29T02:26:48.586Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T02:26:48.586Z"
             },
             {
               "$type": "Document",
@@ -327,12 +337,7 @@
               "RelativeToolTip": "app\\Http\\Controllers\\KelompokController.php",
               "ViewState": "AgIAAMgAAAAAAAAAAAAWwNkAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-12-29T02:26:43.003Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+              "WhenOpened": "2025-12-29T02:26:43.003Z"
             },
             {
               "$type": "Document",
@@ -548,8 +553,7 @@
               "RelativeToolTip": "app\\Http\\Controllers\\PinjamanKelompokController.php",
               "ViewState": "AgIAAC8AAAAAAAAAAAD4vzcAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-12-15T02:22:55.467Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-15T02:22:55.467Z"
             },
             {
               "$type": "Document",
@@ -562,19 +566,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2025-12-16T01:46:44.795Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "detail.blade.php",
-              "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\perguliran\\detail.blade.php",
-              "RelativeDocumentMoniker": "resources\\views\\perguliran\\detail.blade.php",
-              "ToolTip": "C:\\laragon\\www\\lkm\\resources\\views\\perguliran\\detail.blade.php",
-              "RelativeToolTip": "resources\\views\\perguliran\\detail.blade.php",
-              "ViewState": "AgIAABMGAAAAAAAAAAAIwB8GAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-12-15T06:34:44.058Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -610,8 +601,7 @@
               "RelativeToolTip": "resources\\views\\perguliran\\index.blade.php",
               "ViewState": "AgIAAJcBAAAAAAAAAAAIwK8BAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2025-12-13T02:02:07.982Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-13T02:02:07.982Z"
             },
             {
               "$type": "Document",
