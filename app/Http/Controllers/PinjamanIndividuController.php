@@ -1821,7 +1821,7 @@ class PinjamanIndividuController extends Controller
                 }
             })->with(['j'])->first();
 
-        $data['judul'] = 'agungan_jaminan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
+        $data['judul'] = 'Agunan Jaminan ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.agungan_jaminan', $data)->render();
 
         if ($data['type'] == 'pdf') {

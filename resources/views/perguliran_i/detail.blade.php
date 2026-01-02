@@ -73,7 +73,7 @@
             'withExcel' => false,
         ],
         [
-            'title' => 'Pernyataan Agungan Pihak Ketiga',
+            'title' => 'Pernyataan Agunan Pihak Ketiga',
             'file' => 'agungan',
             'withExcel' => false,
         ],

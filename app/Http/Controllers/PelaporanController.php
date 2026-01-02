@@ -2532,7 +2532,7 @@ class PelaporanController extends Controller
                     $tb_pinj_i = 'pinjaman_anggota_' . $data['kec']->id;
                     $tb_angg = 'anggota_' . $data['kec']->id;
                     $data['tb_pinj_i'] = $tb_pinj_i;
-
+                    
                     $query->select($tb_pinj_i . '.*', $tb_angg . '.namadepan', 'agent.agent AS nama_agent', 'desa.nama_desa', 'desa.kd_desa', 'desa.kode_desa', 'sebutan_desa.sebutan_desa')
                         ->join($tb_angg, $tb_angg . '.id', '=', $tb_pinj_i . '.nia')
                         ->join('agent', $tb_pinj_i . '.id_agent', '=', 'agent.id')

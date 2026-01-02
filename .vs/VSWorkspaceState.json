@@ -1,14 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\app",
-    "\\app\\Http",
-    "\\app\\Http\\Controllers",
-    "\\resources",
-    "\\resources\\views",
-    "\\resources\\views\\pelaporan",
-    "\\resources\\views\\pelaporan\\partials"
+    ""
   ],
-  "SelectedNode": "\\resources\\views\\pelaporan\\partials\\sub_laporan.blade.php",
+  "SelectedNode": "\\C:\\laragon\\www\\lkm",
   "PreviewInSolutionExplorer": false
 }
