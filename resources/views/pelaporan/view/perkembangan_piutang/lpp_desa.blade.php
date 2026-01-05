@@ -11,6 +11,30 @@
             margin-left: 40px;
             margin-right: 40px;
         }
+        
+        .page-break {
+            page-break-before: always !important;
+            page-break-after: auto !important;
+            break-before: page !important;
+            display: block !important;
+            height: 0 !important;
+            clear: both !important;
+        }
+        
+        .section-container {
+            page-break-inside: avoid;
+        }
+        
+        @media print {
+            .page-break {
+                page-break-before: always !important;
+                break-before: page !important;
+            }
+            
+            .section-container {
+                page-break-inside: avoid;
+            }
+        }
     </style>
     @php
         $nomor = 0;
@@ -42,8 +66,9 @@
             $t_kel = 0;
         @endphp
         @if ($nomor > 1)
-            <div class="break"></div>
+            <div class="page-break" style="page-break-before: always !important; break-before: page !important;"></div>
         @endif
+        <div class="section-container">
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
             <tr>
                 <td colspan="3" align="center">
@@ -419,5 +444,6 @@
                 </tr>
             @endif
         </table>
+        </div>
     @endforeach
 @endsection
