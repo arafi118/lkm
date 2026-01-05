@@ -1855,11 +1855,9 @@ class PelaporanController extends Controller
     private function BB(array $data)
     {
         $keuangan = new Keuangan;
-
         $thn = $data['tahun'];
         $bln = $data['bulan'];
         $hari = $data['hari'];
-
         $tgl = $thn . '-' . $bln . '-' . $hari;
         $tgl = $thn . '-';
         $data['judul'] = 'Laporan Tahunan';
@@ -1877,7 +1875,6 @@ class PelaporanController extends Controller
                 $awal_bulan = $thn . '00-00';
             }
         }
-
         if ($data['harian']) {
             $tgl = $thn . '-' . $bln . '-' . $hari;
             $data['judul'] = 'Laporan Harian';
@@ -1888,23 +1885,33 @@ class PelaporanController extends Controller
                 $awal_bulan = date('Y-m-d', strtotime('-1 day', strtotime($tgl)));
             }
         }
-
         $data['rek'] = Rekening::where('kode_akun', $data['kode_akun'])->first();
-        $data['transaksi'] = Transaksi::where('tgl_transaksi', 'LIKE', '%' . $tgl . '%')->where(function ($query) use ($data) {
-            $query->where('rekening_debit', $data['kode_akun'])->orwhere('rekening_kredit', $data['kode_akun']);
-        })->with('user')->orderBy('tgl_transaksi', 'ASC')->orderBy('urutan', 'ASC')->orderBy('idt', 'ASC')->get();
-
+    
+        // Filter transaksi: exclude yang jumlahnya 0, null, atau empty string
+        $data['transaksi'] = Transaksi::where('tgl_transaksi', 'LIKE', '%' . $tgl . '%')
+            ->where(function ($query) use ($data) {
+                $query->where('rekening_debit', $data['kode_akun'])
+                      ->orwhere('rekening_kredit', $data['kode_akun']);
+            })
+            ->where(function ($query) {
+                $query->whereNotNull('jumlah')
+                      ->where('jumlah', '!=', '')
+                      ->where('jumlah', '!=', 0);
+            })
+            ->with('user')
+            ->orderBy('tgl_transaksi', 'ASC')
+            ->orderBy('urutan', 'ASC')
+            ->orderBy('idt', 'ASC')
+            ->get();
+    
         $data['saldo'] = $keuangan->saldoAwal($data['tgl_kondisi'], $data['kode_akun']);
         $data['d_bulan_lalu'] = $keuangan->saldoD($awal_bulan, $data['kode_akun']);
         $data['k_bulan_lalu'] = $keuangan->saldoK($awal_bulan, $data['kode_akun']);
-
         if ($tgl == $thn . '-01-01') {
             $data['d_bulan_lalu'] = '0';
             $data['k_bulan_lalu'] = '0';
         }
-
         $view = view('pelaporan.view.buku_besar', $data)->render();
-
         if ($data['type'] == 'pdf') {
             $pdf = PDF::loadHTML($view);
             return $pdf->stream();
@@ -1912,7 +1919,6 @@ class PelaporanController extends Controller
             return $view;
         }
     }
-
     private function neraca_saldo(array $data)
     {
         $keuangan = new Keuangan;
