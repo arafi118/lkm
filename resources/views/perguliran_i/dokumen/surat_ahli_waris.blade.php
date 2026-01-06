@@ -83,24 +83,14 @@
             <td align="center" width="50%">{{ $kec->nama_kec }}, {{ Tanggal::tglLatin($pinkel->tgl_cair) }}</td>
         </tr>
         <tr>
-            <td align="right" >Mengetahui,</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td align="center">Kepala {{ $pinkel->anggota->d->sebutan_desa->sebutan_desa }} {{ $pinkel->anggota->d->nama_desa }}</td>
+            <td align="center">&nbsp;</td>
             <td align="center">Penjamin</td>
         </tr>
         <tr>
             <td align="center" colspan="2" height="30">&nbsp;</td>
         </tr>
         <tr style="font-weight: bold;">
-            <td align="center">
-                <u>
-                    <b>Pembina Tingkat  I {{ $pinkel->anggota->d->pangkat }}</b>
-                </u>
-                @if ($pinkel->anggota->d->nip)
-                    <div><small>NIP. {{ $pinkel->anggota->d->nip }}</small></div>
-                @endif
+            <td align="center">&nbsp;
             </td>
             <td align="center">{{ $pinkel->anggota->penjamin }}</td>
         </tr>

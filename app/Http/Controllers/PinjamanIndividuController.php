@@ -2099,6 +2099,11 @@ class PinjamanIndividuController extends Controller
             'anggota.d.sebutan_desa',
         ])->first();
 
+        $data['ra'] = RencanaAngsuranI::where([
+            ['loan_id', $id],
+            ['angsuran_ke',1],
+        ])->first();
+
         $data['dir'] = User::where([
             ['level', '1'],
             ['lokasi', Session::get('lokasi')],

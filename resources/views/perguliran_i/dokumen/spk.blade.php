@@ -206,8 +206,8 @@
                         Rupiah)
                     </b>
                     setiap {{$pinkel->sis_pokok->deskripsi_sistem}}, selama {{ $pinkel->jangka }} kali angsuran,
-                    yang dimulai pada {{ Tanggal::namaHari($pinkel->tgl_cair) }},
-                    {{ \Carbon\Carbon::parse($pinkel->anggota->tgl_cair)->translatedFormat('d F Y') }} dan
+                    yang dimulai pada {{ Tanggal::namaHari($ra->jatuh_tempo) }},
+                    {{ \Carbon\Carbon::parse($ra->jatuh_tempo)->translatedFormat('d F Y') }} dan
                     sampai target pelunasan, sebagaimana jadwal angsuran terlampir.
                 </li>
             </ol>
