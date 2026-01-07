@@ -39,31 +39,31 @@ $section = 0;
                         'nama' => 'Lancar',
                         'prosentase' => '0',
                         'durasi' => '10',
-                        'satuan' => 'Hari'
+                        'satuan' => 'hari'
                     ],
                     [
                         'nama' => 'Dalam Perhatian Khusus',
                         'prosentase' => '5',
                         'durasi' => '90',
-                        'satuan' => 'Hari'
+                        'satuan' => 'hari'
                     ],
                     [
                         'nama' => 'kurang Lancar',
                         'prosentase' => '15',
                         'durasi' => '120',
-                        'satuan' => 'Hari'
+                        'satuan' => 'hari'
                     ],
                     [
                         'nama' => 'Diragukan',
                         'prosentase' => '50',
                         'durasi' => '180',
-                        'satuan' => 'Hari'
+                        'satuan' => 'hari'
                     ],
                     [
                         'nama' => 'Macet',
                         'prosentase' => '100',
                         'durasi' => '999',
-                        'satuan' => 'Hari'
+                        'satuan' => 'hari'
                     ]
                 ];
             } else {
