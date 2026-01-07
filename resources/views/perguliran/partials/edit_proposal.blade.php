@@ -18,32 +18,32 @@
     <input type="hidden" name="status" id="status" value="P">
     <div class="row">
         <div class="col-md-3">
-            <div class="input-group input-group-static my-3">
-                <label for="tgl_verifikasi">Tgl Proposal</label>
+            <div class="position-relative mb-3">
+                <label for="tgl_proposal" class="form-label">Tgl Proposal</label>
                 <input autocomplete="off" type="text" name="tgl_proposal" id="tgl_proposal" class="form-control date"
                     value="{{ Tanggal::tglIndo($perguliran->tgl_proposal) }}">
                 <small class="text-danger" id="msg_tgl_proposal"></small>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="input-group input-group-static my-3">
-                <label for="proposal">Pengajuan Rp.</label>
+            <div class="position-relative mb-3">
+                <label for="proposal" class="form-label">Pengajuan Rp.</label>
                 <input autocomplete="off" type="text" name="proposal" id="proposal" class="form-control money"
                     value="{{ number_format($perguliran->proposal, 2) }}">
                 <small class="text-danger" id="msg_proposal"></small>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="input-group input-group-static my-3">
-                <label for="jangka_proposal">Jangka</label>
+            <div class="position-relative mb-3">
+                <label for="jangka_proposal" class="form-label">Jangka</label>
                 <input autocomplete="off" type="number" name="jangka_proposal" id="jangka_proposal"
                     class="form-control" value="{{ $perguliran->jangka }}">
                 <small class="text-danger" id="msg_jangka_proposal"></small>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="input-group input-group-static my-3">
-                <label for="pros_jasa_proposal">Prosentase Jasa (%)</label>
+            <div class="position-relative mb-3">
+                <label for="pros_jasa_proposal" class="form-label">Prosentase Jasa (%)</label>
                 <input autocomplete="off" type="number" name="pros_jasa_proposal" id="pros_jasa_proposal"
                     class="form-control" value="{{ $perguliran->pros_jasa }}">
                 <small class="text-danger" id="msg_pros_jasa_proposal"></small>
@@ -53,7 +53,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="my-2">
+            <div class="position-relative mb-3">
                 <label class="form-label" for="jenis_jasa_proposal">Jenis Jasa</label>
                 <select class="form-control" name="jenis_jasa_proposal" id="jenis_jasa_proposal">
                     @foreach ($jenis_jasa as $jj)
@@ -66,7 +66,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="my-2">
+            <div class="position-relative mb-3">
                 <label class="form-label" for="jenis_produk_pinjaman">Jenis Produk Pinjaman</label>
                 <select class="form-control" name="jenis_produk_pinjaman" id="jenis_produk_pinjaman">
                     @foreach ($jenis_pp as $jpp)
@@ -82,7 +82,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="my-2">
+            <div class="position-relative mb-3">
                 <label class="form-label" for="sistem_angsuran_pokok_proposal">Sistem Angs. Pokok</label>
                 <select class="form-control" name="sistem_angsuran_pokok_proposal" id="sistem_angsuran_pokok_proposal">
                     @foreach ($sistem_angsuran as $sa)
@@ -96,7 +96,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="my-2">
+            <div class="position-relative mb-3">
                 <label class="form-label" for="sistem_angsuran_jasa_proposal">Sistem Angs. Jasa</label>
                 <select class="form-control" name="sistem_angsuran_jasa_proposal" id="sistem_angsuran_jasa_proposal">
                     @foreach ($sistem_angsuran as $sa)
@@ -110,31 +110,31 @@
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-body p-2">
-            <div class="text-center fw-bold">
+    <div class="main-card card mb-3">
+        <div class="card-body">
+            <div class="text-center fw-bold mb-3">
                 Struktur Kelompok
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <div class="input-group input-group-static my-3">
-                        <label for="ketua">Ketua</label>
+                    <div class="position-relative mb-3">
+                        <label for="ketua" class="form-label">Ketua</label>
                         <input autocomplete="off" type="text" name="ketua" id="ketua" class="form-control"
                             value="{{ $ketua }}">
                         <small class="text-danger" id="msg_ketua"></small>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="input-group input-group-static my-3">
-                        <label for="sekretaris">Sekretaris</label>
+                    <div class="position-relative mb-3">
+                        <label for="sekretaris" class="form-label">Sekretaris</label>
                         <input autocomplete="off" type="text" name="sekretaris" id="sekretaris"
                             class="form-control" value="{{ $sekretaris }}">
                         <small class="text-danger" id="msg_sekretaris"></small>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="input-group input-group-static my-3">
-                        <label for="bendahara">Bendahara</label>
+                    <div class="position-relative mb-3">
+                        <label for="bendahara" class="form-label">Bendahara</label>
                         <input autocomplete="off" type="text" name="bendahara" id="bendahara"
                             class="form-control" value="{{ $bendahara }}">
                         <small class="text-danger" id="msg_bendahara"></small>

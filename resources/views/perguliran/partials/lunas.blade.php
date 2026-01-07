@@ -1,28 +1,24 @@
 @php
-    $is_dir = false;
-    if (auth()->user()->jabatan == '1' && auth()->user()->level == '1') {
-        $is_dir = true;
+    $saldo_pokok = $ra->target_pokok - $real->sum_pokok;
+    $saldo_jasa = $ra->target_jasa - $real->sum_jasa;
+
+    $keterangan1 = 'Belum Lunas';
+    $keterangan2 = 'Belum Lunas';
+
+    if ($saldo_pokok <= 0) {
+        $saldo_pokok = 0;
+        $keterangan1 = 'Lunas';
+    }
+    if ($saldo_jasa <= 0) {
+        $saldo_jasa = 0;
+        $keterangan2 = 'Lunas';
     }
 @endphp
 
 @extends('layouts.base')
 
 @section('content')
-    @php
-        $saldo_pokok = $ra->target_pokok - $real->sum_pokok;
-        $saldo_jasa = $ra->target_jasa - $real->sum_jasa;
-
-        $keterangan1 = 'Belum Lunas';
-        $keterangan2 = 'Belum Lunas';
-
-        if ($saldo_pokok <= 0) {
-            $saldo_pokok = 0;
-            $keterangan1 = 'Lunas';
-        }
-        if ($saldo_jasa <= 0) {
-            $saldo_jasa = 0;
-            $keterangan2 = 'Lunas';
-    } @endphp <div class="card mb-3">
+    <div class="main-card mb-3 card">
         <div class="card-body p-3">
             <h5 class="mb-1">
                 Kelompok {{ $perguliran->kelompok->nama_kelompok }} Loan ID. {{ $perguliran->id }}
@@ -41,7 +37,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="main-card mb-3 card">
         <div class="card-body text-sm">
             Dengan mempertimbangkan Standar Operasional Prosedur (SOP) yang berlaku, dengan ini Saya selaku
             {{ $kec->sebutan_level_1 }},
@@ -112,18 +108,14 @@
                     </div>
 
                     <div class="d-flex justify-content-end" style="gap: .5em;">
-                        @if (in_array('tahapan_perguliran.lunas.cetak_keterangan_pelunasan', Session::get('tombol')))
-                            <button class="btn btn-warning btn-sm"
-                                onclick="window.open('/cetak_keterangan_lunas/{{ $perguliran->id }}')" type="button">
-                                <i class="fa fa-print"></i> Cetak Keterangan Pelunasan
-                            </button>
-                        @endif
+                        <button class="btn btn-warning btn-sm"
+                            onclick="window.open('/cetak_keterangan_lunas/{{ $perguliran->id }}')" type="button">
+                            <i class="fa fa-print"></i> Cetak Keterangan Pelunasan
+                        </button>
 
-                        @if ($is_dir || in_array('tahapan_perguliran.lunas.validasi_lunas', Session::get('tombol')))
-                            <button class="btn btn-danger btn-sm" type="button" id="TombolLunaskan" disabled>
-                                <i class="fa fa-gavel"></i> Validasi Lunas
-                            </button>
-                        @endif
+                        <button class="btn btn-danger btn-sm" type="button" id="TombolLunaskan" disabled>
+                            <i class="fa fa-gavel"></i> Validasi Lunas
+                        </button>
                     </div>
                 </div>
             </div>
@@ -138,7 +130,7 @@
         <input type="hidden" name="status" id="status" value="L">
     </form>
 
-    <div class="card mt-3">
+    <div class="main-card mt-3 card">
         <div class="card-body p-2">
             <a href="/perguliran?status=L" class="btn btn-info float-end btn-sm mb-0">Kembali</a>
         </div>

@@ -2,104 +2,127 @@
     @csrf
     @method('PUT')
 
-    <div class="card mb-3">
-        <div class="card-body">
-            <div class="row mt-0">
-                <div class="col-md-6 mb-3">
-                    <div class="border border-light border-2 border-radius-md p-3">
-                        <h6 class="text-info text-gradient mb-0">
-                            Proposal
-                        </h6>
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-sm">
-                                Tgl Pengajuan
-                                <span class="badge badge-info badge-pill">
-                                    {{ Tanggal::tglIndo($perguliran->tgl_proposal) }}
-                                </span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-sm">
-                                Pengajuan
-                                <span class="badge badge-info badge-pill">
-                                    {{ number_format($perguliran->proposal) }}
-                                </span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-sm">
-                                Jenis Jasa
-                                <span class="badge badge-info badge-pill">
-                                    {{ $perguliran->jasa->nama_jj }}
-                                </span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-sm">
-                                Jasa
-                                <span class="badge badge-info badge-pill">
-                                    {{ $perguliran->pros_jasa . '% / ' . $perguliran->jangka . ' bulan' }}
-                                </span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-sm">
-                                Angs. Pokok
-                                <span class="badge badge-info badge-pill">
-                                    {{ $perguliran->sis_pokok->nama_sistem }}
-                                </span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-sm">
-                                Angs. Jasa
-                                <span class="badge badge-info badge-pill">
-                                    {{ $perguliran->sis_jasa->nama_sistem }}
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="border border-light border-2 border-radius-md p-3">
-                        <h6 class="text-danger text-gradient mb-0">
-                            Verified
-                        </h6>
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-sm">
-                                Tgl Verifikasi
-                                <span class="badge badge-danger badge-pill">
-                                    {{ Tanggal::tglIndo($perguliran->tgl_verifikasi) }}
-                                </span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-sm">
-                                Verifikasi
-                                <span class="badge badge-danger badge-pill">
-                                    {{ number_format($perguliran->verifikasi) }}
-                                </span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-sm">
-                                Jenis Jasa
-                                <span class="badge badge-danger badge-pill">
-                                    {{ $perguliran->jasa->nama_jj }}
-                                </span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-sm">
-                                Jasa
-                                <span class="badge badge-danger badge-pill">
-                                    {{ $perguliran->pros_jasa . '% / ' . $perguliran->jangka . ' bulan' }}
-                                </span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-sm">
-                                Angs. Pokok
-                                <span class="badge badge-danger badge-pill">
-                                    {{ $perguliran->sis_pokok->nama_sistem }}
-                                </span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-sm">
-                                Angs. Jasa
-                                <span class="badge badge-danger badge-pill">
-                                    {{ $perguliran->sis_jasa->nama_sistem }}
-                                </span>
-                            </li>
-                        </ul>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h5 class="card-title">Proposal</h5>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Tgl Pengajuan
+                                            <div class="badge angka-warna-biru">
+                                                {{ Tanggal::tglIndo($perguliran->tgl_proposal) }}
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Pengajuan
+                                            <div class="badge angka-warna-biru">
+                                                {{ number_format($perguliran->proposal) }}
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Jenis Jasa
+                                            <div class="badge angka-warna-biru">
+                                                {{ $perguliran->jasa->nama_jj }}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h5 class="card-title">&nbsp;</h5>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Jasa
+                                            <div class="badge angka-warna-biru">
+                                                {{ $perguliran->pros_jasa . '% / ' . $perguliran->jangka . ' bulan' }}
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Angs. Pokok
+                                            <div class="badge angka-warna-biru">
+                                                {{ $perguliran->sis_pokok->nama_sistem }}
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Angs. Jasa
+                                            <div class="badge angka-warna-biru">
+                                                {{ $perguliran->sis_jasa->nama_sistem }}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            @if (!($perguliran->jenis_pp == '3' && $perguliran->kelompok->fungsi_kelompok == '2'))
-                <hr class="horizontal dark">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h5 class="card-title">Verified</h5>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Tgl Verifikasi
+                                            <div class="badge angka-warna-merah">
+                                                {{ Tanggal::tglIndo($perguliran->tgl_verifikasi) }}
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Verifikasi
+                                            <div class="badge angka-warna-merah">
+                                                {{ number_format($perguliran->verifikasi) }}
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Jenis Jasa
+                                            <div class="badge angka-warna-merah">
+                                                {{ $perguliran->jasa->nama_jj }}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h5 class="card-title">&nbsp;</h5>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Jasa
+                                            <div class="badge angka-warna-merah">
+                                                {{ $perguliran->pros_jasa . '% / ' . $perguliran->jangka . ' bulan' }}
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Angs. Pokok
+                                            <div class="badge angka-warna-merah">
+                                                {{ $perguliran->sis_pokok->nama_sistem }}
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Angs. Jasa
+                                            <div class="badge angka-warna-merah">
+                                                {{ $perguliran->sis_jasa->nama_sistem }}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    @if (!($perguliran->jenis_pp == '3' && $perguliran->kelompok->fungsi_kelompok == '2'))
+        <div class="main-card mb-3 card">
+            <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped align-items-center mb-0" width="100%">
                         <thead class="bg-dark text-white">
@@ -120,27 +143,6 @@
                                 @php
                                     $proposal += $pinjaman_anggota->proposal;
                                     $verifikasi += $pinjaman_anggota->verifikasi;
-
-                                    $class1 = '';
-                                    $class2 = '';
-
-                                    if (
-                                        in_array(
-                                            'ttahapan_perguliran.verifikasi.edit_verifikasi_anggota',
-                                            Session::get('tombol'),
-                                        )
-                                    ) {
-                                        $class1 = 'idpa_proposal';
-                                    }
-
-                                    if (
-                                        in_array(
-                                            'tahapan_perguliran.verifikasi.simpan_keputusan_pendanaan',
-                                            Session::get('tombol'),
-                                        )
-                                    ) {
-                                        $class2 = 'idpa';
-                                    }
                                 @endphp
                                 <tr>
                                     <td align="center">{{ $loop->iteration }}</td>
@@ -149,26 +151,20 @@
                                         ({{ $pinjaman_anggota->nia }})
                                     </td>
                                     <td>
-                                        <div class="input-group input-group-static">
-                                            <input type="text" disabled readonly
-                                                class="form-control money {{ $class1 }}"
-                                                value="{{ number_format($pinjaman_anggota->proposal, 2) }}">
-                                        </div>
+                                        <input type="text" disabled readonly
+                                            class="form-control money"
+                                            value="{{ number_format($pinjaman_anggota->proposal, 2) }}">
                                     </td>
                                     <td>
-                                        <div class="input-group input-group-static">
-                                            <input type="text" id="{{ $pinjaman_anggota->id }}"
-                                                name="idpa_proposal[{{ $pinjaman_anggota->id }}]"
-                                                class="form-control money {{ $class1 }}"
-                                                value="{{ number_format($pinjaman_anggota->verifikasi, 2) }}">
-                                        </div>
+                                        <input type="text" id="{{ $pinjaman_anggota->id }}"
+                                            name="idpa_proposal[{{ $pinjaman_anggota->id }}]"
+                                            class="form-control money idpa_proposal"
+                                            value="{{ number_format($pinjaman_anggota->verifikasi, 2) }}">
                                     </td>
                                     <td>
-                                        <div class="input-group input-group-static">
-                                            <input type="text" name="idpa[{{ $pinjaman_anggota->id }}]"
-                                                class="form-control money {{ $class2 }} idpa-{{ $pinjaman_anggota->id }}"
-                                                value="{{ number_format($pinjaman_anggota->verifikasi, 2) }}">
-                                        </div>
+                                        <input type="text" name="idpa[{{ $pinjaman_anggota->id }}]"
+                                            class="form-control money idpa idpa-{{ $pinjaman_anggota->id }}"
+                                            value="{{ number_format($pinjaman_anggota->verifikasi, 2) }}">
                                         <input type="hidden" name="catatan[{{ $pinjaman_anggota->id }}]"
                                             value="{{ $perguliran->catatan_verifikasi }}">
                                     </td>
@@ -186,150 +182,133 @@
                                 </th>
                                 <th>
                                     <span id="_alokasi">{{ number_format($verifikasi, 2) }}</span>
-                                    <input type="hidden" name="__alokasi" id="__alokasi" value="{{ $verifikasi }}">
+                                    <input type="hidden" name="__alokasi" id="__alokasi"
+                                        value="{{ $verifikasi }}">
                                 </th>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
-            @endif
-        </div>
-    </div>
-
-    @if (in_array('tahapan_perguliran.verifikasi.cetak_dokumen_verifikasi', Session::get('tombol')))
-        <div class="card card-body p-2 pb-0 mb-3">
-            <div class="d-grid">
-                <button type="button" data-bs-toggle="modal" data-bs-target="#CetakDokumenProposal"
-                    class="btn btn-info btn-sm mb-2">Cetak Dokumen Verifikasi</button>
             </div>
         </div>
-    @endif
 
-    @if (in_array('tahapan_perguliran.verifikasi.simpan_keputusan_pendanaan', Session::get('tombol')))
-        <div class="card mb-3">
-            <div class="card-header pb-0 p-3">
-                <h6>
-                    Input Keputusan Pendanaan
-                </h6>
-            </div>
-            <div class="card-body p-3">
-                <input type="hidden" name="_id" id="_id" value="{{ $perguliran->id }}">
-                <input type="hidden" name="status" id="status" value="W">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group input-group-static my-3">
-                            <label for="tgl_tunggu">Tgl Penetapan</label>
-                            <input autocomplete="off" type="text" name="tgl_tunggu" id="tgl_tunggu"
-                                class="form-control date" value="{{ Tanggal::tglIndo($perguliran->tgl_verifikasi) }}">
-                            <small class="text-danger" id="msg_tgl_tunggu"></small>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="" role="tabpanel">
+                <div class="main-card mb-3 card">
+                    <div class="card-body">
+                        <h5 class="card-title">Input Keputusan Pendanaan</h5>
+                        <input type="hidden" name="_id" id="_id" value="{{ $perguliran->id }}">
+                        <input type="hidden" name="status" id="status" value="W">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="position-relative mb-3">
+                                    <label for="tgl_cair" class="form-label">Tgl Cair</label>
+                                    <input name="tgl_cair" id="tgl_cair" type="text"
+                                        class="form-control date" placeholder="dd/mm/yyyy"
+                                        value="{{ Tanggal::tglIndo($perguliran->tgl_cair) }}">
+                                    <small class="text-danger" id="msg_tgl_cair"></small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="position-relative mb-3">
+                                    <label for="alokasi" class="form-label">Alokasi</label>
+                                    <input type="text" class="form-control money" name="alokasi" id="alokasi"
+                                        value="{{ number_format($perguliran->verifikasi, 2) }}">
+                                    <small class="text-danger" id="msg_alokasi"></small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="position-relative mb-3">
+                                    <label for="jangka" class="form-label">Jangka (Bulan)</label>
+                                    <input type="number" class="form-control" name="jangka" id="jangka"
+                                        value="{{ $perguliran->jangka }}">
+                                    <small class="text-danger" id="msg_jangka"></small>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group input-group-static my-3">
-                            <label for="tgl_cair">Tanggal Cair</label>
-                            <input autocomplete="off" type="text" name="tgl_cair" id="tgl_cair"
-                                class="form-control date"
-                                value="{{ Tanggal::tglIndo($perguliran->tgl_verifikasi) }}">
-                            <small class="text-danger" id="msg_tgl_cair"></small>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="position-relative mb-3">
+                                    <label for="pros_jasa" class="form-label">Prosentase Jasa (%)</label>
+                                    <input type="number" step="0.01" class="form-control" name="pros_jasa"
+                                        id="pros_jasa" value="{{ $perguliran->pros_jasa }}">
+                                    <small class="text-danger" id="msg_pros_jasa"></small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="position-relative mb-3">
+                                    <label for="jenis_jasa" class="form-label">Jenis Jasa</label>
+                                    <select class="selectverifikasi form-control" name="jenis_jasa"
+                                        id="jenis_jasa">
+                                        @foreach ($jenis_jasa as $jj)
+                                            <option {{ $jj->id == $perguliran->jenis_jasa ? 'selected' : '' }}
+                                                value="{{ $jj->id }}">
+                                                {{ $jj->nama_jj }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <small class="text-danger" id="msg_jenis_jasa"></small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="position-relative mb-3">
+                                    <label for="sistem_angsuran_pokok" class="form-label">Sistem Ang. Pokok</label>
+                                    <select class="selectverifikasi form-control" name="sistem_angsuran_pokok"
+                                        id="sistem_angsuran_pokok">
+                                        @foreach ($sistem_angsuran as $sa)
+                                            <option {{ $sa->id == $perguliran->sa_pokok ? 'selected' : '' }}
+                                                value="{{ $sa->id }}">
+                                                {{ $sa->nama_sistem }} ({{ $sa->deskripsi_sistem }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <small class="text-danger" id="msg_sistem_angsuran_pokok"></small>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group input-group-static my-3">
-                            <label for="alokasi">Alokasi Rp.</label>
-                            <input autocomplete="off" type="text" name="alokasi" id="alokasi"
-                                class="form-control money" value="{{ number_format($perguliran->verifikasi, 2) }}">
-                            <small class="text-danger" id="msg_alokasi"></small>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="position-relative mb-3">
+                                    <label for="sistem_angsuran_jasa" class="form-label">Sistem Ang. Jasa</label>
+                                    <select class="selectverifikasi form-control" name="sistem_angsuran_jasa"
+                                        id="sistem_angsuran_jasa">
+                                        @foreach ($sistem_angsuran as $sa)
+                                            <option {{ $sa->id == $perguliran->sa_jasa ? 'selected' : '' }}
+                                                value="{{ $sa->id }}">
+                                                {{ $sa->nama_sistem }} ({{ $sa->deskripsi_sistem }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <small class="text-danger" id="msg_sistem_angsuran_jasa"></small>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group input-group-static my-3">
-                            <label for="jangka">Jangka</label>
-                            <input autocomplete="off" type="number" name="jangka" id="jangka"
-                                class="form-control" value="{{ $perguliran->jangka }}">
-                            <small class="text-danger" id="msg_jangka"></small>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="position-relative mb-3">
+                                    <label for="catatan_verifikasi" class="form-label">Catatan Verifikasi</label>
+                                    <textarea class="form-control" name="catatan_verifikasi" id="catatan_verifikasi" rows="3"
+                                        placeholder="Catatan" spellcheck="false">{{ $perguliran->catatan_verifikasi }}</textarea>
+                                    <small class="text-danger" id="msg_catatan_verifikasi"></small>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group input-group-static my-3">
-                            <label for="pros_jasa">Prosentase Jasa (%)</label>
-                            <input autocomplete="off" type="number" name="pros_jasa" id="pros_jasa"
-                                class="form-control" value="{{ $perguliran->pros_jasa }}">
-                            <small class="text-danger" id="msg_pros_jasa"></small>
-                        </div>
-                    </div>
-                </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-end" style="gap: .5em;">
+                                <button type="button" id="tidakLayakDicairkan" class="btn btn-danger btn-sm">
+                                    Tidak Layak
+                                </button>
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="my-2">
-                            <label class="form-label" for="jenis_jasa">Jenis Jasa</label>
-                            <select class="form-control" name="jenis_jasa" id="jenis_jasa">
-                                @foreach ($jenis_jasa as $jj)
-                                    <option {{ $jj->id == $perguliran->jenis_jasa ? 'selected' : '' }}
-                                        value="{{ $jj->id }}">
-                                        {{ $jj->nama_jj }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <small class="text-danger" id="msg_jenis_jasa"></small>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="my-2">
-                            <label class="form-label" for="sistem_angsuran_pokok">Sistem Angs. Pokok</label>
-                            <select class="form-control" name="sistem_angsuran_pokok" id="sistem_angsuran_pokok">
-                                @foreach ($sistem_angsuran as $sa)
-                                    <option {{ $sa->id == $perguliran->sistem_angsuran ? 'selected' : '' }}
-                                        value="{{ $sa->id }}">
-                                        {{ $sa->nama_sistem }} ({{ $sa->deskripsi_sistem }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            <small class="text-danger" id="msg_sistem_angsuran_pokok"></small>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="my-2">
-                            <label class="form-label" for="sistem_angsuran_jasa">Sistem Angs. Jasa</label>
-                            <select class="form-control" name="sistem_angsuran_jasa" id="sistem_angsuran_jasa">
-                                @foreach ($sistem_angsuran as $sa)
-                                    <option {{ $sa->id == $perguliran->sa_jasa ? 'selected' : '' }}
-                                        value="{{ $sa->id }}">
-                                        {{ $sa->nama_sistem }} ({{ $sa->deskripsi_sistem }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            <small class="text-danger" id="msg_sistem_angsuran_jasa"></small>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 d-none">
-                        <div class="input-group input-group-static my-3">
-                            <label for="nomor_spk">Nomor SPK</label>
-                            <input autocomplete="off" type="text" name="nomor_spk" id="nomor_spk"
-                                class="form-control" value="{{ $perguliran->nomor_spk }}">
-                            <small class="text-danger" id="msg_nomor_spk"></small>
-                        </div>
-                    </div>
-                </div>
+                                <button type="button" id="kembaliProposal" class="btn btn-warning btn-sm">
+                                    Kembalikan Ke Proposal
+                                </button>
 
-                <div class="d-flex justify-content-end mt-3">
-                    @if (in_array('tahapan_perguliran.verifikasi.tidak_layak_dicairkan', Session::get('tombol')))
-                        <button type="button" id="tidakLayakDicairkan" class="btn btn-danger btn-sm">
-                            Tidak Layak
-                        </button>
-                    @endif
-
-                    @if (in_array('tahapan_perguliran.verifikasi.kembalikan_ke_proposal', Session::get('tombol')))
-                        <button type="button" id="kembaliProposal" class="btn btn-warning btn-sm ms-1">
-                            Kembalikan Ke Proposal
-                        </button>
-                    @endif
-
-                    <button type="button" id="Simpan" class="btn btn-github ms-1 btn-sm">
-                        Simpan Keputusan Pendanaan
-                    </button>
+                                <button type="button" id="Simpan" class="btn btn-primary btn-sm">
+                                    Simpan Keputusan Pendanaan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -352,27 +331,9 @@
         maximumFractionDigits: 2,
     })
 
-    new Choices($('#jenis_jasa')[0], {
-        shouldSort: false,
-        fuseOptions: {
-            threshold: 0.1,
-            distance: 1000
-        }
-    })
-    new Choices($('#sistem_angsuran_pokok')[0], {
-        shouldSort: false,
-        fuseOptions: {
-            threshold: 0.1,
-            distance: 1000
-        }
-    })
-    new Choices($('#sistem_angsuran_jasa')[0], {
-        shouldSort: false,
-        fuseOptions: {
-            threshold: 0.1,
-            distance: 1000
-        }
-    })
+    $('.selectverifikasi').select2({
+        theme: 'bootstrap4'
+    });
 
     $(".money").maskMoney();
 
@@ -489,5 +450,61 @@
                 }
             })
         }
+    })
+
+    $(document).on('click', '#kembaliProposal', function(e) {
+        e.preventDefault()
+
+        Swal.fire({
+            title: 'Peringatan',
+            text: 'Anda akan mengembalikan data ke tahap proposal',
+            showCancelButton: true,
+            confirmButtonText: 'Kembalikan',
+            cancelButtonText: 'Batal',
+            icon: 'warning'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var form = $('#formKembaliProposal')
+
+                $.ajax({
+                    type: 'post',
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function(result) {
+                        Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                            window.location.href = '/detail/' + result.id
+                        })
+                    }
+                })
+            }
+        })
+    })
+
+    $(document).on('click', '#tidakLayakDicairkan', function(e) {
+        e.preventDefault()
+
+        Swal.fire({
+            title: 'Peringatan',
+            text: 'Anda akan menandai pinjaman ini sebagai tidak layak dicairkan',
+            showCancelButton: true,
+            confirmButtonText: 'Tandai',
+            cancelButtonText: 'Batal',
+            icon: 'warning'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var form = $('#formTidakLayakDicairkan')
+
+                $.ajax({
+                    type: 'post',
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function(result) {
+                        Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                            window.location.href = '/perguliran'
+                        })
+                    }
+                })
+            }
+        })
     })
 </script>
