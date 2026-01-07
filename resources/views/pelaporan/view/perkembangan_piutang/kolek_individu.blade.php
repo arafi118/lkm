@@ -1,6 +1,7 @@
 @php
     use App\Utils\Tanggal;
     $section = 0;
+    $has_printed_jpp = false; // Track apakah sudah ada jpp yang dicetak
     
     // Ambil data kolek dari database
     $kolekData = $kec->kolek ? json_decode($kec->kolek, true) : [];
@@ -74,10 +75,8 @@
             
             // Inisialisasi total kolek secara dinamis
             $t_kolek = array_fill(0, count($kolekData), 0);
-            
-            $first_jpp = true;
         @endphp
-        @if (!$loop->first)
+        @if ($has_printed_jpp)
             <div class="break"></div>
         @endif
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
@@ -99,7 +98,8 @@
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px; table-layout: fixed;">
             <tr>
                 <th class="t l b" rowspan="2" width="2%">No</th>
-                <th class="t l b" rowspan="2" width="18%">Nasabah - Loan ID</th>
+                <th class="t l b" rowspan="2" width="16%">Nasabah - Loan ID</th>
+                <th class="t l b" rowspan="2" width="7%">Tgl Cair</th>
                 <th class="t l b" rowspan="2" width="8%">Alokasi</th>
                 <th class="t l b" rowspan="2" width="8%">Saldo</th>
                 <th class="t l b" rowspan="2" width="3%">%</th>
@@ -108,8 +108,8 @@
                 <th class="t l b {{ count($activeKolek) > 0 ? '' : 'r' }}" colspan="{{ count($activeKolek) }}">Kolek</th>
             </tr>
             <tr>
-                <th class="t l b" width="8%">Pokok</th>
-                <th class="t l b" width="8%">Jasa</th>
+                <th class="t l b" width="7%">Pokok</th>
+                <th class="t l b" width="7%">Jasa</th>
                 @foreach ($activeKolek as $index => $kolek)
                     <th class="t l b {{ $loop->last ? 'r' : '' }}">{{ strtoupper($kolek['nama']) }}</th>
                 @endforeach
@@ -134,7 +134,7 @@
                             }
                         @endphp
                         <tr style="font-weight: bold;">
-                            <td class="t l b" align="left" colspan="2">Jumlah {{ $nama_desa }}</td>
+                            <td class="t l b" align="left" colspan="3">Jumlah {{ $nama_desa }}</td>
                             <td class="t l b" align="right">{{ number_format($j_alokasi) }}</td>
                             <td class="t l b" align="right">{{ number_format($j_saldo) }}</td>
                             <td class="t l b" align="right">{{ $j_persen }}</td>
@@ -150,7 +150,7 @@
                     @endif
 
                     <tr style="font-weight: bold;">
-                        <td class="t l b r" colspan="{{ 8 + count($activeKolek) }}" align="left">
+                        <td class="t l b r" colspan="{{ 9 + count($activeKolek) }}" align="left">
                             {{ $pinkel->kode_desa }}. {{ $pinkel->nama_desa }}
                         </td>
                     </tr>
@@ -249,6 +249,7 @@
                 <tr>
                     <td class="t l b" align="center">{{ $nomor++ }}</td>
                     <td class="t l b" align="left">{{ $pinkel->namadepan }} - {{ $pinkel->id }}</td>
+                    <td class="t l b" align="center">{{ Tanggal::tglIndo($pinkel->tgl_cair) }}</td>
                     <td class="t l b" align="right">{{ number_format($pinkel->alokasi) }}</td>
                     <td class="t l b" align="right">{{ number_format($saldo_pokok) }}</td>
                     <td class="t l b" align="right">{{ $persen_saldo }}</td>
@@ -287,7 +288,7 @@
                     }
                 @endphp
                 <tr style="font-weight: bold;">
-                    <td class="t l b" align="left" colspan="2">Jumlah {{ $nama_desa }}</td>
+                    <td class="t l b" align="left" colspan="3">Jumlah {{ $nama_desa }}</td>
                     <td class="t l b" align="right">{{ number_format($j_alokasi) }}</td>
                     <td class="t l b" align="right">{{ number_format($j_saldo) }}</td>
                     <td class="t l b" align="right">{{ $j_persen }}</td>
@@ -313,16 +314,17 @@
                 @endphp
 
                 <tr>
-                    <td colspan="{{ 8 + count($activeKolek) }}" style="padding: 0px !important;">
+                    <td colspan="{{ 9 + count($activeKolek) }}" style="padding: 0px !important;">
                         <table border="0" width="100%" cellspacing="0" cellpadding="0"
                             style="font-size: 11px; table-layout: fixed;">
                             <tr style="font-weight: bold;">
-                                <td width="20%" class="t l b" align="center" height="20">J U M L A H</td>
+                                <td width="18%" class="t l b" align="center" height="20">J U M L A H</td>
+                                <td width="7%" class="t l b" align="right"></td>
                                 <td width="8%" class="t l b" align="right">{{ number_format($t_alokasi) }}</td>
                                 <td width="8%" class="t l b" align="right">{{ number_format($t_saldo) }}</td>
                                 <td width="3%" class="t l b" align="right">{{ $t_persen }}</td>
-                                <td width="8%" class="t l b" align="right">{{ number_format($t_tunggakan_pokok) }}</td>
-                                <td width="8%" class="t l b" align="right">{{ number_format($t_tunggakan_jasa) }}</td>
+                                <td width="7%" class="t l b" align="right">{{ number_format($t_tunggakan_pokok) }}</td>
+                                <td width="7%" class="t l b" align="right">{{ number_format($t_tunggakan_jasa) }}</td>
                                 <td width="3%" class="t l b" align="right"></td>
                                 @foreach ($activeKolek as $idx => $kolek)
                                     <td class="t l b {{ $loop->last ? 'r' : '' }}" align="right">
@@ -332,7 +334,7 @@
                             </tr>
                             <tr style="font-weight: bold;">
                                 <td class="t l b" align="center" rowspan="2" height="20">Resiko Pinjaman</td>
-                                <td class="t l b" colspan="6" align="center">
+                                <td class="t l b" colspan="7" align="center">
                                     ({{ implode(' + ', array_map(function($k) { return $k['nama']; }, $activeKolek)) }})
                                 </td>
                                 @foreach ($activeKolek as $idx => $kolek)
@@ -342,7 +344,7 @@
                                 @endforeach
                             </tr>
                             <tr>
-                                <td class="t l b" align="center" colspan="6">
+                                <td class="t l b" align="center" colspan="7">
                                     {{ number_format($total_resiko) }}
                                 </td>
                                 @foreach ($activeKolek as $idx => $kolek)
@@ -357,7 +359,7 @@
                             </tr>
 
                             <tr>
-                                <td colspan="{{ 7 + count($activeKolek) }}">
+                                <td colspan="{{ 8 + count($activeKolek) }}">
                                     <div style="margin-top: 16px;"></div>
                                     {!! json_decode(str_replace('{tanggal}', $tanggal_kondisi, $kec->ttd->tanda_tangan_pelaporan), true) !!}
                                 </td>
@@ -367,5 +369,9 @@
                 </tr>
             @endif
         </table>
+        @php
+            // Set flag bahwa sudah ada jpp yang dicetak
+            $has_printed_jpp = true;
+        @endphp
     @endforeach
 @endsection
