@@ -33,37 +33,39 @@ $section = 0;
             $t_tunggakan_pokok = 0;
             $t_tunggakan_jasa = 0;
             
+            // Parse JSON kolek configuration
+            // Kondisi khusus untuk session lokasi 362
             if (session()->get('lokasi') == 362) {
                 $klk = [
                     [
                         'nama' => 'Lancar',
                         'prosentase' => '0',
                         'durasi' => '10',
-                        'satuan' => 'hari'
+                        'satuan' => 'Hari'
                     ],
                     [
                         'nama' => 'Dalam Perhatian Khusus',
                         'prosentase' => '5',
                         'durasi' => '90',
-                        'satuan' => 'hari'
+                        'satuan' => 'Hari'
                     ],
                     [
                         'nama' => 'kurang Lancar',
                         'prosentase' => '15',
                         'durasi' => '120',
-                        'satuan' => 'hari'
+                        'satuan' => 'Hari'
                     ],
                     [
                         'nama' => 'Diragukan',
                         'prosentase' => '50',
                         'durasi' => '180',
-                        'satuan' => 'hari'
+                        'satuan' => 'Hari'
                     ],
                     [
                         'nama' => 'Macet',
                         'prosentase' => '100',
                         'durasi' => '999',
-                        'satuan' => 'hari'
+                        'satuan' => 'Hari'
                     ]
                 ];
             } else {
@@ -428,8 +430,16 @@ $section = 0;
                             <tr>
                                 <td colspan="{{ 5 + $jumlah_kolek }}" style="padding: 0px !important;">
                                     <p style="font-size: 9px;">
-                                        @foreach ($kolek_items as $item)
-                                            {{ $item['nama'] }} (keterlambatan {{ $item['durasi'] }} {{ $item['satuan'] }}) <br>
+                                        @foreach ($kolek_items as $idx => $item)
+                                            @php
+                                                $is_last = ($idx == count($kolek_items) - 1);
+                                                $prev_durasi = $idx > 0 ? $kolek_items[$idx - 1]['durasi'] : 0;
+                                            @endphp
+                                            @if ($is_last)
+                                                {{ $item['nama'] }} (keterlambatan lebih dari {{ $prev_durasi }} {{ $item['satuan'] }}) <br>
+                                            @else
+                                                {{ $item['nama'] }} (keterlambatan kurang dari {{ $item['durasi'] }} {{ $item['satuan'] }}) <br>
+                                            @endif
                                         @endforeach
                                     </p>
                                 </td>
