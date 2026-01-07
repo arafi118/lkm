@@ -55,19 +55,25 @@ class TransaksiController extends Controller
 
     public function jurnalAngsuran()
     {
-
-        $title = 'Jurnal Angsuran';
-
+        $rekening = Rekening::where([
+            ['kode_akun', 'LIKE', '1.1.01.%'],
+            ['lev4', '!=', '02']
+        ])->orderBy('kode_akun')->get();
+    
+        $title = 'Jurnal Angsuran Kelompok';
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
+    
         if (request()->get('pinkel')) {
-            $pinkel = PinjamanKelompok::where('id', request()->get('pinkel'))->with('kelompok');
-            $pinkel = $pinkel->first();
+            $pinkel = PinjamanKelompok::where('id', request()->get('pinkel'))
+                ->with(['kelompok', 'pinjaman_anggota.anggota'])
+                ->first();
         } else {
             $pinkel = '0';
         }
-
-        $api = env('APP_API', 'https://api-whatsapp.siupk.net');
-        return view('transaksi.jurnal_angsuran.index')->with(compact('title', 'pinkel', 'kec', 'api'));
+    
+        $api = env('APP_API', 'https://api-whatsapp.sidbm.net');
+    
+        return view('transaksi.jurnal_angsuran.index')->with(compact('title', 'rekening', 'pinkel', 'kec', 'api'));
     }
 
     public function jurnalAngsuranIndividu()

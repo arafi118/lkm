@@ -18,25 +18,6 @@
         }
 
         .loader {
-            width: 120px;
-            height: 20px;
-            border-radius: 20px;
-            background:
-                linear-gradient(orange 0 0) 0/0% no-repeat lightblue;
-            animation: l2 2s infinite steps(10);
-        }
-
-        @keyframes l2 {
-            100% {
-                background-size: 110%
-            }
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .loader {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -771,6 +752,37 @@
                     })
                 } else {
                     window.location.href = '/transaksi/jurnal_angsuran_individu?pinkel=' + item.id
+                }
+            }
+        });
+
+        $('#cariKelompok').typeahead({
+            source: function(query, process) {
+                var states = [];
+                return $.get('/perguliran/cari_kelompok', {
+                    query: query
+                }, function(result) {
+                    var resultList = result.map(function(item) {
+                        states.push({
+                            "id": item.id,
+                            "name": item.nama_kelompok +
+                                ' [' + item.kd_kelompok + ', ' +
+                                item.nama_desa + ']' +
+                                ' - Loan ID: ' + item.id,
+                            "value": item.id
+                        });
+                    });
+
+                    return process(states);
+                })
+            },
+            afterSelect: function(item) {
+                var path = '{{ Request::path() }}'
+                if (path == 'transaksi/jurnal_angsuran') {
+                    $('#id').val(item.id)
+                    $('#id').trigger('change')
+                } else {
+                    window.location.href = '/transaksi/jurnal_angsuran?pinkel=' + item.id
                 }
             }
         });

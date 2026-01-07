@@ -33,8 +33,42 @@ $section = 0;
             $t_tunggakan_pokok = 0;
             $t_tunggakan_jasa = 0;
             
-            // Parse JSON kolek configuration
-            $klk = json_decode($kec->kolek, true);
+            if (session()->get('lokasi') == 362) {
+                $klk = [
+                    [
+                        'nama' => 'Lancar',
+                        'prosentase' => '0',
+                        'durasi' => '10',
+                        'satuan' => 'Hari'
+                    ],
+                    [
+                        'nama' => 'Dalam Perhatian Khusus',
+                        'prosentase' => '5',
+                        'durasi' => '90',
+                        'satuan' => 'Hari'
+                    ],
+                    [
+                        'nama' => 'kurang Lancar',
+                        'prosentase' => '15',
+                        'durasi' => '120',
+                        'satuan' => 'Hari'
+                    ],
+                    [
+                        'nama' => 'Diragukan',
+                        'prosentase' => '50',
+                        'durasi' => '180',
+                        'satuan' => 'Hari'
+                    ],
+                    [
+                        'nama' => 'Macet',
+                        'prosentase' => '100',
+                        'durasi' => '999',
+                        'satuan' => 'Hari'
+                    ]
+                ];
+            } else {
+                $klk = json_decode($kec->kolek, true);
+            }
             
             // Filter hanya item yang tidak null
             $kolek_items = [];
