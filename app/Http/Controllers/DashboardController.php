@@ -834,7 +834,7 @@ class DashboardController extends Controller
     }
 
 
-    public function simpanSaldoBaru()
+    public function simpanSaldo()
     {
         $tahun = request()->get('tahun') ?: date('Y');
         $bulan = request()->get('bulan') ?: date('m');
