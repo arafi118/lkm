@@ -998,11 +998,13 @@ class DashboardController extends Controller
         $query['bulan'] = str_pad($query['bulan'], 2, '0', STR_PAD_LEFT);
         $next = $link . '?' . http_build_query($query);
 
-        if ($kode_akun != '0' || $bulan >= date('m')) {
+        $tahun_sekarang = date('Y');
+        $bulan_sekarang = date('m');
+
+        if ($kode_akun != '0' || ($tahun == $tahun_sekarang && $bulan >= $bulan_sekarang)) {
             echo '<script>window.opener.postMessage("closed", "*"); window.close();</script>';
             exit;
         }
-
         if ($query['bulan'] < 13) {
             echo '<a href="' . $next . '" id="next"></a><script>document.querySelector("#next").click()</script>';
             exit;

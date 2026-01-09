@@ -779,8 +779,60 @@
             afterSelect: function(item) {
                 var path = '{{ Request::path() }}'
                 if (path == 'transaksi/jurnal_angsuran') {
-                    $('#id').val(item.id)
-                    $('#id').trigger('change')
+                    $.get('/transaksi/form_angsuran/' + item.id, function(result) {
+                        $('#loan-id').html(item.id)
+                        $('#id').val(item.id)
+                        $('#_pokok').val(result.sisa_pokok)
+                        $('#_jasa').val(result.sisa_jasa)
+
+                        $('#alokasi_pokok').html('Rp. ' + formatter.format(result.alokasi_pokok))
+                        $('#alokasi_jasa').html('Rp. ' + formatter.format(result.alokasi_jasa))
+
+                        if (typeof chartP != "undefined") {
+                            chartP.destroy();
+                        }
+                        if (typeof chartJ != "undefined") {
+                            chartJ.destroy();
+                        }
+
+                        var ctxP = document.getElementById('chartP').getContext('2d');
+                        chartP = new Chart(ctxP, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Pokok', 'Sisa'],
+                                datasets: [{
+                                    label: 'Rp. ',
+                                    data: [result.sum_pokok, result.sisa_pokok],
+                                    backgroundColor: [
+                                        'rgb(54, 162, 235)',
+                                        'rgb(255, 99, 132)',
+                                    ],
+                                    hoverOffset: 4
+                                }]
+                            },
+                        });
+
+                        var ctxJ = document.getElementById('chartJ').getContext('2d');
+                        chartJ = new Chart(ctxJ, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Jasa', 'Sisa'],
+                                datasets: [{
+                                    label: 'Rp. ',
+                                    data: [result.sum_jasa, result.sisa_jasa],
+                                    backgroundColor: [
+                                        'rgb(255, 205, 86)',
+                                        'rgb(255, 99, 132)',
+                                    ],
+                                    hoverOffset: 4
+                                }]
+                            },
+                        });
+
+                        $('#pokok').val(formatter.format(result.saldo_pokok))
+                        $('#jasa').val(formatter.format(result.saldo_jasa))
+                        $('#pokok,#jasa,#denda').trigger('change')
+                    })
                 } else {
                     window.location.href = '/transaksi/jurnal_angsuran?pinkel=' + item.id
                 }

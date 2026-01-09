@@ -8,8 +8,11 @@
             $tanggal = true;
         }
     }
-    $id_search = 'cariAnggota';
-    $label = 'Individu (NIK/Nama Peminjam)';
+    
+    // Determine search type based on current path
+    $path = Request::path();
+    $showIndividu = $path == 'transaksi/jurnal_angsuran_individu';
+    $showKelompok = $path == 'transaksi/jurnal_angsuran';
 @endphp
 <div class="app-header header-shadow">
     <div class="app-header__logo">
@@ -46,16 +49,27 @@
     </div>
     <div class="app-header__content">
         <div class="app-header-left">
-            <div class="search-wrapper">
-                <div class="input-holder">
-                    <input id="{{ $id_search }}" type="text" class="search-input"
-                        placeholder="{{ $label }}" autocomplete="off">
-                    <button class="search-icon"><span></span></button>
+            @if($showIndividu)
+                <div class="search-wrapper">
+                    <div class="input-holder">
+                        <input id="cariAnggota" type="text" class="search-input"
+                            placeholder="Individu (NIK/Nama Peminjam)" autocomplete="off">
+                        <button class="search-icon"><span></span></button>
+                    </div>
+                    <button class="btn-close"></button>
                 </div>
-                <button class="btn-close"></button>
-            </div>
+            @endif
 
-
+            @if($showKelompok)
+                <div class="search-wrapper">
+                    <div class="input-holder">
+                        <input id="cariKelompok" type="text" class="search-input"
+                            placeholder="Kelompok (Nama/Kode Kelompok)" autocomplete="off">
+                        <button class="search-icon"><span></span></button>
+                    </div>
+                    <button class="btn-close"></button>
+                </div>
+            @endif
         </div>
         <div class="app-header-right">
             <div class="header-btn-lg pe-0">
