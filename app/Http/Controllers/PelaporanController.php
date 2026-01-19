@@ -4071,7 +4071,7 @@ class PelaporanController extends Controller
         $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
 
-        $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'potrait');
+        $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'portrait');
         return $pdf->stream();
     }
 
@@ -4082,7 +4082,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.ts', $data)->render();
         $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : [0, 0, 595.28, 352];
 
-        $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'potrait');
+        $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'portrait');
         return $pdf->stream();
     }
 
@@ -4103,7 +4103,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.invoice', $data)->render();
         $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
-        $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'potrait');
+        $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'portrait');
         return $pdf->stream();
     }
 
