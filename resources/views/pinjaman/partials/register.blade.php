@@ -93,11 +93,11 @@
             <div class="app-heading">
                 <div class="app-bg-icon fa-solid fa-file-circle-plus"> </div>
                 <div class="app-text_fount">
-                    <h5><b>Register Proposal {{ $kelompok->jenis_produk_pinjaman != '3' ? 'Kelompok' : 'Usaha' }}
-                            {{ $kelompok->nama_kelompok }}</b></h5>
+                    <h5><b>Register Proposal {{ $kelompok?->jenis_produk_pinjaman != '3' ? 'Kelompok' : 'Usaha' }}
+                            {{ $kelompok?->nama_kelompok }}</b></h5>
                     <div>
-                        {{ $kelompok->d->sebutan_desa->sebutan_desa }} {{ $kelompok->d->nama_desa }},
-                        <b>{{ $kelompok->d->kd_desa }}</b>
+                        {{ $kelompok?->d->sebutan_desa->sebutan_desa }} {{ $kelompok?->d->nama_desa }},
+                        <b>{{ $kelompok?->d->kd_desa }}</b>
                     </div>
                 </div>
             </div>
@@ -106,7 +106,7 @@
     <form action="/perguliran" method="post" id="FormRegisterProposal">
         @csrf
 
-        <input type="hidden" name="id_kel" id="id_kel" value="{{ $kelompok->id }}">
+        <input type="hidden" name="id_kel" id="id_kel" value="{{ $kelompok?->id }}">
         <div class="row">
             <div class="col-md-3">
                 <div class="position-relative mb-3">
@@ -145,7 +145,7 @@
             $class1 = 'col-md-6';
             $class2 = 'col-md-6';
             $class3 = 'col-md-6';
-            if ($kelompok->jenis_produk_pinjaman == '3') {
+            if ($kelompok?->jenis_produk_pinjaman == '3') {
                 $class1 = 'col-md-2';
                 $class2 = 'col-md-5';
                 $class3 = 'col-md-5';
@@ -167,7 +167,7 @@
                     <small class="text-danger" id="msg_jenis_jasa"></small>
                 </div>
             </div>
-            <div class="{{ $class1 }} {{ $kelompok->jenis_produk_pinjaman == '3' ? 'd-none' : '' }}">
+            <div class="{{ $class1 }} {{ $kelompok?->jenis_produk_pinjaman == '3' ? 'd-none' : '' }}">
                 <div class="position-relative mb-3">
                     <label class="form-label" for="jenis_produk_pinjaman">Jenis Produk Pinjaman</label>
                     <select class="js-example-basic-single form-control" name="jenis_produk_pinjaman"
@@ -215,15 +215,15 @@
         <div class="card mb-3">
             <div class="card-body p-2">
                 <div class="text-center fw-bold">
-                    Struktur {{ $kelompok->jenis_produk_pinjaman != '3' ? 'Kelompok' : 'Lembaga Usaha' }}
+                    Struktur {{ $kelompok?->jenis_produk_pinjaman != '3' ? 'Kelompok' : 'Lembaga Usaha' }}
                 </div>
                 <div class="row">
-                    @if ($kelompok->jenis_produk_pinjaman != '3')
+                    @if ($kelompok?->jenis_produk_pinjaman != '3')
                         <div class="col-md-4">
                             <div class="position-relative mb-3">
                                 <label for="ketua" class="form-label">Ketua</label>
                                 <input autocomplete="off" type="text" name="ketua" id="ketua" class="form-control"
-                                    value="{{ $kelompok->ketua }}">
+                                    value="{{ $kelompok?->ketua }}">
                                 <small class="text-danger" id="msg_ketua"></small>
                             </div>
                         </div>
@@ -231,7 +231,7 @@
                             <div class="position-relative mb-3">
                                 <label for="sekretaris" class="form-label">Sekretaris</label>
                                 <input autocomplete="off" type="text" name="sekretaris" id="sekretaris"
-                                    class="form-control" value="{{ $kelompok->sekretaris }}">
+                                    class="form-control" value="{{ $kelompok?->sekretaris }}">
                                 <small class="text-danger" id="msg_sekretaris"></small>
                             </div>
                         </div>
@@ -239,7 +239,7 @@
                             <div class="position-relative mb-3">
                                 <label for="bendahara" class="form-label">Bendahara</label>
                                 <input autocomplete="off" type="text" name="bendahara" id="bendahara"
-                                    class="form-control" value="{{ $kelompok->bendahara }}">
+                                    class="form-control" value="{{ $kelompok?->bendahara }}">
                                 <small class="text-danger" id="msg_bendahara"></small>
                             </div>
                         </div>
@@ -248,7 +248,7 @@
                             <div class="position-relative mb-3">
                                 <label for="pimpinan" class="form-label">Pimpinan</label>
                                 <input autocomplete="off" type="text" name="pimpinan" id="pimpinan"
-                                    class="form-control" value="{{ $kelompok->ketua }}">
+                                    class="form-control" value="{{ $kelompok?->ketua }}">
                                 <small class="text-danger" id="msg_pimpinan"></small>
                             </div>
                         </div>
@@ -256,7 +256,7 @@
                             <div class="position-relative mb-3">
                                 <label for="penanggung_jawab" class="form-label">Penanggung Jawab</label>
                                 <input autocomplete="off" type="text" name="penanggung_jawab" id="penanggung_jawab"
-                                    class="form-control" value="{{ $kelompok->sekretaris }}">
+                                    class="form-control" value="{{ $kelompok?->sekretaris }}">
                                 <small class="text-danger" id="msg_penanggung_jawab"></small>
                             </div>
                         </div>

@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\laragon\\www\\lkm\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\AuthController.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\Http\\Controllers\\AuthController.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\DashboardController.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\Http\\Controllers\\DashboardController.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PelaporanController.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\Http\\Controllers\\PelaporanController.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
@@ -31,10 +39,6 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:resources\\views\\layouts\\navbar.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\AuthController.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\Http\\Controllers\\AuthController.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\laragon\\www\\lkm\\resources\\views\\pelaporan\\view\\perkembangan_piutang\\kolek_individu.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:resources\\views\\pelaporan\\view\\perkembangan_piutang\\kolek_individu.blade.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
@@ -50,11 +54,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "web.php",
               "DocumentMoniker": "C:\\laragon\\www\\lkm\\routes\\web.php",
               "RelativeDocumentMoniker": "routes\\web.php",
@@ -63,86 +67,20 @@
               "ViewState": "AgIAABwBAAAAAAAAAAAcwCsBAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2025-11-17T04:11:32.292Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "AuthController.php",
               "DocumentMoniker": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\AuthController.php",
               "RelativeDocumentMoniker": "app\\Http\\Controllers\\AuthController.php",
               "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\AuthController.php",
               "RelativeToolTip": "app\\Http\\Controllers\\AuthController.php",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAHAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAABgAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2025-11-17T04:11:40.799Z",
               "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TransaksiController.php",
-              "DocumentMoniker": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\TransaksiController.php",
-              "RelativeDocumentMoniker": "app\\Http\\Controllers\\TransaksiController.php",
-              "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\TransaksiController.php",
-              "RelativeToolTip": "app\\Http\\Controllers\\TransaksiController.php",
-              "ViewState": "AgIAAIQGAAAAAAAAAAAcwKYGAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2026-01-08T03:33:15.447Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "base.blade.php",
-              "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\layouts\\base.blade.php",
-              "RelativeDocumentMoniker": "resources\\views\\layouts\\base.blade.php",
-              "ToolTip": "C:\\laragon\\www\\lkm\\resources\\views\\layouts\\base.blade.php",
-              "RelativeToolTip": "resources\\views\\layouts\\base.blade.php",
-              "ViewState": "AgIAAPECAAAAAAAAAAAcwAYDAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2026-01-08T03:10:05.198Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "PinjamanAnggotaController.php",
-              "DocumentMoniker": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PinjamanAnggotaController.php",
-              "RelativeDocumentMoniker": "app\\Http\\Controllers\\PinjamanAnggotaController.php",
-              "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PinjamanAnggotaController.php",
-              "RelativeToolTip": "app\\Http\\Controllers\\PinjamanAnggotaController.php",
-              "ViewState": "AgIAAIcBAAAAAAAAAAAcwKMBAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2026-01-08T03:16:11.824Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PinjamanKelompokController.php",
-              "DocumentMoniker": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PinjamanKelompokController.php",
-              "RelativeDocumentMoniker": "app\\Http\\Controllers\\PinjamanKelompokController.php",
-              "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PinjamanKelompokController.php",
-              "RelativeToolTip": "app\\Http\\Controllers\\PinjamanKelompokController.php",
-              "ViewState": "AgIAAJsFAAAAAAAAAAAcwLIFAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2026-01-08T03:11:03.79Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "navbar.blade.php",
-              "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\layouts\\navbar.blade.php",
-              "RelativeDocumentMoniker": "resources\\views\\layouts\\navbar.blade.php",
-              "ToolTip": "C:\\laragon\\www\\lkm\\resources\\views\\layouts\\navbar.blade.php",
-              "RelativeToolTip": "resources\\views\\layouts\\navbar.blade.php",
-              "ViewState": "AgIAACsAAAAAAAAAAAAAADkAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2026-01-08T03:04:25.217Z",
               "EditorCaption": ""
             },
             {
@@ -151,7 +89,80 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DashboardController.php",
+              "DocumentMoniker": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\DashboardController.php",
+              "RelativeDocumentMoniker": "app\\Http\\Controllers\\DashboardController.php",
+              "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\DashboardController.php",
+              "RelativeToolTip": "app\\Http\\Controllers\\DashboardController.php",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2026-01-09T02:55:36.507Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TransaksiController.php",
+              "DocumentMoniker": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\TransaksiController.php",
+              "RelativeDocumentMoniker": "app\\Http\\Controllers\\TransaksiController.php",
+              "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\TransaksiController.php",
+              "RelativeToolTip": "app\\Http\\Controllers\\TransaksiController.php",
+              "ViewState": "AgIAAIQGAAAAAAAAAAAcwKYGAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2026-01-08T03:33:15.447Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "base.blade.php",
+              "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\layouts\\base.blade.php",
+              "RelativeDocumentMoniker": "resources\\views\\layouts\\base.blade.php",
+              "ToolTip": "C:\\laragon\\www\\lkm\\resources\\views\\layouts\\base.blade.php",
+              "RelativeToolTip": "resources\\views\\layouts\\base.blade.php",
+              "ViewState": "AgIAAPECAAAAAAAAAAAcwAYDAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2026-01-08T03:10:05.198Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "PinjamanAnggotaController.php",
+              "DocumentMoniker": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PinjamanAnggotaController.php",
+              "RelativeDocumentMoniker": "app\\Http\\Controllers\\PinjamanAnggotaController.php",
+              "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PinjamanAnggotaController.php",
+              "RelativeToolTip": "app\\Http\\Controllers\\PinjamanAnggotaController.php",
+              "ViewState": "AgIAAIcBAAAAAAAAAAAcwKMBAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2026-01-08T03:16:11.824Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PinjamanKelompokController.php",
+              "DocumentMoniker": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PinjamanKelompokController.php",
+              "RelativeDocumentMoniker": "app\\Http\\Controllers\\PinjamanKelompokController.php",
+              "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PinjamanKelompokController.php",
+              "RelativeToolTip": "app\\Http\\Controllers\\PinjamanKelompokController.php",
+              "ViewState": "AgIAAJsFAAAAAAAAAAAcwLIFAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2026-01-08T03:11:03.79Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 8,
+              "Title": "navbar.blade.php",
+              "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\layouts\\navbar.blade.php",
+              "RelativeDocumentMoniker": "resources\\views\\layouts\\navbar.blade.php",
+              "ToolTip": "C:\\laragon\\www\\lkm\\resources\\views\\layouts\\navbar.blade.php",
+              "RelativeToolTip": "resources\\views\\layouts\\navbar.blade.php",
+              "ViewState": "AgIAACsAAAAAAAAAAAAAADkAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2026-01-08T03:04:25.217Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "kolek_individu.blade.php",
               "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\pelaporan\\view\\perkembangan_piutang\\kolek_individu.blade.php",
               "RelativeDocumentMoniker": "resources\\views\\pelaporan\\view\\perkembangan_piutang\\kolek_individu.blade.php",
@@ -163,7 +174,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "kolekbilitas_pinjaman2.blade.php",
               "DocumentMoniker": "C:\\laragon\\www\\lkm\\resources\\views\\pelaporan\\view\\ojk\\kolekbilitas_pinjaman2.blade.php",
               "RelativeDocumentMoniker": "resources\\views\\pelaporan\\view\\ojk\\kolekbilitas_pinjaman2.blade.php",
@@ -175,16 +186,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "PelaporanController.php",
               "DocumentMoniker": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PelaporanController.php",
               "RelativeDocumentMoniker": "app\\Http\\Controllers\\PelaporanController.php",
               "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PelaporanController.php",
               "RelativeToolTip": "app\\Http\\Controllers\\PelaporanController.php",
-              "ViewState": "AgIAAM4DAAAAAAAAAAAuwNkDAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAALQDAAAAAAAAAAAuwNkDAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2026-01-07T07:43:25.315Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T07:43:25.315Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }

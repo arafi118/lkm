@@ -282,9 +282,9 @@ class PinjamanKelompokController extends Controller
         $sistem_angsuran = SistemAngsuran::all();
         $jenis_pp = JenisProdukPinjaman::where('lokasi', '0')->orWhere('lokasi', Session::get('lokasi'))->get();
 
-        $jenis_pp_dipilih = $kelompok->jenis_produk_pinjaman;
+        $jenis_pp_dipilih = $kelompok->jenis_produk_pinjaman ?? 1;
 
-        if ($kelompok->pinjaman) {
+        if ($kelompok?->pinjaman) {
             $status = $kelompok->pinjaman->status;
             if ($status == 'P' || $status == 'V' || $status == 'W') {
                 return view('pinjaman.partials.pinjaman')->with(compact('kelompok', 'kec', 'jenis_jasa', 'sistem_angsuran', 'jenis_pp', 'jenis_pp_dipilih'));
