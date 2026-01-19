@@ -97,8 +97,7 @@
               "RelativeToolTip": "app\\Http\\Controllers\\DashboardController.php",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2026-01-09T02:55:36.507Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T02:55:36.507Z"
             },
             {
               "$type": "Document",
@@ -195,10 +194,6 @@
               "ViewState": "AgIAALQDAAAAAAAAAAAuwNkDAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2026-01-07T07:43:25.315Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }
