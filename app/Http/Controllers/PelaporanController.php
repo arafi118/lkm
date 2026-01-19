@@ -178,7 +178,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.basis_data.penduduk', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -627,7 +627,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.ojk.daftar_rincian_pinjamanaktif', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -700,7 +700,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.ojk.rincian_pinjaman_lunas', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -795,7 +795,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.ojk.daftar_rincian_pinjamanagunan', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -1035,7 +1035,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.ojk.kolekbilitas_pinjaman2', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -1139,7 +1139,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.ojk.pinjaman_diberi', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -1249,7 +1249,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.ojk.piutang', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -1426,7 +1426,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.ojk.kolekbilitas_pinjaman2', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -1517,7 +1517,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.ojk.penyisihan_cadangan', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2002,7 +2002,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.neraca_saldo', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2080,7 +2080,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.kelompok_aktif', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2161,7 +2161,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.individu_aktif', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2240,7 +2240,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.simpanan', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2317,7 +2317,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.pemanfaat_aktif', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2369,7 +2369,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.proposal', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2420,7 +2420,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.verifikasi', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2471,7 +2471,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.waiting', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2572,7 +2572,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.lpp_kelompok', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2681,7 +2681,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.lpp_individu', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2777,7 +2777,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.lpp_desa', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2868,7 +2868,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.kolek_kelompok', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -2979,7 +2979,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.kolek_individu', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -3079,7 +3079,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.kolek_desa', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -3185,7 +3185,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.kredit_barang', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -3276,7 +3276,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.cadangan_penghapusan', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -3355,7 +3355,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.rencana_realisasi', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -3454,7 +3454,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang._rencana_realisasi', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -3490,7 +3490,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.jatuh_tempo', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -3564,7 +3564,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.tunggakan', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -3605,7 +3605,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.aset_tetap', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -3645,7 +3645,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.aset_tak_berwujud', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -3689,7 +3689,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.penilaian_kesehatan', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -3746,7 +3746,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.e_budgeting', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -3806,7 +3806,7 @@ class PelaporanController extends Controller
             ->orderBy($tb_pinkel . '.id', 'ASC')->get();
 
         $view = view('pelaporan.view.perkembangan_piutang.pelunasan', $data)->render();
-        $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+        $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
         $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
         return $pdf->stream();
@@ -4769,7 +4769,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.lpp_individu', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
@@ -4869,7 +4869,7 @@ class PelaporanController extends Controller
         $view = view('pelaporan.view.perkembangan_piutang.kolek_individu', $data)->render();
 
         if ($data['type'] == 'pdf') {
-            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 935.43, 595.28] : 'A4';
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();

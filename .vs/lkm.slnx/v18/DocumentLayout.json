@@ -92,8 +92,7 @@
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABgAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2025-11-17T04:11:40.799Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -109,8 +108,7 @@
               "RelativeToolTip": "resources\\views\\pelaporan\\view\\perkembangan_piutang\\kolek_desa.blade.php",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2026-01-19T06:06:37.533Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-19T06:06:37.533Z"
             },
             {
               "$type": "Document",
@@ -120,7 +118,7 @@
               "RelativeDocumentMoniker": "app\\Http\\Controllers\\PelaporanController.php",
               "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PelaporanController.php",
               "RelativeToolTip": "app\\Http\\Controllers\\PelaporanController.php",
-              "ViewState": "AgIAAF8HAAAAAAAAAAAAAG0HAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAAnwCgAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2026-01-07T07:43:25.315Z",
               "EditorCaption": ""
