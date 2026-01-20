@@ -52,6 +52,10 @@ class PinjamanAnggotaController extends Controller
             $jumlah_pinjaman_anggota_a = $pinjaman_anggota_a->count();
             $pinjaman_anggota_a = $pinjaman_anggota_a->with('sts')->orderby('tgl_cair', 'desc')->first();
 
+            $pinjaman_anggota_i = PinjamanAnggota::where('nia', $nia)->where('status', 'A');
+            $jumlah_pinjaman_anggota_i = $pinjaman_anggota_i->count();
+            $pinjaman_anggota_i = $pinjaman_anggota_i->with('sts')->orderby('tgl_cair', 'desc')->first();
+
             $data_pemanfaat = DataPemanfaat::where([
                 ['nik', request()->get('value')],
                 ['lokasi', '!=', Session::get('lokasi')]
@@ -79,7 +83,7 @@ class PinjamanAnggotaController extends Controller
             }
 
 
-            $view = view('pinjaman.anggota.register')->with(compact('anggota', 'pinjaman_anggota', 'jumlah_pinjaman_anggota', 'pinjaman_anggota_a', 'jumlah_pinjaman_anggota_a', 'data_pemanfaat', 'jumlah_data_pemanfaat', 'data_pemanfaat_a', 'jumlah_data_pemanfaat_a'))->render();
+            $view = view('pinjaman.anggota.register')->with(compact('anggota', 'pinjaman_anggota', 'jumlah_pinjaman_anggota', 'pinjaman_anggota_a', 'jumlah_pinjaman_anggota_a', 'pinjaman_anggota_i', 'jumlah_pinjaman_anggota_i', 'data_pemanfaat', 'jumlah_data_pemanfaat', 'data_pemanfaat_a', 'jumlah_data_pemanfaat_a'))->render();
             return [
                 'nia' => $nia,
                 'enable_alokasi' => $enable_alokasi,

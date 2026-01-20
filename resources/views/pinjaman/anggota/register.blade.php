@@ -62,6 +62,14 @@
                         dengan alokasi sebesar <b>Rp. {{ number_format($pinjaman_anggota_a->alokasi) }}</b>!
                     </span>
                 </div>
+            @elseif ($jumlah_pinjaman_anggota_i > 0)
+                <div class="alert alert-warning" role="alert">
+                    <span class="text-sm">
+                        Yang bersangkutan memiliki Pinjaman Aktif Di Pinjaman Individu
+                        <b>- Loan ID. {{ $pinjaman_anggota_i->id }}</b>,
+                        dengan alokasi sebesar <b>Rp. {{ number_format($pinjaman_anggota_i->alokasi) }}</b>!
+                    </span>
+                </div>
             @else
                 <div class="alert alert-success" role="alert">
                     <span class="text-sm">
