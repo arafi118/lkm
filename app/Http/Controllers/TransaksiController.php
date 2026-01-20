@@ -2328,7 +2328,7 @@ class TransaksiController extends Controller
             $gambar = '/storage/logo/' . $logo;
         }
 
-        return view('transaksi.dokumen.struk')->with(compact('trx', 'kec', 'jenis', 'dari', 'oleh', 'dibayar', 'gambar', 'keuangan'));
+        return view('transaksi.dokumen.kuitansi')->with(compact('trx', 'kec', 'jenis', 'dari', 'oleh', 'dibayar', 'gambar', 'keuangan'));
     }
 
     public function kuitansi_thermal($id)
