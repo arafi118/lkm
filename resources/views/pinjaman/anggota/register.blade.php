@@ -40,8 +40,7 @@
                 <div class="alert alert-danger" role="alert">
                     <span class="text-sm">
                         Yang bersangkutan memiliki Proposal dalam Proses
-                        dengan status <b>{{ $pinjaman_anggota->status }}</b> pada kelompok
-                        <b>{{ $pinjaman_anggota->kelompok->nama_kelompok . ' ' . $pinjaman_anggota->kelompok->alamat_kelompok }}</b>,
+                        dengan status <b>{{ $pinjaman_anggota->status }}</b> 
                         dengan pengajuan sebesar <b>Rp. {{ number_format($pinjaman_anggota->proposal) }}</b>!
                     </span>
                 </div>
