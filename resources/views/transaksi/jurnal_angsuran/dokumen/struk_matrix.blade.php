@@ -19,7 +19,6 @@
         $target_jasa = $ra_bulan_ini->target_jasa;
         $angsuran_ke = $ra_bulan_ini->angsuran_ke;
     }
-    $angke = ($wajib_pokok != 0) ? floor($real->sum_pokok / $wajib_pokok) : 0;
 
     $jum_angsuran = $pinkel->jangka / $pinkel->sis_pokok->sistem;
     if ($real->saldo_pokok + $real->saldo_jasa <= 0) {
@@ -59,15 +58,18 @@
         $jasa_bulan_depan = 0;
     }
     $nama_user = '';
+
     $no_kuitansi = '';
 @endphp
 @foreach ($real->trx as $trx)
     @php
-        $keterangan .= $trx->keterangan_transaksi . '<br>';
+        $keterangan .= $trx->keterangan_transaksi . ', ';
         if (
-            $trx->rekening_kredit == '4.1.01.04' ||
-            $trx->rekening_kredit == '4.1.01.05' ||
-            $trx->rekening_kredit == '4.1.01.06'
+            $trx->rekening_kredit == '4.1.02.01' ||
+            $trx->rekening_kredit == '4.1.02.02' ||
+            $trx->rekening_kredit == '4.1.02.03' || 
+            $trx->rekening_kredit == '4.1.02.04' || 
+            $trx->rekening_kredit == '4.1.02.05' 
         ) {
             $denda += $trx->jumlah;
         }
@@ -78,225 +80,267 @@
     @endphp
 @endforeach
 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Struk Angsuran Kelompok {{ $pinkel->kelompok->nama_kelompok }} - {{ $pinkel->id }}</title>
+    <style type="text/css">
+        @page {
+            size: 80mm auto;
+            margin: 0;
+        }
+        
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 10px;
+            margin: 0;
+            padding: 5mm;
+            width: 70mm;
+        }
 
-<style type="text/css">
-    .style1 {
-        letter-spacing: 5px;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 10px;
-    }
+        .header {
+            text-align: center;
+            border-bottom: 1px dashed #000;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
 
-    .style2 {
-        letter-spacing: 3px;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 7px;
-    }
+        .header h3 {
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+        }
 
-    .top {
-        border-top: 1px solid #000000;
-    }
+        .header p {
+            margin: 2px 0;
+            font-size: 9px;
+        }
 
-    .bottom {
-        border-bottom: 1px solid #000000;
-    }
+        .divider {
+            border-top: 1px dashed #000;
+            margin: 5px 0;
+        }
 
-    .left {
-        border-left: 1px solid #000000;
-    }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin: 2px 0;
+        }
 
-    .right {
-        border-right: 1px solid #000000;
-    }
+        .row-label {
+            width: 40%;
+        }
 
-    .allborder {
-        border: 1px solid #000000;
-    }
+        .row-value {
+            width: 60%;
+            text-align: right;
+        }
 
-    .style26 {
-        font-family: Verdana, Arial, Helvetica, sans-serif;
-        letter-spacing: 5px;
-    }
+        .bold {
+            font-weight: bold;
+        }
 
-    .style27 {
-        font-family: Verdana, Arial, Helvetica, sans-serif;
-        font-size: 7px;
-        font-weight: bold;
-        letter-spacing: 5px;
-    }
-</style>
+        .center {
+            text-align: center;
+        }
 
-<body onLoad="window.print()">
-    <table width="100%" action="" border="0" align="center" cellpadding="1" cellspacing="1.5" class="style1">
+        .right {
+            text-align: right;
+        }
 
+        .footer {
+            margin-top: 10px;
+            border-top: 1px dashed #000;
+            padding-top: 5px;
+            font-size: 8px;
+        }
+
+        .signature {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .signature div {
+            text-align: center;
+            width: 45%;
+        }
+
+        table {
+            width: 100%;
+            font-size: 10px;
+        }
+
+        table td {
+            padding: 1px 0;
+        }
+    </style>
+</head>
+<body onload="window.print()">
+    
+    <div class="header">
+        <h3>{{ strtoupper($kec->nama_lembaga_sort) }}</h3>
+        <h3>{{ strtoupper($kec->nama_kec) }}</h3>
+        <p>{{ $kec->alamat_kec }}</p>
+        <p>Telp. {{ $kec->telpon_kec }}</p>
+    </div>
+
+    <div class="center bold" style="margin: 8px 0;">
+        BUKTI ANGSURAN KELOMPOK
+    </div>
+
+    <table>
         <tr>
-            <th colspan="4" class="bottom">
-                <b>{{ strtoupper($kec->nama_lembaga_sort . ' ' . $kec->nama_kec) }}</b>
-                <br>
-                {{ $kec->alamat_kec }}
-                <br>
-                Telp. {{ $kec->telpon_kec }}
-            </th>
-            <td width="4%" rowspan="17">&nbsp;</td>
-            <td width="19%">
-                Kode Transaksi
-                <br>
-                Tanggal Transasksi
-            </td>
-            <td width="15%">
-                : {{ substr($no_kuitansi, 0, -1) }}
-                <br>
-                : {{ Tanggal::tglLatin($real->tgl_transaksi) }}
-            </td>
-            <th width="14%" class="style26">BUKTI ANGSURAN</th>
-        </tr>
-
-        <tr>
-            <td width="15%">Loan ID</td>
-            <td width="11%"><strong>: {{ $pinkel->id }} - {{ $pinkel->jpp->nama_jpp }}</strong></td>
-            <td colspan="2">
-                <div align="right">Angsuran ke: {{ $angke }}
-                    dari {{ $jum_angsuran }}</div>
-            </td>
-            <th class="bottom top">STATUS PINJAMAN</th>
-            <th class="bottom top">POKOK</th>
-            <th class="bottom top">JASA</th>
-        </tr>
-        <tr>
-            <td>ID Nasabah</td>
-            <td colspan="3">: {{ $pinkel->anggota->id }}</td>
-            <td>Alokasi Pinjaman </td>
-            <td align="right">{{ number_format($pinkel->alokasi) }}</td>
-            <td align="right">{{ number_format(($pinkel->alokasi * $pinkel->pros_jasa) / 100) }}</td>
-        </tr>
-        <tr>
-            <td>Nama Nasabah </td>
-            <td colspan="3"><b>: {{ $pinkel->anggota->namadepan }}</b></td>
-            <td>Target Pengembalian (x)</td>
-            <td align="right">{{ number_format($ra->target_pokok) }}</td>
-            <td align="right">{{ number_format($ra->target_jasa) }}</td>
-        </tr>
-        <tr>
-            <td>Alamat</td>
-            <td colspan="3">: {{ $pinkel->anggota->d->nama_desa }}</td>
-            <td class="bottom">Realisasi Pengembalian</td>
-            <td class="bottom" align="right">{{ number_format($real->sum_pokok) }}</td>
-            <td class="bottom" align="right">{{ number_format($real->sum_jasa) }}</td>
-        </tr>
-        <tr>
-            <td>Tanggal Cair </td>
-            <td colspan="3">: {{ Tanggal::tglLatin($pinkel->tgl_cair) }}</td>
-            <th>Saldo Pinjaman</th>
-            <th align="right">{{ number_format($real->saldo_pokok) }}</th>
-            <th align="right">{{ number_format($real->saldo_jasa) }}</th>
-        </tr>
-        <tr>
-            <td>Sistem Angsuran </td>
-            <td colspan="3">:
-                {{ $pinkel->jangka }} {{ '@' . $pinkel->sis_pokok->nama_sistem }} = {{ $jum_angsuran }} x
-            </td>
-
+            <td width="40%">No. Kuitansi</td>
+            <td width="5%">:</td>
+            <td width="55%">{{ substr($no_kuitansi, 0, -1) }}</td>
         </tr>
         <tr>
-            <td>Pokok</td>
-            <td>: </td>
-            <td width="10%">
-                <div align="right">{{ number_format($real->realisasi_pokok) }}</div>
-            </td>
-            <td width="12%">&nbsp;</td>
-            <th class="bottom top">TAGIHAN BULAN DEPAN</th>
-            <th class="bottom top">POKOK</th>
-            <th class="bottom top">JASA</th>
-        </tr>
-        <tr>
-            <td>Jasa</td>
-            <td>: </td>
-            <td>
-                <div align="right">{{ number_format($real->realisasi_jasa) }}</div>
-            </td>
-            <td>&nbsp;</td>
-            <td>Tunggakan s.d. Bulan Ini</td>
-            <td align="right">{{ number_format($tunggakan_pokok) }}</td>
-            <td align="right">{{ number_format($tunggakan_jasa) }}</td>
-        </tr>
-        <tr>
-            <td class="bottom">Denda</td>
-            <td class="bottom">: </td>
-            <td class="bottom">
-                <div align="right">{{ number_format($denda) }}</div>
-            </td>
-            <td class="bottom">&nbsp;</td>
-            <td class="bottom">Angsuran Bulan Depan</td>
-            <td align="right" style="border-bottom:1px solid #000;">
-                {{ number_format($pokok_bulan_depan) }}
-            </td>
-            <td align="right" style="border-bottom:1px solid #000;">
-                {{ number_format($jasa_bulan_depan) }}
-            </td>
-        </tr>
-        <tr>
-            <th height="27">JUMLAH BAYAR </th>
+            <td>Tanggal</td>
             <td>:</td>
-            <td>
-                <div align="right">
-                    <b>
-                        {{ number_format($real->realisasi_pokok + $real->realisasi_jasa + $denda) }}
-                    </b>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-            <th class="bottom">TOTAL TAGIHAN (M+1)</td>
-            <th align="right" style="border-bottom:1px solid #000;">
-                {{ number_format($tunggakan_pokok + $pokok_bulan_depan + ($tunggakan_jasa + $jasa_bulan_depan)) }}
-            </th>
-            <th align="right" style="border-bottom:1px solid #000;">&nbsp;</th>
-
-        </tr>
-
-        <tr>
-            <td colspan="4">Terbilang : </td>
-            <td>
-                <div align="center">Diterima Oleh </div>
-            </td>
-            <td rowspan="5">&nbsp;</td>
-            <td>
-                <div align="center">Penyetor,</div>
-            </td>
+            <td>{{ Tanggal::tglIndo($real->tgl_transaksi) }}</td>
         </tr>
         <tr>
-            <th colspan="4" rowspan="3">
-                {{ strtoupper($keuangan->terbilang($real->realisasi_pokok + $real->realisasi_jasa + $denda)) }} RUPIAH
-            </th>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="4" rowspan="2" class="style2 top">
-                - <br>
-                - Dicetak pada {{ date('Y-m-d H:i:s A') }}<br>
-                - Lembar 1 untuk Nasabah, lembar 2 Arsip DBM<br>
-                - Bawalah kartu angsuran dan slip ini pada saat mengangsur bulan depan<br>
-                - Cek status pinjaman anggota anda di {{ $kec->web_kec }} </td>
-            <th valign="top">
-                <div align="center" class="bottom">
-                    {{ $nama_user }}
-                </div>
-            </th>
-            <th valign="top">
-                <div align="center" class="bottom">&nbsp;</div>
-            </th>
-        </tr>
-        <tr>
-            <th colspan="3" valign="middle">&nbsp;</th>
+            <td>Loan ID</td>
+            <td>:</td>
+            <td class="bold">{{ $pinkel->id }} - {{ $pinkel->jpp->nama_jpp }}</td>
         </tr>
     </table>
 
-    <title>Struk Angsuran Kelompok {{ $pinkel->anggota->nama_anggota }} &mdash; {{ $pinkel->id }}</title>
+    <div class="divider"></div>
+
+    <table>
+        <tr>
+            <td width="40%">Kode Kelompok</td>
+            <td width="5%">:</td>
+            <td width="55%">{{ $pinkel->kelompok->kd_kelompok }}</td>
+        </tr>
+        <tr>
+            <td>Nama Kelompok</td>
+            <td>:</td>
+            <td class="bold">{{ $pinkel->kelompok->nama_kelompok }}</td>
+        </tr>
+        <tr>
+            <td>Alamat</td>
+            <td>:</td>
+            <td>{{ $pinkel->kelompok->d->nama_desa }}</td>
+        </tr>
+        <tr>
+            <td>Tgl Cair</td>
+            <td>:</td>
+            <td>{{ Tanggal::tglIndo($pinkel->tgl_cair) }}</td>
+        </tr>
+        <tr>
+            <td>Angsuran Ke</td>
+            <td>:</td>
+            <td>{{ $ra_bulan_ini ? $ra_bulan_ini->angsuran_ke : 1 }} dari {{ $jum_angsuran }}</td>
+        </tr>
+    </table>
+
+    <div class="divider"></div>
+
+    <table>
+        <tr>
+            <td colspan="3" class="bold">STATUS PINJAMAN</td>
+        </tr>
+        <tr>
+            <td width="50%">Alokasi</td>
+            <td width="25%" class="right">{{ number_format($pinkel->alokasi) }}</td>
+            <td width="25%" class="right">{{ number_format(($pinkel->alokasi * $pinkel->pros_jasa) / 100) }}</td>
+        </tr>
+        <tr>
+            <td>Target s.d. Bln Ini</td>
+            <td class="right">{{ number_format($target_pokok) }}</td>
+            <td class="right">{{ number_format($target_jasa) }}</td>
+        </tr>
+        <tr>
+            <td>Realisasi</td>
+            <td class="right">{{ number_format($real->sum_pokok) }}</td>
+            <td class="right">{{ number_format($real->sum_jasa) }}</td>
+        </tr>
+        <tr>
+            <td class="bold">Saldo Pinjaman</td>
+            <td class="right bold">{{ number_format($real->saldo_pokok) }}</td>
+            <td class="right bold">{{ number_format($real->saldo_jasa) }}</td>
+        </tr>
+    </table>
+
+    <div class="divider"></div>
+
+    <table>
+        <tr>
+            <td colspan="3" class="bold">PEMBAYARAN HARI INI</td>
+        </tr>
+        <tr>
+            <td width="50%">Pokok</td>
+            <td width="5%">:</td>
+            <td width="45%" class="right">{{ number_format($real->realisasi_pokok) }}</td>
+        </tr>
+        <tr>
+            <td>Jasa</td>
+            <td>:</td>
+            <td class="right">{{ number_format($real->realisasi_jasa) }}</td>
+        </tr>
+        <tr>
+            <td>Denda</td>
+            <td>:</td>
+            <td class="right">{{ number_format($denda) }}</td>
+        </tr>
+        <tr>
+            <td class="bold">TOTAL BAYAR</td>
+            <td>:</td>
+            <td class="right bold">{{ number_format($real->realisasi_pokok + $real->realisasi_jasa + $denda) }}</td>
+        </tr>
+    </table>
+
+    <div class="divider"></div>
+
+    <div style="font-size: 9px; margin: 5px 0;">
+        Terbilang: <span class="bold">{{ strtoupper($keuangan->terbilang($real->realisasi_pokok + $real->realisasi_jasa + $denda)) }} RUPIAH</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <table>
+        <tr>
+            <td colspan="3" class="bold">TAGIHAN BULAN DEPAN</td>
+        </tr>
+        <tr>
+            <td width="50%">Tunggakan</td>
+            <td width="25%" class="right">{{ number_format($tunggakan_pokok) }}</td>
+            <td width="25%" class="right">{{ number_format($tunggakan_jasa) }}</td>
+        </tr>
+        <tr>
+            <td>Angsuran Bln Depan</td>
+            <td class="right">{{ number_format($pokok_bulan_depan) }}</td>
+            <td class="right">{{ number_format($jasa_bulan_depan) }}</td>
+        </tr>
+        <tr>
+            <td class="bold">TOTAL TAGIHAN</td>
+            <td class="right bold">{{ number_format($tunggakan_pokok + $pokok_bulan_depan) }}</td>
+            <td class="right bold">{{ number_format($tunggakan_jasa + $jasa_bulan_depan) }}</td>
+        </tr>
+    </table>
+
+    <div class="signature">
+        <div>
+            <p style="margin: 0;">Diterima Oleh,</p>
+            <p style="margin: 30px 0 5px 0;">&nbsp;</p>
+            <p style="margin: 0; border-top: 1px solid #000; padding-top: 2px;">{{ $nama_user }}</p>
+        </div>
+        <div>
+            <p style="margin: 0;">Penyetor,</p>
+            <p style="margin: 30px 0 5px 0;">&nbsp;</p>
+            <p style="margin: 0; border-top: 1px solid #000; padding-top: 2px;">{{ $pinkel->kelompok->nama_kelompok }}</p>
+        </div>
+    </div>
+
+    <div class="footer center">
+        <p style="margin: 2px 0;">Dicetak: {{ date('d/m/Y H:i:s') }}</p>
+        <p style="margin: 2px 0;">Lembar 1: Kelompok | Lembar 2: Arsip LKM</p>
+        <p style="margin: 2px 0;">Bawa kartu angsuran saat mengangsur</p>
+        <p style="margin: 2px 0;">{{ $kec->web_kec }}</p>
+    </div>
+
 </body>
+</html>

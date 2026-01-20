@@ -19,7 +19,6 @@
         $target_jasa = $ra_bulan_ini->target_jasa;
         $angsuran_ke = $ra_bulan_ini->angsuran_ke;
     }
-    $angke = ($wajib_pokok != 0) ? floor($real->sum_pokok / $wajib_pokok) : 0;
 
     $jum_angsuran = $pinkel->jangka / $pinkel->sis_pokok->sistem;
     if ($real->saldo_pokok + $real->saldo_jasa <= 0) {
@@ -68,11 +67,15 @@
 @foreach ($real->trx as $trx)
     @php
         $keterangan .= $trx->keterangan_transaksi . '<br>';
-            if (
-                str_starts_with($trx->rekening_kredit, '4.1.02.')
-            ) {
-                $denda += $trx->jumlah;
-            }
+        if (
+            $trx->rekening_kredit == '4.1.02.01' ||
+            $trx->rekening_kredit == '4.1.02.02' ||
+            $trx->rekening_kredit == '4.1.02.03' || 
+            $trx->rekening_kredit == '4.1.02.04' || 
+            $trx->rekening_kredit == '4.1.02.05' 
+        ) {
+            $denda += $trx->jumlah;
+        }
 
         $no_kuitansi .= $trx->idt . '/';
 
@@ -155,7 +158,7 @@
             <td width="15%">Loan ID</td>
             <td width="11%"><strong>: {{ $pinkel->id }} - {{ $pinkel->jpp->nama_jpp }}</strong></td>
             <td colspan="2">
-                <div align="right">Angsuran ke: {{ $angke }}
+                <div align="right">Angsuran ke: {{ $ra_bulan_ini->angsuran_ke > 0 ? $ra_bulan_ini->angsuran_ke : 1 }}
                     dari {{ $jum_angsuran }}</div>
             </td>
             <th class="bottom top">STATUS PINJAMAN</th>
@@ -163,22 +166,22 @@
             <th class="bottom top">JASA</th>
         </tr>
         <tr>
-            <td>ID Nasabah </td>
-            <td colspan="3">: {{ $pinkel->anggota->id }}</td>
+            <td>Kode Kelompok </td>
+            <td colspan="3">: {{ $pinkel->kelompok->kd_kelompok }}</td>
             <td>Alokasi Pinjaman </td>
             <td align="right">{{ number_format($pinkel->alokasi) }}</td>
             <td align="right">{{ number_format(($pinkel->alokasi * $pinkel->pros_jasa) / 100) }}</td>
         </tr>
         <tr>
-            <td>Nama Nasabah </td>
-            <td colspan="3"><b>: {{ $pinkel->anggota->namadepan }}</b></td>
+            <td>Nama Kelompok </td>
+            <td colspan="3"><b>: {{ $pinkel->kelompok->nama_kelompok }}</b></td>
             <td>Target Pengembalian (x)</td>
             <td align="right">{{ number_format($target_pokok) }}</td>
             <td align="right">{{ number_format($target_jasa) }}</td>
         </tr>
         <tr>
             <td>Alamat</td>
-            <td colspan="3">: {{ $pinkel->anggota->d->nama_desa }}</td>
+            <td colspan="3">: {{ $pinkel->kelompok->d->sebutan_desa->sebutan_desa }} {{ $pinkel->kelompok->d->nama_desa }}</td>
             <td class="bottom">Realisasi Pengembalian</td>
             <td class="bottom" align="right">{{ number_format($real->sum_pokok) }}</td>
             <td class="bottom" align="right">{{ number_format($real->sum_jasa) }}</td>
@@ -245,7 +248,7 @@
                 </div>
             </td>
             <td>&nbsp;</td>
-            <th class="bottom">TOTAL TAGIHAN (M+1)</td>
+            <th class="bottom">TOTAL TAGIHAN (M+1)</th>
             <th align="right" style="border-bottom:1px solid #000;">
                 {{ number_format($tunggakan_pokok + $pokok_bulan_depan + ($tunggakan_jasa + $jasa_bulan_depan)) }}
             </th>
@@ -282,18 +285,16 @@
             <td colspan="4" rowspan="2" class="style2 top">
                 - <br>
                 - Dicetak pada {{ date('Y-m-d H:i:s A') }}<br>
-                - Lembar 1 untuk Kelompok, lembar 2 Arsip DBM<br>
+                - Lembar 1 untuk Kelompok, lembar 2 Arsip LKM<br>
                 - Bawalah kartu angsuran dan slip ini pada saat mengangsur bulan depan<br>
-                - Cek status pinjaman anggota anda di {{ $kec->web_kec }} </td>
+                - Cek status pinjaman Kelompok anda di {{ $kec->web_kec }} </td>
             <th valign="top">
                 <div align="center" class="bottom">
                     {{ $nama_user }}
                 </div>
             </th>
             <th valign="top">
-                <div align="center" class="bottom">
-                    {{ $trx->relasi }}
-                </div>
+                <div align="center" class="bottom"> {{ $pinkel->kelompok->nama_kelompok }}</div>
             </th>
         </tr>
         <tr>
@@ -301,5 +302,5 @@
         </tr>
     </table>
 
-    <title>Struk Angsuran {{ $pinkel->anggota->nama_anggota }} &mdash; {{ $pinkel->id }}</title>
+    <title>Struk Angsuran Kelompok {{ $pinkel->kelompok->nama_kelompok }} &mdash; {{ $pinkel->id }}</title>
 </body>

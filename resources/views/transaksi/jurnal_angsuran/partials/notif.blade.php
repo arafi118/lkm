@@ -1,4 +1,4 @@
-<div class="card card-body p-2 pb-0 mb-4">
+<div class="card card-body p-2 pb-0 mb-4 alert alert-warning" style="background-color: #F7B924; border-color: #fff3cd;">
     <div class="row">
         <div class="col-md-3 d-grid">
             <button type="button" data-action="/transaksi/dokumen/struk/{{ $idtp }}"
