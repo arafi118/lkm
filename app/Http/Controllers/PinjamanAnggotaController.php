@@ -48,7 +48,7 @@ class PinjamanAnggotaController extends Controller
             $jumlah_pinjaman_anggota = $pinjaman_anggota->count();
             $pinjaman_anggota = $pinjaman_anggota->with('sts')->orderby('tgl_proposal', 'desc')->first();
 
-            $pinjaman_anggota_a = PinjamanAnggota::where('nia', $nia)->where('status', 'A');
+            $pinjaman_anggota_a = PinjamanAnggota::where('nia', $nia)->where('jenis_pinjaman', 'K')->where('status', 'A');
             $jumlah_pinjaman_anggota_a = $pinjaman_anggota_a->count();
             $pinjaman_anggota_a = $pinjaman_anggota_a->with('sts')->orderby('tgl_cair', 'desc')->first();
 

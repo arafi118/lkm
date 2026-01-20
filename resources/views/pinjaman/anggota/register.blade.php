@@ -30,14 +30,14 @@
     </div>
     <div class="col-lg-8 mb-3">
         @if ($anggota->status == '0')
-            <div class="alert alert-danger text-white" role="alert">
+            <div class="alert alert-danger" role="alert">
                 <span class="text-sm">
                     Pemanfaat saat ini berada dalam status <b>blokir</b> sehingga tidak bisa mengajukan pinjaman.
                 </span>
             </div>
         @else
             @if ($jumlah_pinjaman_anggota > 0)
-                <div class="alert alert-danger text-white" role="alert">
+                <div class="alert alert-danger" role="alert">
                     <span class="text-sm">
                         Yang bersangkutan memiliki Proposal dalam Proses
                         dengan status <b>{{ $pinjaman_anggota->status }}</b> pada kelompok
@@ -46,7 +46,7 @@
                     </span>
                 </div>
             @else
-                <div class="alert alert-success text-white" role="alert">
+                <div class="alert alert-success" role="alert">
                     <span class="text-sm">
                         Yang bersangkutan tidak memiliki Proposal dalam Proses
                     </span>
@@ -54,7 +54,7 @@
             @endif
 
             @if ($jumlah_pinjaman_anggota_a > 0)
-                <div class="alert alert-warning text-white" role="alert">
+                <div class="alert alert-warning" role="alert">
                     <span class="text-sm">
                         Yang bersangkutan memiliki Pinjaman Aktif pada kelompok
                         <b>{{ $pinjaman_anggota_a->kelompok->nama_kelompok . ' ' . $pinjaman_anggota_a->kelompok->alamat_kelompok }}
@@ -63,7 +63,7 @@
                     </span>
                 </div>
             @else
-                <div class="alert alert-success text-white" role="alert">
+                <div class="alert alert-success" role="alert">
                     <span class="text-sm">
                         Yang bersangkutan tidak memiliki Pinjaman Aktif
                     </span>
@@ -71,14 +71,14 @@
             @endif
 
             @if ($jumlah_data_pemanfaat > 0)
-                <div class="alert alert-danger text-white" role="alert">
+                <div class="alert alert-danger" role="alert">
                     <span class="text-sm">
                         Yang bersangkutan memiliki Proposal dalam Proses di {{ $data_pemanfaat->kec->sebutan_kec }}
                         {{ $data_pemanfaat->kec->nama_kec }}</b>!
                     </span>
                 </div>
             @else
-                <div class="alert alert-success text-white" role="alert">
+                <div class="alert alert-success" role="alert">
                     <span class="text-sm">
                         Yang bersangkutan tidak memiliki Proposal dalam Proses di Kecamatan Lain
                     </span>
@@ -86,14 +86,14 @@
             @endif
 
             @if ($jumlah_data_pemanfaat_a > 0)
-                <div class="alert alert-warning text-white" role="alert">
+                <div class="alert alert-warning" role="alert">
                     <span class="text-sm">
                         Yang bersangkutan memiliki Pinjaman Aktif di {{ $data_pemanfaat->kec->sebutan_kec }}
                         {{ $data_pemanfaat->kec->nama_kec }}</b>!
                     </span>
                 </div>
             @else
-                <div class="alert alert-success text-white" role="alert">
+                <div class="alert alert-success" role="alert">
                     <span class="text-sm">
                         Yang bersangkutan tidak memiliki Pinjaman Aktif di Kecamatan Lain
                     </span>
