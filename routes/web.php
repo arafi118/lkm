@@ -333,11 +333,14 @@ Route::get('/transaksi/angsuran/form_anggota_i/{id_pinkel}', [TransaksiControlle
 Route::get('/angsuran/notifikasi/{idtp}', [TransaksiController::class, 'notifikasi'])->middleware('auth', 'is_aktif');
 Route::get('/angsuran/notifikasi_i/{idtp}', [TransaksiController::class, 'notifikasiIndividu'])->middleware('auth', 'is_aktif');
 
-Route::get('/transaksi/dokumen/struk/{id}', [TransaksiController::class, 'kuitansi'])->middleware('auth', 'is_aktif');
-Route::get('/transaksi/dokumen/struk_matrix/{id}', [TransaksiController::class, 'kuitansi_thermal'])->middleware('auth', 'is_aktif');
+Route::get('/transaksi/dokumen/kuitansi/{id}', [TransaksiController::class, 'kuitansi'])->middleware('auth', 'is_aktif');
+Route::get('/transaksi/dokumen/kuitansi_thermal/{id}', [TransaksiController::class, 'kuitansi_thermal'])->middleware('auth', 'is_aktif');
 Route::get('/transaksi/dokumen/bkk/{id}', [TransaksiController::class, 'bkk'])->middleware('auth', 'is_aktif');
 Route::get('/transaksi/dokumen/bkm/{id}', [TransaksiController::class, 'bkm'])->middleware('auth', 'is_aktif');
 Route::get('/transaksi/dokumen/bm/{id}', [TransaksiController::class, 'bm'])->middleware('auth', 'is_aktif');
+
+Route::get('/transaksi/dokumen/struk/{id}', [TransaksiController::class, 'struk'])->middleware('auth', 'is_aktif');
+Route::get('/transaksi/dokumen/struk_matrix/{id}', [TransaksiController::class, 'strukMatrix'])->middleware('auth', 'is_aktif');
 
 Route::get('/transaksi/dokumen/struk_individu/{id}', [TransaksiController::class, 'struk'])->middleware('auth', 'is_aktif');
 Route::get('/transaksi/dokumen/struk_matrix_individu/{id}', [TransaksiController::class, 'strukMatrixIndividu'])->middleware('auth', 'is_aktif');
