@@ -342,7 +342,7 @@ Route::get('/transaksi/dokumen/bm/{id}', [TransaksiController::class, 'bm'])->mi
 Route::get('/transaksi/dokumen/struk/{id}', [TransaksiController::class, 'struk'])->middleware('auth', 'is_aktif');
 Route::get('/transaksi/dokumen/struk_matrix/{id}', [TransaksiController::class, 'strukMatrix'])->middleware('auth', 'is_aktif');
 
-Route::get('/transaksi/dokumen/struk_individu/{id}', [TransaksiController::class, 'struk'])->middleware('auth', 'is_aktif');
+Route::get('/transaksi/dokumen/struk_individu/{id}', [TransaksiController::class, 'struk_individu'])->middleware('auth', 'is_aktif');
 Route::get('/transaksi/dokumen/struk_matrix_individu/{id}', [TransaksiController::class, 'strukMatrixIndividu'])->middleware('auth', 'is_aktif');
 Route::get('/transaksi/dokumen/struk_thermal_individu/{id}', [TransaksiController::class, 'strukThermalIndividu'])->middleware('auth', 'is_aktif');
 Route::post('/transaksi/dokumen/cetak', [TransaksiController::class, 'cetak'])->middleware('auth', 'is_aktif');

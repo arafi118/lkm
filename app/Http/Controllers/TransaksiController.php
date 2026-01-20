@@ -2102,7 +2102,7 @@ class TransaksiController extends Controller
         ];
     }
 
-    public function struk($id)
+    public function struk_individu($id)
     {
         $data['real'] = RealAngsuranI::where('id', $id)->with('trx', 'trx.user')->firstOrFail();
         // $data['ra'] = RencanaAngsuran::where([
@@ -2118,30 +2118,6 @@ class TransaksiController extends Controller
         ])->orderBy('jatuh_tempo', 'DESC')->first();
         $data['pinkel'] = PinjamanIndividu::where('id', $data['real']->loan_id)->with([
             'anggota',
-            'jpp',
-            'sis_pokok'
-        ])->first();
-        $data['user'] = User::where('id', $data['real']->id_user)->first();
-        $data['kec'] = Kecamatan::where('id', Session::get('lokasi'))->with('kabupaten')->first();
-        $data['keuangan'] = new Keuangan;
-
-        return view('transaksi.jurnal_angsuran.dokumen.struk', $data);
-    }
-
-    public function strukIndividu($id)
-    {
-        $data['real'] = RealAngsuranI::where('id', $id)->with('trx', 'trx.user')->firstOrFail();
-        $data['ra'] = RencanaAngsuranI::where([
-            ['loan_id', $data['real']->loan_id]
-        ])->orderBy('jatuh_tempo', 'DESC')->first();
-        $data['ra_bulan_ini'] = RencanaAngsuranI::where([
-            ['loan_id', $data['real']->loan_id],
-            ['jatuh_tempo', '<=', date('Y-m-t', strtotime($data['real']->tgl_transaksi))],
-        ])->orderBy('jatuh_tempo', 'DESC')->first();
-        $data['pinkel'] = PinjamanIndividu::where('id', $data['real']->loan_id)->with([
-            'anggota',
-            'anggota.d',
-            'anggota.d.sebutan_desa',
             'jpp',
             'sis_pokok'
         ])->first();
@@ -2152,24 +2128,44 @@ class TransaksiController extends Controller
         return view('transaksi.jurnal_angsuran.individu.dokumen.struk', $data);
     }
 
-    public function strukMatrix($id)
+    public function struk($id)
     {
-        $data['real'] = RealAngsuranI::where('id', $id)->with('trx', 'trx.user')->firstOrFail();
-        // $data['ra'] = RencanaAngsuran::where([
-        //     ['loan_id', $data['real']->loan_id],
-        //     ['target_pokok', '>=', $data['real']->sum_pokok]
-        // ])->orderBy('jatuh_tempo', 'ASC')->first();
-        $data['ra'] = RencanaAngsuranI::where([
+        $data['real'] = RealAngsuran::where('id', $id)->with('trx', 'trx.user')->firstOrFail();
+        $data['ra'] = RencanaAngsuran::where([
             ['loan_id', $data['real']->loan_id]
         ])->orderBy('jatuh_tempo', 'DESC')->first();
-        $data['ra_bulan_ini'] = RencanaAngsuranI::where([
+        $data['ra_bulan_ini'] = RencanaAngsuran::where([
+            ['loan_id', $data['real']->loan_id],
+            ['jatuh_tempo', '<=', date('Y-m-t', strtotime($data['real']->tgl_transaksi))],
+        ])->orderBy('jatuh_tempo', 'DESC')->first();
+        $data['pinkel'] = PinjamanKelompok::where('id', $data['real']->loan_id)->with([
+            'kelompok',
+            'kelompok.d',
+            'kelompok.d.sebutan_desa',
+            'jpp',
+            'sis_pokok'
+        ])->first();
+        $data['user'] = User::where('id', $data['real']->id_user)->first();
+        $data['kec'] = Kecamatan::where('id', Session::get('lokasi'))->with('kabupaten')->first();
+        $data['keuangan'] = new Keuangan;
+
+        return view('transaksi.jurnal_angsuran.dokumen.struk', $data);
+    }
+
+    public function strukMatrix($id)
+    {
+        $data['real'] = RealAngsuran::where('id', $id)->with('trx', 'trx.user')->firstOrFail();
+        $data['ra'] = RencanaAngsuran::where([
+            ['loan_id', $data['real']->loan_id]
+        ])->orderBy('jatuh_tempo', 'DESC')->first();
+        $data['ra_bulan_ini'] = RencanaAngsuran::where([
             ['loan_id', $data['real']->loan_id],
             ['jatuh_tempo', '<=', date('Y-m-t', strtotime($data['real']->tgl_transaksi))]
         ])->orderBy('jatuh_tempo', 'DESC')->first();
-        $data['pinkel'] = PinjamanIndividu::where('id', $data['real']->loan_id)->with([
-            'anggota',
-            'anggota.d',
-            'anggota.d.sebutan_desa',
+        $data['pinkel'] = PinjamanKelompok::where('id', $data['real']->loan_id)->with([
+            'kelompok',
+            'kelompok.d',
+            'kelompok.d.sebutan_desa',
             'jpp',
             'sis_pokok'
         ])->first();
@@ -2180,7 +2176,7 @@ class TransaksiController extends Controller
         return view('transaksi.jurnal_angsuran.dokumen.struk_matrix', $data);
     }
 
-    public function strukMatrixIndividu($id)
+    public function strukMatrix_individu($id)
     {
         $data['real'] = RealAngsuranI::where('id', $id)->with('trx', 'trx.user')->firstOrFail();
         $data['ra'] = RencanaAngsuranI::where([
