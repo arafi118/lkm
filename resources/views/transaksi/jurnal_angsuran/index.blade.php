@@ -10,7 +10,7 @@
                 <div class="col-md-8 mb-3">
                     <div class="card mb-3">
                         <div class="card-body py-2">
-                            <form action="/transaksi/angsuran_kelompok" method="post" id="FormAngsuranKelompok">
+                            <form action="/transaksi/angsuran" method="post" id="FormAngsuranKelompok">
                                 @csrf
 
                                 <input type="hidden" name="id" id="id"
@@ -84,7 +84,7 @@
                                     </span>
                                 </button>
                                 <button type="button" id="btnAngsuranAnggota" class="btn btn-info btn-sm me-3">
-                                    Angsuran Anggota
+                                    Detail Kelompok
                                 </button>
                                 <button type="button" id="SimpanAngsuran"
                                     class="btn btn-github btn-sm btn btn-sm btn-dark mb-0">Posting</button>
@@ -168,9 +168,7 @@
                     <div id="LayoutDetailAngsuran"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-primary btn-sm" id="cetakBuktiAngsuran">Cetak Bukti
-                        Angsuran</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
@@ -189,8 +187,10 @@
                     <div id="LayoutBuktiAngsuran"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" id="tutupBuktiAngsuran">Tutup</button>
-                    <button type="button" class="btn btn-primary btn-sm" id="BtnCetakBkm">Cetak BKM</button>
+                    <button type="button" id="BtnCetakBkm" class="btn btn-info btn-sm">
+                        Print
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" id="tutupBuktiAngsuran">Tutup</button>
                 </div>
             </div>
         </div>
@@ -202,7 +202,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="AngsuranAnggotaLabel">
-                        Angsuran Anggota
+                        Detail Kelompok
                     </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -238,16 +238,40 @@
             maximumFractionDigits: 2,
         })
 
-        $(".date").flatpickr({
-            dateFormat: "d/m/Y"
-        })
+        $(document).ready(function() {
+            $(".date").flatpickr({
+                dateFormat: "d/m/Y"
+            })
 
-        $('.js-example-basic-single').select2({
-            theme: 'bootstrap4'
-        });
+            $('.js-example-basic-single').select2({
+                theme: 'bootstrap4'
+            });
 
-        $("#pokok, #jasa, #denda").maskMoney({
-            allowNegative: true
+            $("#pokok").maskMoney({
+                allowNegative: true
+            });
+            $("#jasa").maskMoney({
+                allowNegative: true
+            });
+            $("#denda").maskMoney({
+                allowNegative: true
+            });
+
+            // Set default value untuk semua field SETELAH maskMoney diinisialisasi
+            setTimeout(function() {
+                if ($('#pokok').val() == '') {
+                    $('#pokok').val('0.00')
+                }
+                if ($('#jasa').val() == '') {
+                    $('#jasa').val('0.00')
+                }
+                if ($('#denda').val() == '') {
+                    $('#denda').val('0.00')
+                }
+                if ($('#total').val() == '') {
+                    $('#total').val('0.00')
+                }
+            }, 100)
         });
 
         var chartP;
@@ -322,23 +346,55 @@
             }
         })
 
-        $(document).on('change', '#pokok, #jasa, #denda', function(e) {
-            var pokok = parseFloat($('#pokok').val().split(',').join(''))
-            var jasa = parseFloat($('#jasa').val().split(',').join(''))
-            var denda = parseFloat($('#denda').val().split(',').join(''))
+        // Event handler untuk perhitungan total - gunakan multiple event
+        $(document).on('change keyup blur', '#pokok, #jasa, #denda', function(e) {
+            var pokok = $('#pokok').val()
+            var jasa = $('#jasa').val()
+            var denda = $('#denda').val()
 
-            if (isNaN(pokok)) {
-                pokok = 0
+            console.log('Event triggered:', e.type, 'Raw values:', {pokok, jasa, denda})
+
+            // Parse pokok
+            if (pokok && pokok != '') {
+                pokok = pokok.toString().split(',').join('').split('.00').join('')
+                pokok = parseFloat(pokok)
             }
-            if (isNaN(jasa)) {
-                jasa = 0
+            if (!pokok || isNaN(pokok)) {
+                pokok = 0;
             }
-            if (isNaN(denda)) {
-                denda = 0
+
+            // Parse jasa
+            if (jasa && jasa != '') {
+                jasa = jasa.toString().split(',').join('').split('.00').join('')
+                jasa = parseFloat(jasa)
+            }
+            if (!jasa || isNaN(jasa)) {
+                jasa = 0;
+            }
+
+            // Parse denda
+            if (denda && denda != '') {
+                denda = denda.toString().split(',').join('').split('.00').join('')
+                denda = parseFloat(denda)
+            }
+            if (!denda || isNaN(denda)) {
+                denda = 0;
             }
 
             var total = pokok + jasa + denda
+            console.log('Parsed values:', {pokok, jasa, denda, total})
             $('#total').val(formatter.format(total))
+            
+            // Set nilai 0.00 untuk field yang kosong
+            if ($('#pokok').val() == '' || $('#pokok').val() == '0') {
+                $('#pokok').val(formatter.format('0'))
+            }
+            if ($('#jasa').val() == '' || $('#jasa').val() == '0') {
+                $('#jasa').val(formatter.format('0'))
+            }
+            if ($('#denda').val() == '' || $('#denda').val() == '0') {
+                $('#denda').val(formatter.format('0'))
+            }
         })
 
         $(document).on('click', '#SimpanAngsuran', function(e) {
@@ -346,43 +402,57 @@
             $('small').html('')
 
             var form = $('#FormAngsuranKelompok')
-            var btn = $(this)
-            btn.prop('disabled', true)
+
+            var loading = Swal.fire({
+                title: "Mohon Menunggu..",
+                html: "Memproses transaksi angsuran.",
+                timerProgressBar: true,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
 
             $.ajax({
-                type: form.attr('method'),
+                type: 'POST',
                 url: form.attr('action'),
                 data: form.serialize(),
                 success: function(result) {
+                    loading.close()
+                    
                     if (result.success) {
-                        Swal.fire('Berhasil', result.msg, 'success')
+                        $.get('/angsuran/notifikasi/' + result.idtp, function(res) {
+                            $('#notif').html(res.view)
+                        })
 
-                        $('#notif').html(result.notif)
-                        $('#pokok').val('')
-                        $('#jasa').val('')
-                        $('#denda').val('')
-                        $('#total').val('')
+                        Swal.fire('Berhasil!', result.msg, 'success').then(() => {
+                            // Reset form fields
+                            $('#pokok').val(formatter.format('0'))
+                            $('#jasa').val(formatter.format('0'))
+                            $('#denda').val(formatter.format('0'))
+                            $('#total').val(formatter.format('0'))
+                            
+                            // Trigger change untuk refresh chart
+                            $('#id').trigger('change')
+                        })
 
-                        $('#id').trigger('change')
-
-                        if (result.notif_wa) {
-                            $.each(result.notif_wa, function(key, val) {
-                                sendMsg(val.hp, val.nama, val.msg)
-                            })
+                        if (result.whatsapp) {
+                            sendMsg(result.number, result.nama_kelompok, result.pesan)
                         }
                     } else {
-                        Swal.fire('Error', result.msg, 'error')
+                        loading.close()
+                        Swal.fire('Error', result.msg, 'warning')
                     }
-                    btn.prop('disabled', false)
                 },
                 error: function(result) {
-                    const respons = result.responseJSON;
-
-                    Swal.fire('Error', 'Cek kembali input yang anda masukkan', 'error')
-                    $.map(respons, function(res, key) {
-                        $('#msg_' + key).html(res)
-                    })
-                    btn.prop('disabled', false)
+                    loading.close()
+                    Swal.fire('Error', '', 'warning')
+                    
+                    if (result.responseJSON && result.responseJSON.errors) {
+                        $.each(result.responseJSON.errors, function(index, val) {
+                            $('#msg_' + index).html(val[0])
+                        })
+                    }
                 }
             })
         })
