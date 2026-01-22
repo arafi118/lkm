@@ -794,10 +794,123 @@
             })
         })
 
-        $(document).on('click', '#kembaliProposal', function() {
+        // HANDLER UNTUK TOMBOL SIMPAN - MENDUKUNG VERIFIKASI DAN WAITING
+        $(document).on('click', '#Simpan', async function(e) {
+            e.preventDefault()
+            $('small').html('')
+
+            var status = $('#status').val()
+            
+            if (status == 'A') {
+                var alokasi = $('#alokasi').val() ? parseInt($('#alokasi').val().split(',').join('').split('.00').join('')) : 0
+
+                var lanjut = true;
+                lanjut = await Swal.fire({
+                    title: 'Peringatan',
+                    text: 'Anda akan melakukan Pencairan Piutang sebesar Rp. ' + $('#alokasi').val().split('.00').join('') +
+                        ' untuk kelompok tersebut? Setelah klik tombol Lanjutkan data tidak dapat diubah kembali !',
+                    showCancelButton: true,
+                    confirmButtonText: 'Lanjutkan',
+                    cancelButtonText: 'Batal',
+                    icon: 'warning'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        return true
+                    }
+                    return false
+                })
+
+                if (lanjut) {
+                    var form = $('#FormInput')
+                    var formData = form.serialize()
+                    
+                    var tglCair = $('#tgl_cair').val()
+                    if (tglCair) {
+                        formData += '&tgl_tunggu=' + encodeURIComponent(tglCair)
+                    }
+                    
+                    $.ajax({
+                        type: 'POST',
+                        url: form.attr('action') + '?save=true',
+                        data: formData,
+                        success: function(result) {
+                            if (result.success) {
+                                Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                                    window.location.href = '/detail/' + result.id
+                                })
+                            } else {
+                                Swal.fire('Error', result.msg, 'error')
+                            }
+                        },
+                        error: function(result) {
+                            const respons = result.responseJSON;
+                            Swal.fire('Error', 'Cek kembali input yang anda masukkan', 'error')
+                            $.map(respons, function(res, key) {
+                                $('#' + key).parent('.input-group.input-group-static').addClass('is-invalid')
+                                $('#msg_' + key).html(res)
+                            })
+                        }
+                    })
+                }
+            }
+            else if (status == 'W') {
+                var alokasi = $('#alokasi').val() ? parseInt($('#alokasi').val().split(',').join('').split('.00').join('')) : 0
+                var __alokasi = $('#__alokasi').val() ? parseInt($('#__alokasi').val()) : 0
+
+                var lanjut = true;
+                if (alokasi != __alokasi) {
+                    lanjut = await Swal.fire({
+                        title: 'Peringatan',
+                        text: 'Jumlah alokasi Anggota dan Kelompok Berbeda. Tetap lanjutkan?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Lanjutkan',
+                        cancelButtonText: 'Batal',
+                        icon: 'warning'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            return true;
+                        }
+                        return false
+                    })
+                }
+
+                if (lanjut) {
+                    var form = $('#FormInput')
+                    var formData = form.serialize()
+                    
+                    var tglCair = $('#tgl_cair').val()
+                    if (tglCair) {
+                        formData += '&tgl_tunggu=' + encodeURIComponent(tglCair)
+                    }
+                    
+                    $.ajax({
+                        type: 'POST',
+                        url: form.attr('action') + '?save=true',
+                        data: formData,
+                        success: function(result) {
+                            Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                                window.location.href = '/detail/' + result.id
+                            })
+                        },
+                        error: function(result) {
+                            const respons = result.responseJSON;
+                            Swal.fire('Error', 'Cek kembali input yang anda masukkan', 'error')
+                            $.map(respons, function(res, key) {
+                                $('#' + key).parent('.input-group.input-group-static').addClass('is-invalid')
+                                $('#msg_' + key).html(res)
+                            })
+                        }
+                    })
+                }
+            }
+        })
+
+        $(document).on('click', '#kembaliProposal', function(e) {
+            e.preventDefault()
+
             Swal.fire({
                 title: 'Peringatan',
-                text: 'Anda yakin ingin mengembalikan pinjaman menjadi P (Pengajuan/Proposal)?',
+                text: 'Anda akan mengembalikan data ke tahap proposal',
                 showCancelButton: true,
                 confirmButtonText: 'Kembalikan',
                 cancelButtonText: 'Batal',
@@ -805,43 +918,43 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var form = $('#formKembaliProposal')
+
                     $.ajax({
-                        type: form.attr('method'),
+                        type: 'post',
                         url: form.attr('action'),
                         data: form.serialize(),
                         success: function(result) {
-                            if (result.success) {
-                                Swal.fire('Berhasil', result.msg, 'success').then(() => {
-                                    window.location.href = '/detail/' + result.id_pinkel
-                                })
-                            }
+                            Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                                window.location.href = '/detail/' + result.id
+                            })
                         }
                     })
                 }
             })
         })
-        
-        $(document).on('click', '#tdklayak', function() {
+
+        $(document).on('click', '#tidakLayakDicairkan', function(e) {
+            e.preventDefault()
+
             Swal.fire({
                 title: 'Peringatan',
-                text: 'Anda yakin ingin menandai pengajuan ini sebagai Tidak Layak??',
+                text: 'Anda akan menandai pinjaman ini sebagai tidak layak dicairkan',
                 showCancelButton: true,
-                confirmButtonText: 'Tidak Layak',
+                confirmButtonText: 'Tandai',
                 cancelButtonText: 'Batal',
-                icon: 'danger'
+                icon: 'warning'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var form = $('#formtdklayak')
+                    var form = $('#formTidakLayakDicairkan')
+
                     $.ajax({
-                        type: form.attr('method'),
+                        type: 'post',
                         url: form.attr('action'),
                         data: form.serialize(),
                         success: function(result) {
-                            if (result.success) {
-                                Swal.fire('Berhasil', result.msg, 'success').then(() => {
-                                    window.location.href = '/detail/' + result.id_pinkel
-                                })
-                            }
+                            Swal.fire('Berhasil', result.msg, 'success').then(() => {
+                                window.location.href = '/perguliran'
+                            })
                         }
                     })
                 }
