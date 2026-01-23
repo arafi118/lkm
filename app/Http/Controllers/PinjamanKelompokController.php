@@ -2319,7 +2319,7 @@ class PinjamanKelompokController extends Controller
             },
         ])->withCount('real')->first();
         $data['barcode'] = DNS1D::getBarcodePNG($id, 'C128');
-        $data['qrCode'] = \SimpleSoftwareIO\QrCode\Facades\QrCode::size(48)->generate($id);
+        $data['qrCode'] = '<img src="https://api.qrserver.com/v1/create-qr-code/?size=48x48&data=' . $id . '" alt="QR Code">';
 
         $data['dir'] = User::where([
             ['lokasi', Session::get('lokasi')],
@@ -2350,7 +2350,7 @@ class PinjamanKelompokController extends Controller
 
         $data['generate'] = $this->generate($id, $data['pinkel'])->getData();
         $data['barcode'] = DNS1D::getBarcodePNG($id, 'C128');
-        $data['qrCode'] = \SimpleSoftwareIO\QrCode\Facades\QrCode::size(48)->generate($id);
+        $data['qrCode'] = '<img src="https://api.qrserver.com/v1/create-qr-code/?size=48x48&data=' . $id . '" alt="QR Code">';
 
         $data['dir'] = User::where([
             ['lokasi', Session::get('lokasi')],
