@@ -2176,7 +2176,7 @@ class TransaksiController extends Controller
         return view('transaksi.jurnal_angsuran.dokumen.struk_matrix', $data);
     }
 
-    public function strukMatrix_individu($id)
+    public function strukMatrixindividu($id)
     {
         $data['real'] = RealAngsuranI::where('id', $id)->with('trx', 'trx.user')->firstOrFail();
         $data['ra'] = RencanaAngsuranI::where([
