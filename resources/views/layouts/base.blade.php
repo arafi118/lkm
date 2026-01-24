@@ -204,6 +204,37 @@
             background: var(--bs-body-bg) !important;
             border-top-right-radius: 0.375rem !important;
         }
+.vertical-nav-menu ul ul {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.vertical-nav-menu ul ul ul {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.vertical-nav-menu li.depth-1 > a {
+    padding-left: 10px !important;
+}
+
+.vertical-nav-menu li.depth-2 > a {
+    padding-left: 10px !important;
+    font-size: 0.95rem;
+}
+
+.vertical-nav-menu li.depth-3 > a {
+    padding-left: 10px !important;
+    font-size: 0.9rem;
+}
+
+.vertical-nav-menu ul ul li > a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.vertical-nav-menu ul ul li > a.mm-active {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #007bff;
+    font-weight: 500;
+}
     </style>
 
 </head>
