@@ -22,7 +22,7 @@ use Session;
 
 class AuthController extends Controller
 {
-    private const ID_KEC = 1;
+    private const ID_KEC = 2;
 
     public function index()
     {
@@ -155,7 +155,6 @@ class AuthController extends Controller
                     }
                 ])
                 ->orderBy('sort', 'ASC')
-                ->orderBy('id', 'ASC')
                 ->get();
                 $AksesMenu = explode(',', $user->akses_menu);
                 $Menu = Menu::whereNotIn('id', $AksesMenu)->pluck('title')->toArray();

@@ -472,7 +472,6 @@ class SimpananController extends Controller
 
         $tahun_now = $tahun;
 
-        // Hitung bulan -1
         $tahun = $tahun_now;
         $bulan = $bulan - 1;
         if ($bulan == 0) {
@@ -480,43 +479,36 @@ class SimpananController extends Controller
             $tahun--;
         }
 
-        // Hitung bulan lalu
-        $tahun_lalu = $tahun_now;
+        $tahun_lalu = $tahun;
         $bulan_lalu = $bulan - 1;
         if ($bulan_lalu == 0) {
             $bulan_lalu = 12;
             $tahun_lalu--;
         }
 
-        // Ambil tanggal bunga dari pengaturan kecamatan
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $jb = $kec->hitung_bunga;
         $tgl_bunga = $kec->tgl_bunga ?? 0;
 
-        // Hitung jumlah hari dalam bulan sekarang dan bulan sekitar
         $last_day_bulan_lalu = cal_days_in_month(CAL_GREGORIAN, $bulan_lalu, $tahun_lalu);
-        $last_day_bulan_ini  = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun_now);
+        $last_day_bulan_ini  = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
 
         if ($tgl_bunga < 0) {
-            // Hitung dari akhir bulan
             $day_bunga_lalu = $last_day_bulan_lalu + $tgl_bunga + 1;
             $day_bunga_ini  = $last_day_bulan_ini + $tgl_bunga + 1;
 
-            // Amankan tanggal agar tidak di luar batas
             $day_bunga_lalu = max(1, min($day_bunga_lalu, $last_day_bulan_lalu));
             $day_bunga_ini  = max(1, min($day_bunga_ini, $last_day_bulan_ini));
 
             $tgl_awal  = sprintf("%04d-%02d-%02d", $tahun_lalu, $bulan_lalu, $day_bunga_lalu);
-            $tgl_trans = sprintf("%04d-%02d-%02d", $tahun_now, $bulan, $day_bunga_ini);
+            $tgl_trans = sprintf("%04d-%02d-%02d", $tahun, $bulan, $day_bunga_ini);
             $tgl_akhir = date("Y-m-d", strtotime($tgl_trans . " -1 day"));
         } else {
-            // Gunakan langsung tgl bunga sebagai awal bulan ini
             $day_bunga_ini = $tgl_bunga;
             $day_bunga_ini = max(1, min($day_bunga_ini, $last_day_bulan_ini));
 
-            // Hitung bulan depan
             $bulan_depan = $bulan + 1;
-            $tahun_depan = $tahun_now;
+            $tahun_depan = $tahun;
             if ($bulan_depan == 13) {
                 $bulan_depan = 1;
                 $tahun_depan++;
@@ -525,13 +517,12 @@ class SimpananController extends Controller
             $last_day_bulan_depan = cal_days_in_month(CAL_GREGORIAN, $bulan_depan, $tahun_depan);
             $day_bunga_depan = max(1, min($tgl_bunga, $last_day_bulan_depan));
 
-            $tgl_awal  = sprintf("%04d-%02d-%02d", $tahun_now, $bulan, $day_bunga_ini);
+            $tgl_awal  = sprintf("%04d-%02d-%02d", $tahun, $bulan, $day_bunga_ini);
             $tgl_trans = sprintf("%04d-%02d-%02d", $tahun_depan, $bulan_depan, $day_bunga_depan);
             $tgl_akhir = date("Y-m-d", strtotime($tgl_trans . " -1 day"));
         }
-        
+    
         $bulanTahun = \Carbon\Carbon::parse($tgl_trans)->translatedFormat('F Y');
-        // Hitung jumlah hari inklusif
         $datetime_awal  = new \DateTime($tgl_awal);
         $datetime_akhir = new \DateTime($tgl_akhir);
         $selisih = $datetime_awal->diff($datetime_akhir);
@@ -540,7 +531,7 @@ class SimpananController extends Controller
         return view('simpanan.partials.info_hitung_bunga', compact('jumlah_hari', 'tgl_awal', 'tgl_akhir','jb'));
     }
 
-    
+
     public function simpanBunga()
     {
         $tahun = request()->get('tahun');
@@ -561,7 +552,7 @@ class SimpananController extends Controller
             $id_array = explode(',', $id);
             $id_array = array_map('trim', $id_array);
             $id_array = array_filter($id_array, 'is_numeric');
-        
+    
             $count = Simpanan::whereIn('id', $id_array)
                              ->where('status', 'A')
                              ->count();
@@ -575,7 +566,6 @@ class SimpananController extends Controller
         }
         $tahun_now = $tahun;
 
-        // Hitung bulan -1
         $tahun = $tahun_now;
         $bulan = $bulan - 1;
         if ($bulan == 0) {
@@ -583,42 +573,35 @@ class SimpananController extends Controller
             $tahun--;
         }
 
-        // Hitung bulan lalu
-        $tahun_lalu = $tahun_now;
+        $tahun_lalu = $tahun;
         $bulan_lalu = $bulan - 1;
         if ($bulan_lalu == 0) {
             $bulan_lalu = 12;
             $tahun_lalu--;
         }
 
-        // Ambil tanggal bunga dari pengaturan kecamatan
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $tgl_bunga = $kec->tgl_bunga ?? 0;
 
-        // Hitung jumlah hari dalam bulan sekarang dan bulan sekitar
         $last_day_bulan_lalu = cal_days_in_month(CAL_GREGORIAN, $bulan_lalu, $tahun_lalu);
-        $last_day_bulan_ini  = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun_now);
+        $last_day_bulan_ini  = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
 
         if ($tgl_bunga < 0) {
-            // Hitung dari akhir bulan
             $day_bunga_lalu = $last_day_bulan_lalu + $tgl_bunga + 1;
             $day_bunga_ini  = $last_day_bulan_ini + $tgl_bunga + 1;
 
-            // Amankan tanggal agar tidak di luar batas
             $day_bunga_lalu = max(1, min($day_bunga_lalu, $last_day_bulan_lalu));
             $day_bunga_ini  = max(1, min($day_bunga_ini, $last_day_bulan_ini));
 
             $tgl_awal  = sprintf("%04d-%02d-%02d", $tahun_lalu, $bulan_lalu, $day_bunga_lalu);
-            $tgl_trans = sprintf("%04d-%02d-%02d", $tahun_now, $bulan, $day_bunga_ini);
+            $tgl_trans = sprintf("%04d-%02d-%02d", $tahun, $bulan, $day_bunga_ini);
             $tgl_akhir = date("Y-m-d", strtotime($tgl_trans . " -1 day"));
         } else {
-            // Gunakan langsung tgl bunga sebagai awal bulan ini
             $day_bunga_ini = $tgl_bunga;
             $day_bunga_ini = max(1, min($day_bunga_ini, $last_day_bulan_ini));
 
-            // Hitung bulan depan
             $bulan_depan = $bulan + 1;
-            $tahun_depan = $tahun_now;
+            $tahun_depan = $tahun;
             if ($bulan_depan == 13) {
                 $bulan_depan = 1;
                 $tahun_depan++;
@@ -627,13 +610,12 @@ class SimpananController extends Controller
             $last_day_bulan_depan = cal_days_in_month(CAL_GREGORIAN, $bulan_depan, $tahun_depan);
             $day_bunga_depan = max(1, min($tgl_bunga, $last_day_bulan_depan));
 
-            $tgl_awal  = sprintf("%04d-%02d-%02d", $tahun_now, $bulan, $day_bunga_ini);
+            $tgl_awal  = sprintf("%04d-%02d-%02d", $tahun, $bulan, $day_bunga_ini);
             $tgl_trans = sprintf("%04d-%02d-%02d", $tahun_depan, $bulan_depan, $day_bunga_depan);
             $tgl_akhir = date("Y-m-d", strtotime($tgl_trans . " -1 day"));
         }
         $bulanTahun = \Carbon\Carbon::parse($tgl_trans)->translatedFormat('F Y');
-        
-        // Hitung jumlah hari inklusif
+    
         $datetime_awal  = new \DateTime($tgl_awal);
         $datetime_akhir = new \DateTime($tgl_akhir);
         $selisih = $datetime_awal->diff($datetime_akhir);
@@ -642,7 +624,7 @@ class SimpananController extends Controller
         $hitung_bunga = $kec->hitung_bunga;
 
         foreach ($nia as $simp) {
-            if ($hitung_bunga == 1) { // saldo_terakhir
+            if ($hitung_bunga == 1) {
                 $real = RealSimpanan::where('cif', $simp->id)
                     ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
                     ->orderByDesc('tgl_transaksi')
@@ -650,14 +632,14 @@ class SimpananController extends Controller
                     ->first();
 
                 $saldo = $real->sum ?? 0;
-            } elseif ($hitung_bunga == 2) { // saldo_terendah
+            } elseif ($hitung_bunga == 2) {
                 $real = RealSimpanan::where('cif', $simp->id)
                     ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
                     ->orderBy('sum', 'asc')
                     ->first();
 
                 $saldo = $real->sum ?? 0;
-            } else { // saldo_rata-rata
+            } else {
                 $saldo_terakhir_data = RealSimpanan::where('cif', $simp->id)
                     ->where('tgl_transaksi', '<', $tgl_awal)
                     ->orderByDesc('tgl_transaksi')
@@ -665,7 +647,7 @@ class SimpananController extends Controller
                     ->first();
 
                 $saldo_terakhir = $saldo_terakhir_data->sum ?? 0;
-                
+            
                 $transaksi = RealSimpanan::where('cif', $simp->id)
                     ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
                     ->get();
@@ -678,29 +660,27 @@ class SimpananController extends Controller
                     $jumdeb += ($real->real_d * ($jumlah_hari - ($hari_ke - 1)));
                     $jumkre += ($real->real_k * ($jumlah_hari - ($hari_ke - 1)));
                 }
-                
+            
                 $saldo = $saldo_terakhir+($jumkre/$jumlah_hari)-($jumdeb/$jumlah_hari);
             }
-            
-            // Hitung bunga dan pajak
+        
             $bunga = 0;
             $pajak = 0;
 
             if ($kec->min_bunga <= $saldo) {
                 $bunga = number_format($saldo * $simp->bunga/100, 0, '.', '');
             }
-        
+    
             if ($kec->min_pajak <= $bunga) {
                 $pajak = number_format($bunga * $simp->pajak/100, 0, '.', '');
             }
             $admin = $simp->admin;
 
-            // Insert ke transaksi dan real
             $realSimpanan = RealSimpanan::where('cif', $simp->id)
                 ->where('tgl_transaksi', '<=', $tgl_trans)
                 ->orderBy('id', 'desc')
                 ->first();
-                
+            
             $jenisSimpanan = JenisSimpanan::where('id', $simp->jenis_simpanan)->first();
             $idmax = Transaksi::max('idt');
                 $tanggal_formatted = Tanggal::tglNasional($tgl_trans);
@@ -719,7 +699,7 @@ class SimpananController extends Controller
                                    ->where('rekening_kredit', $jenisSimpanan->rek_adm)
                                    ->where('id_simp', $simp->id)
                                    ->exists();
-                            
+                        
             if (!$bungaExists && $bunga > 0) {
                 $idmax++;
                 $sum_baru = $realSimpanan ? $realSimpanan->sum + $bunga : $bunga;
@@ -753,7 +733,6 @@ class SimpananController extends Controller
                 }
             }
 
-            // pajak
             if (!$pajakExists && $pajak > 0) {
                 $idmax++;
                 $sum_baru = $realSimpanan ? $realSimpanan->sum - $pajak : $pajak;
@@ -766,12 +745,12 @@ class SimpananController extends Controller
                 $transaksi->id_pinj = 0;
                 $transaksi->id_pinj_i = 0;
                 $transaksi->id_simp = $simp->id;
-                $transaksi->keterangan_transaksi = "Pajak Bunga ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulantahun;
+                $transaksi->keterangan_transaksi = "Pajak Bunga ".$simp->nomor_rekening." ".$simp->anggota->namadepan." bulan ".$bulanTahun;
                 $transaksi->relasi = $simp->anggota->namadepan;
                 $transaksi->jumlah = $pajak;
                 $transaksi->urutan = 0;
                 $transaksi->id_user = auth()->user()->id;
-                
+            
                 if ($transaksi->save()) {
                     RealSimpanan::create([
                         'cif' => $simp->id,
@@ -786,7 +765,7 @@ class SimpananController extends Controller
                     ]);
                 }
             }
-            // admin
+        
             if (!$adminExists && $admin > 0) {
                 $idmax++;
                 $sum_baru = $realSimpanan ? $realSimpanan->sum - $admin : $admin;
@@ -804,7 +783,7 @@ class SimpananController extends Controller
                 $transaksi->jumlah = $admin;
                 $transaksi->urutan = 0;
                 $transaksi->id_user = auth()->user()->id;
-                
+            
                 if ($transaksi->save()) {
                     RealSimpanan::create([
                         'cif' => $simp->id,
@@ -823,11 +802,11 @@ class SimpananController extends Controller
 
         $link = request()->url('');
         $query = request()->query();
-    
+
         if ($query['id'] == "" || $query['id'] == NULL) {
             $query['id'] = 0;
         }
-    
+
         $query['start'] = $start + 30;
         $next = $link . '?' . http_build_query($query);
 
