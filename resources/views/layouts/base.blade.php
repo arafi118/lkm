@@ -81,7 +81,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pe7-icon@1.0.4/dist/dist/pe-icon-7-stroke.css">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
-
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script defer src="/assets/scripts/main.js"></script>
     <script defer src="/assets/scripts/demo.js"></script>
     <script defer src="/assets/scripts/toastr.js"></script>

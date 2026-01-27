@@ -1,5 +1,5 @@
 @php
-    use App\Models\Kecamatan;
+    use App\Models\Kecamatan; //sini
     $kecamatan = Kecamatan::where('web_kec', explode('//', URL::to('/'))[1])
         ->orWhere('web_alternatif', explode('//', URL::to('/'))[1])
         ->first();

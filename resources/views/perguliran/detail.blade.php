@@ -42,6 +42,7 @@
         ['title' => 'Berita Acara Pencairan', 'file' => 'BaPencairan', 'withExcel' => false],
         ['title' => 'Daftar Hadir Pencairan', 'file' => 'daftarHadirPencairan', 'withExcel' => false],
         ['title' => 'Tanda Terima', 'file' => 'tandaTerima', 'withExcel' => false],
+        ['title' => 'Kuitansi', 'file' => 'kuitansi', 'withExcel' => false],
         ['title' => 'Kartu Angsuran', 'file' => 'kartuAngsuran', 'withExcel' => false],
         ['title' => 'Rencana Angsuran', 'file' => 'rencanaAngsuran', 'withExcel' => false],
         ['title' => 'Rekening Koran', 'file' => 'rekeningKoran', 'withExcel' => false],
