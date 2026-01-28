@@ -243,6 +243,18 @@ class GenerateController extends Controller
 
             $sistem_pokok = ($pinkel->sis_pokok) ? $pinkel->sis_pokok->sistem : '1';
             $sistem_jasa = ($pinkel->sis_jasa) ? $pinkel->sis_jasa->sistem : '1';
+            
+            if ($sa_pokok == 12) {
+                $sistem_pokok = '1'; 
+            } elseif ($sa_pokok == 25) {
+                $sistem_pokok = '2';  
+            }
+            
+            if ($sa_jasa == 12) {
+                $sistem_jasa = '1';  
+            } elseif ($sa_jasa == 25) {
+                $sistem_jasa = '2';  
+            }
 
             if ($sa_pokok == 11) {
                 $tempo_pokok        = ($jangka) - 24 / $sistem_pokok;
