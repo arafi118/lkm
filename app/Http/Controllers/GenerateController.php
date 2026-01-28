@@ -207,6 +207,7 @@ class GenerateController extends Controller
                 if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $jumlah_angsuran = $jangka;
                 } else {
+                    //  bulanan
                     $jumlah_angsuran = $jangka - 1;
                 }
                 
@@ -320,14 +321,21 @@ class GenerateController extends Controller
             }
 
             $sum_angsuran_pokok = 0;
+            $counter_pokok = 0; // Counter untuk sistem mingguan/2 mingguan
+            
             for ($i = $index; $i <= $jumlah_angsuran; $i++) {
                 if ($sa_pokok == 12 || $sa_pokok == 25) {
-                    $wajib_pokok = Keuangan::pembulatan($alokasi / $tempo_pokok, (string) $kec->pembulatan);
-                    
-                    if ($i < $jumlah_angsuran || ($sum_angsuran_pokok + $wajib_pokok) < $alokasi) {
-                        $angsuran_pokok = $wajib_pokok;
+                    if ($counter_pokok < $tempo_pokok) {
+                        $wajib_pokok = Keuangan::pembulatan($alokasi / $tempo_pokok, (string) $kec->pembulatan);
+                        
+                        if ($counter_pokok < $tempo_pokok - 1) {
+                            $angsuran_pokok = $wajib_pokok;
+                        } else {
+                            $angsuran_pokok = $alokasi - $sum_angsuran_pokok;
+                        }
+                        $counter_pokok++;
                     } else {
-                        $angsuran_pokok = $alokasi - $sum_angsuran_pokok;
+                        $angsuran_pokok = 0;
                     }
                 } else {
                     $sisa = $i % $sistem_pokok;
