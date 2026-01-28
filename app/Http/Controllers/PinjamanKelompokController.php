@@ -2979,51 +2979,29 @@ class PinjamanKelompokController extends Controller
 
         $sistem_pokok = $pinkel->sis_pokok->sistem;
         $sistem_jasa = $pinkel->sis_jasa->sistem;
-
+        
         if ($sa_pokok == 11) {
             $tempo_pokok = ($jangka) - 24 / $sistem_pokok;
-            $mulai_angsuran_pokok = $jangka - $tempo_pokok;
         } elseif ($sa_pokok == 14) {
             $tempo_pokok = ($jangka) - 3 / $sistem_pokok;
-            $mulai_angsuran_pokok = $jangka - $tempo_pokok;
-        } elseif ($sa_pokok == 26) {
-            $tempo_pokok = ($jangka) - 6 / $sistem_pokok;
-            $mulai_angsuran_pokok = $jangka - $tempo_pokok;
         } elseif ($sa_pokok == 15) {
             $tempo_pokok = ($jangka) - 2 / $sistem_pokok;
-            $mulai_angsuran_pokok = $jangka - $tempo_pokok;
-        } elseif ($sa_pokok == 25) {
-            $tempo_pokok = ($jangka) - 1 / $sistem_pokok;
-            $mulai_angsuran_pokok = $jangka - $tempo_pokok;
         } elseif ($sa_pokok == 20) {
             $tempo_pokok = ($jangka) - 12 / $sistem_pokok;
-            $mulai_angsuran_pokok = $jangka - $tempo_pokok;
         } else {
             $tempo_pokok = floor($jangka / $sistem_pokok);
-            $mulai_angsuran_pokok = 0;
         }
 
         if ($sa_jasa == 11) {
             $tempo_jasa = ($jangka) - 24 / $sistem_jasa;
-            $mulai_angsuran_jasa = $jangka - $tempo_jasa;
         } elseif ($sa_jasa == 14) {
             $tempo_jasa = ($jangka) - 3 / $sistem_jasa;
-            $mulai_angsuran_jasa = $jangka - $tempo_jasa;
-        } elseif ($sa_jasa == 26) {
-            $tempo_jasa = ($jangka) - 6 / $sistem_jasa;
-            $mulai_angsuran_jasa = $jangka - $tempo_jasa;
         } elseif ($sa_jasa == 15) {
             $tempo_jasa = ($jangka) - 2 / $sistem_jasa;
-            $mulai_angsuran_jasa = $jangka - $tempo_jasa;
-        } elseif ($sa_pokok == 25) {
-            $tempo_jasa = ($jangka) - 1 / $sistem_jasa;
-            $mulai_angsuran_jasa = $jangka - $tempo_jasa;
         } elseif ($sa_jasa == 20) {
             $tempo_jasa = ($jangka) - 12 / $sistem_jasa;
-            $mulai_angsuran_jasa = $jangka - $tempo_jasa;
         } else {
             $tempo_jasa = floor($jangka / $sistem_jasa);
-            $mulai_angsuran_jasa = 0;
         }
 
         $ra = [];
@@ -3153,7 +3131,7 @@ class PinjamanKelompokController extends Controller
                 $bulan = substr($tgl, 5, 2);
                 $tahun = substr($tgl, 0, 4);
 
-                if ($sa_pokok == 12) {
+                if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
                     $penambahan = "+$tambah days";
                 } else {
@@ -3196,7 +3174,7 @@ class PinjamanKelompokController extends Controller
                 $bulan = substr($tgl, 5, 2);
                 $tahun = substr($tgl, 0, 4);
 
-                if ($sa_pokok == 12) {
+                if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
                     $penambahan = "+$tambah days";
                 } else {
@@ -3552,7 +3530,7 @@ class PinjamanKelompokController extends Controller
             $bulan = substr($tgl, 5, 2);
             $tahun = substr($tgl, 0, 4);
 
-            if ($sa_pokok == 12) {
+            if ($sa_pokok == 12 || $sa_pokok == 25) {
                 $tambah = $x * 7;
                 $penambahan = "+$tambah days";
             } else {
@@ -3594,7 +3572,7 @@ class PinjamanKelompokController extends Controller
                 $bulan = substr($tgl, 5, 2);
                 $tahun = substr($tgl, 0, 4);
 
-                if ($sa_pokok == 12) {
+                if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
                     $penambahan = "+$tambah days";
                 } else {

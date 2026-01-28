@@ -376,12 +376,14 @@ class GenerateController extends Controller
                 $bulan  = substr($tgl_cair, 5, 2);
                 $tahun  = substr($tgl_cair, 0, 4);
                 if ($sa_pokok == 12 || $sa_pokok == 25) {
-                    $tambah = $x * 7;
-    $jatuh = Carbon::parse($tgl_cair)->addDays($tambah);
-    $jatuh_tempo = $jatuh->toDateString();
+                    $interval_hari = ($sa_pokok == 25) ? 14 : 7;
+                    $tambah = $x * $interval_hari;
+                    
+                    $jatuh = Carbon::parse($tgl_cair)->addDays($tambah);
+                    $jatuh_tempo = $jatuh->toDateString();
                 } else {
-    $jatuh = Carbon::parse($tgl_cair)->addMonthsNoOverflow($x);
-    $jatuh_tempo = $jatuh->toDateString();
+                    $jatuh = Carbon::parse($tgl_cair)->addMonthsNoOverflow($x);
+                    $jatuh_tempo = $jatuh->toDateString();
                 }
                 // $jatuh_tempo = date('Y-m-t', strtotime($bulan_jatuh_tempo));
                 // if (date('d', strtotime($tgl_cair)) < date('d', strtotime($jatuh_tempo))) {

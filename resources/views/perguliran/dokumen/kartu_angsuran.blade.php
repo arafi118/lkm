@@ -164,7 +164,11 @@
                 <td>{{ number_format($jumlah_angsuran) }} /
                     {{ $pinkel->sis_pokok->nama_sistem }}</td>
                 <td colspan="3">
-                    Angsuran pada tanggal {{ explode('-', $pinkel->target->jatuh_tempo)[2] }}
+                    @if($pinkel->target)
+                        Angsuran pada tanggal {{ explode('-', $pinkel->target->jatuh_tempo)[2] }}
+                    @else
+                        Angsuran sesuai jadwal
+                    @endif
                 </td>
             </tr>
             <tr>
@@ -175,7 +179,13 @@
         </table>
 
         @php
-            $baris_angsuran = ceil($pinkel->rencana_count / 2);
+            // Filter rencana untuk hanya menampilkan yang ada angsurannya (bukan angsuran ke-0 untuk sistem 2 mingguan)
+            $rencana_filtered = $pinkel->rencana->filter(function ($r) {
+                return $r->wajib_pokok != 0 || $r->wajib_jasa != 0;
+            });
+            
+            $baris_angsuran = ceil($rencana_filtered->count() / 2);
+            $cek = 0;
         @endphp
 
         <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
@@ -191,47 +201,50 @@
                 <th class="l t b" align="center">Tanggal</th>
                 <th class="l t b" align="center">Pokok</th>
                 <th class="l t b r" align="center">Jasa</th>
-
-                <th>&nbsp;</th>
-
-                <th class="l t b" align="center">Ke</th>
+                <th rowspan="{{ $baris_angsuran + 1 }}">&nbsp;</th>
+                <th height="30" class="l t b" align="center">Ke</th>
                 <th class="l t b" align="center">Tanggal</th>
                 <th class="l t b" align="center">Pokok</th>
                 <th class="l t b r" align="center">Jasa</th>
                 <th rowspan="{{ $baris_angsuran + 1 }}">&nbsp;</th>
             </tr>
-            @for ($j = 1; $j <= $baris_angsuran; $j++)
+            
+            @foreach($rencana_filtered->take($baris_angsuran) as $rencana)
                 @php
-                    $i = $j - 1;
+                    $cek++;
+                    $j = $loop->iteration;
                 @endphp
                 <tr>
-                    <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="center">
-                        {{ $pinkel->rencana[$i]->angsuran_ke }}
+                    <td class="l {{ $cek == $baris_angsuran ? 'b' : '' }}" align="center">
+                        {{ $cek }}
                     </td>
-                    <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="center">
-                        {{ Tanggal::tglIndo($pinkel->rencana[$i]->jatuh_tempo) }}
+                    <td class="l {{ $cek == $baris_angsuran ? 'b' : '' }}" align="center">
+                        {{ Tanggal::tglIndo($rencana->jatuh_tempo) }}
                     </td>
-                    <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="right">
-                        {{ number_format($pinkel->rencana[$i]->wajib_pokok) }}
+                    <td class="l {{ $cek == $baris_angsuran ? 'b' : '' }}" align="right">
+                        {{ number_format($rencana->wajib_pokok) }}
                     </td>
-                    <td class="l {{ $j == $baris_angsuran ? 'b' : '' }} r" align="right">
-                        {{ number_format($pinkel->rencana[$i]->wajib_jasa) }}
+                    <td class="l {{ $cek == $baris_angsuran ? 'b' : '' }} r" align="right">
+                        {{ number_format($rencana->wajib_jasa) }}
                     </td>
 
-                    <td>&nbsp;</td>
 
-                    @if (isset($pinkel->rencana[$i + $baris_angsuran]))
+                    @php
+                        $rencana_kanan = $rencana_filtered->skip($baris_angsuran)->values()->get($j - 1);
+                    @endphp
+                    
+                    @if ($rencana_kanan)
                         <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="center">
-                            {{ $pinkel->rencana[$i + $baris_angsuran]->angsuran_ke }}
+                            {{ $cek + $baris_angsuran }}
                         </td>
                         <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="center">
-                            {{ Tanggal::tglIndo($pinkel->rencana[$i + $baris_angsuran]->jatuh_tempo) }}
+                            {{ Tanggal::tglIndo($rencana_kanan->jatuh_tempo) }}
                         </td>
                         <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="right">
-                            {{ number_format($pinkel->rencana[$i + $baris_angsuran]->wajib_pokok) }}
+                            {{ number_format($rencana_kanan->wajib_pokok) }}
                         </td>
                         <td class="l {{ $j == $baris_angsuran ? 'b' : '' }} r" align="right">
-                            {{ number_format($pinkel->rencana[$i + $baris_angsuran]->wajib_jasa) }}
+                            {{ number_format($rencana_kanan->wajib_jasa) }}
                         </td>
                     @else
                         <td class="l {{ $j == $baris_angsuran ? 'b' : '' }}" align="center">
@@ -248,7 +261,7 @@
                         </td>
                     @endif
                 </tr>
-            @endfor
+            @endforeach
 
         </table>
 
@@ -380,7 +393,7 @@
                 </td>
                 <td>
                     <div style="display: flex; height: 100%; justify-content: center; align-items: center;">
-                        {{ $qrCode }}
+                        {!! $qrCode !!}
                     </div>
                 </td>
             </tr>

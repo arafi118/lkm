@@ -3541,7 +3541,7 @@ class PinjamanIndividuController extends Controller
             $bulan = substr($tgl, 5, 2);
             $tahun = substr($tgl, 0, 4);
 
-            if ($sa_pokok == 12) {
+            if ($sa_pokok == 12 || $sa_pokok == 25) {
                 $tambah = $x * 7;
                 $penambahan = "+$tambah days";
             } else {
@@ -3583,7 +3583,7 @@ class PinjamanIndividuController extends Controller
                 $bulan = substr($tgl, 5, 2);
                 $tahun = substr($tgl, 0, 4);
 
-                if ($sa_pokok == 12) {
+                if ($sa_pokok == 12 || $sa_pokok == 25) {
                     $tambah = $x * 7;
                     $penambahan = "+$tambah days";
                 } else {
