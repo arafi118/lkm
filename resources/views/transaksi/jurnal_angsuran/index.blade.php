@@ -238,6 +238,16 @@
             maximumFractionDigits: 2,
         })
 
+        $("#pokok").maskMoney({
+            allowNegative: true
+        });
+        $("#jasa").maskMoney({
+            allowNegative: true
+        });
+        $("#denda").maskMoney({
+            allowNegative: true
+        });
+
         $(document).ready(function() {
             $(".date").flatpickr({
                 dateFormat: "d/m/Y"
@@ -247,31 +257,20 @@
                 theme: 'bootstrap4'
             });
 
-            $("#pokok").maskMoney({
-                allowNegative: true
-            });
-            $("#jasa").maskMoney({
-                allowNegative: true
-            });
-            $("#denda").maskMoney({
-                allowNegative: true
-            });
-
-            // Set default value untuk semua field SETELAH maskMoney diinisialisasi
+            // Set default value untuk denda
             setTimeout(function() {
-                if ($('#pokok').val() == '') {
-                    $('#pokok').val('0.00')
+                if ($('#denda').val() == '' || $('#denda').val() == null) {
+                    $('#denda').val('0.00');
                 }
-                if ($('#jasa').val() == '') {
-                    $('#jasa').val('0.00')
+            }, 100);
+
+            // Handle blur event untuk memastikan denda tidak null
+            $('#denda').on('blur', function() {
+                var currentValue = $(this).val();
+                if (currentValue == '' || currentValue == null || currentValue.trim() == '') {
+                    $(this).val('0.00');
                 }
-                if ($('#denda').val() == '') {
-                    $('#denda').val('0.00')
-                }
-                if ($('#total').val() == '') {
-                    $('#total').val('0.00')
-                }
-            }, 100)
+            });
         });
 
         var chartP;
@@ -346,7 +345,6 @@
             }
         })
 
-        // Event handler untuk perhitungan total - gunakan multiple event
         $(document).on('change keyup blur', '#pokok, #jasa, #denda', function(e) {
             var pokok = $('#pokok').val()
             var jasa = $('#jasa').val()
@@ -354,7 +352,6 @@
 
             console.log('Event triggered:', e.type, 'Raw values:', {pokok, jasa, denda})
 
-            // Parse pokok
             if (pokok && pokok != '') {
                 pokok = pokok.toString().split(',').join('').split('.00').join('')
                 pokok = parseFloat(pokok)
@@ -363,7 +360,6 @@
                 pokok = 0;
             }
 
-            // Parse jasa
             if (jasa && jasa != '') {
                 jasa = jasa.toString().split(',').join('').split('.00').join('')
                 jasa = parseFloat(jasa)
@@ -372,7 +368,6 @@
                 jasa = 0;
             }
 
-            // Parse denda
             if (denda && denda != '') {
                 denda = denda.toString().split(',').join('').split('.00').join('')
                 denda = parseFloat(denda)
@@ -384,17 +379,6 @@
             var total = pokok + jasa + denda
             console.log('Parsed values:', {pokok, jasa, denda, total})
             $('#total').val(formatter.format(total))
-            
-            // Set nilai 0.00 untuk field yang kosong
-            if ($('#pokok').val() == '' || $('#pokok').val() == '0') {
-                $('#pokok').val(formatter.format('0'))
-            }
-            if ($('#jasa').val() == '' || $('#jasa').val() == '0') {
-                $('#jasa').val(formatter.format('0'))
-            }
-            if ($('#denda').val() == '' || $('#denda').val() == '0') {
-                $('#denda').val(formatter.format('0'))
-            }
         })
 
         $(document).on('click', '#SimpanAngsuran', function(e) {
@@ -426,13 +410,11 @@
                         })
 
                         Swal.fire('Berhasil!', result.msg, 'success').then(() => {
-                            // Reset form fields
-                            $('#pokok').val(formatter.format('0'))
-                            $('#jasa').val(formatter.format('0'))
-                            $('#denda').val(formatter.format('0'))
-                            $('#total').val(formatter.format('0'))
+                            $('#pokok').val('0.00')
+                            $('#jasa').val('0.00')
+                            $('#denda').val('0.00')
+                            $('#total').val('0.00')
                             
-                            // Trigger change untuk refresh chart
                             $('#id').trigger('change')
                         })
 
@@ -622,7 +604,6 @@
             })
         }
 
-        // Trigger change on page load if pinkel exists
         if (pinkel != 0) {
             $('#id').trigger('change')
         }
