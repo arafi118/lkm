@@ -203,7 +203,13 @@ class GenerateController extends Controller
             $jumlah_angsuran = $jangka;
             if ($kec->jdwl_angsuran == '1') {
                 $index = 0;
-                $jumlah_angsuran = $jangka - 1;
+                
+                if ($sa_pokok == 12 || $sa_pokok == 25) {
+                    $jumlah_angsuran = $jangka;
+                } else {
+                    $jumlah_angsuran = $jangka - 1;
+                }
+                
                 $tgl_cair = date('Y-m-d', strtotime(' 0 month', strtotime($tgl_cair)));
             }
 
@@ -275,23 +281,38 @@ class GenerateController extends Controller
             $alokasi_pokok = $alokasi;
             $sum_angsuran_jasa = 0;
             for ($j = $index; $j <= $jumlah_angsuran; $j++) {
-                $sisa = $j % $sistem_jasa;
-                $ke = $j / $sistem_jasa;
                 $alokasi_jasa = Keuangan::pembulatan($alokasi_pokok * ($pros_jasa / 100));
-                $wajib_jasa = $alokasi_jasa / $tempo_jasa;
-
-                if ($kec->pembulatan != '5000') {
-                    $wajib_jasa = Keuangan::pembulatan($wajib_jasa, (string) $kec->pembulatan);
-                }
-
-                $sum_jasa = $wajib_jasa * ($tempo_jasa - 1);
-
-                if ($sisa == 0 and $ke != $tempo_jasa and ($sum_angsuran_jasa + $wajib_jasa) < $alokasi_jasa) {
-                    $angsuran_jasa = $wajib_jasa;
-                } elseif ($sisa == 0 and ($ke == $tempo_jasa || ($sum_angsuran_jasa + $wajib_jasa) >= $alokasi_jasa)) {
-                    $angsuran_jasa = $alokasi_jasa - $sum_angsuran_jasa;
+                
+                if ($sa_jasa == 12 || $sa_jasa == 25) {
+                    $wajib_jasa = $alokasi_jasa / $tempo_jasa;
+                    
+                    if ($kec->pembulatan != '5000') {
+                        $wajib_jasa = Keuangan::pembulatan($wajib_jasa, (string) $kec->pembulatan);
+                    }
+                    
+                    if ($j < $jumlah_angsuran || ($sum_angsuran_jasa + $wajib_jasa) < $alokasi_jasa) {
+                        $angsuran_jasa = $wajib_jasa;
+                    } else {
+                        $angsuran_jasa = $alokasi_jasa - $sum_angsuran_jasa;
+                    }
                 } else {
-                    $angsuran_jasa = 0;
+                    $sisa = $j % $sistem_jasa;
+                    $ke = $j / $sistem_jasa;
+                    $wajib_jasa = $alokasi_jasa / $tempo_jasa;
+
+                    if ($kec->pembulatan != '5000') {
+                        $wajib_jasa = Keuangan::pembulatan($wajib_jasa, (string) $kec->pembulatan);
+                    }
+
+                    $sum_jasa = $wajib_jasa * ($tempo_jasa - 1);
+
+                    if ($sisa == 0 and $ke != $tempo_jasa and ($sum_angsuran_jasa + $wajib_jasa) < $alokasi_jasa) {
+                        $angsuran_jasa = $wajib_jasa;
+                    } elseif ($sisa == 0 and ($ke == $tempo_jasa || ($sum_angsuran_jasa + $wajib_jasa) >= $alokasi_jasa)) {
+                        $angsuran_jasa = $alokasi_jasa - $sum_angsuran_jasa;
+                    } else {
+                        $angsuran_jasa = 0;
+                    }
                 }
 
                 $sum_angsuran_jasa += $angsuran_jasa;
@@ -300,18 +321,28 @@ class GenerateController extends Controller
 
             $sum_angsuran_pokok = 0;
             for ($i = $index; $i <= $jumlah_angsuran; $i++) {
-                $sisa = $i % $sistem_pokok;
-                $ke = $i / $sistem_pokok;
-
-                $wajib_pokok = Keuangan::pembulatan($alokasi / $tempo_pokok, (string) $kec->pembulatan);
-                $sum_pokok = $wajib_pokok * ($tempo_pokok - 1);
-
-                if ($sisa == 0 and $ke != $tempo_pokok and ($sum_angsuran_pokok + $wajib_pokok) < $alokasi) {
-                    $angsuran_pokok = $wajib_pokok;
-                } elseif ($sisa == 0 and ($ke == $tempo_pokok || ($sum_angsuran_pokok + $wajib_pokok) >= $alokasi)) {
-                    $angsuran_pokok = $alokasi - $sum_angsuran_pokok;
+                if ($sa_pokok == 12 || $sa_pokok == 25) {
+                    $wajib_pokok = Keuangan::pembulatan($alokasi / $tempo_pokok, (string) $kec->pembulatan);
+                    
+                    if ($i < $jumlah_angsuran || ($sum_angsuran_pokok + $wajib_pokok) < $alokasi) {
+                        $angsuran_pokok = $wajib_pokok;
+                    } else {
+                        $angsuran_pokok = $alokasi - $sum_angsuran_pokok;
+                    }
                 } else {
-                    $angsuran_pokok = 0;
+                    $sisa = $i % $sistem_pokok;
+                    $ke = $i / $sistem_pokok;
+
+                    $wajib_pokok = Keuangan::pembulatan($alokasi / $tempo_pokok, (string) $kec->pembulatan);
+                    $sum_pokok = $wajib_pokok * ($tempo_pokok - 1);
+
+                    if ($sisa == 0 and $ke != $tempo_pokok and ($sum_angsuran_pokok + $wajib_pokok) < $alokasi) {
+                        $angsuran_pokok = $wajib_pokok;
+                    } elseif ($sisa == 0 and ($ke == $tempo_pokok || ($sum_angsuran_pokok + $wajib_pokok) >= $alokasi)) {
+                        $angsuran_pokok = $alokasi - $sum_angsuran_pokok;
+                    } else {
+                        $angsuran_pokok = 0;
+                    }
                 }
 
                 $sum_angsuran_pokok += $angsuran_pokok;
