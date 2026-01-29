@@ -837,8 +837,7 @@ class TransaksiController extends Controller
             $validate = Validator::make($data, [
                 'tgl_transaksi' => 'required',
                 'pokok' => 'required',
-                'jasa' => 'required',
-                'denda' => 'required'
+                'jasa' => 'required'
             ]);
 
             if ($validate->fails()) {
@@ -847,7 +846,7 @@ class TransaksiController extends Controller
 
             $request->pokok = str_replace(',', '', str_replace('.00', '', $request->pokok));
             $request->jasa = str_replace(',', '', str_replace('.00', '', $request->jasa));
-            $request->denda = str_replace(',', '', str_replace('.00', '', $request->denda));
+            $request->denda = str_replace(',', '', str_replace('.00', '', $request->denda ?? '')) ?: 0;
 
             $request->total_pokok_anggota = str_replace(',', '', str_replace('.00', '', $request->total_pokok_anggota));
             $request->total_jasa_anggota = str_replace(',', '', str_replace('.00', '', $request->total_jasa_anggota));
