@@ -376,8 +376,7 @@ class GenerateController extends Controller
                 $bulan  = substr($tgl_cair, 5, 2);
                 $tahun  = substr($tgl_cair, 0, 4);
                 if ($sa_pokok == 12 || $sa_pokok == 25) {
-                    // PERBAIKAN: Sistem 12 = mingguan (7 hari), Sistem 25 = 2 mingguan (14 hari)
-                    $interval_hari = ($sa_pokok == 25) ? 14 : 7;
+                    $interval_hari = 7;
                     $tambah = $x * $interval_hari;
                     
                     $jatuh = Carbon::parse($tgl_cair)->addDays($tambah);
