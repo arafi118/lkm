@@ -58,8 +58,9 @@ class PinjamanKelompokController extends Controller
                     $pros = $row->pros_jasa;
 
                     $jasa = number_format($pros / $jangka, 2);
-
-                    return $jasa.'% / '.$jangka.' bln';
+                    $waktu = ($row->sistem_angsuran == 12 || $row->sistem_angsuran == 25) ? 'mgg' : 'bln';
+    
+                    return $jasa.'% / '.$jangka.' '.$waktu;
                 })
                 ->editColumn('nama_kelompok', function ($row) {
                     $jpp = $row->jpp;
@@ -73,7 +74,7 @@ class PinjamanKelompokController extends Controller
                 //     return Tanggal::tglIndo($row->tgl_proposal);
                 // })
                 ->editColumn('proposal', function ($row) {
-                    return number_format(intval($row->proposal));
+                    return (intval($row->proposal));
                 })
                 ->editColumn('kelompok.alamat_kelompok', function ($row) {
                     return $row->kelompok->alamat_kelompok.' '.$row->kelompok->d->nama_desa;
@@ -99,8 +100,9 @@ class PinjamanKelompokController extends Controller
                     $pros = $row->pros_jasa;
 
                     $jasa = number_format($pros / $jangka, 2);
-
-                    return $jasa.'% / '.$jangka.' bln';
+                    $waktu = ($row->sistem_angsuran == 12 || $row->sistem_angsuran == 25) ? 'mgg' : 'bln';
+    
+                    return $jasa.'% / '.$jangka.' '.$waktu;
                 })
                 ->editColumn('nama_kelompok', function ($row) {
                     $jpp = $row->jpp;
@@ -114,7 +116,7 @@ class PinjamanKelompokController extends Controller
                 //     return Tanggal::tglIndo($row->tgl_verifikasi);
                 // })
                 ->editColumn('verifikasi', function ($row) {
-                    return number_format($row->verifikasi);
+                    return ($row->verifikasi);
                 })
                 ->editColumn('kelompok.alamat_kelompok', function ($row) {
                     return $row->kelompok->alamat_kelompok.' '.$row->kelompok->d->nama_desa;
@@ -140,8 +142,9 @@ class PinjamanKelompokController extends Controller
                     $pros = $row->pros_jasa;
 
                     $jasa = number_format($pros / $jangka, 2);
-
-                    return $jasa.'% / '.$jangka.' bln';
+                    $waktu = ($row->sistem_angsuran == 12 || $row->sistem_angsuran == 25) ? 'mgg' : 'bln';
+    
+                    return $jasa.'% / '.$jangka.' '.$waktu;
                 })
                 ->editColumn('nama_kelompok', function ($row) {
                     $jpp = $row->jpp;
@@ -181,8 +184,9 @@ class PinjamanKelompokController extends Controller
                     $pros = $row->pros_jasa;
 
                     $jasa = number_format($pros / $jangka, 2);
-
-                    return $jasa.'% / '.$jangka.' bln';
+                    $waktu = ($row->sistem_angsuran == 12 || $row->sistem_angsuran == 25) ? 'mgg' : 'bln';
+    
+                    return $jasa.'% / '.$jangka.' '.$waktu;
                 })
                 ->editColumn('nama_kelompok', function ($row) {
                     $jpp = $row->jpp;
@@ -224,8 +228,9 @@ class PinjamanKelompokController extends Controller
                     $pros = $row->pros_jasa;
 
                     $jasa = number_format($pros / $jangka, 2);
-
-                    return $jasa.'% / '.$jangka.' bln';
+                    $waktu = ($row->sistem_angsuran == 12 || $row->sistem_angsuran == 25) ? 'mgg' : 'bln';
+    
+                    return $jasa.'% / '.$jangka.' '.$waktu;
                 })
                 ->editColumn('nama_kelompok', function ($row) {
                     $jpp = $row->jpp;
