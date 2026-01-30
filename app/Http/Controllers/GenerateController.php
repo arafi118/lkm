@@ -265,10 +265,6 @@ class GenerateController extends Controller
             $ra = [];
             $alokasi_pokok = $alokasi;
             $sum_angsuran_jasa = 0;
-                $alokasi_jasa = Keuangan::pembulatan($alokasi_pokok * ($pros_jasa / 100));
-                $wajib_jasa = $alokasi_jasa / $tempo_jasa;
-            dd($alokasi_pokok,$pros_jasa, $alokasi_jasa , $tempo_jasa);
-
             for ($j = $index; $j <= $jumlah_angsuran; $j++) {
                 $sisa = $j % $sistem_jasa;
                 $ke = $j / $sistem_jasa;

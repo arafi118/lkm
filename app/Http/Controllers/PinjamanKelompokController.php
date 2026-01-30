@@ -155,7 +155,7 @@ class PinjamanKelompokController extends Controller
                 //     return Tanggal::tglIndo($row->tgl_tunggu);
                 // })
                 ->editColumn('alokasi', function ($row) {
-                    return number_format($row->alokasi);
+                    return ($row->alokasi);
                 })
                 ->editColumn('kelompok.alamat_kelompok', function ($row) {
                     return $row->kelompok->alamat_kelompok.' '.$row->kelompok->d->nama_desa;
@@ -239,7 +239,7 @@ class PinjamanKelompokController extends Controller
                 //     return Tanggal::tglIndo($row->tgl_cair);
                 // })
                 ->editColumn('alokasi', function ($row) {
-                    return number_format($row->alokasi);
+                    return ($row->alokasi);
                 })
                 ->rawColumns(['nama_kelompok'])
                 ->make(true);
