@@ -829,6 +829,7 @@ class TransaksiController extends Controller
             $data = $request->only([
                 'id',
                 'tgl_transaksi',
+                'tujuan',
                 'pokok',
                 'jasa',
                 'denda'
@@ -909,7 +910,7 @@ class TransaksiController extends Controller
             }
 
             $kodeJenisProduk = JenisProdukPinjaman::where('id', $pinkel->jenis_pp)->value('kode');
-            $kas_umum = '1.1.01.' . str_pad($kodeJenisProduk + 1, 2, '0', STR_PAD_LEFT);
+            $kas_umum = $data['tujuan'];
             $poko_kredit = '1.1.03.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
             $jasa_kredit = '4.1.01.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
             $dend_kredit = '4.1.02.' . str_pad($kodeJenisProduk, 2, '0', STR_PAD_LEFT);
