@@ -67,7 +67,7 @@ class PinjamanKelompokController extends Controller
 
                     $nama_kelompok = $row->kelompok->nama_kelompok.' ('.$jpp->nama_jpp.')';
 
-                    return '<div>'.$nama_kelompok.' <small class="float-end badge badge-'.$status.'">Loan ID.'.$row->id.'</small></div>';
+                    return '<div>'.$nama_kelompok.' <small class="float-end badge badge-light-blue">Loan ID.'.$row->id.'</small></div>';
                 })
                 // ->editColumn('tgl_proposal', function ($row) {
                 //     return Tanggal::tglIndo($row->tgl_proposal);
@@ -108,7 +108,7 @@ class PinjamanKelompokController extends Controller
 
                     $nama_kelompok = $row->kelompok->nama_kelompok.' ('.$jpp->nama_jpp.')';
 
-                    return '<div>'.$nama_kelompok.' <small class="float-end badge badge-'.$status.'">Loan ID.'.$row->id.'</small></div>';
+                    return '<div>'.$nama_kelompok.' <small class="float-end badge badge-light-blue">Loan ID.'.$row->id.'</small></div>';
                 })
                 // ->editColumn('tgl_verifikasi', function ($row) {
                 //     return Tanggal::tglIndo($row->tgl_verifikasi);
@@ -149,7 +149,7 @@ class PinjamanKelompokController extends Controller
 
                     $nama_kelompok = $row->kelompok->nama_kelompok.' ('.$jpp->nama_jpp.')';
 
-                    return '<div>'.$nama_kelompok.' <small class="float-end badge badge-'.$status.'">Loan ID.'.$row->id.'</small></div>';
+                    return '<div>'.$nama_kelompok.' <small class="float-end badge badge-light-blue">Loan ID.'.$row->id.'</small></div>';
                 })
                 // ->editColumn('tgl_tunggu', function ($row) {
                 //     return Tanggal::tglIndo($row->tgl_tunggu);
@@ -190,7 +190,7 @@ class PinjamanKelompokController extends Controller
 
                     $nama_kelompok = $row->kelompok->nama_kelompok.' ('.$jpp->nama_jpp.')';
 
-                    return '<div>'.$nama_kelompok.' <small class="float-end badge badge-'.$status.'">Loan ID.'.$row->id.'</small></div>';
+                    return '<div>'.$nama_kelompok.' <small class="float-end badge badge-light-blue">Loan ID.'.$row->id.'</small></div>';
                 })
                 // ->editColumn('tgl_cair', function ($row) {
                 //     return Tanggal::tglIndo($row->tgl_cair);
@@ -233,7 +233,7 @@ class PinjamanKelompokController extends Controller
 
                     $nama_kelompok = $row->kelompok->nama_kelompok.' ('.$jpp->nama_jpp.')';
 
-                    return '<div>'.$nama_kelompok.' <small class="float-end badge badge-'.$status.'">Loan ID.'.$row->id.'</small></div>';
+                    return '<div>'.$nama_kelompok.' <small class="float-end badge badge-light-blue">Loan ID.'.$row->id.'</small></div>';
                 })
                 // ->editColumn('tgl_cair', function ($row) {
                 //     return Tanggal::tglIndo($row->tgl_cair);

@@ -236,7 +236,7 @@ class GenerateController extends Controller
 
             $sistem_pokok = ($pinkel->sis_pokok) ? $pinkel->sis_pokok->sistem : '1';
             $sistem_jasa = ($pinkel->sis_jasa) ? $pinkel->sis_jasa->sistem : '1';
-
+            
             if ($sa_pokok == 11) {
                 $tempo_pokok        = ($jangka) - 24 / $sistem_pokok;
             } else if ($sa_pokok == 14) {
@@ -248,10 +248,6 @@ class GenerateController extends Controller
             } else {
                 $tempo_pokok        = $jangka / $sistem_pokok;
                 $tempo_pokok = floor($tempo_pokok);
-                // if ($jangka % 2 == 0) {
-                // } else {
-                //     $tempo_pokok = ceil($tempo_pokok);
-                // }
             }
 
             if ($sa_jasa == 11) {
@@ -265,15 +261,14 @@ class GenerateController extends Controller
             } else {
                 $tempo_jasa        = $jangka / $sistem_jasa;
                 $tempo_jasa = floor($tempo_jasa);
-                // if ($jangka % 2 == 0) {
-                // } else {
-                //     $tempo_jasa = ceil($tempo_jasa);
-                // }
             }
-
             $ra = [];
             $alokasi_pokok = $alokasi;
             $sum_angsuran_jasa = 0;
+                $alokasi_jasa = Keuangan::pembulatan($alokasi_pokok * ($pros_jasa / 100));
+                $wajib_jasa = $alokasi_jasa / $tempo_jasa;
+            dd($alokasi_pokok,$pros_jasa, $alokasi_jasa , $tempo_jasa);
+
             for ($j = $index; $j <= $jumlah_angsuran; $j++) {
                 $sisa = $j % $sistem_jasa;
                 $ke = $j / $sistem_jasa;
@@ -297,6 +292,7 @@ class GenerateController extends Controller
                 $sum_angsuran_jasa += $angsuran_jasa;
                 $ra[$j]['jasa'] = $angsuran_jasa;
             }
+
 
             $sum_angsuran_pokok = 0;
             for ($i = $index; $i <= $jumlah_angsuran; $i++) {
