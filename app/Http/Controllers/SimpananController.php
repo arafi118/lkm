@@ -233,7 +233,7 @@ class SimpananController extends Controller
         $transaksi = Transaksi::where('id_simp', $simpanan->id)->with('realSimpanan', 'user')->orderBy('tgl_transaksi', 'asc')->get();
 
         $title = 'Cetak Sertifikat' . $simpanan->anggota->namadepan;
-        return view('simpanan.cetak_sertifikat', compact('title', 'simpanan', 'kec', 'dir'));
+        return view('simpanan.partials.cetak_sertifikat', compact('title', 'simpanan', 'kec', 'dir'));
 
     }
 
