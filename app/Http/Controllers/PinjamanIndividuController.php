@@ -2294,7 +2294,7 @@ class PinjamanIndividuController extends Controller
         $data['keuangan'] = $keuangan;
         $data['ttd'] = Pinjaman::keyword($data['kec']->ttd->tanda_tangan_spk, $data, true);
 
-        $data['judul'] = 'Surat Perjanjian Hutang ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
+        $data['judul'] = 'Surat Perjanjian Utang ('.$data['pinkel']->anggota->namadepan.' - Loan ID. '.$data['pinkel']->id.')';
         $view = view('perguliran_i.dokumen.sph', $data)->render();
 
         if ($data['type'] == 'pdf') {

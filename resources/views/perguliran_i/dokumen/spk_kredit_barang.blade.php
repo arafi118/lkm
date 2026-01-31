@@ -164,7 +164,7 @@
         <b>&nbsp;</b>
         </i> </h3>
         <ol class="centered-text">
-            <li><b> Pihak Kedua </b> wajib membayar hutang tersebut kepada <b> Pihak Pertama </b> dengan cara pembayaran
+            <li><b> Pihak Kedua </b> wajib membayar utang tersebut kepada <b> Pihak Pertama </b> dengan cara pembayaran
                 angsuran
                 sebesar
                 <b> {{ number_format($pinkel->alokasi) }} ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah) </b>
@@ -199,7 +199,7 @@
     <br>
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 4 </b><br>
-        <b class="centered-text">SAKSI KETERLAMBATAN PEMBAYARAN</b>
+        <b class="centered-text">SANKSI KETERLAMBATAN PEMBAYARAN</b>
         <ol class="centered-text">
             <li>
                 <b>Pihak Kedua</b> dianggap terlambat membayar jika waktu pembayarannya melebihi tanggal yang telah

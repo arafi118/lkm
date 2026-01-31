@@ -222,7 +222,7 @@
                     sesuai
                     kelayakan kredit
                     masing-masing anggota pemanfaat yang dibuktikan secara sah dengan daftar penerima dana terlampir,
-                    dan sekaligus berlaku sebagai Surat Pengakuan Hutang, baik bagi setiap anggota penerima manfaat
+                    dan sekaligus berlaku sebagai Surat Pengakuan Utang, baik bagi setiap anggota penerima manfaat
                     maupun secara kelompok dalam pernyataan ketaatan tanggung-renteng.
                 </li>
             @endif

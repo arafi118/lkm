@@ -105,7 +105,7 @@
             'withExcel' => false,
         ],
         [
-            'title' => 'Surat Perjanjian Hutang',
+            'title' => 'Surat Perjanjian Utang',
             'file' => 'sph',
             'withExcel' => false,
         ],

@@ -195,7 +195,7 @@
                 </li>
                 <li>
 
-                    <b> Pihak Kedua </b> wajib membayar hutang tersebut kepada <b> Pihak Pertama </b> dengan cara pembayaran
+                    <b> Pihak Kedua </b> wajib membayar utang tersebut kepada <b> Pihak Pertama </b> dengan cara pembayaran
                     angsuran
                     sebesar
                     <b> {{ number_format($pinkel->alokasi) }} ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah) </b>
@@ -256,7 +256,7 @@
                 menguasai
                 obyek yang disebutkan sebagai Barang jaminan atau agunan dimaksud dalam pasal 5 secara sah dan memiliki hak
                 sepenuhnya untuk menjual atau melakukan lelang atau memiliki sendiri atas barang jaminan/agunan tersebut
-                dalam rangka melunasi hutang <b> Pihak Kedua </b> .
+                dalam rangka melunasi utang <b> Pihak Kedua </b> .
             </li>
             <li> Kuasa yang diberikan oleh <b> Pihak Kedua </b> kepada <b> Pihak Pertama </b> didalam atau berdasarkan
                 perjanjian
@@ -301,7 +301,7 @@
             Perselisihan
             </i> </h3>
         <div class="centered-text">
-            Perjanjian Hutang Piutang uang ini dibuat rangkap 2 (dua) di atas kertas bermaterai
+            Perjanjian Utang Piutang uang ini dibuat rangkap 2 (dua) di atas kertas bermaterai
             cukup untuk masing-masing pihak yang mempunyai kekuatan hukum yang sama dan ditanda
             tangani oleh kedua belah pihak dalam keadaan sehat jasmani dan rohani, serta tanpa
             unsur paksaan dari pihak manapun.
@@ -329,7 +329,7 @@
                                     Perselisihan </i> </h3>
                             </div>
                             <div class="centered-text">
-                                Perjanjian Hutang Piutang uang ini dibuat rangkap 2 (dua) di atas kertas bermaterai
+                                Perjanjian Utang Piutang uang ini dibuat rangkap 2 (dua) di atas kertas bermaterai
                                 cukup untuk masing-masing pihak yang mempunyai kekuatan hukum yang sama dan ditanda
                                 tangani oleh kedua belah pihak dalam keadaan sehat jasmani dan rohani, serta tanpa
                                 unsur paksaan dari pihak manapun.

@@ -302,7 +302,7 @@ class DashboardController extends Controller
                         'idtp' => 0,
                         'id_pinj' => $pinj_anggota->id,
                         'id_pinj_i' => 0,
-                        'keterangan_transaksi' => 'Hutang jasa ' . $pinj_anggota->anggota->namadepan . '(' . $pinj_anggota->id . ') angsuran ke ' . $rencana->angsuran_ke,
+                        'keterangan_transaksi' => 'Utang jasa ' . $pinj_anggota->anggota->namadepan . '(' . $pinj_anggota->id . ') angsuran ke ' . $rencana->angsuran_ke,
                         'relasi' => $pinj_anggota->anggota->namadepan,
                         'jumlah' => $nunggak_jasa,
                         'urutan' => 0,

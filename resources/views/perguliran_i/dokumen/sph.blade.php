@@ -132,7 +132,7 @@
                 <li>
                     Pihak Pertama telah menerima uang sebesar Rp. {{ number_format($pinkel->alokasi) }}
                     ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah)
-                    dari Pihak Kedua dimana uang tersebut adalah hutang atau pinjaman dari {{ $kec->nama_lembaga_sort }}
+                    dari Pihak Kedua dimana uang tersebut adalah utang atau pinjaman dari {{ $kec->nama_lembaga_sort }}
                     {{ $kec->sebutan_kec }} {{ $kec->nama_kec }}
                 </li>
                 <li>
@@ -176,7 +176,7 @@
                     @endif
                     atas Nama {{ $pinkel->anggota->namadepan }} Yang nilainya dianggap sama dengan uang pinjaman dari Pihak
                     Kedua.
-                    Apabila kemudian hari ternyata {{ $pinkel->anggota->namadepan }} tidak dapat membayar hutang tersebut
+                    Apabila kemudian hari ternyata {{ $pinkel->anggota->namadepan }} tidak dapat membayar utang tersebut
                     sesuai dengan perjanjian ini,
                     maka Pihak Kedua memiliki hak penuh
                     atas barang jaminan baik untuk dimiliki {{ $kec->nama_lembaga_sort }} {{ $kec->sebutan_kec }}
@@ -205,7 +205,7 @@
                         <tr>
                             <td style="padding: 0pt !important;">
                                 <div class="centered-text">
-                                    Demikian Surat Perjanjian Hutang ini dibuat bersama di hadapan saksi-saksi dalam keadaan
+                                    Demikian Surat Perjanjian Utang ini dibuat bersama di hadapan saksi-saksi dalam keadaan
                                     sehat jasmani dan
                                     rohani untuk dijadikan pegangan hukum bagi masing-masing pihak.
                                 </div>
