@@ -72,7 +72,7 @@
                                     <small class="text-danger" id="msg_tgl_transaksi"></small>
                                 </div>
                                 <div class="position-relative mb-3">
-                                    <label for="tarik_tunai" class="form-label">Tarik Tunai</label>
+                                    <label for="tarik_tunai" class="form-label">Jenis Mutasi</label>
                                     <div class="row">
                                         <div class="col-xs-1">
                                             <div class="radio radio-success">
@@ -83,7 +83,7 @@
                                         <div class="col-xs-1">
                                             <div class="radio radio-danger">
                                                 <input type="radio" name="jenis_mutasi" id="tarik_tunai" value="2">
-                                                <label for="">Tarik Tunai</label>
+                                                <label for="tarik_tunai">Tarik Tunai</label>
                                             </div>
                                         </div>
                                     </div>
@@ -122,6 +122,72 @@
                                     -webkit-appearance: none;
                                     -moz-appearance: none;
                                     border: 1px solid #ccc;
+                                }
+                                
+                                /* Custom Radio Button Styling */
+                                .radio-success input[type="radio"],
+                                .radio-danger input[type="radio"] {
+                                    width: 18px;
+                                    height: 18px;
+                                    cursor: pointer;
+                                    margin-right: 8px;
+                                    vertical-align: middle;
+                                }
+                                
+                                /* Untuk browser modern */
+                                .radio-success input[type="radio"] {
+                                    accent-color: #0d6efd;
+                                }
+                                
+                                .radio-danger input[type="radio"] {
+                                    accent-color: #dc3545;
+                                }
+                                
+                                /* Custom styling dengan appearance none untuk lebih konsisten */
+                                .radio-success input[type="radio"],
+                                .radio-danger input[type="radio"] {
+                                    -webkit-appearance: none;
+                                    -moz-appearance: none;
+                                    appearance: none;
+                                    border: 2px solid #6c757d;
+                                    border-radius: 50%;
+                                    outline: none;
+                                    transition: all 0.3s;
+                                }
+                                
+                                .radio-success input[type="radio"]:checked {
+                                    border-color: #0d6efd;
+                                    background-color: #0d6efd;
+                                    box-shadow: inset 0 0 0 3px white;
+                                }
+                                
+                                .radio-danger input[type="radio"]:checked {
+                                    border-color: #dc3545;
+                                    background-color: #dc3545;
+                                    box-shadow: inset 0 0 0 3px white;
+                                }
+                                
+                                .radio-success input[type="radio"]:hover,
+                                .radio-danger input[type="radio"]:hover {
+                                    border-width: 3px;
+                                }
+                                
+                                .radio-success label,
+                                .radio-danger label {
+                                    cursor: pointer;
+                                    vertical-align: middle;
+                                    user-select: none;
+                                }
+                                
+                                /* Styling untuk input jumlah saat tarik tunai */
+                                #jumlah.tarik-tunai {
+                                    border-color: #dc3545;
+                                    color: #dc3545;
+                                }
+                                
+                                #jumlah.tarik-tunai:focus {
+                                    border-color: #dc3545;
+                                    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
                                 }
                             </style>
                             <form class="forminline">
@@ -182,6 +248,16 @@ $(document).ready(function() {
     var currentYear = currentDate.getFullYear();
 
     tableTransaksi(currentMonth, currentYear);
+    
+    // Toggle class pada input jumlah berdasarkan jenis mutasi
+    $('input[name="jenis_mutasi"]').change(function() {
+        var jenisMutasi = $(this).val();
+        if (jenisMutasi == '2') { // Tarik tunai
+            $('#jumlah').addClass('tarik-tunai');
+        } else { // Setor tunai
+            $('#jumlah').removeClass('tarik-tunai');
+        }
+    });
 
     function tableTransaksi(bulan, tahun) {
         $.get('/simpanan/get-transaksi', {
@@ -282,7 +358,7 @@ $(document).ready(function() {
     function resetForm() {
         $('input[name="jenis_mutasi"]').prop('checked', false);
         $('#tgl_transaksi').val('');
-        $('#jumlah').val('');
+        $('#jumlah').val('').removeClass('tarik-tunai');
     }
 });
 </script>
