@@ -32,9 +32,6 @@
                                 <button class="btn btn-warning btn-sm float-end ms-2" onclick="window.open('/cetak_kop/{{ $nia->id }}')" type="button">
                                     <i class="fa fa-print"></i> Cetak KOP Buku
                                 </button>
-                                <button class="btn btn-warning btn-sm float-end ms-2" onclick="window.open('/cetak_koran/{{ $nia->id }}')" type="button">
-                                    <i class="fa fa-print"></i> Cetak Rekening Koran
-                                </button>
                                 <button class="btn btn-success btn-sm float-end ms-2" onclick="window.open('/cetak_sertifikat/{{ $nia->id }}')" type="button">
                                     <i class="fa fa-print"></i> Cetak Sertifikat Deposito
                                 </button>

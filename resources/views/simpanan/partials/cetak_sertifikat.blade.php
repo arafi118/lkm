@@ -260,7 +260,6 @@ function terbilang($angka) {
 
 <body onload="window.print()">
     
-    @if($simpanan->js->file == 2)
     <div class="container">
         
         <!-- Header -->
@@ -357,7 +356,7 @@ function terbilang($angka) {
             <tr>
                 <td>Suku Bunga</td>
                 <td>:</td>
-                <td><strong>{{ $simpanan->bunga }}%</strong></td>
+                <td><strong>{{ $simpanan->bunga }}% per tahun</strong></td>
             </tr>
             <tr>
                 <td>Pajak Bunga</td>
@@ -370,11 +369,14 @@ function terbilang($angka) {
         <div class="terms">
             <div class="terms-title">SYARAT DAN KETENTUAN:</div>
             <ol class="terms-list">
+                <li>Bilyet simpanan ini merupakan bukti kepemilikan simpanan di {{ strtoupper($kec->nama_lembaga_long) }}.</li>
+                <li>Penarikan simpanan hanya dapat dilakukan oleh pemilik rekening dengan menunjukkan bilyet asli dan identitas yang sah.</li>
+                <li>Apabila bilyet hilang, nasabah wajib melapor secara tertulis disertai keterangan kehilangan dari pihak berwenang.</li>
+                <li>Bilyet tidak dapat dipindahtangankan tanpa persetujuan tertulis dari {{ strtoupper($kec->nama_lembaga_long) }}.</li>
                 <li>Deposito ini tidak dapat dicairkan sebelum jatuh tempo kecuali dengan persetujuan {{ $kec->nama_lembaga_sort }} dan dikenakan penalti.</li>
                 <li>Perpanjangan deposito (roll over) dapat dilakukan secara otomatis atau atas permintaan penyimpan.</li>
                 <li>Bunga deposito akan dipotong pajak sebesar {{ $simpanan->pajak }}% sesuai ketentuan yang berlaku.</li>
-                <li>Pencairan deposito harus disertai dengan sertifikat asli dan identitas penyimpan.</li>
-                <li>Sertifikat ini harus disimpan dengan baik dan tidak dapat dipindahtangankan tanpa seizin {{ $kec->nama_lembaga_sort }}.</li>
+                <li>Ketentuan lain mengikuti peraturan dan kebijakan {{ strtoupper($kec->nama_lembaga_long) }}.</li>
             </ol>
         </div>
         
@@ -408,8 +410,8 @@ function terbilang($angka) {
         </div>
     </div>
     
-    @else
-    
+    @php
+    /*
     <div class="container">
         <div class="error-message">
             <div class="error-icon">⚠️</div>
@@ -424,8 +426,9 @@ function terbilang($angka) {
             </div>
         </div>
     </div>
+    */
+    @endphp
     
-    @endif
-    
+
 </body>
 </html>

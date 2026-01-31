@@ -246,21 +246,30 @@ class SimpananController extends Controller
         return view('simpanan.partials.cetak_koran')->with(compact('title','transaksi', 'simpanan', 'kec'));
     }
 
-    
     public function koran_dtl(Simpanan $simpanan, $bln, $thn)
     {
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $simpanan = $simpanan->where('id', $simpanan->id)->with(['anggota', 'js'])->first();
+
+        $query = Transaksi::where('id_simp', $simpanan->id);
     
-        $transaksi = Transaksi::where('id_simp', $simpanan->id)
-            ->whereYear('tgl_transaksi', $thn)
-            ->whereMonth('tgl_transaksi', $bln)
-            ->with('realSimpanan', 'user')
-            ->orderBy('tgl_transaksi', 'asc')
-            ->get();
+        if ($thn != 0 && $bln != 0) {
+            $query->whereYear('tgl_transaksi', $thn)
+                  ->whereMonth('tgl_transaksi', $bln);
+            $periode = date('F Y', mktime(0, 0, 0, $bln, 1, $thn));
+        } elseif ($thn != 0 && $bln == 0) {
+            $query->whereYear('tgl_transaksi', $thn);
+            $periode = 'Tahun ' . $thn;
+        } elseif ($thn == 0) {
+            $periode = 'Semua Periode';
+        }
     
-        $title = 'Cetak Rekening Koran ' . $simpanan->anggota->namadepan . ' - ' . date('F Y', mktime(0, 0, 0, $bln, 1, $thn));
-    
+        $transaksi = $query->with('realSimpanan', 'user')
+                           ->orderBy('tgl_transaksi', 'asc')
+                           ->get();
+
+        $title = 'Cetak Rekening Koran ' . $simpanan->anggota->namadepan . ' - ' . $periode;
+
         return view('simpanan.partials.cetak_koran')->with(compact('title', 'transaksi', 'simpanan', 'kec', 'bln', 'thn'));
     }
 
