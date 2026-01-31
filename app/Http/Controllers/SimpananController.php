@@ -220,6 +220,23 @@ class SimpananController extends Controller
         $title = 'Cetak KOP buku ' . $simpanan->anggota->namadepan;
         return view('simpanan.partials.cetak_kop')->with(compact('title', 'simpanan'));
     }
+
+    public function cetakSertifikat(Simpanan $simpanan)
+    {
+        $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
+        $simpanan = $simpanan->where('id', $simpanan->id)->with(['anggota', 'js'])->first();
+        $dir = User::where([
+            ['lokasi', Session::get('lokasi')],
+            ['level', '1'],
+            ['jabatan', '1'],
+        ])->first();
+        $transaksi = Transaksi::where('id_simp', $simpanan->id)->with('realSimpanan', 'user')->orderBy('tgl_transaksi', 'asc')->get();
+
+        $title = 'Cetak Sertifikat' . $simpanan->anggota->namadepan;
+        return view('simpanan.cetak_sertifikat', compact('title', 'simpanan', 'kec', 'dir'));
+
+    }
+
     public function koran(Simpanan $simpanan)
     {
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();

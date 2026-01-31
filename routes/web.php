@@ -413,6 +413,8 @@ Route::get('/cetak_kop/{simpanan}', [SimpananController::class, 'kop'])->middlew
 
 Route::get('/cetak_koran/{simpanan}', [SimpananController::class, 'koran'])->middleware('auth', 'is_aktif');
 
+Route::get('/cetak_sertifikat/{simpanan}', [SimpananController::class, 'cetakSertifikat'])->middleware('auth', 'is_aktif');
+
 Route::get('/cetak_koran/{simpanan}/{bln}/{thn}', [SimpananController::class, 'koran_dtl'])->middleware('auth', 'is_aktif');
 
 Route::get('/cetak_buku/{idt}', [SimpananController::class, 'cetakPadaBuku'])->middleware('auth');
