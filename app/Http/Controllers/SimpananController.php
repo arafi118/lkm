@@ -230,6 +230,23 @@ class SimpananController extends Controller
     }
 
     
+    public function koran_dtl(Simpanan $simpanan, $bln, $thn)
+    {
+        $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
+        $simpanan = $simpanan->where('id', $simpanan->id)->with(['anggota', 'js'])->first();
+    
+        $transaksi = Transaksi::where('id_simp', $simpanan->id)
+            ->whereYear('tgl_transaksi', $thn)
+            ->whereMonth('tgl_transaksi', $bln)
+            ->with('realSimpanan', 'user')
+            ->orderBy('tgl_transaksi', 'asc')
+            ->get();
+    
+        $title = 'Cetak Rekening Koran ' . $simpanan->anggota->namadepan . ' - ' . date('F Y', mktime(0, 0, 0, $bln, 1, $thn));
+    
+        return view('simpanan.partials.cetak_koran')->with(compact('title', 'transaksi', 'simpanan', 'kec', 'bln', 'thn'));
+    }
+
     public function cetakKwitansi($idt)
     {
         $transaksi = Transaksi::where('idt', $idt)->first();
