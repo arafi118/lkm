@@ -37,137 +37,145 @@ function terbilang($angka) {
     <title>Sertifikat Deposito - {{ $simpanan->anggota->namadepan }}</title>
     
     <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
     body {
         font-family: 'Times New Roman', Times, serif;
-        margin: 0;
-        padding: 20px;
         background-color: #fff;
+        padding: 0;
     }
     
     .container {
-        width: 21cm;
+        width: 8.5in;
+        height: 11in;
         margin: 0 auto;
-        padding: 30px;
-        border: 3px double #000;
+        padding: 0.5in 0.6in;
         background-color: #fff;
     }
     
     .header {
         text-align: center;
-        margin-bottom: 30px;
-        border-bottom: 2px solid #000;
-        padding-bottom: 20px;
-    }
-    
-    .logo {
-        width: 80px;
-        height: 80px;
-        margin: 0 auto 10px;
+        border-bottom: 3px solid #000;
+        padding-bottom: 8px;
+        margin-bottom: 15px;
     }
     
     .company-name {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: bold;
         color: #000;
-        margin: 10px 0;
+        margin-bottom: 3px;
     }
     
     .company-address {
-        font-size: 12px;
+        font-size: 10px;
         color: #333;
-        line-height: 1.5;
+        line-height: 1.3;
     }
     
     .certificate-title {
         text-align: center;
-        font-size: 28px;
+        font-size: 22px;
         font-weight: bold;
-        margin: 30px 0;
+        margin: 20px 0 10px 0;
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 3px;
         color: #1a5490;
     }
     
     .certificate-number {
         text-align: center;
-        font-size: 14px;
-        margin-bottom: 20px;
+        font-size: 11px;
+        margin-bottom: 15px;
         font-weight: bold;
     }
     
-    .content {
-        margin: 30px 0;
-        line-height: 2;
+    .intro-text {
+        text-align: justify;
+        font-size: 11px;
+        margin-bottom: 12px;
+        line-height: 1.4;
     }
     
     .detail-table {
         width: 100%;
-        margin: 20px 0;
+        margin-bottom: 12px;
         border-collapse: collapse;
     }
     
     .detail-table td {
-        padding: 8px;
-        font-size: 14px;
+        padding: 3px 5px;
+        font-size: 11px;
+        vertical-align: top;
     }
     
     .detail-table td:first-child {
-        width: 200px;
+        width: 180px;
         font-weight: bold;
     }
     
     .detail-table td:nth-child(2) {
-        width: 20px;
+        width: 15px;
         text-align: center;
     }
     
     .amount-box {
         border: 2px solid #000;
-        padding: 15px;
-        margin: 20px 0;
+        padding: 12px;
+        margin: 12px 0;
         text-align: center;
         background-color: #f5f5f5;
     }
     
     .amount-label {
-        font-size: 14px;
+        font-size: 12px;
         font-weight: bold;
+        margin-bottom: 5px;
     }
     
     .amount-value {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: bold;
         color: #1a5490;
-        margin: 10px 0;
+        margin: 5px 0;
     }
     
     .amount-words {
-        font-size: 14px;
+        font-size: 11px;
         font-style: italic;
-        margin-top: 10px;
+        margin-top: 5px;
     }
     
     .terms {
-        margin: 30px 0;
-        padding: 15px;
+        margin: 12px 0;
+        padding: 10px;
         background-color: #f9f9f9;
         border: 1px solid #ddd;
     }
     
     .terms-title {
         font-weight: bold;
-        margin-bottom: 10px;
-        font-size: 14px;
+        margin-bottom: 5px;
+        font-size: 11px;
     }
     
     .terms-list {
-        font-size: 12px;
-        line-height: 1.8;
-        padding-left: 20px;
+        font-size: 9px;
+        line-height: 1.5;
+        padding-left: 15px;
+        margin: 0;
+    }
+    
+    .terms-list li {
+        margin-bottom: 2px;
     }
     
     .signature-section {
-        margin-top: 50px;
+        margin-top: 25px;
         display: table;
         width: 100%;
     }
@@ -176,93 +184,75 @@ function terbilang($angka) {
         display: table-cell;
         width: 50%;
         text-align: center;
-        padding: 10px;
+        padding: 5px;
+        vertical-align: top;
     }
     
     .signature-label {
-        font-size: 14px;
-        margin-bottom: 80px;
+        font-size: 11px;
+        margin-bottom: 50px;
     }
     
     .signature-name {
-        font-size: 14px;
+        font-size: 11px;
         font-weight: bold;
         border-top: 1px solid #000;
         display: inline-block;
-        padding-top: 5px;
-        min-width: 200px;
+        padding-top: 3px;
+        min-width: 180px;
     }
     
     .footer {
-        margin-top: 30px;
-        padding-top: 20px;
+        margin-top: 15px;
+        padding-top: 10px;
         border-top: 1px solid #ccc;
         text-align: center;
-        font-size: 10px;
+        font-size: 8px;
         color: #666;
-    }
-    
-    .watermark {
-        position: relative;
-        opacity: 0.05;
-        font-size: 100px;
-        text-align: center;
-        transform: rotate(-45deg);
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotate(-45deg);
-        z-index: -1;
-        font-weight: bold;
     }
     
     .error-message {
         text-align: center;
-        padding: 50px;
-        margin: 100px auto;
-        max-width: 600px;
+        padding: 40px;
+        margin: 80px auto;
+        max-width: 500px;
     }
     
     .error-icon {
-        font-size: 80px;
-        color: #e74c3c;
-        margin-bottom: 20px;
-    }
-    
-    .error-title {
-        font-size: 24px;
-        font-weight: bold;
+        font-size: 60px;
         color: #e74c3c;
         margin-bottom: 15px;
     }
     
+    .error-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #e74c3c;
+        margin-bottom: 12px;
+    }
+    
     .error-text {
-        font-size: 16px;
+        font-size: 14px;
         color: #555;
-        line-height: 1.8;
+        line-height: 1.6;
     }
     
     @media print {
         @page {
-            size: A4;
+            size: letter;
             margin: 0;
         }
         
         body {
-            padding: 0;
             margin: 0;
+            padding: 0;
         }
         
         .container {
-            border: none;
-            page-break-after: always;
             width: 100%;
-            margin: 0;
-            padding: 30px;
-        }
-        
-        .watermark {
-            opacity: 0.05 !important;
+            height: 100%;
+            padding: 0.5in 0.6in;
+            page-break-after: always;
         }
     }
     </style>
@@ -272,15 +262,9 @@ function terbilang($angka) {
     
     @if($simpanan->js->file == 2)
     <div class="container">
-        <!-- Watermark -->
-        <div class="watermark">DEPOSITO</div>
         
         <!-- Header -->
         <div class="header">
-            @if($kec->logo)
-            <img src="{{ asset('storage/' . $kec->logo) }}" alt="Logo" class="logo">
-            @endif
-            
             <div class="company-name">
                 {{ strtoupper($kec->nama_lembaga_long) }}
             </div>
@@ -288,7 +272,7 @@ function terbilang($angka) {
                 {{ $kec->alamat_kec }}<br>
                 Telp: {{ $kec->telpon_kec }} | Email: {{ $kec->email_kec }}
                 @if($kec->web_kec)
-                <br>Website: {{ $kec->web_kec }}
+                | Website: {{ $kec->web_kec }}
                 @endif
             </div>
         </div>
@@ -303,101 +287,84 @@ function terbilang($angka) {
             No. Sertifikat: {{ $simpanan->nomor_rekening }}
         </div>
         
-        <!-- Content -->
-        <div class="content">
-            <p style="text-align: justify; text-indent: 50px;">
-                Sertifikat Deposito ini diterbitkan oleh <strong>{{ strtoupper($kec->nama_lembaga_long) }}</strong> 
-                sebagai bukti bahwa telah menerima simpanan deposito dari:
-            </p>
-            
-            <table class="detail-table">
-                <tr>
-                    <td>Nama Penyimpan</td>
-                    <td>:</td>
-                    <td><strong>{{ strtoupper($simpanan->anggota->namadepan) }}</strong></td>
-                </tr>
-                <tr>
-                    <td>Nomor Identitas (NIK)</td>
-                    <td>:</td>
-                    <td>{{ $simpanan->anggota->nik }}</td>
-                </tr>
-                <tr>
-                    <td>Nomor Anggota</td>
-                    <td>:</td>
-                    <td>{{ $simpanan->nia }}</td>
-                </tr>
-                <tr>
-                    <td>Nomor Rekening Deposito</td>
-                    <td>:</td>
-                    <td><strong>{{ $simpanan->nomor_rekening }}</strong></td>
-                </tr>
-                <tr>
-                    <td>Alamat</td>
-                    <td>:</td>
-                    <td>{{ $simpanan->anggota->alamat }}, {{ $simpanan->anggota->domisi }}</td>
-                </tr>
-                <tr>
-                    <td>Jenis Simpanan</td>
-                    <td>:</td>
-                    <td>{{ $simpanan->js->nama_js }}</td>
-                </tr>
-            </table>
-            
-            <!-- Amount Box -->
-            <div class="amount-box">
-                <div class="amount-label">NOMINAL DEPOSITO</div>
-                <div class="amount-value">
-                    Rp {{ number_format($simpanan->jumlah, 0, ',', '.') }}
-                </div>
-                <div class="amount-words">
-                    ({{ ucwords(terbilang($simpanan->jumlah)) }} Rupiah)
-                </div>
-            </div>
-            
-            <table class="detail-table">
-                <tr>
-                    <td>Tanggal Pembukaan</td>
-                    <td>:</td>
-                    <td>{{ \Carbon\Carbon::parse($simpanan->tgl_buka)->isoFormat('D MMMM YYYY') }}</td>
-                </tr>
-                <tr>
-                    <td>Jangka Waktu</td>
-                    <td>:</td>
-                    <td><strong>{{ $simpanan->jangka }} Bulan</strong></td>
-                </tr>
-                <tr>
-                    <td>Tanggal Jatuh Tempo</td>
-                    <td>:</td>
-                    <td><strong>{{ \Carbon\Carbon::parse($simpanan->tgl_tutup)->isoFormat('D MMMM YYYY') }}</strong></td>
-                </tr>
-                <tr>
-                    <td>Suku Bunga</td>
-                    <td>:</td>
-                    <td><strong>{{ $simpanan->bunga }}% per tahun</strong></td>
-                </tr>
-                <tr>
-                    <td>Pajak Bunga</td>
-                    <td>:</td>
-                    <td>{{ $simpanan->pajak }}%</td>
-                </tr>
-                <tr>
-                    <td>Biaya Administrasi</td>
-                    <td>:</td>
-                    <td>Rp {{ number_format($simpanan->admin, 0, ',', '.') }}</td>
-                </tr>
-                <tr>
-                    <td>Status</td>
-                    <td>:</td>
-                    <td>
-                        @if($simpanan->status == 'A')
-                            <strong style="color: green;">AKTIF</strong>
-                        @else
-                            <strong style="color: red;">TUTUP</strong>
-                        @endif
-                    </td>
-                </tr>
-            </table>
+        <!-- Intro Text -->
+        <div class="intro-text">
+            Sertifikat Deposito ini diterbitkan oleh <strong>{{ strtoupper($kec->nama_lembaga_long) }}</strong> sebagai bukti bahwa telah menerima simpanan deposito dari:
         </div>
+        
+        <!-- Member Details -->
+        <table class="detail-table">
+            <tr>
+                <td>Nama Penyimpan</td>
+                <td>:</td>
+                <td><strong>{{ strtoupper($simpanan->anggota->namadepan) }}</strong></td>
+            </tr>
+            <tr>
+                <td>Nomor Identitas (NIK)</td>
+                <td>:</td>
+                <td>{{ $simpanan->anggota->nik }}</td>
+            </tr>
+            <tr>
+                <td>Nomor Anggota</td>
+                <td>:</td>
+                <td>{{ $simpanan->nia }}</td>
+            </tr>
+            <tr>
+                <td>Nomor Rekening Deposito</td>
+                <td>:</td>
+                <td><strong>{{ $simpanan->nomor_rekening }}</strong></td>
+            </tr>
+            <tr>
+                <td>Alamat</td>
+                <td>:</td>
+                <td>{{ $simpanan->anggota->alamat }}, {{ $simpanan->anggota->domisi }}</td>
+            </tr>
+            <tr>
+                <td>Jenis Simpanan</td>
+                <td>:</td>
+                <td>{{ $simpanan->js->nama_js }}</td>
+            </tr>
+        </table>
+        
+        <!-- Amount Box -->
+        <div class="amount-box">
+            <div class="amount-label">NOMINAL DEPOSITO</div>
+            <div class="amount-value">
+                Rp {{ number_format($simpanan->jumlah, 0, ',', '.') }}
+            </div>
+            <div class="amount-words">
+                ({{ ucwords(terbilang($simpanan->jumlah)) }} Rupiah)
+            </div>
+        </div>
+        
+        <!-- Deposit Details -->
+        <table class="detail-table">
+            <tr>
+                <td>Tanggal Pembukaan</td>
+                <td>:</td>
+                <td>{{ \Carbon\Carbon::parse($simpanan->tgl_buka)->isoFormat('D MMMM YYYY') }}</td>
+            </tr>
+            <tr>
+                <td>Jangka Waktu</td>
+                <td>:</td>
+                <td><strong>{{ $simpanan->jangka }} Bulan</strong></td>
+            </tr>
+            <tr>
+                <td>Tanggal Jatuh Tempo</td>
+                <td>:</td>
+                <td><strong>{{ \Carbon\Carbon::parse($simpanan->tgl_tutup)->isoFormat('D MMMM YYYY') }}</strong></td>
+            </tr>
+            <tr>
+                <td>Suku Bunga</td>
+                <td>:</td>
+                <td><strong>{{ $simpanan->bunga }}%</strong></td>
+            </tr>
+            <tr>
+                <td>Pajak Bunga</td>
+                <td>:</td>
+                <td>{{ $simpanan->pajak }}%</td>
+            </tr>
+        </table>
         
         <!-- Terms and Conditions -->
         <div class="terms">
@@ -408,8 +375,6 @@ function terbilang($angka) {
                 <li>Bunga deposito akan dipotong pajak sebesar {{ $simpanan->pajak }}% sesuai ketentuan yang berlaku.</li>
                 <li>Pencairan deposito harus disertai dengan sertifikat asli dan identitas penyimpan.</li>
                 <li>Sertifikat ini harus disimpan dengan baik dan tidak dapat dipindahtangankan tanpa seizin {{ $kec->nama_lembaga_sort }}.</li>
-                <li>Apabila terjadi kehilangan sertifikat, segera laporkan kepada {{ $kec->nama_lembaga_sort }} untuk pemblokiran.</li>
-                <li>Pembayaran bunga dilakukan sesuai dengan ketentuan yang berlaku di {{ $kec->nama_lembaga_sort }}.</li>
             </ol>
         </div>
         
@@ -453,7 +418,7 @@ function terbilang($angka) {
                 <p><strong>Maaf, dokumen ini tidak dapat dicetak.</strong></p>
                 <p>Sertifikat deposito hanya dapat dicetak untuk simpanan berjenis <strong>Deposito</strong>.</p>
                 <p>Rekening dengan nomor <strong>{{ $simpanan->nomor_rekening }}</strong> berjenis <strong>{{ $simpanan->js->nama_js }}</strong>.</p>
-                <p style="margin-top: 30px; font-size: 14px; color: #999;">
+                <p style="margin-top: 20px; font-size: 12px; color: #999;">
                     Silakan hubungi petugas {{ $kec->nama_lembaga_sort }} untuk informasi lebih lanjut.
                 </p>
             </div>
