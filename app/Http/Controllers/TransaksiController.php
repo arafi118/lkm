@@ -2284,9 +2284,13 @@ class TransaksiController extends Controller
                     $debit = 0;
                     $kredit = $trx->jumlah;
                 }
-
+    
                 if ($data['rek']->jenis_mutasi == 'debet') {
                     $_saldo = $debit - $kredit;
+                    $total_saldo += $_saldo;
+                } else {
+                    $_saldo = $kredit - $debit;
+                    $total_saldo += $_saldo;
                 }
             }
         }
