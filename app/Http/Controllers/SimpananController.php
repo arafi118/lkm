@@ -352,6 +352,15 @@ class SimpananController extends Controller
         $cif = $request->nia;
 
         $simpanan = Simpanan::where('id', $cif)->first();
+        
+        // Validasi: Tanggal transaksi harus >= tanggal buka simpanan
+        if ($simpanan && strtotime($tglTransaksi) < strtotime($simpanan->tgl_buka)) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Tanggal transaksi tidak boleh lebih kecil dari tanggal buka simpanan (' . date('d/m/Y', strtotime($simpanan->tgl_buka)) . ')'
+            ], 422);
+        }
+        
         $jenisSimpanan = JenisSimpanan::where('id', $simpanan->jenis_simpanan)->first();
         
         $transaksi = new Transaksi();
@@ -667,6 +676,11 @@ class SimpananController extends Controller
         $hitung_bunga = $kec->hitung_bunga;
 
         foreach ($nia as $simp) {
+            // Validasi: Skip jika tanggal transaksi bunga kurang dari tanggal buka simpanan
+            if (strtotime($tgl_trans) < strtotime($simp->tgl_buka)) {
+                continue; // Skip simpanan ini
+            }
+            
             if ($hitung_bunga == 1) {
                 $real = RealSimpanan::where('cif', $simp->id)
                     ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
@@ -943,6 +957,12 @@ class SimpananController extends Controller
             $nomorRekening = $simpanan->no_rekening;
             $namaDebitur = $simpanan->anggota->namadepan;
             $simpanan = Simpanan::where('id', $cif)->first();
+            
+            // Validasi: Skip jika tanggal transaksi kurang dari tanggal buka simpanan
+            if (strtotime(date('Y-m-d', strtotime($tglTransaksi))) < strtotime($simpanan->tgl_buka)) {
+                continue; // Skip simpanan ini
+            }
+            
             $jenisSimpanan = JenisSimpanan::where('id', $simpanan->jenis_simpanan)->first();
 
             
