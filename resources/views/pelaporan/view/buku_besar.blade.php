@@ -142,16 +142,25 @@
                     if ($harian && $trx->tgl_transaksi != $tgl_kondisi) {
                         continue;
                     }
-
+                    
                     $number++;
                     $bg = $number % 2 == 0 ? 'rgb(255, 255, 255)' : 'rgb(230, 230, 230)';
+                    $relasi = '';
+                    if (
+                        str_starts_with($trx->rekening_debit, '2.1.04.') ||
+                        str_starts_with($trx->rekening_kredit, '2.1.04.')||
+                        str_starts_with($trx->rekening_debit, '3.1.01.') ||
+                        str_starts_with($trx->rekening_kredit, '3.1.01.')
+                    ) {
+                        $relasi = $trx->relasi;
+                    }
                 @endphp
 
                 <tr style="background: {{ $bg }};">
                     <td align="center">{{ $number }}</td>
                     <td align="center">{{ Tanggal::tglIndo($trx->tgl_transaksi) }}</td>
                     <td align="center">{{ $ref }}</td>
-                    <td>{{ $keterangan }}</td>
+                    <td>{{ $keterangan }} {{ $relasi }}</td>
                     <td align="right">{{ number_format($debit, 2) }}</td>
                     <td align="right">{{ number_format($kredit, 2) }}</td>
                     <td align="right">
