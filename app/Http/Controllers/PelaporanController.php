@@ -1939,8 +1939,7 @@ class PelaporanController extends Controller
             }
         }
         $data['rek'] = Rekening::where('kode_akun', $data['kode_akun'])->first();
-    
-        // Filter transaksi: exclude yang jumlahnya 0, null, atau empty string
+
         $data['transaksi'] = Transaksi::where('tgl_transaksi', 'LIKE', '%' . $tgl . '%')
             ->where(function ($query) use ($data) {
                 $query->where('rekening_debit', $data['kode_akun'])
@@ -1951,12 +1950,21 @@ class PelaporanController extends Controller
                       ->where('jumlah', '!=', '')
                       ->where('jumlah', '!=', 0);
             })
-            ->with('user')
+            ->with([
+                'user',
+                'kas_angs' => function ($query) {
+                    $query->where([
+                        ['id_pinj', '!=', '0'],
+                        ['idtp', '!=', '0'],
+                        ['rekening_debit', 'NOT LIKE', '1.1.01.01'],
+                    ]);
+                },
+            ])
             ->orderBy('tgl_transaksi', 'ASC')
             ->orderBy('urutan', 'ASC')
             ->orderBy('idt', 'ASC')
             ->get();
-    
+
         $data['saldo'] = $keuangan->saldoAwal($data['tgl_kondisi'], $data['kode_akun']);
         $data['d_bulan_lalu'] = $keuangan->saldoD($awal_bulan, $data['kode_akun']);
         $data['k_bulan_lalu'] = $keuangan->saldoK($awal_bulan, $data['kode_akun']);
