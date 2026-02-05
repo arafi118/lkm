@@ -690,12 +690,17 @@ class SimpananController extends Controller
 
                 $saldo = $real->sum ?? 0;
             } elseif ($hitung_bunga == 2) {
+                $saldo_terakhir_data = RealSimpanan::where('cif', $simp->id)
+                    ->where('tgl_transaksi', '<', $tgl_awal)
+                    ->orderByDesc('tgl_transaksi')
+                    ->orderByDesc('id')
+                    ->first();
                 $real = RealSimpanan::where('cif', $simp->id)
                     ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
                     ->orderBy('sum', 'asc')
                     ->first();
-
-                $saldo = $real->sum ?? 0;
+                $saldo_terakhir = $saldo_terakhir_data->sum ?? 0;
+                $saldo = $real->sum ?? $saldo_terakhir;
             } else {
                 $saldo_terakhir_data = RealSimpanan::where('cif', $simp->id)
                     ->where('tgl_transaksi', '<', $tgl_awal)
@@ -756,7 +761,7 @@ class SimpananController extends Controller
                                    ->where('rekening_kredit', $jenisSimpanan->rek_adm)
                                    ->where('id_simp', $simp->id)
                                    ->exists();
-                        
+
             if (!$bungaExists && $bunga > 0) {
                 $idmax++;
                 $sum_baru = $realSimpanan ? $realSimpanan->sum + $bunga : $bunga;
