@@ -681,51 +681,64 @@ class SimpananController extends Controller
                 continue; // Skip simpanan ini
             }
             
-            if ($hitung_bunga == 1) {
-                $real = RealSimpanan::where('cif', $simp->id)
-                    ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
+            if ($hitung_bunga == 1) { // Saldo terakhir
+
+                $saldo = RealSimpanan::where('cif', $simp->id)
+                    ->where('tgl_transaksi', '<=', $tgl_akhir)
                     ->orderByDesc('tgl_transaksi')
                     ->orderByDesc('id')
-                    ->first();
+                    ->value('sum') ?? 0;
 
-                $saldo = $real->sum ?? 0;
-            } elseif ($hitung_bunga == 2) {
-                $saldo_terakhir_data = RealSimpanan::where('cif', $simp->id)
+            }elseif($hitung_bunga == 2) { // Saldo terendah
+
+                $saldo_terakhir = RealSimpanan::where('cif', $simp->id)
                     ->where('tgl_transaksi', '<', $tgl_awal)
                     ->orderByDesc('tgl_transaksi')
                     ->orderByDesc('id')
-                    ->first();
-                $real = RealSimpanan::where('cif', $simp->id)
+                    ->value('sum') ?? 0;
+
+                $saldo = RealSimpanan::where('cif', $simp->id)
                     ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
-                    ->orderBy('sum', 'asc')
-                    ->first();
-                $saldo_terakhir = $saldo_terakhir_data->sum ?? 0;
-                $saldo = $real->sum ?? $saldo_terakhir;
-            } else {
-                $saldo_terakhir_data = RealSimpanan::where('cif', $simp->id)
+                    ->min('sum') ?? 0;
+
+                $saldo = min($saldo, $saldo_terakhir);
+            } else{ // Saldo rata-rata
+
+                $saldo_terakhir = RealSimpanan::where('cif', $simp->id)
                     ->where('tgl_transaksi', '<', $tgl_awal)
                     ->orderByDesc('tgl_transaksi')
                     ->orderByDesc('id')
-                    ->first();
+                    ->value('sum') ?? 0;
 
-                $saldo_terakhir = $saldo_terakhir_data->sum ?? 0;
-            
                 $transaksi = RealSimpanan::where('cif', $simp->id)
                     ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
+                    ->orderBy('tgl_transaksi')
                     ->get();
 
                 $jumdeb = 0;
                 $jumkre = 0;
 
+                $awal = strtotime($tgl_awal);
+
                 foreach ($transaksi as $real) {
-                    $hari_ke = (strtotime($real->tgl_transaksi) - strtotime($tgl_awal)) / (60 * 60 * 24) + 1;
-                    $jumdeb += ($real->real_d * ($jumlah_hari - ($hari_ke - 1)));
-                    $jumkre += ($real->real_k * ($jumlah_hari - ($hari_ke - 1)));
+
+                    $hari_ke = floor(
+                        (strtotime($real->tgl_transaksi) - $awal) / 86400
+                    ) + 1;
+
+                    $sisa_hari = $jumlah_hari - ($hari_ke - 1);
+
+                    if ($sisa_hari > 0) {
+                        $jumdeb += $real->real_d * $sisa_hari;
+                        $jumkre += $real->real_k * $sisa_hari;
+                    }
                 }
-            
-                $saldo = $saldo_terakhir+($jumkre/$jumlah_hari)-($jumdeb/$jumlah_hari);
+
+                $saldo = $saldo_terakhir
+                       + ($jumkre / $jumlah_hari)
+                       - ($jumdeb / $jumlah_hari);
             }
-        
+
             $bunga = 0;
             $pajak = 0;
 
