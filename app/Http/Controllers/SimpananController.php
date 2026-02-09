@@ -737,6 +737,7 @@ class SimpananController extends Controller
             $pajak = 0;
 
             $nia = $simp->nia;
+            if($simp->sp==1){
                 $saldo_nia = Simpanan::where('nia', $nia)
                     ->where('sp', 1)
                     ->get()
@@ -746,6 +747,16 @@ class SimpananController extends Controller
                             ->orderByDesc('id')
                             ->value('sum') ?? 0;
                     });
+            }else{
+                $saldo_nia = Simpanan::where('id', $simp->id)
+                    ->get()
+                    ->sum(function($simpanan) {
+                        return RealSimpanan::where('cif', $simpanan->id)
+                            ->orderByDesc('tgl_transaksi')
+                            ->orderByDesc('id')
+                            ->value('sum') ?? 0;
+                    });
+            }
 
 
             if ($kec->min_bunga <= $saldo) {
