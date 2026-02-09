@@ -681,6 +681,12 @@ class SimpananController extends Controller
                 continue; // Skip simpanan ini
             }
             
+                $saldo_terakhir = RealSimpanan::where('cif', $simp->id)
+                    ->where('tgl_transaksi', '<', $tgl_awal)
+                    ->orderByDesc('tgl_transaksi')
+                    ->orderByDesc('id')
+                    ->value('sum') ?? 0;
+
             if ($hitung_bunga == 1) { // Saldo terakhir
 
                 $saldo = RealSimpanan::where('cif', $simp->id)
@@ -691,24 +697,12 @@ class SimpananController extends Controller
 
             }elseif($hitung_bunga == 2) { // Saldo terendah
 
-                $saldo_terakhir = RealSimpanan::where('cif', $simp->id)
-                    ->where('tgl_transaksi', '<', $tgl_awal)
-                    ->orderByDesc('tgl_transaksi')
-                    ->orderByDesc('id')
-                    ->value('sum') ?? 0;
-
                 $saldo = RealSimpanan::where('cif', $simp->id)
                     ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
                     ->min('sum') ?? 0;
 
                 $saldo = min($saldo, $saldo_terakhir);
             } else{ // Saldo rata-rata
-
-                $saldo_terakhir = RealSimpanan::where('cif', $simp->id)
-                    ->where('tgl_transaksi', '<', $tgl_awal)
-                    ->orderByDesc('tgl_transaksi')
-                    ->orderByDesc('id')
-                    ->value('sum') ?? 0;
 
                 $transaksi = RealSimpanan::where('cif', $simp->id)
                     ->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir])
@@ -742,11 +736,23 @@ class SimpananController extends Controller
             $bunga = 0;
             $pajak = 0;
 
+            $nia = $simp->nia;
+                $saldo_nia = Simpanan::where('nia', $nia)
+                    ->where('sp', 1)
+                    ->get()
+                    ->sum(function($simpanan) {
+                        return RealSimpanan::where('cif', $simpanan->id)
+                            ->orderByDesc('tgl_transaksi')
+                            ->orderByDesc('id')
+                            ->value('sum') ?? 0;
+                    });
+
+
             if ($kec->min_bunga <= $saldo) {
                 $bunga = number_format($saldo * $simp->bunga/100, 0, '.', '');
             }
     
-            if ($kec->min_pajak <= $bunga) {
+            if ($kec->min_pajak <= saldo_nia) {
                 $pajak = number_format($bunga * $simp->pajak/100, 0, '.', '');
             }
             $admin = $simp->admin;

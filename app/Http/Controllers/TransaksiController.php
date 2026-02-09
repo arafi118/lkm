@@ -1035,7 +1035,16 @@ class TransaksiController extends Controller
             $jasa_kredit = '4.1.01.';
 
             $alokasi_pokok = intval($pinkel->alokasi);
-            $alokasi_jasa = intval($pinkel->pros_jasa == 0 ? 0 : $pinkel->alokasi * ($pinkel->pros_jasa / 100));
+
+            $target_jasa_terakhir = RencanaAngsuran::where('loan_id', $pinkel->id)
+                ->orderBy('angsuran_ke', 'DESC')
+                ->value('target_jasa');
+
+            if ($target_jasa_terakhir) {
+                $alokasi_jasa = intval($target_jasa_terakhir);
+            } else {
+                $alokasi_jasa = intval($pinkel->pros_jasa == 0 ? 0 : $pinkel->alokasi * ($pinkel->pros_jasa / 100));
+            }
 
             $real_angsuran = [
                 'id' => $idtp,
@@ -1266,7 +1275,16 @@ class TransaksiController extends Controller
             $jasa_kredit = '4.1.01.';
 
             $alokasi_pokok = intval($pinj_a->alokasi);
-            $alokasi_jasa = intval($pinj_a->pros_jasa == 0 ? 0 : $pinj_a->alokasi * ($pinj_a->pros_jasa / 100));
+
+            $target_jasa_terakhir = RencanaAngsuranI::where('loan_id', $pinj_a->id)
+                ->orderBy('angsuran_ke', 'DESC')
+                ->value('target_jasa');
+
+            if ($target_jasa_terakhir) {
+                $alokasi_jasa = intval($target_jasa_terakhir);
+            } else {
+                $alokasi_jasa = intval($pinj_a->pros_jasa == 0 ? 0 : $pinj_a->alokasi * ($pinj_a->pros_jasa / 100));
+            }
 
             $real_angsuran = [
                 'id' => $idtp,
@@ -2621,7 +2639,16 @@ class TransaksiController extends Controller
         ])->orderBy('jatuh_tempo', 'DESC');
 
         $alokasi_pokok = intval($pinkel->alokasi);
-        $alokasi_jasa = intval($pinkel->alokasi * ($pinkel->pros_jasa / 100));
+
+        $target_jasa_terakhir = RencanaAngsuranI::where('loan_id', $pinkel->id)
+            ->orderBy('angsuran_ke', 'DESC')
+            ->value('target_jasa');
+
+        if ($target_jasa_terakhir) {
+            $alokasi_jasa = intval($target_jasa_terakhir);
+        } else {
+            $alokasi_jasa = intval($pinkel->alokasi * ($pinkel->pros_jasa / 100));
+        }
 
         if ($real->count() > 0) {
             $real = $real->first();
@@ -2718,7 +2745,16 @@ class TransaksiController extends Controller
         ])->groupBy('idtp', 'tgl_transaksi')->orderBy('tgl_transaksi', 'ASC')->orderBy('idtp', 'ASC')->get();
 
         $alokasi_pokok = intval($pinkel->alokasi);
-        $alokasi_jasa = intval($pinkel->alokasi * ($pinkel->pros_jasa / 100));
+
+        $target_jasa_terakhir = RencanaAngsuranI::where('loan_id', $pinkel->id)
+            ->orderBy('angsuran_ke', 'DESC')
+            ->value('target_jasa');
+
+        if ($target_jasa_terakhir) {
+            $alokasi_jasa = intval($target_jasa_terakhir);
+        } else {
+            $alokasi_jasa = intval($pinkel->alokasi * ($pinkel->pros_jasa / 100));
+        }
 
         $poko_kredit = '1.1.03.';
         $jasa_kredit = '4.1.01.';

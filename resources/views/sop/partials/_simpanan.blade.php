@@ -33,7 +33,7 @@
         </div>
         <div class="col-md-6">
             <div class="position-relative mb-3">
-                <label for="min_pajak" class="form-label">Minimal Bunga untuk terkena Pajak (Rp.)</label>
+                <label for="min_pajak" class="form-label">Batas Total Simpanan Kena Pajak (Rp.)</label>
                 <input autocomplete="off" type="number" name="min_pajak" id="min_pajak" class="form-control"
                     value="{{ $kec->min_pajak }}">
                 <small class="text-danger" id="msg_min_pajak"></small>
@@ -74,9 +74,44 @@
     </div>
 </form>
 
-<div class="d-flex justify-content-end">
+<div class="d-flex justify-content-end mb-3">
     <button type="button" id="SimpanSimpanan" data-target="#FormSimpanan"
         class="btn btn-sm btn-dark mb-0 btn-simpan">
         Simpan Perubahan
     </button>
+</div>
+
+<div class="alert alert-info" role="alert">
+    <h6 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Keterangan Pengaturan Simpanan</h6>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <p class="mb-3"><strong>Jenis Perhitungan Bunga:</strong><br>
+                <small>
+                    • <strong>Saldo Terakhir:</strong> Bunga dihitung berdasarkan saldo akhir bulan. Contoh: Saldo per 31 Januari Rp 10.000.000, maka bunga dihitung dari Rp 10.000.000.<br>
+                    • <strong>Saldo Terendah:</strong> Bunga dihitung berdasarkan saldo terendah dalam 1 bulan. Contoh: Saldo terendah bulan Januari Rp 5.000.000, maka bunga dihitung dari Rp 5.000.000 meskipun saldo akhir lebih besar.<br>
+                    • <strong>Saldo Rata-rata:</strong> Bunga dihitung berdasarkan rata-rata saldo harian dalam 1 bulan. Contoh: Jika total saldo harian Rp 300.000.000 dibagi 30 hari = Rp 10.000.000, maka bunga dihitung dari Rp 10.000.000.
+                </small>
+            </p>
+            <p class="mb-3"><strong>Tanggal Perhitungan Bunga:</strong><br>
+                <small>
+                    Tanggal setiap bulan untuk proses perhitungan dan pemberian bunga simpanan.<br>
+                    • Isi dengan angka <strong>1-31</strong> untuk tanggal normal. Contoh: 25 = bunga dihitung setiap tanggal 25.<br>
+                    • Isi dengan angka <strong>minus (-1, -2, dst)</strong> untuk hitung mundur dari akhir bulan. Contoh: -1 = hari terakhir bulan (28/29/30/31 tergantung bulan), -2 = 2 hari sebelum akhir bulan.
+                </small>
+            </p>
+            <p class="mb-3"><strong>Minimal Saldo untuk Bunga:</strong><br>
+                <small>
+                    Saldo minimum yang harus dipenuhi agar nasabah mendapatkan bunga.<br>
+                    Contoh: Jika diisi Rp 100.000, maka nasabah dengan saldo di bawah Rp 100.000 tidak akan mendapatkan bunga simpanan.
+                </small>
+            </p>
+            <p class="mb-2"><strong>Batas Total Simpanan Kena Pajak:</strong><br>
+                <small>
+                    Batasan total simpanan untuk dikenakan pajak bunga sesuai peraturan perpajakan.<br>
+                    Contoh: Jika diisi Rp 7.500.000, maka nasabah dengan total simpanan di atas Rp 7.500.000 akan dikenakan pajak atas bunga yang diterima (sesuai peraturan PPh Pasal 4 ayat 2).
+                </small>
+            </p>
+        </div>
+    </div>
 </div>
