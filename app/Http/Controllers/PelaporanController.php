@@ -1656,40 +1656,52 @@ class PelaporanController extends Controller
     private function arus_kas(array $data)
     {
         $keuangan = new Keuangan;
-
         $thn = $data['tahun'];
         $bln = $data['bulan'];
         $hari = $data['hari'];
-
-        $tgl = $thn . '-' . $bln . '-' . $hari;
-        $data['tgl_awal'] = $thn . '-' . $bln . '-01';
-
-        $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
-        $data['tgl'] = Tanggal::tahun($tgl);
-        $data['jenis'] = 'Tahunan';
+    
+        $tgl_lalu = null;
+    
         if ($data['bulanan']) {
+            $tgl = $thn . '-' . str_pad($bln, 2, '0', STR_PAD_LEFT) . '-' . str_pad($hari, 2, '0', STR_PAD_LEFT);
+            $data['tgl_awal'] = $thn . '-' . str_pad($bln, 2, '0', STR_PAD_LEFT) . '-01';
             $data['sub_judul'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
             $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
             $data['jenis'] = 'Bulanan';
-
+        
             $bulan_lalu = $bln - 1;
+            $tahun_lalu = $thn;
             if ($bulan_lalu <= 0) {
                 $bulan_lalu = 12;
-                $thn -= 1;
+                $tahun_lalu -= 1;
             }
-
-            $tgl_lalu = $thn . '-' . $bulan_lalu . '-' . date('t', strtotime($thn . '-' . $bulan_lalu . '-01'));
+            $tgl_lalu = $tahun_lalu . '-' . str_pad($bulan_lalu, 2, '0', STR_PAD_LEFT) . '-' . date('t', strtotime($tahun_lalu . '-' . $bulan_lalu . '-01'));
+        
+            if (!isset($data['tgl_kondisi'])) {
+                $data['tgl_kondisi'] = $thn . '-' . str_pad($bln, 2, '0', STR_PAD_LEFT) . '-' . date('t', strtotime($thn . '-' . $bln . '-01'));
+            }
+        } else {
+            $data['tgl_awal'] = $thn . '-01-01';
+            $data['sub_judul'] = 'Tahun ' . $thn;
+            $data['tgl'] = $thn;
+            $data['jenis'] = 'Tahunan';
+        
+            $tahun_lalu = $thn - 1;
+            $tgl_lalu = $tahun_lalu . '-12-31';
+        
+            if (!isset($data['tgl_kondisi'])) {
+                $data['tgl_kondisi'] = $thn . '-12-31';
+            }
         }
-
+    
         $data['saldo_bulan_lalu'] = $keuangan->saldoKas($tgl_lalu);
         $data['arus_kas'] = UtilsArusKas::arusKas($data['tgl_awal'], $data['tgl_kondisi']);
-
         $data['keuangan'] = $keuangan;
+    
         $view = view('pelaporan.view.arus_kas', $data)->render();
-
+    
         if ($data['type'] == 'pdf') {
             $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
-
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'portrait');
             return $pdf->stream();
         } else {
