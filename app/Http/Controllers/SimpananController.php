@@ -220,6 +220,19 @@ class SimpananController extends Controller
         $title = 'Cetak KOP buku ' . $simpanan->anggota->namadepan;
         return view('simpanan.partials.cetak_kop')->with(compact('title', 'simpanan'));
     }
+    
+    public function cetakFormulir(Simpanan $simpanan = null)
+    {
+        if ($simpanan && $simpanan->id) {
+            $simpanan = $simpanan->with(['anggota', 'js'])->find($simpanan->id);
+            $title = 'Formulir Simpanan - ' . ($simpanan->anggota->namadepan ?? 'Nasabah');
+        } else {
+            $simpanan = null;
+            $title = 'Formulir Simpanan Nasabah';
+        }
+    
+        return view('simpanan.partials.cetak_formulir')->with(compact('title', 'simpanan'));
+    }
 
     public function cetakSertifikat(Simpanan $simpanan)
     {
@@ -352,14 +365,24 @@ class SimpananController extends Controller
         $cif = $request->nia;
 
         $simpanan = Simpanan::where('id', $cif)->first();
-        
-        // Validasi: Tanggal transaksi harus >= tanggal buka simpanan
-        if ($simpanan && strtotime($tglTransaksi) < strtotime($simpanan->tgl_buka)) {
-            return response()->json([
-                'success' => false, 
-                'message' => 'Tanggal transaksi tidak boleh lebih kecil dari tanggal buka simpanan (' . date('d/m/Y', strtotime($simpanan->tgl_buka)) . ')'
-            ], 422);
+
+        if ($simpanan) {
+            $parts = explode('/', $tglTransaksi);
+            if (count($parts) == 3) {
+                $tglTransaksiFormatted = $parts[2] . '-' . $parts[1] . '-' . $parts[0];
+            } else {
+                $tglTransaksiFormatted = $tglTransaksi;
+            }
+
+            if (strtotime($tglTransaksiFormatted) < strtotime($simpanan->tgl_buka)) {
+                return response()->json([
+                    'success' => false, 
+                    'message' => 'Tanggal transaksi tidak boleh lebih kecil dari tanggal buka simpanan (' . 
+                                date('d/m/Y', strtotime($simpanan->tgl_buka)) . ')'
+                ], 422);
+            }
         }
+
         
         $jenisSimpanan = JenisSimpanan::where('id', $simpanan->jenis_simpanan)->first();
         

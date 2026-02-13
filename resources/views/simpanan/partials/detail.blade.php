@@ -33,7 +33,10 @@
                                     <i class="fa fa-print"></i> Cetak KOP Buku
                                 </button>
                                 <button class="btn btn-success btn-sm float-end ms-2" onclick="window.open('/cetak_sertifikat/{{ $nia->id }}')" type="button">
-                                    <i class="fa fa-print"></i> Cetak Sertifikat Deposito
+                                    <i class="fa fa-address-card"></i> Cetak Sertifikat Deposito
+                                </button>
+                                <button class="btn btn-info btn-sm ms-2" onclick="window.open('/cetak_formulir/{{ $nia->id }}')" type="button">
+                                    <i class="fa fa-pencil-square"></i> Cetak Form Pendaftaran
                                 </button>
                             </div>
                         </div>

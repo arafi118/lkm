@@ -43,9 +43,11 @@
         </div>
     </div>
 
-    <a href="/database/penduduk/register_penduduk" class="btn btn-info btn-sm" style="width: 300px; height: 35px;">Reg.
-        Calon Nasabah</a>
+    <a href="/database/penduduk/register_penduduk" class="btn btn-info btn-sm" style="width: 250px; height: 35px;">Reg. Calon Nasabah</a>
 
+                                <button class="btn btn-info btn-sm ms-2" onclick="window.open('/cetak_formulir/')" type="button" style="width: 250px; height: 35px;">
+                                    <i class="fa fa-pencil-square"></i> Cetak Form Pendaftaran
+                                </button>
 </div>
 
 <script>
