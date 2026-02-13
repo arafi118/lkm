@@ -1037,7 +1037,7 @@ class TransaksiController extends Controller
             $alokasi_pokok = intval($pinkel->alokasi);
 
             $target_jasa_terakhir = RencanaAngsuran::where('loan_id', $pinkel->id)
-                ->orderBy('angsuran_ke', 'DESC')
+                ->orderByRaw('CAST(angsuran_ke AS UNSIGNED) DESC')
                 ->value('target_jasa');
 
             if ($target_jasa_terakhir) {
@@ -1277,7 +1277,7 @@ class TransaksiController extends Controller
             $alokasi_pokok = intval($pinj_a->alokasi);
 
             $target_jasa_terakhir = RencanaAngsuranI::where('loan_id', $pinj_a->id)
-                ->orderBy('angsuran_ke', 'DESC')
+                ->orderByRaw('CAST(angsuran_ke AS UNSIGNED) DESC')
                 ->value('target_jasa');
 
             if ($target_jasa_terakhir) {
@@ -2641,7 +2641,7 @@ class TransaksiController extends Controller
         $alokasi_pokok = intval($pinkel->alokasi);
 
         $target_jasa_terakhir = RencanaAngsuranI::where('loan_id', $pinkel->id)
-            ->orderBy('angsuran_ke', 'DESC')
+            ->orderByRaw('CAST(angsuran_ke AS UNSIGNED) DESC')
             ->value('target_jasa');
 
         if ($target_jasa_terakhir) {
@@ -2747,7 +2747,7 @@ class TransaksiController extends Controller
         $alokasi_pokok = intval($pinkel->alokasi);
 
         $target_jasa_terakhir = RencanaAngsuranI::where('loan_id', $pinkel->id)
-            ->orderBy('angsuran_ke', 'DESC')
+            ->orderByRaw('CAST(angsuran_ke AS UNSIGNED) DESC')
             ->value('target_jasa');
 
         if ($target_jasa_terakhir) {
