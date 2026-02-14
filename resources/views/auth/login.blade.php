@@ -24,111 +24,256 @@
     <link href="/argon/css/argon-dashboard.min.css" rel="stylesheet" />
     
     <style>
-        .bg-gradient-primary {
-            background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%) !important;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
+        body, html {
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            position: relative;
+            background: #ffffff;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20%;
+            background: #344767;
+            z-index: 0;
+        }
+        
+        .login-container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .login-left {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+        }
+        
+        .login-right {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        
+        .login-right img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 1rem;
+        }
+        
+        .login-card {
+            background: transparent;
+            backdrop-filter: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 4rem 3.5rem;
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-content {
+            width: 60%;
+            max-width: 600px;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 1rem;
+        }
+        
         .logo-container {
             text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .logo-container img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 1.5rem;
         }
-        .logo-container img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: white;
-            padding: 10px;
-            box-shadow: 0 0 2rem 0 rgba(136, 152, 170, .15);
-        }
-        .card-header h4 {
-            margin-bottom: 0.25rem;
+        
+        .logo-container h4 {
+            margin-bottom: 0.5rem;
             font-weight: 700;
+            color: #32325d;
+            font-size: 1.875rem;
+            line-height: 1.3;
         }
-        .card-header h5 {
+        
+        .logo-container h5 {
             margin-bottom: 0;
             color: #8898aa;
             font-weight: 400;
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-group-alternative {
+            box-shadow: 0 1px 3px rgba(50, 50, 93, .15), 0 1px 0 rgba(0, 0, 0, .02);
+            border: 0;
+            transition: box-shadow .15s ease;
+            border-radius: 0.375rem;
+            background-color: #fff;
+        }
+        
+        .input-group-alternative:focus-within {
+            box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+        }
+        
+        .input-group-alternative .form-control {
+            border: 0;
+            background-color: transparent;
+            font-size: 1.3rem;
+            padding: 1.2rem 1rem;
+        }
+        
+        .input-group-alternative .form-control:focus {
+            background-color: transparent;
+            box-shadow: none;
+        }
+        
+        .input-group-prepend .input-group-text {
+            border: 0;
+            background-color: transparent;
+            color: #8898aa;
+            font-size: 1.3rem;
+            padding: 1.2rem 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%);
+            border: none;
+            width: 100%;
+            padding: 1.3rem;
+            font-weight: 600;
+            border-radius: 0.375rem;
+            text-transform: uppercase;
+            font-size: 1.3rem;
+            letter-spacing: 0.5px;
+            transition: all 0.15s ease;
+            margin-top: 1rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08);
+        }
+        
+        .footer-text {
+            text-align: center;
+            margin-top: 2rem;
+            color: #8898aa;
+            font-size: 1.3rem;
+        }
+        
+        @media (max-width: 991px) {
+            .login-right {
+                display: none;
+            }
+            
+            .login-left {
+                flex: 1;
+            }
+            
+            .login-content {
+                width: 80%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .login-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .login-content {
+                width: 100%;
+            }
+            
+            .logo-container img {
+                width: 80px;
+                height: 80px;
+            }
         }
     </style>
 </head>
 
-<body class="bg-default">
-    <div class="main-content">
-        <!-- Header -->
-        <div class="header bg-gradient-primary py-6 py-lg-6">
-            <div class="container">
-                <div class="header-body text-center mb-7">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5 col-md-6">
-                            <h1 class="text-white">Selamat Datang!</h1>
-                            <p class="text-lead text-light">Silahkan login untuk mengakses aplikasi</p>
-                        </div>
+<body>
+    <div class="login-container">
+        <!-- Left Side - Login Form -->
+        <div class="login-left">
+            <div class="login-card">
+                <div class="login-content">
+                    <div class="logo-container">
+                        <img src="{{ $logo }}" alt="Logo" onerror="this.onerror=null; this.src='/assets/img/logo.jpeg';" />
+                        <h4>{{ $kec->nama_lembaga_sort }}</h4>
+                        <h5>{{ $kec->nama_kec }}</h5>
                     </div>
-                </div>
-            </div>
-            <div class="separator separator-bottom separator-skew zindex-100">
-                <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
-                </svg>
-            </div>
-        </div>
-        
-        <!-- Page content -->
-        <div class="container mt--8 pb-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-5 col-md-7">
-                    <div class="card bg-secondary shadow border-0">
-                        <div class="card-header bg-transparent pb-4">
-                            <div class="logo-container">
-                                <img src="{{ $logo }}" alt="Logo" />
-                            </div>
-                            <div class="text-center">
-                                <h4 class="mb-0">{{ $kec->nama_lembaga_sort }}</h4>
-                                <h5 class="mt-2">{{ $kec->nama_kec }}</h5>
+                    
+                    <form role="form" method="POST" action="/login">
+                        @csrf
+                        
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Username" type="text" name="username" id="username" required autofocus>
                             </div>
                         </div>
                         
-                        <div class="card-body px-lg-5 py-lg-5">
-                            <div class="text-center text-muted mb-4">
-                                <small>Masukan <b>Username</b> dan <b>Password</b></small>
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Password" type="password" name="password" id="password" required>
                             </div>
-                            
-                            <form role="form" method="POST" action="/login">
-                                @csrf
-                                
-                                <div class="form-group mb-3">
-                                    <div class="input-group input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fa fa-user"></i></span>
-                                        </div>
-                                        <input class="form-control" placeholder="Username" type="text" name="username" id="username" required autofocus>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <div class="input-group input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                        </div>
-                                        <input class="form-control" placeholder="Password" type="password" name="password" id="password" required>
-                                    </div>
-                                </div>
-                                
-                                <div class="text-center">
-                                    <button type="submit" name="login" class="btn btn-primary my-4">SIGN IN</button>
-                                </div>
-                            </form>
                         </div>
-                    </div>
+                        
+                        <button type="submit" name="login" class="btn btn-primary">Sign In</button>
+                    </form>
                     
-                    <div class="row mt-3">
-                        <div class="col-12 text-center">
-                            <a href="#" class="text-light">
-                                <small>&copy; {{ date('Y') }} PT. Asta Brata Teknologi &mdash; {{ str_pad($kec->id, 4, '0', STR_PAD_LEFT) }}</small>
-                            </a>
-                        </div>
+                    <div class="footer-text">
+                        &copy; {{ date('Y') }} PT. Asta Brata Teknologi &mdash; {{ str_pad($kec->id, 4, '0', STR_PAD_LEFT) }}
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <!-- Right Side - Background Image -->
+        <div class="login-right">
+            <img src="/argon/img/bg.png" alt="Background">
         </div>
     </div>
     

@@ -1,11 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\app",
+    "\\app\\Http",
+    "\\app\\Http\\Controllers",
+    "\\app\\Http\\Controllers\\Admin",
     "\\resources",
     "\\resources\\views",
     "\\resources\\views\\auth",
+    "\\resources\\views\\dashboard",
     "\\resources\\views\\layouts"
   ],
-  "SelectedNode": "\\resources\\views\\auth\\login.blade.php",
+  "SelectedNode": "\\app\\Http\\Controllers\\DesaController.php",
   "PreviewInSolutionExplorer": false
 }
