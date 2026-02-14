@@ -98,33 +98,33 @@
         }
         
         .login-content {
-            width: 60%;
+            width: 80%;
             max-width: 600px;
-            padding: 2.5rem;
+            padding: 2.25rem;
             background: rgba(255, 255, 255, 0.25);
             border-radius: 1rem;
         }
         
         .logo-container {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2.25rem;
         }
         
         .logo-container img {
-            width: 150px;
-            height: 150px;
+            width: 135px;
+            height: 135px;
             border-radius: 50%;
-            padding: 10px;
+            padding: 9px;
             background: white;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.35rem;
         }
         
         .logo-container h4 {
             margin-bottom: 0.5rem;
             font-weight: 700;
             color: #32325d;
-            font-size: 1.875rem;
+            font-size: 1.125rem;
             line-height: 1.3;
         }
         
@@ -132,11 +132,11 @@
             margin-bottom: 0;
             color: #8898aa;
             font-weight: 400;
-            font-size: 1.5rem;
+            font-size: 0.9rem;
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.35rem;
         }
         
         .input-group-alternative {
@@ -149,13 +149,14 @@
         
         .input-group-alternative:focus-within {
             box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+            border: 1px solid #7267E4;
         }
         
         .input-group-alternative .form-control {
             border: 0;
             background-color: transparent;
-            font-size: 1.3rem;
-            padding: 1.2rem 1rem;
+            font-size: 0.78rem;
+            padding: 1.08rem 0.9rem;
         }
         
         .input-group-alternative .form-control:focus {
@@ -167,22 +168,22 @@
             border: 0;
             background-color: transparent;
             color: #8898aa;
-            font-size: 1.3rem;
-            padding: 1.2rem 1rem;
+            font-size: 0.78rem;
+            padding: 1.08rem 0.9rem;
         }
         
         .btn-primary {
-            background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%);
+            background: linear-gradient(87deg, #7267E4 0, #7267E4 100%);
             border: none;
             width: 100%;
-            padding: 1.3rem;
+            padding: 1.17rem;
             font-weight: 600;
             border-radius: 0.375rem;
             text-transform: uppercase;
-            font-size: 1.3rem;
-            letter-spacing: 0.5px;
+            font-size: 0.78rem;
+            letter-spacing: 0.45px;
             transition: all 0.15s ease;
-            margin-top: 1rem;
+            margin-top: 0.9rem;
         }
         
         .btn-primary:hover {
@@ -192,9 +193,9 @@
         
         .footer-text {
             text-align: center;
-            margin-top: 2rem;
+            margin-top: 1.8rem;
             color: #8898aa;
-            font-size: 1.3rem;
+            font-size: 0.78rem;
         }
         
         @media (max-width: 991px) {
@@ -261,7 +262,7 @@
                             </div>
                         </div>
                         
-                        <button type="submit" name="login" class="btn btn-primary">Sign In</button>
+                        <button type="submit" name="login" class="btn btn-primary">Login</button>
                     </form>
                     
                     <div class="footer-text">
@@ -284,8 +285,8 @@
     <!-- Argon JS -->
     <script src="/argon/js/argon-dashboard.min.js"></script>
     
-    <!-- SweetAlert -->
-    <script src="/assets/js/plugins/sweetalert.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script>
         if (localStorage.getItem('devops') !== 'true') {
@@ -310,38 +311,70 @@
         }
     </script>
 
-    @if (session('pesan'))
-        <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
+    @if (session('error'))
+    <script>
+        $(document).ready(function() {
+            if (typeof Swal !== 'undefined') {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
 
-            function Toastr(icon, text) {
-                font = "1.2rem Nimrod MT";
-
-                canvas = document.createElement("canvas");
-                context = canvas.getContext("2d");
+                var font = "1.2rem Nimrod MT";
+                var canvas = document.createElement("canvas");
+                var context = canvas.getContext("2d");
                 context.font = font;
-                width = context.measureText(text).width;
-                formattedWidth = Math.ceil(width) + 100;
+                var width = context.measureText("{{ session('error') }}").width;
+                var formattedWidth = Math.ceil(width) + 100;
 
                 Toast.fire({
-                    icon: icon,
-                    title: text,
+                    icon: 'error',
+                    title: "{{ session('error') }}",
                     width: formattedWidth
-                })
+                });
             }
+        });
+    </script>
+    @endif
 
-            Toastr('success', "{{ session('pesan') }}")
-        </script>
+    @if (session('pesan'))
+    <script>
+        $(document).ready(function() {
+            if (typeof Swal !== 'undefined') {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+
+                var font = "1.2rem Nimrod MT";
+                var canvas = document.createElement("canvas");
+                var context = canvas.getContext("2d");
+                context.font = font;
+                var width = context.measureText("{{ session('pesan') }}").width;
+                var formattedWidth = Math.ceil(width) + 100;
+
+                Toast.fire({
+                    icon: 'success',
+                    title: "{{ session('pesan') }}",
+                    width: formattedWidth
+                });
+            }
+        });
+    </script>
     @endif
 </body>
 

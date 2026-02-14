@@ -11,6 +11,6 @@
     "\\resources\\views\\dashboard",
     "\\resources\\views\\layouts"
   ],
-  "SelectedNode": "\\app\\Http\\Controllers\\DesaController.php",
+  "SelectedNode": "\\app\\Http\\Controllers\\Admin\\AuthController.php",
   "PreviewInSolutionExplorer": false
 }

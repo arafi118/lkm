@@ -93,7 +93,7 @@ class AuthController extends Controller
         }
 
         if (!$kec) {
-            return redirect()->back();
+            return redirect()->back()->with('error', 'Username dan/atau Password salah!');
         }
 
         $lokasi = $kec->id;
@@ -196,7 +196,7 @@ class AuthController extends Controller
             }
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('error', 'Username dan/atau Password salah!');
     }
 
     public function force($uname)
