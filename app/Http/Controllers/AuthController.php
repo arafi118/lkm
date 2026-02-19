@@ -22,7 +22,7 @@ use Session;
 
 class AuthController extends Controller
 {
-    private const ID_KEC = 263;
+    private const ID_KEC = 95;
 
     public function index()
     {
@@ -54,7 +54,7 @@ class AuthController extends Controller
             return redirect('/kab');
         }
 
-        $logo = '/assets/img/icon/favicon.png';
+        $logo = '/assets/img/logo.jpeg';
         if ($kec->logo) {
             $logo = '/storage/logo/' . $kec->logo;
         }
