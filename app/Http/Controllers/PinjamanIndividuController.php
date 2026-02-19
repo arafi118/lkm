@@ -2111,7 +2111,7 @@ class PinjamanIndividuController extends Controller
         ->where(function ($query) use ($data) {
             if (Session::get('lokasi') == '351') {
                 $query->where('jabatan', '3');
-            } elseif (Session::get('lokasi') == '212' && $data['pinkel']->alokasi < 10000000) {
+            } elseif (Session::get('lokasi') == '212' && $data['pinkel']->alokasi <= 10000000) {
                 $query->where('jabatan', '2');
             } else {
                 $query->where('jabatan', '1');
