@@ -179,26 +179,6 @@
     .modal-open .select2-close-mask {
         z-index: 10055;
     }
-
-    /* ===== SIDEBAR FOOTER TOGGLER ===== */
-    .sidenav-footer {
-        margin-top: auto;
-    }
-
-    .sidenav-footer .sidenav-toggler-line {
-        background-color: #344767;
-    }
-
-    .sidenav-footer .sidenav-toggler-label {
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        white-space: nowrap;
-    }
-
-    /* Tampilkan label saat sidebar terbuka penuh */
-    .g-sidenav-pinned .sidenav-footer .sidenav-toggler-label {
-        opacity: 1;
-    }
   </style>
 </head>
 
@@ -409,7 +389,7 @@
             <i class="fa fa-close"></i>
           </button>
         </div>
-        </div>
+      </div>
       <hr class="horizontal dark my-1">
       <div class="card-body pt-sm-3 pt-0 overflow-auto">
         <div>
