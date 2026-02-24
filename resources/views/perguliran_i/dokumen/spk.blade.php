@@ -29,6 +29,7 @@
             text-align: justify;
         }
     </style>
+
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11pt;">
         <br>
         <tr>
@@ -45,6 +46,7 @@
             <td colspan="3" height="5"> </td>
         </tr>
     </table>
+
     <div class="centered-text">
         Dengan memohon rahmat Tuhan Yang Maha Kuasa serta kesadaran akan cita-cita luhur pemberdayaan masyarakat desa untuk
         mencapai kemajuan ekonomi dan kemakmuran bersama, pada hari ini {{ Tanggal::namaHari($pinkel->tgl_cair) }} tanggal
@@ -134,6 +136,7 @@
         sukarela menyatakan telah membuat perjanjian utang piutang dengan ketentuan-ketentuan yang telah disepakati bersama
         sebagai berikut :
     </p>
+
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 1 </b>
         <ol class="centered-text">
@@ -154,6 +157,7 @@
             </li>
         </ol>
     </div>
+
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 2 </b>
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10pt;"> Penyerahan Pinjaman </i> </h3>
@@ -161,12 +165,8 @@
             <li>
                 <b> Pihak Pertama </b> telah menyerahkan uang kepada Pihak Kedua sebagai pinjaman sebesar
                 <b> {{ number_format($pinkel->alokasi) }} ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah) </b>
-                tersebut secara tunai dan sekaligus kepada <b> Pihak Kedua </b> pada saat perjanjian ini dibuat dan
-                ditanda
-                tangani. <b> Pihak Kedua </b> menyatakan telah menerimanya dengan menandatangani bukti penerimaan
-                (kwitansi)
-                yang
-                sah.
+                tersebut secara tunai dan sekaligus kepada Pihak Kedua pada saat perjanjian ini dibuat dan ditanda tangani.
+                Pihak Kedua menyatakan telah menerimanya dengan menandatangani bukti penerimaan (kwitansi) yang sah.
             </li>
             {{-- @if ($redaksi_spk)
         {!! json_decode($redaksi_spk, true) !!}
@@ -177,10 +177,10 @@
         </ol>
     </div>
     <br>
+
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 3 </b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10pt;"> Sistem Pengembalian
-            </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10pt;"> Sistem Pengembalian </i> </h3>
         <div class="centered-text">
             <ol class="centered-text">
                 <li>
@@ -194,7 +194,6 @@
                     sah.
                 </li>
                 <li>
-
                     <b> Pihak Kedua </b> wajib membayar utang tersebut kepada <b> Pihak Pertama </b> dengan cara pembayaran
                     angsuran
                     sebesar
@@ -210,9 +209,14 @@
                     {{ \Carbon\Carbon::parse($ra->jatuh_tempo)->translatedFormat('d F Y') }} dan
                     sampai target pelunasan, sebagaimana jadwal angsuran terlampir.
                 </li>
+                <li>
+                    Keterlambatan angsuran Pihak Kedua telah melampaui 1(satu) bulan, maka Pihak kedua di bebani denda sebesar 
+                    2% diakumulasikan dari jumlah tunggakan pada saat jatuh tempo angsuran
+                </li>
             </ol>
         </div>
     </div>
+
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 4 </b>
         <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10pt;"> Agunan </i> </h3>
@@ -295,11 +299,10 @@
             bagian yang tidak terpisahkan dari perjanjian ini.
         </div>
     </div>
+
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 8 </b>
-        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10pt;"> Penyelesaian
-            Perselisihan
-            </i> </h3>
+        <h3 class="fa fa-align-center" aria-hidden="true" style="font-size: 10pt;"> Penutup </i> </h3>
         <div class="centered-text">
             Perjanjian Utang Piutang uang ini dibuat rangkap 2 (dua) di atas kertas bermaterai
             cukup untuk masing-masing pihak yang mempunyai kekuatan hukum yang sama dan ditanda
