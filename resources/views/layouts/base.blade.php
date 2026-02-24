@@ -860,7 +860,7 @@
       var body        = document.body;
 
       // Lebar sidebar (sesuai Argon default)
-      var SIDENAV_WIDTH = 250;
+      var SIDENAV_WIDTH = 280;
 
       // Buat overlay backdrop — hanya menutupi area KANAN sidebar, bukan sidebar itu sendiri
       var overlay = document.createElement('div');
