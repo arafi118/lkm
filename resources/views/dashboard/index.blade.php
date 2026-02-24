@@ -69,21 +69,24 @@
                                         <span>
                                             <h6><b>Permohonan Kredit</b></h6>
                                         </span>
-                                        <div class="dropdown text-end">
-                                            <span class="text-xs text-secondary">&nbsp;&nbsp; {{ $waiting }}
-                                                W</span>
-                                        </div>
                                     </div> <br>
                                     <div class="widget-subheading">
-                                        <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
-                                            {{ $verifikasi }}
-                                            <span class="font-weight-normal text-secondary">V</span>
-                                        </span>
+                                        <div class="d-flex gap-2 mt-1">
+                                            <span class="badge bg-info px-2 py-1" style="font-size:12px;">
+                                                {{ $proposal }} P
+                                            </span>
+                                            <span class="badge bg-danger px-2 py-1" style="font-size:12px;">
+                                                {{ $verifikasi }} V
+                                            </span>
+                                            <span class="badge bg-warning px-2 py-1" style="font-size:12px;">
+                                                {{ $waiting }} W
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="widget-content-right">
                                     <div class="widget-numbers text-warning" style="font-size: 17px;">
-                                        {{ $proposal }} P
+                                            {{ $proposal + $verifikasi + $waiting }} File
                                     </div>
                                 </div>
                             </div>
@@ -856,101 +859,81 @@
         var ctx1 = document.getElementById("chart-line").getContext("2d");
         var ctx2 = document.getElementById("myChart").getContext("2d");
 
-        // Line chart
+        // Argon color palette
+        // Primary #5e72e4 | Success #2dce89 | Warning #fb6340 | Info #11cdef | Danger #f5365c
+
+        // Gradient Pendapatan — Argon Success (#2dce89)
+        var gradientPendapatan = ctx1.createLinearGradient(0, 230, 0, 50);
+        gradientPendapatan.addColorStop(1, 'rgba(45, 206, 137, 0.3)');
+        gradientPendapatan.addColorStop(0.2, 'rgba(45, 206, 137, 0.0)');
+        gradientPendapatan.addColorStop(0, 'rgba(45, 206, 137, 0)');
+
+        // Gradient Beban — Argon Warning (#fb6340)
+        var gradientBeban = ctx1.createLinearGradient(0, 230, 0, 50);
+        gradientBeban.addColorStop(1, 'rgba(251, 99, 64, 0.3)');
+        gradientBeban.addColorStop(0.2, 'rgba(251, 99, 64, 0.0)');
+        gradientBeban.addColorStop(0, 'rgba(251, 99, 64, 0)');
+
+        // Gradient Laba — Argon Primary (#5e72e4)
+        var gradientLaba = ctx1.createLinearGradient(0, 230, 0, 50);
+        gradientLaba.addColorStop(1, 'rgba(94, 114, 228, 0.3)');
+        gradientLaba.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
+        gradientLaba.addColorStop(0, 'rgba(94, 114, 228, 0)');
+
+        // Line chart — Argon style dengan data real
         new Chart(ctx1, {
             type: "line",
             data: {
-                labels: [
-                    "Jan",
-                    "Feb",
-                    "Mar",
-                    "Apr",
-                    "Mei",
-                    "Jun",
-                    "Jul",
-                    "Agu",
-                    "Sep",
-                    "Okt",
-                    "Nov",
-                    "Des",
-                ],
-                datasets: [{
+                labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+                datasets: [
+                    {
                         label: "Pendapatan",
                         tension: 0,
-                        pointRadius: 5,
-                        pointBackgroundColor: "#4CAF50",
+                        pointRadius: 0,
+                        pointBackgroundColor: "#2dce89",
                         pointBorderColor: "transparent",
-                        borderColor: "#4CAF50",
-                        borderWidth: 2,
-                        backgroundColor: "transparent",
+                        borderColor: "#2dce89",
+                        borderWidth: 3,
+                        backgroundColor: gradientPendapatan,
                         fill: true,
                         data: [
-                            "{{ $p['1'] }}",
-                            "{{ $p['2'] }}",
-                            "{{ $p['3'] }}",
-                            "{{ $p['4'] }}",
-                            "{{ $p['5'] }}",
-                            "{{ $p['6'] }}",
-                            "{{ $p['7'] }}",
-                            "{{ $p['8'] }}",
-                            "{{ $p['9'] }}",
-                            "{{ $p['10'] }}",
-                            "{{ $p['11'] }}",
-                            "{{ $p['12'] }}"
+                            "{{ $p['1'] }}", "{{ $p['2'] }}", "{{ $p['3'] }}", "{{ $p['4'] }}",
+                            "{{ $p['5'] }}", "{{ $p['6'] }}", "{{ $p['7'] }}", "{{ $p['8'] }}",
+                            "{{ $p['9'] }}", "{{ $p['10'] }}", "{{ $p['11'] }}", "{{ $p['12'] }}"
                         ],
                         maxBarThickness: 6
                     },
                     {
                         label: "Beban",
                         tension: 0,
-                        borderWidth: 0,
-                        pointRadius: 5,
-                        pointBackgroundColor: "#fb8c00",
+                        pointRadius: 0,
+                        pointBackgroundColor: "#fb6340",
                         pointBorderColor: "transparent",
-                        borderColor: "#fb8c00",
-                        borderWidth: 2,
-                        backgroundColor: "transparent",
+                        borderColor: "#fb6340",
+                        borderWidth: 3,
+                        backgroundColor: gradientBeban,
                         fill: true,
                         data: [
-                            "{{ $b['1'] }}",
-                            "{{ $b['2'] }}",
-                            "{{ $b['3'] }}",
-                            "{{ $b['4'] }}",
-                            "{{ $b['5'] }}",
-                            "{{ $b['6'] }}",
-                            "{{ $b['7'] }}",
-                            "{{ $b['8'] }}",
-                            "{{ $b['9'] }}",
-                            "{{ $b['10'] }}",
-                            "{{ $b['11'] }}",
-                            "{{ $b['12'] }}"
+                            "{{ $b['1'] }}", "{{ $b['2'] }}", "{{ $b['3'] }}", "{{ $b['4'] }}",
+                            "{{ $b['5'] }}", "{{ $b['6'] }}", "{{ $b['7'] }}", "{{ $b['8'] }}",
+                            "{{ $b['9'] }}", "{{ $b['10'] }}", "{{ $b['11'] }}", "{{ $b['12'] }}"
                         ],
                         maxBarThickness: 6
                     },
                     {
                         label: "Laba",
                         tension: 0,
-                        borderWidth: 0,
-                        pointRadius: 5,
-                        pointBackgroundColor: "#1A73E8",
+                        pointRadius: 0,
+                        pointBackgroundColor: "#5e72e4",
                         pointBorderColor: "transparent",
-                        borderColor: "#1A73E8",
-                        borderWidth: 2,
-                        backgroundColor: "transparent",
+                        borderColor: "#5e72e4",
+                        borderWidth: 3,
+                        backgroundColor: gradientLaba,
                         fill: true,
                         data: [
-                            "{{ $surplus['1'] }}",
-                            "{{ $surplus['2'] }}",
-                            "{{ $surplus['3'] }}",
-                            "{{ $surplus['4'] }}",
-                            "{{ $surplus['5'] }}",
-                            "{{ $surplus['6'] }}",
-                            "{{ $surplus['7'] }}",
-                            "{{ $surplus['8'] }}",
-                            "{{ $surplus['9'] }}",
-                            "{{ $surplus['10'] }}",
-                            "{{ $surplus['11'] }}",
-                            "{{ $surplus['12'] }}"
+                            "{{ $surplus['1'] }}", "{{ $surplus['2'] }}", "{{ $surplus['3'] }}", "{{ $surplus['4'] }}",
+                            "{{ $surplus['5'] }}", "{{ $surplus['6'] }}", "{{ $surplus['7'] }}", "{{ $surplus['8'] }}",
+                            "{{ $surplus['9'] }}", "{{ $surplus['10'] }}", "{{ $surplus['11'] }}", "{{ $surplus['12'] }}"
                         ],
                         maxBarThickness: 6
                     }
@@ -983,9 +966,8 @@
                             padding: 10,
                             color: '#9ca2b7',
                             font: {
-                                size: 14,
-                                weight: 300,
-                                family: "Roboto",
+                                size: 11,
+                                family: "Open Sans",
                                 style: 'normal',
                                 lineHeight: 2
                             },
@@ -996,7 +978,7 @@
                             drawBorder: false,
                             display: true,
                             drawOnChartArea: true,
-                            drawTicks: true,
+                            drawTicks: false,
                             borderDash: [5, 5],
                             color: '#c1c4ce5c'
                         },
@@ -1005,9 +987,8 @@
                             color: '#9ca2b7',
                             padding: 10,
                             font: {
-                                size: 14,
-                                weight: 300,
-                                family: "Roboto",
+                                size: 11,
+                                family: "Open Sans",
                                 style: 'normal',
                                 lineHeight: 2
                             },
@@ -1017,45 +998,50 @@
             },
         });
 
-        // Pie chart
+        // Palette warna Argon — otomatis cycling
+        var argonColors = [
+            '#5e72e4','#2dce89','#11cdef','#fb6340','#f5365c',
+            '#825ee4','#2dcecc','#8392ab','#ffd600','#f4a423',
+        ];
+
+        // Data dari backend — dinamis sesuai jenis produk di DB
+        var angsuranData = @json($angsuran);
+
+        var pieLabels   = [];
+        var piePokok    = [];
+        var pieJasa     = [];
+        var pieBgColors = [];
+        var total_pokok = 0;
+        var total_jasa  = 0;
+        var colorIdx    = 0;
+
+        Object.values(angsuranData).forEach(function(jp) {
+            pieLabels.push(jp.label);
+            piePokok.push(jp.pokok);
+            pieJasa.push(jp.jasa);
+            // Gunakan warna_ipp dari DB (argon class), atau fallback ke palette
+            var warna = jp.warna;
+            var warnaMap = {
+                'primary':'#5e72e4','success':'#2dce89','info':'#11cdef',
+                'warning':'#fb6340','danger':'#f5365c','default':'#344767',
+                'secondary':'#8392ab','dark':'#212529','light':'#ced4da'
+            };
+            pieBgColors.push(warnaMap[warna] || argonColors[colorIdx % argonColors.length]);
+            total_pokok += parseFloat(jp.pokok) || 0;
+            total_jasa  += parseFloat(jp.jasa)  || 0;
+            colorIdx++;
+        });
+
+        // Pie chart — Pokok (pakai piePokok)
         var myChart = new Chart(ctx2, {
             type: 'pie',
             data: {
-                labels: [
-                    'Umum',
-                    'Kendaraan',
-                    'Elektronik',
-                    'PRT',
-                    'Lain-lain',
-                ],
+                labels: pieLabels,
                 datasets: [{
-                    label: 'Projects',
-                    backgroundColor: [
-                        '#1a73e8',
-                        '#4caf50',
-                        '#344767',
-                        '#7b809a',
-                        '#f44335',
-                        '#1a73e8',
-                        '#4caf50',
-                        '#344767',
-                        '#7b809a',
-                        '#f44335',
-                    ],
+                    label: 'Angsuran Pokok',
+                    backgroundColor: pieBgColors,
                     borderWidth: 1,
-                    data: [
-                        "{{ $umum_pokok }}",
-                        "{{ $kendaraan_pokok }}",
-                        "{{ $elektronik_pokok }}",
-                        "{{ $prt_pokok }}",
-                        "{{ $lain_lain_pokok }}",
-                        "{{ $umum_jasa }}",
-                        "{{ $kendaraan_jasa }}",
-                        "{{ $elektronik_jasa }}",
-                        "{{ $prt_jasa }}",
-                        "{{ $lain_lain_jasa }}",
-                    ],
-                    fill: false
+                    data: piePokok,
                 }]
             },
             options: {
@@ -1065,9 +1051,7 @@
                     legend: {
                         display: true,
                         position: 'right',
-                        labels: {
-                            usePointStyle: true,
-                        }
+                        labels: { usePointStyle: true }
                     }
                 },
                 interaction: {
@@ -1077,15 +1061,8 @@
             }
         });
 
-        var total_angsur_pokok =
-            "{{ $umum_pokok + $kendaraan_pokok + $elektronik_pokok + $prt_pokok + $lain_lain_pokok }}"
-
-        $('#total_angsur_pokok').html(formatter.format(total_angsur_pokok))
-
-        var total_angsur_jasa =
-            "{{ $umum_jasa + $kendaraan_jasa + $elektronik_jasa + $prt_jasa + $lain_lain_jasa }}"
-
-        $('#total_angsur_jasa').html(formatter.format(total_angsur_jasa))
+        $('#total_angsur_pokok').html(formatter.format(total_pokok));
+        $('#total_angsur_jasa').html(formatter.format(total_jasa));
 
         let childWindow, loading;
         $(document).on('click', '#simpanSaldo', function(e) {

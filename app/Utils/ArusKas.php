@@ -42,7 +42,7 @@ class ArusKas
       $akun3[$akunLevel3][] = $rek;
       $akun4[$akunLevel4][] = $rek;
     }
-
+    
     return [
       'akun1' => $akun1,
       'akun2' => $akun2,
@@ -104,14 +104,12 @@ class ArusKas
             $numberChild3 = 1;
             $Child3 = [];
             foreach ($child2->child as $child3) {
-              if ($child3->nama_akun) {
-                $Child3[$numberChild3] = [
-                  'nomor' => $numberChild3,
-                  'nama_akun' => $child3->nama_akun,
-                  'child' => [],
-                  'saldo' => 0
-                ];
-              }
+              $Child3[$numberChild3] = [
+                'nomor' => $numberChild3,
+                'nama_akun' => $child3->nama_akun ?? '',
+                'child' => [],
+                'saldo' => 0
+              ];
 
               if (count($child3->child) > 0) {
                 foreach ($child3->child as $child4) {
@@ -171,7 +169,7 @@ class ArusKas
       $kodeAkunPasangan = $kode_akun->kredit;
     }
 
-    $rekening = '';
+    $rekening = [];
     if (strlen($kodeAkun) == '9') {
       $rekening = $akun4[$kodeAkun] ??[];
     }

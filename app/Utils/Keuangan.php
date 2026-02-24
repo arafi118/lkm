@@ -905,9 +905,15 @@ class Keuangan
         $tgl = $tanggal[2];
 
         if ($jenis == 'Tahunan') {
-            $tgl_awal = $thn . '-01-01';
+            $tgl_awal = $thn.'-01-01';
         } elseif ($jenis == 'Bulanan') {
-            $tgl_awal = $thn . '-' . $bln . '-01';
+            $tgl_awal = $thn.'-'.$bln.'-01';
+        } elseif ($jenis == 'Semester I') {
+            $tgl_awal = $thn.'-01-01';
+            $tgl_kondisi = $thn.'-06-30';
+        } elseif ($jenis == 'Semester II') {
+            $tgl_awal = $thn.'-07-01';
+            $tgl_kondisi = $thn.'-12-31';
         } else {
             $tgl_awal = $tgl_kondisi;
         }
@@ -921,10 +927,10 @@ class Keuangan
 
             $trx = Transaksi::where([
                 ['rekening_debit', 'like', "$debit"],
-                ['rekening_kredit', 'like', "$kredit"]
+                ['rekening_kredit', 'like', "$kredit"],
             ])->where([
                 ['tgl_transaksi', '>=', $tgl_awal],
-                ['tgl_transaksi', '<=', $tgl_kondisi]
+                ['tgl_transaksi', '<=', $tgl_kondisi],
             ])->sum('jumlah');
 
             $jumlah += $trx;

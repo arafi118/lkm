@@ -152,7 +152,7 @@
                     ({{ $keuangan->terbilang($pinkel->alokasi) }} Rupiah). </b></li>
             <li>Status kepemilikan barang sampai dengan sebelum perjanjian ini dinyatakan berakhir adalah <b>Fidusia atau
                     Sewa Beli.</b></li>
-            <li>Perjanjian ini berakhir ketika <b>Pihak Pertama</b> telah selesai melakukan pembayaran sesuai dengan
+            <li>Perjanjian ini berakhir ketika <b>Pihak Kedua</b> telah selesai melakukan pembayaran sesuai dengan
                 kesepakatan.</li>
         </ol>
     </div>
@@ -161,8 +161,6 @@
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 3 </b><br>
         <b class="centered-text">SISTEM PENGEMBALIAN & PEMBAYARAN ANGSURAN </b>
-        <b>&nbsp;</b>
-        </i> </h3>
         <ol class="centered-text">
             <li><b> Pihak Kedua </b> wajib membayar utang tersebut kepada <b> Pihak Pertama </b> dengan cara pembayaran
                 angsuran
@@ -178,8 +176,8 @@
                 {{ \Carbon\Carbon::parse($pinkel->tgl_cair)->translatedFormat('d F Y') }} dan
                 sampai target pelunasan, sebagaimana jadwal angsuran terlampir.
             </li>
-            <li>Jika Kredit dapat diselesaikan sebelum jangka waktu pengembalian, maka <b>Pihak Kedua</b> diwajibkan
-                membayar <b>sisa pokok + sisa jasa sepenuhnya.</b> </li>
+            <li>Jika Kredit diselesaikan sebelum jangka waktu pengembalian, maka <b>Pihak Kedua</b> diwajibkan
+                membayar <b>sisa pokok, jasa pada bulan tersebut ditambah 1x jasa bulan berikutnya sebagai kompensasi.</b> </li>
             <li>
                 <b> Pihak Kedua </b> mebayar angsuran pertama dan biaya administrasi Ketika barang datang.
             </li>
@@ -189,7 +187,7 @@
                 {{ $kec->nama_kec }}
             </li>
             <li>
-                Kwitansi tanda terima sebagai bukti pembayaran yang sah adalah kwitansi yang di keluarkanoleh <b>Pihak
+                Kwitansi tanda terima sebagai bukti pembayaran yang sah adalah kwitansi yang di keluarkan oleh <b>Pihak
                     Pertama</b>
                 dengan cap dan tanda tangan Asli Petugas {{ $kec->nama_lembaga_sort }}
             </li>
@@ -202,12 +200,9 @@
         <b class="centered-text">SANKSI KETERLAMBATAN PEMBAYARAN</b>
         <ol class="centered-text">
             <li>
-                <b>Pihak Kedua</b> dianggap terlambat membayar jika waktu pembayarannya melebihi tanggal yang telah
-                ditetapkan
-                pada bulan berjalan.
+                <b>Pihak Kedua</b> dianggap terlambat membayar jika waktu pembayarannya melewati bulan.
             </li>
-            <li>Keterlambatan angsuran <b>Pihak Kedua</b> telah melampaui masa toleransi 1(satu) minggu, maka <b>Pihak
-                    kedua</b> di bebani denda sebesar <b>5%,8% dan 10% seiring waktu keterlambatan</b></li>
+            <li>{!! $kec->spk_denda ?? 'Keterlambatan angsuran <b>Pihak Kedua</b> telah melampaui 1(satu) bulan, maka <b>Pihak kedua</b> di bebani denda sebesar <b>2%</b> diakumulasikan dari jumlah tunggakan pada saat jatuh tempo angsuran' !!}</li>
             <li>
                 Apabila selama 3 bulan berturut turut <b>Pihak Kedua</b> tidak membayar angsuran, <b>Pihak
                     Pertama</b>,berhak menarik /mengambil barang yang di beli atau barang yang menjadi agunan tujuk sesuai
@@ -219,10 +214,9 @@
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 5 </b><br>
         <b class="centered-text">PEMBATALAN</b>
-        </h3>
         <ol class="centered-text">
-            <li>Dengan tidak dilakukannya pembayaran angsuran oleh <b>Pihak Kedua</b> berturut-turut sesuai dengan Pasal 5
-                Surat
+            <li>Dengan tidak dilakukannya pembayaran angsuran oleh <b>Pihak Kedua</b> berturut-turut sesuai dengan Pasal 4
+                ayat 3 Surat
                 Perjanjian ini maka tanpa memerlukan teguran terlebih dahulu dari <b>Pihak Pertama</b>, telah cukup
                 membuktikan
                 bahwa <b>Pihak Kedua</b> dalam keadaan lalai atau wan prestasi.</li>
@@ -252,7 +246,6 @@
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 6 </b><br>
         <b class="centered-text">PEMINDAH TANGANAN BARANG {{ $pinkel->jpp->nama_jpp }} </b>
-        </h3>
         <ol class="centered-text">
             <li>Terhitung sejak tanggal penyerahan BARANG {{ $pinkel->jpp->nama_jpp }}, maka segala resiko yang berkenaan
                 dengan BARANG
@@ -273,7 +266,6 @@
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 7 </b><br>
         <b class="centered-text">KERUSAKAN DAN KEHILANGAN </b>
-        </h3>
         <ol class="centered-text">
             <li>Apabila terjadi kerusakan atas BARANG {{ $pinkel->jpp->nama_jpp }} karena pemakaian, maka <b>Pihak
                     Kedua</b> berkewajiban untuk
@@ -293,22 +285,21 @@
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 8 </b><br>
         <b class="centered-text">PENYELESAIAN PERSELISAHAN</b>
-        </h3>
         <ol class="centered-text">
-            <li>Penggunaan Kembali barang oleh <b>Pihak Kedua</b> setealh diterapkanya sansksi pada PASAL 5, dapat dilakukan
+            <li>Penggunaan Kembali barang oleh <b>Pihak Kedua</b> setelah diterapkanya sanksi pada PASAL 5, dapat dilakukan
                 apabila seluruh kewajiban angsuran dan denda di bayar lunas sesuai target angsuran berjalan.</li>
-            <li>Apabila terjadihal hal yang tidak diinginkan yang menyebabkan <b>Pihak Kedua</b> tidak bisa melanjutkan
+            <li>Apabila terjadi hal hal yang tidak diinginkan yang menyebabkan <b>Pihak Kedua</b> tidak bisa melanjutkan
                 angsuran
-                atau melunasi kewajhibanya, seperti: meninggal dunia, melarikan diri, berpindah domisili, ganguna kejiawaan,
-                sakit parah dll, maka penjamin dan ahli waris bersedia menanggung beban kewajiabn sampai lunas.
+                atau melunasi kewajhibanya, seperti: meninggal dunia, melarikan diri, berpindah domisili, gangguan kejiwaan,
+                sakit parah dll, maka penjamin dan ahli waris bersedia menanggung beban kewajiban sampai lunas.
             </li>
             <li>
-                Hal- hal yang tidak diatur dan/atau belum diaturdalam perjanjian ini dan/atau terjadi perbedaan penafsiran
+                Hal- hal yang tidak diatur dan/atau belum diatur dalam perjanjian ini dan/atau terjadi perbedaan penafsiran
                 atas seluruh atau Sebagian dari perjanjian ini maka kedua belah pihak sepakat untuk menyelesaikanya secara
                 musyawarah untuk mufakat.
             </li>
             <li>
-                Apabila tidak tercapai kata mufakat dalam proses penyelesaian perselisihan sebgaiman di maksud pasal 8 ayat
+                Apabila tidak tercapai kata mufakat dalam proses penyelesaian perselisihan sebagaimana di maksud pasal 8 ayat
                 3 maka akan di selesaikan secara hukum sesuai hukum yang berlaku di Indonesia melalui pengadilan <strong>Kabupaten {{$kec->kabupaten->nama_kab}}</strong>.
             </li>
         </ol>
@@ -316,7 +307,6 @@
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 9 </b><br>
         <b class="centered-text">Lain lain</b>
-        </i> </h3>
         <div class="centered-text">
             Hal-hal yang belum atau belum cukup diatur dalam perjanjian ini akan diatur lebih lanjut dalam bentuk surat
             menyurat dan atau addendum perjanjian yang ditandatangani oleh para pihak yang merupakan satu kesatuan dan
@@ -327,7 +317,6 @@
     <div style="text-align: center;">
         <b class="centered-text"> PASAL 10 </b><br>
         <b class="centered-text">Penutup</b>
-        </i> </h3>
         <div class="centered-text">
             Perjanjian Kredit barang ini dibuat rangkap 2 (dua) di atas kertas bermaterai cukup untuk masing-masing pihak
             yang mempunyai kekuatan hukum yang sama dan ditanda tangani oleh kedua belah pihak dalam keadaan sehat jasmani

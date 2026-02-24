@@ -15,6 +15,7 @@ use App\Models\Rekening;
 use App\Models\RencanaAngsuran;
 use App\Models\Saldo;
 use App\Models\Transaksi;
+use App\Models\JenisProdukPinjaman;
 use App\Utils\Keuangan;
 use App\Utils\Tanggal;
 use Illuminate\Http\Request;
@@ -63,41 +64,56 @@ class DashboardController extends Controller
             $data['waiting'] = $pinj->w;
         }
 
-        $tb = 'transaksi_' . Session::get('lokasi');
-        $trx = Transaksi::select([
-            DB::raw("(SELECT SUM(jumlah) as j FROM $tb WHERE rekening_debit LIKE '1.1.01.%' AND rekening_kredit='1.1.03.01' AND tgl_transaksi='$tgl') as umum_pokok"),
-            DB::raw("(SELECT SUM(jumlah) as j FROM $tb WHERE rekening_debit LIKE '1.1.01.%' AND rekening_kredit='1.1.03.02' AND tgl_transaksi='$tgl') as kendaraan_pokok"),
-            DB::raw("(SELECT SUM(jumlah) as j FROM $tb WHERE rekening_debit LIKE '1.1.01.%' AND rekening_kredit='1.1.03.03' AND tgl_transaksi='$tgl') as elektronik_pokok"),
-            DB::raw("(SELECT SUM(jumlah) as j FROM $tb WHERE rekening_debit LIKE '1.1.01.%' AND rekening_kredit='1.1.03.04' AND tgl_transaksi='$tgl') as prt_pokok"),
-            DB::raw("(SELECT SUM(jumlah) as j FROM $tb WHERE rekening_debit LIKE '1.1.01.%' AND rekening_kredit='1.1.03.05' AND tgl_transaksi='$tgl') as lain_lain_pokok"),
-            DB::raw("(SELECT SUM(jumlah) as j FROM $tb WHERE rekening_debit LIKE '1.1.01.%' AND rekening_kredit='4.1.01.01' AND tgl_transaksi='$tgl') as umum_jasa"),
-            DB::raw("(SELECT SUM(jumlah) as j FROM $tb WHERE rekening_debit LIKE '1.1.01.%' AND rekening_kredit='4.1.01.02' AND tgl_transaksi='$tgl') as kendaraan_jasa"),
-            DB::raw("(SELECT SUM(jumlah) as j FROM $tb WHERE rekening_debit LIKE '1.1.01.%' AND rekening_kredit='4.1.01.03' AND tgl_transaksi='$tgl') as elektronik_jasa"),
-            DB::raw("(SELECT SUM(jumlah) as j FROM $tb WHERE rekening_debit LIKE '1.1.01.%' AND rekening_kredit='4.1.01.04' AND tgl_transaksi='$tgl') as prt_jasa"),
-            DB::raw("(SELECT SUM(jumlah) as j FROM $tb WHERE rekening_debit LIKE '1.1.01.%' AND rekening_kredit='4.1.01.05' AND tgl_transaksi='$tgl') as lain_lain_jasa"),
-        ])->first();
+        // Ambil jenis produk pinjaman berdasarkan lokasi & kecuali
+        $lokasi = Session::get('lokasi');
+        $jenis_produk = JenisProdukPinjaman::where(function ($q) use ($lokasi) {
+                $q->where('lokasi', 0)
+                  ->orWhere('lokasi', $lokasi);
+            })
+            ->where(function ($q) use ($lokasi) {
+                $q->where('kecuali', 0)
+                  ->orWhereRaw("kecuali NOT LIKE '%-{$lokasi}-%'");
+            })
+            ->orderBy('kode')
+            ->get();
 
-        $data['umum_pokok'] = 0;
-        $data['kendaraan_pokok'] = 0;
-        $data['elektronik_pokok'] = 0;
-        $data['prt_pokok'] = 0;
-        $data['lain_lain_pokok'] = 0;
-        $data['umum_jasa'] = 0;
-        $data['kendaraan_jasa'] = 0;
-        $data['elektronik_jasa'] = 0;
-        $data['prt_jasa'] = 0;
-        $data['lain_lain_jasa'] = 0;
-        if ($trx) {
-            $data['umum_pokok'] = $trx->umum_pokok;
-            $data['kendaraan_pokok'] = $trx->kendaraan_pokok;
-            $data['elektronik_pokok'] = $trx->elektronik_pokok;
-            $data['prt_pokok'] = $trx->prt_pokok;
-            $data['lain_lain_pokok'] = $trx->lain_Lain_pokok;
-            $data['umum_jasa'] = $trx->umum_jasa;
-            $data['kendaraan_jasa'] = $trx->kendaraan_jasa;
-            $data['elektronik_jasa'] = $trx->elektronik_jasa;
-            $data['prt_jasa'] = $trx->prt_jasa;
-            $data['lain_lain_jasa'] = $trx->lain_Lain_jasa;
+        $data['jenis_produk'] = $jenis_produk;
+
+        // Query angsuran hari ini per jenis produk secara dinamis
+        $tb = 'transaksi_' . $lokasi;
+        $selectRaw = [];
+        foreach ($jenis_produk as $jp) {
+            $kode    = str_pad($jp->kode, 2, '0', STR_PAD_LEFT);
+            $alias_p = 'pokok_' . $jp->id;
+            $alias_j = 'jasa_'  . $jp->id;
+            $selectRaw[] = DB::raw("(SELECT COALESCE(SUM(jumlah),0) FROM $tb WHERE rekening_debit LIKE '1.1.01.%' AND rekening_kredit='1.1.03.{$kode}' AND tgl_transaksi='$tgl') as {$alias_p}");
+            $selectRaw[] = DB::raw("(SELECT COALESCE(SUM(jumlah),0) FROM $tb WHERE rekening_debit LIKE '1.1.01.%' AND rekening_kredit='4.1.01.{$kode}' AND tgl_transaksi='$tgl') as {$alias_j}");
+        }
+
+        $trx = count($selectRaw) ? Transaksi::select($selectRaw)->first() : null;
+
+        // Simpan hasil per jenis produk ke dalam array angsuran
+        $angsuran = [];
+        foreach ($jenis_produk as $jp) {
+            $alias_p = 'pokok_' . $jp->id;
+            $alias_j = 'jasa_'  . $jp->id;
+            $angsuran[$jp->id] = [
+                'label'  => $jp->nama_jpp,
+                'warna'  => $jp->warna_jpp ?? 'primary',
+                'pokok'  => $trx ? (float)($trx->$alias_p ?? 0) : 0,
+                'jasa'   => $trx ? (float)($trx->$alias_j ?? 0) : 0,
+            ];
+        }
+        $data['angsuran'] = $angsuran;
+
+        // Backward compat — variabel lama (5 pertama) untuk bagian lain yang mungkin masih pakai
+        $keys = ['umum','kendaraan','elektronik','prt','lain_lain'];
+        $i = 0;
+        foreach ($jenis_produk->take(5) as $jp) {
+            $k = $keys[$i] ?? 'item_'.$i;
+            $data[$k.'_pokok'] = $angsuran[$jp->id]['pokok'];
+            $data[$k.'_jasa']  = $angsuran[$jp->id]['jasa'];
+            $i++;
         }
         $unpaidInvoice = AdminInvoice::where([
             ['lokasi', Session::get('lokasi')],
