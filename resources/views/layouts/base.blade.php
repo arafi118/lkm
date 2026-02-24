@@ -64,6 +64,24 @@
   @yield('style')
 
   <style>
+    /* ===== MOBILE SIDENAV ===== */
+    @media (max-width: 1199.98px) {
+      #sidenav-main {
+        transform: translateX(-300px);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        z-index: 1050;
+        position: fixed !important;
+      }
+      #sidenav-main.show-mobile,
+      body.g-sidenav-pinned #sidenav-main {
+        transform: translateX(0);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.35) !important;
+      }
+      .main-content {
+        margin-left: 0 !important;
+      }
+    }
+
     /* ===== LOADER ===== */
     .loader-overlay {
         position: fixed;
@@ -203,6 +221,14 @@
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
       <div class="container-fluid py-1 px-3">
+
+        {{-- Tombol hamburger untuk toggle sidebar di mobile --}}
+        <div class="d-xl-none me-3">
+          <button type="button" class="btn btn-sm btn-white p-2 shadow-none" id="mobileSidenavToggle"
+            aria-label="Toggle sidebar" title="Menu">
+            <span class="navbar-toggler-icon" style="width:1.2em;height:1.2em;background-image:url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e\");"></span>
+          </button>
+        </div>
 
         {{-- Breadcrumb kiri --}}
         <nav aria-label="breadcrumb">
@@ -824,6 +850,61 @@
 
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <!-- Mobile Sidebar Toggle -->
+  <script>
+    (function () {
+      var toggleBtn   = document.getElementById('mobileSidenavToggle');
+      var sidenav     = document.getElementById('sidenav-main');
+      var body        = document.body;
+
+      // Buat overlay backdrop
+      var overlay = document.createElement('div');
+      overlay.id  = 'sidenavOverlay';
+      overlay.style.cssText = [
+        'display:none',
+        'position:fixed',
+        'inset:0',
+        'background:rgba(0,0,0,0.45)',
+        'z-index:1049',
+        'cursor:pointer'
+      ].join(';');
+      document.body.appendChild(overlay);
+
+      function openSidenav() {
+        body.classList.add('g-sidenav-pinned');
+        overlay.style.display = 'block';
+        if (sidenav) sidenav.classList.add('show-mobile');
+      }
+
+      function closeSidenav() {
+        body.classList.remove('g-sidenav-pinned');
+        overlay.style.display = 'none';
+        if (sidenav) sidenav.classList.remove('show-mobile');
+      }
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function () {
+          if (body.classList.contains('g-sidenav-pinned')) {
+            closeSidenav();
+          } else {
+            openSidenav();
+          }
+        });
+      }
+
+      overlay.addEventListener('click', closeSidenav);
+
+      // Tutup sidebar saat klik link menu di mobile
+      document.addEventListener('click', function (e) {
+        if (!document.querySelector('.d-xl-none')) return; // hanya mobile
+        var link = e.target.closest('#sidenav-main .nav-link:not(.menu-toggle)');
+        if (link && window.innerWidth < 1200) {
+          closeSidenav();
+        }
+      });
+    })();
+  </script>
 
   <!-- Argon Dashboard JS -->
   <script src="../argon/js/argon-dashboard.min.js?v=2.1.0"></script>
