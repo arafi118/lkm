@@ -224,9 +224,10 @@
 
         {{-- Tombol hamburger untuk toggle sidebar di mobile --}}
         <div class="d-xl-none me-3">
-          <button type="button" class="btn btn-sm btn-white p-2 shadow-none" id="mobileSidenavToggle"
-            aria-label="Toggle sidebar" title="Menu">
-            <span class="navbar-toggler-icon" style="width:1.2em;height:1.2em;background-image:url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e\");"></span>
+          <button type="button" class="btn btn-sm p-2 shadow-none border-0" id="mobileSidenavToggle"
+            aria-label="Toggle sidebar" title="Menu"
+            style="background:transparent; line-height:1;">
+            <i class="fas fa-bars" style="color:#ffffff; font-size:1.2rem;"></i>
           </button>
         </div>
 
@@ -858,15 +859,21 @@
       var sidenav     = document.getElementById('sidenav-main');
       var body        = document.body;
 
-      // Buat overlay backdrop
+      // Lebar sidebar (sesuai Argon default)
+      var SIDENAV_WIDTH = 250;
+
+      // Buat overlay backdrop — hanya menutupi area KANAN sidebar, bukan sidebar itu sendiri
       var overlay = document.createElement('div');
       overlay.id  = 'sidenavOverlay';
       overlay.style.cssText = [
         'display:none',
         'position:fixed',
-        'inset:0',
+        'top:0',
+        'left:' + SIDENAV_WIDTH + 'px',   // mulai dari tepi kanan sidebar
+        'right:0',
+        'bottom:0',
         'background:rgba(0,0,0,0.45)',
-        'z-index:1049',
+        'z-index:1048',                     // di bawah sidebar (1050) tapi di atas konten
         'cursor:pointer'
       ].join(';');
       document.body.appendChild(overlay);
@@ -893,16 +900,19 @@
         });
       }
 
+      // Klik overlay (area gelap di luar sidebar) → tutup
       overlay.addEventListener('click', closeSidenav);
 
-      // Tutup sidebar saat klik link menu di mobile
-      document.addEventListener('click', function (e) {
-        if (!document.querySelector('.d-xl-none')) return; // hanya mobile
-        var link = e.target.closest('#sidenav-main .nav-link:not(.menu-toggle)');
-        if (link && window.innerWidth < 1200) {
-          closeSidenav();
-        }
-      });
+      // Tutup sidebar saat klik link menu (bukan toggle) di mobile
+      if (sidenav) {
+        sidenav.addEventListener('click', function (e) {
+          if (window.innerWidth >= 1200) return;
+          var link = e.target.closest('.nav-link:not(.menu-toggle)');
+          if (link) {
+            closeSidenav();
+          }
+        });
+      }
     })();
   </script>
 
