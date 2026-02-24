@@ -1,6 +1,9 @@
 @php
     $array_saldo = [];
     $j_saldo = 0;
+    $total1 = 0;
+    $total2 = 0;
+    $total3 = 0;
 @endphp
 
 @extends('pelaporan.layout.base')
@@ -38,6 +41,17 @@
                 }
 
                 $section = false;
+
+                // Deteksi tipe baris berdasarkan kolom `tipe` dan `super_sub`
+                $isSaldoAwal     = $ak->super_sub == '1';
+                $isHeaderSection = $ak->super_sub != '0';   // PENGELUARAN, INVESTASI, PENDANAAN, dll
+                $isTotalOperasi  = $ak->tipe == 'total_operasi';
+                $isTotalInvestasi= $ak->tipe == 'total_investasi';
+                $isTotalPendanaan= $ak->tipe == 'total_pendanaan';
+                $isTtd           = $ak->tipe == 'ttd';
+
+                // Baris yang skip total (tidak punya child akumulasi)
+                $skipTotal = $isSaldoAwal || $isHeaderSection;
             @endphp
             <tr>
                 <td colspan="3" height="3"></td>
@@ -45,17 +59,15 @@
             <tr style="background: rgb({{ $bg }})">
                 <td width="5%" align="center">{{ $keuangan->romawi($ak->super_sub) }}</td>
                 <td width="80%">
-                    @if ($ak->id == 1)
+                    @if ($isSaldoAwal)
                         {{ $ak->nama_akun }} {{ $awal }}
                     @else
                         {{ $ak->nama_akun }}
                     @endif
                 </td>
-
                 <td width="15%" align="right">
-                    @if ($ak->id == 1)
+                    @if ($isSaldoAwal)
                         {{ number_format($saldo_bulan_lalu, 2) }}
-                    @else
                     @endif
                 </td>
             </tr>
@@ -78,9 +90,10 @@
                     <td align="right">{{ number_format($arus_kas, 2) }}</td>
                 </tr>
             @endforeach
-            @if ($ak->id == 1 or $ak->id == 16 or $ak->id == 46 or $ak->id == 61)
-            @else
-                @if ($ak->id == 64)
+
+            {{-- Tampilkan baris total jumlah per sub-section --}}
+            @if (!$skipTotal)
+                @if ($isTtd)
                     <tr>
                         <td colspan="3" style="padding: 0px !important;">
                             <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
@@ -109,38 +122,49 @@
                 @endphp
             @endif
 
-            @if ($ak->id == 22)
+            {{-- Kas Bersih Operasi: muncul setelah total_operasi --}}
+            @if ($isTotalOperasi)
                 @php
-                    $total1 = $array_saldo[0] - ($array_saldo[1] + $array_saldo[2]);
+                    // index 0 = A. Penerimaan Operasi
+                    // index 1 = B. Pencairan Piutang
+                    // index 2 = C. Pengeluaran Operasi
+                    $total1 = ($array_saldo[0] ?? 0) - (($array_saldo[1] ?? 0) + ($array_saldo[2] ?? 0));
                 @endphp
                 <tr style="background: rgb(128, 128, 128)">
                     <td align="center">&nbsp;</td>
                     <td>Kas Bersih yang diperoleh dari aktivitas Operasi (A-B-C)</td>
-                    <td align="right">{{ number_format($array_saldo[0] - ($array_saldo[1] + $array_saldo[2]), 2) }}</td>
+                    <td align="right">{{ number_format($total1, 2) }}</td>
                 </tr>
             @endif
 
-            @if ($ak->id == 52)
+            {{-- Kas Bersih Investasi: muncul setelah total_investasi --}}
+            @if ($isTotalInvestasi)
                 @php
-                    $total2 = $array_saldo[3] - $array_saldo[4];
+                    // index 3 = A. Penerimaan Investasi
+                    // index 4 = B. Pengeluaran Investasi
+                    $total2 = ($array_saldo[3] ?? 0) - ($array_saldo[4] ?? 0);
                 @endphp
                 <tr style="background: rgb(128, 128, 128)">
                     <td align="center">&nbsp;</td>
                     <td>Kas Bersih yang diperoleh dari aktivitas Investasi (A-B)</td>
-                    <td align="right">{{ number_format($array_saldo[3] - $array_saldo[4], 2) }}</td>
+                    <td align="right">{{ number_format($total2, 2) }}</td>
                 </tr>
             @endif
 
-            @if ($ak->id == 66)
+            {{-- Kas Bersih Pendanaan: muncul setelah total_pendanaan --}}
+            @if ($isTotalPendanaan)
                 @php
-                    $total3 = $array_saldo[5] - $array_saldo[6];
+                    // index 5 = A. Penerimaan Pendanaan
+                    // index 6 = B. Pengeluaran Pendanaan
+                    $total3 = ($array_saldo[5] ?? 0) - ($array_saldo[6] ?? 0);
                 @endphp
                 <tr style="background: rgb(128, 128, 128)">
                     <td align="center">&nbsp;</td>
                     <td>Kas Bersih yang diperoleh dari aktivitas Pendanaan (A-B)</td>
-                    <td align="right">{{ number_format($array_saldo[5] - $array_saldo[6], 2) }}</td>
+                    <td align="right">{{ number_format($total3, 2) }}</td>
                 </tr>
             @endif
+
         @endforeach
 
         <tr>
@@ -160,7 +184,7 @@
                 </table>
 
                 <div style="margin-top: 16px;"></div>
-                    {!! json_decode(str_replace('{tanggal}', $tanggal_kondisi, $kec->ttd->tanda_tangan_pelaporan), true) !!}
+                {!! json_decode(str_replace('{tanggal}', $tanggal_kondisi, $kec->ttd->tanda_tangan_pelaporan), true) !!}
             </td>
         </tr>
     </table>
