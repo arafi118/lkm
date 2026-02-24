@@ -13,4 +13,16 @@
         @include('layouts.menu', ['parent_menu' => Session::get('menu')])
     </div>
 
-  </aside>
+    {{-- Tombol toggle sidebar (dipindah ke sini agar ikut bergerak saat sidebar buka/tutup) --}}
+    <div class="sidenav-footer px-3 pb-3 pt-2 border-top">
+        <a href="javascript:;" class="nav-link p-0 d-flex align-items-center gap-2 text-secondary" id="iconNavbarSidenav" title="Toggle Sidebar">
+            <div class="sidenav-toggler-inner">
+                <i class="sidenav-toggler-line"></i>
+                <i class="sidenav-toggler-line"></i>
+                <i class="sidenav-toggler-line"></i>
+            </div>
+            <span class="text-xs font-weight-bold sidenav-toggler-label">Tutup Sidebar</span>
+        </a>
+    </div>
+
+</aside>

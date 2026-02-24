@@ -179,6 +179,26 @@
     .modal-open .select2-close-mask {
         z-index: 10055;
     }
+
+    /* ===== SIDEBAR FOOTER TOGGLER ===== */
+    .sidenav-footer {
+        margin-top: auto;
+    }
+
+    .sidenav-footer .sidenav-toggler-line {
+        background-color: #344767;
+    }
+
+    .sidenav-footer .sidenav-toggler-label {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        white-space: nowrap;
+    }
+
+    /* Tampilkan label saat sidebar terbuka penuh */
+    .g-sidenav-pinned .sidenav-footer .sidenav-toggler-label {
+        opacity: 1;
+    }
   </style>
 </head>
 
@@ -203,15 +223,6 @@
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
       <div class="container-fluid py-1 px-3">
-
-        {{-- Toggle sidebar - pojok kiri --}}
-        <a href="javascript:;" class="nav-link text-white p-0 me-3" id="iconNavbarSidenav">
-          <div class="sidenav-toggler-inner">
-            <i class="sidenav-toggler-line bg-white"></i>
-            <i class="sidenav-toggler-line bg-white"></i>
-            <i class="sidenav-toggler-line bg-white"></i>
-          </div>
-        </a>
 
         {{-- Breadcrumb kiri --}}
         <nav aria-label="breadcrumb">
@@ -398,7 +409,7 @@
             <i class="fa fa-close"></i>
           </button>
         </div>
-      </div>
+        </div>
       <hr class="horizontal dark my-1">
       <div class="card-body pt-sm-3 pt-0 overflow-auto">
         <div>
