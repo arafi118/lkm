@@ -18,8 +18,8 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
-  <link href="../argon/nucleo/css/nucleo.css" rel="stylesheet" />
-  <link id="pagestyle" href="../argon/css/argon-dashboard.css?v=2.1.0" rel="stylesheet" />
+  <link href="{{ asset('argon/nucleo/css/nucleo.css') }}" rel="stylesheet" />
+  <link id="pagestyle" href="{{ asset('argon/css/argon-dashboard.css') }}?v=2.1.0" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -284,16 +284,16 @@
               <a href="javascript:;" class="nav-link text-white font-weight-bold px-0 d-flex align-items-center gap-2"
                 id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 @php
-                  $foto = Session::get('foto');
-                  $jk   = auth()->user()->jk ?? Session::get('jk');
-                  $defaultAvatar = ($jk == 'P') ? '../argon/img/female.jpg' : '../argon/img/male.jpg';
-                  $fotoSrc = $foto ? asset('storage/profil/' . $foto) : $defaultAvatar;
+                    $foto = Session::get('foto');
+                    $jk   = auth()->user()->jk ?? Session::get('jk');
+                    $defaultAvatar = ($jk == 'P') ? asset('argon/img/female.jpg') : asset('argon/img/male.jpg');
+                    $fotoSrc = $foto ? asset('storage/profil/' . $foto) : $defaultAvatar;
                 @endphp
                 <img width="36" height="36"
-                  class="rounded-circle border border-white border-2"
-                  src="{{ $fotoSrc }}"
-                  id="profil_avatar"
-                  onerror="this.src='{{ $defaultAvatar }}'">
+                    class="rounded-circle border border-white border-2"
+                    src="{{ $fotoSrc }}"
+                    id="profil_avatar"
+                    onerror="this.src='{{ $defaultAvatar }}'">
                 <span class="d-sm-inline d-none text-white font-weight-bold nama_user">
                   {{ Session::get('nama') }}
                 </span>
@@ -481,11 +481,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
       integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
       crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="../argon/js/core/popper.min.js"></script>
-  <script src="../argon/js/core/bootstrap.min.js"></script>
-  <script src="../argon/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../argon/js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="../argon/js/plugins/chartjs.min.js"></script>
+  <script src="{{ asset('argon/js/core/popper.min.js') }}"></script>
+  <script src="{{ asset('argon/js/core/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('argon/js/plugins/perfect-scrollbar.min.js') }}"></script>
+  <script src="{{ asset('argon/js/plugins/smooth-scrollbar.min.js') }}"></script>
+  <script src="{{ asset('argon/js/plugins/chartjs.min.js') }}"></script>
 
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -917,7 +917,7 @@
   </script>
 
   <!-- Argon Dashboard JS -->
-  <script src="../argon/js/argon-dashboard.min.js?v=2.1.0"></script>
+  <script src="{{ asset('argon/js/argon-dashboard.min.js') }}?v=2.1.0"></script>
 
   <!-- Sembunyikan loader setelah halaman load -->
   <script>
