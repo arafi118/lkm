@@ -786,7 +786,7 @@ class SimpananController extends Controller
                 $bunga = number_format($saldo * $simp->bunga/100, 0, '.', '');
             }
     
-            if ($kec->min_pajak <= saldo_nia) {
+            if ($kec->min_pajak <= $saldo_nia) {
                 $pajak = number_format($bunga * $simp->pajak/100, 0, '.', '');
             }
             $admin = $simp->admin;
