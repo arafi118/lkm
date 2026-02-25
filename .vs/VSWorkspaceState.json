@@ -2,14 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\app",
-    "\\app\\Utils",
     "\\resources",
     "\\resources\\views",
     "\\resources\\views\\auth",
-    "\\resources\\views\\dashboard",
-    "\\resources\\views\\layouts",
     "\\resources\\views\\perguliran_i",
     "\\resources\\views\\perguliran_i\\dokumen"
   ],
+  "SelectedNode": "\\resources\\views\\perguliran_i\\dokumen\\spk.blade.php",
   "PreviewInSolutionExplorer": false
 }

@@ -3555,7 +3555,7 @@ class PelaporanController extends Controller
                         ->withSum(['real_i' => function ($query) use ($data) {
                             $query->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%');
                         }], 'realisasi_jasa')
-                        ->where($tb_pinj . '.sistem_angsuran', '!=', '12')->where($tb_pinj_i . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
+                        ->where($tb_pinj . '.sistem_angsuran', '!=', '12')->where($tb_pinj . '.sistem_angsuran', '!=', '25')->where(function ($query) use ($data) {
                             $query->where([
                                 [$data['tb_pinj'] . '.status', 'A'],
                                 [$data['tb_pinj'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
