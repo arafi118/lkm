@@ -1,15 +1,19 @@
+@php
+    $array_saldo = [];
+    $j_saldo     = 0;
+    $total1      = 0;
+    $total2      = 0;
+    $total3      = 0;
+@endphp
+
 @extends('pelaporan.layout.base')
 
 @section('content')
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr>
             <td colspan="3" align="center">
-                <div style="font-size: 18px;">
-                    <b>REKAP ARUS KAS</b>
-                </div>
-                <div style="font-size: 16px;">
-                    <b>{{ strtoupper($sub_judul) }}</b>
-                </div>
+                <div style="font-size: 18px;"><b>REKAPITULASI ARUS KAS</b></div>
+                <div style="font-size: 16px;"><b>{{ strtoupper($sub_judul) }}</b></div>
             </td>
         </tr>
         <tr>
@@ -20,195 +24,141 @@
     <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
         <tr style="background: rgb(200, 200, 200)">
             <th colspan="2">Nama Akun</th>
-            <th>Jumlah</th>
+            <th align="right">Jumlah</th>
         </tr>
 
-        @php
-            $nomor = 0;
-            foreach ($kecamatan as $kec) {
-                $kenaikanPenurunanKas[$kec->id] = 0;
-            }
-
-            $sum_saldo_bulan_lalu = 0;
-            $sumKenaikanPenurunanKas = 0;
-        @endphp
-        @foreach ($arus_kas[0] as $ak_key => $ak)
+        @foreach ($arus_kas as $ak)
             @php
-                $dot = substr($ak['nama_akun'], 1, 1);
-                if ($dot == '.') {
-                    $bg = '150, 150, 150';
-                } else {
-                    $bg = '128, 128, 128';
-                }
+                $dot = substr($ak->nama_akun, 1, 1);
+                $bg  = ($dot == '.') ? '150, 150, 150' : '128, 128, 128';
 
-                $nomor++;
+                $isSaldoAwal      = $ak->super_sub == '1';
+                $isHeaderSection  = $ak->super_sub != '0';
+                $isTotalOperasi   = $ak->tipe == 'total_operasi';
+                $isTotalInvestasi = $ak->tipe == 'total_investasi';
+                $isTotalPendanaan = $ak->tipe == 'total_pendanaan';
+                $isTtd            = $ak->tipe == 'ttd';
+
+                $skipTotal = $isSaldoAwal || $isHeaderSection;
             @endphp
 
-            <tr>
-                <td colspan="3" height="3"></td>
-            </tr>
-            <tr style="background: rgb(74, 74, 74); color: #fff; font-weight: bold;">
-                <td width="5%" align="center"></td>
-                <td>{{ $ak['nama_akun'] }}</td>
+            <tr><td colspan="3" height="3"></td></tr>
 
-                <td width="15%">
-                    @if ($nomor == 1)
-                        @foreach ($kecamatan as $kec)
-                            @php
-                                $sum_saldo_bulan_lalu += $saldo_bulan_lalu[$kec->id];
-                            @endphp
-                        @endforeach
-                        {{ number_format($sum_saldo_bulan_lalu, 2) }}
+            <tr style="background: rgb({{ $bg }})">
+                <td width="5%" align="center">{{ $keuangan->romawi($ak->super_sub) }}</td>
+                <td width="80%">
+                    @if ($isSaldoAwal)
+                        {{ $ak->nama_akun }} {{ $awal }}
+                    @else
+                        {{ $ak->nama_akun }}
                     @endif
-
-                    @if (str_contains($ak['nama_akun'], 'KENAIKAN'))
-                        @foreach ($kecamatan as $kec)
-                            @php
-                                $sumKenaikanPenurunanKas += $kenaikanPenurunanKas[$kec->id];
-                            @endphp
-                        @endforeach
-                        {{ number_format($sumKenaikanPenurunanKas, 2) }}
-                    @endif
-
-                    @if (str_contains($ak['nama_akun'], 'SALDO AKHIR'))
-                        {{ number_format($sum_saldo_bulan_lalu + $sumKenaikanPenurunanKas, 2) }}
+                </td>
+                <td width="15%" align="right">
+                    @if ($isSaldoAwal)
+                        {{ number_format($saldo_bulan_lalu, 2) }}
                     @endif
                 </td>
             </tr>
 
-            @foreach ($ak['child'] as $child_key => $child)
-                <tr style="background: rgb(167, 167, 167); font-weight: bold;">
-                    <td align="center"></td>
-                    <td>{{ $child['nama_akun'] }}</td>
-
-                    <td>
-                        @if (str_contains($child['nama_akun'], 'A-B'))
-                            @php
-                                $sumSaldoChildKec = 0;
-                            @endphp
-                            @foreach ($kecamatan as $kec)
-                                @php
-                                    $childKec = $arus_kas[$kec->id][$ak_key]['child'][$child_key];
-
-                                    $sumSaldoChildKec += $childKec['saldo'];
-                                    $kenaikanPenurunanKas[$kec->id] += $childKec['saldo'];
-                                @endphp
-                            @endforeach
-                            {{ number_format($sumSaldoChildKec, 2) }}
-                        @endif
-                    </td>
+            @foreach ($ak->child as $child)
+                @php
+                    $bgChild    = ($loop->iteration % 2 == 0) ? '240, 240, 240' : '200, 200, 200';
+                    $nilaiTotal = 0;
+                    foreach ($lokasi_list as $lokasiId) {
+                        $nilaiTotal += $data_perlokasi[$lokasiId]['child_values'][$child->rekening] ?? 0;
+                    }
+                    $j_saldo += $nilaiTotal;
+                @endphp
+                <tr style="background: rgb({{ $bgChild }})">
+                    <td align="center">&nbsp;</td>
+                    <td>{{ $child->nama_akun }}</td>
+                    <td align="right">{{ number_format($nilaiTotal, 2) }}</td>
                 </tr>
+            @endforeach
 
-                @foreach ($child['child'] as $subchild_key => $subchild)
-                    @php
-                        $bg = 'rgb(230, 230, 230)';
-                        if ($loop->iteration % 2 == 0) {
-                            $bg = 'rgba(255, 255, 255)';
-                        }
-
-                        $style = 'background: ' . $bg . ';';
-                        $endChild = end($child['child']);
-                        if ($endChild['nomor'] == $subchild['nomor']) {
-                            $style .= 'font-weight: bold;';
-                        }
-                    @endphp
-
-                    <tr style="{!! $subchild['child'] ? 'background: rgb(167, 167, 167); font-weight: bold;' : $style !!}">
-                        <td align="center"></td>
-                        <td>{{ $subchild['nama_akun'] }}</td>
-
-                        <td>
-                            @if ($endChild['nomor'] == $subchild['nomor'] && !$subchild['child'])
-                                @php
-                                    $sumSaldoChildKec = 0;
-                                @endphp
-                                @foreach ($kecamatan as $kec)
-                                    @php
-                                        $childKec = $arus_kas[$kec->id][$ak_key]['child'][$child_key];
-                                        $subchildKec =
-                                            $arus_kas[$kec->id][$ak_key]['child'][$child_key]['child'][$subchild_key];
-
-                                        $sumSaldoChildKec += $childKec['saldo'];
-                                    @endphp
-                                @endforeach
-                                {{ number_format($sumSaldoChildKec, 2) }}
-                            @else
-                                @php
-                                    $sumSaldoSubChildKec = 0;
-                                @endphp
-                                @foreach ($kecamatan as $kec)
-                                    @php
-                                        $childKec = $arus_kas[$kec->id][$ak_key]['child'][$child_key];
-                                        $subchildKec =
-                                            $arus_kas[$kec->id][$ak_key]['child'][$child_key]['child'][$subchild_key];
-
-                                        $sumSaldoSubChildKec += $subchildKec['saldo'];
-                                    @endphp
-                                @endforeach
-                                {{ $subchild['child'] ? '' : number_format($sumSaldoSubChildKec, 2) }}
-                            @endif
+            @if (!$skipTotal)
+                @if ($isTtd)
+                    <tr>
+                        <td colspan="3" style="padding: 0px !important;">
+                            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                                <tr style="background: rgb(150, 150, 150); font-weight: bold;">
+                                    <td width="5%" align="center">&nbsp;</td>
+                                    <td width="80%">Jumlah {{ $ak->nama_akun }}</td>
+                                    <td width="15%" align="right">{{ number_format($j_saldo, 2) }}</td>
+                                </tr>
+                            </table>
+                            <div style="margin-top: 24px;"></div>
+                            {!! json_decode($kec->ttd->tanda_tangan_pelaporan, true) !!}
                         </td>
                     </tr>
+                @else
+                    <tr style="background: rgb(150, 150, 150); font-weight: bold;">
+                        <td align="center">&nbsp;</td>
+                        <td>Jumlah {{ $ak->nama_akun }}</td>
+                        <td align="right">{{ number_format($j_saldo, 2) }}</td>
+                    </tr>
+                @endif
+                @php
+                    $array_saldo[] = $j_saldo;
+                    $j_saldo = 0;
+                @endphp
+            @endif
 
-                    @foreach ($subchild['child'] as $lastchild_key => $lastchild)
-                        @php
-                            $bg = 'rgb(230, 230, 230)';
-                            if ($loop->iteration % 2 == 0) {
-                                $bg = 'rgba(255, 255, 255)';
-                            }
+            @if ($isTotalOperasi)
+                @php
+                    $total1 = ($array_saldo[0] ?? 0) - (($array_saldo[1] ?? 0) + ($array_saldo[2] ?? 0));
+                @endphp
+                <tr style="background: rgb(128, 128, 128)">
+                    <td align="center">&nbsp;</td>
+                    <td>Kas Bersih yang diperoleh dari aktivitas Operasi (A-B-C)</td>
+                    <td align="right">{{ number_format($total1, 2) }}</td>
+                </tr>
+            @endif
 
-                            $style = 'background: ' . $bg . ';';
-                            $endChild = end($subchild['child']);
-                            if ($endChild['nomor'] == $lastchild['nomor']) {
-                                $style .= 'font-weight: bold;';
-                            }
-                        @endphp
+            @if ($isTotalInvestasi)
+                @php
+                    $total2 = ($array_saldo[3] ?? 0) - ($array_saldo[4] ?? 0);
+                @endphp
+                <tr style="background: rgb(128, 128, 128)">
+                    <td align="center">&nbsp;</td>
+                    <td>Kas Bersih yang diperoleh dari aktivitas Investasi (A-B)</td>
+                    <td align="right">{{ number_format($total2, 2) }}</td>
+                </tr>
+            @endif
 
-                        <tr style="{{ $style }}">
-                            <td align="center"></td>
-                            <td>{{ $lastchild['nama_akun'] }}</td>
+            @if ($isTotalPendanaan)
+                @php
+                    $total3 = ($array_saldo[5] ?? 0) - ($array_saldo[6] ?? 0);
+                @endphp
+                <tr style="background: rgb(128, 128, 128)">
+                    <td align="center">&nbsp;</td>
+                    <td>Kas Bersih yang diperoleh dari aktivitas Pendanaan (A-B)</td>
+                    <td align="right">{{ number_format($total3, 2) }}</td>
+                </tr>
+            @endif
 
-                            <td>
-                                @if ($endChild['nomor'] == $lastchild['nomor'])
-                                    @php
-                                        $sumSaldoSubChildKec = 0;
-                                    @endphp
-                                    @foreach ($kecamatan as $kec)
-                                        @php
-                                            $subchildKec =
-                                                $arus_kas[$kec->id][$ak_key]['child'][$child_key]['child'][
-                                                    $subchild_key
-                                                ];
-
-                                            $sumSaldoSubChildKec += $subchildKec['saldo'];
-                                        @endphp
-                                    @endforeach
-                                    {{ number_format($sumSaldoSubChildKec, 2) }}
-                                @else
-                                    @php
-                                        $sumSaldoSubChildKec = 0;
-                                        $sumSaldoLastChildKec = 0;
-                                    @endphp
-                                    @foreach ($kecamatan as $kec)
-                                        @php
-                                            $lastchildKec =
-                                                $arus_kas[$kec->id][$ak_key]['child'][$child_key]['child'][
-                                                    $subchild_key
-                                                ]['child'][$lastchild_key];
-
-                                            $sumSaldoLastChildKec += $lastchildKec['saldo'];
-                                        @endphp
-                                    @endforeach
-                                    {{ number_format($sumSaldoLastChildKec, 2) }}
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                @endforeach
-            @endforeach
         @endforeach
-    </table>
 
+        <tr>
+            <td colspan="3" style="padding: 0px !important;">
+                <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                    <tr style="background: rgb(128, 128, 128)">
+                        <td width="5%" align="center">&nbsp;</td>
+                        <td width="80%">Kenaikan (Penurunan) Kas</td>
+                        <td width="15%" align="right">{{ number_format($total1 + $total2 + $total3, 2) }}</td>
+                    </tr>
+                    <tr style="background: rgb(128, 128, 128)">
+                        <td align="center">&nbsp;</td>
+                        <td>SALDO AKHIR KAS SETARA KAS</td>
+                        <td align="right">{{ number_format($total1 + $total2 + $total3 + $saldo_bulan_lalu, 2) }}</td>
+                    </tr>
+                </table>
+
+                <div style="margin-top: 16px;"></div>
+                {!! json_decode(str_replace('{tanggal}', $tanggal_kondisi, $kec->ttd->tanda_tangan_pelaporan), true) !!}
+            </td>
+        </tr>
+    </table>
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;page-break-inside: avoid; break-inside: avoid;">
                     <tr>
                         <td width="50%" align="center">
