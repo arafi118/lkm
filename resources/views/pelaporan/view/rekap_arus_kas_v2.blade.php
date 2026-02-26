@@ -153,12 +153,7 @@
                         <td align="right">{{ number_format($total1 + $total2 + $total3 + $saldo_bulan_lalu, 2) }}</td>
                     </tr>
                 </table>
-
-                <div style="margin-top: 16px;"></div>
-                {!! json_decode(str_replace('{tanggal}', $tanggal_kondisi, $kec->ttd->tanda_tangan_pelaporan), true) !!}
-            </td>
-        </tr>
-    </table>
+                
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;page-break-inside: avoid; break-inside: avoid;">
                     <tr>
                         <td width="50%" align="center">
@@ -193,4 +188,7 @@
                         </td>
                     </tr>
                 </table>
+            </td>
+        </tr>
+    </table>
 @endsection

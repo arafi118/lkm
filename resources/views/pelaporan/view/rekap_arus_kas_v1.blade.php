@@ -312,9 +312,7 @@
                         <td align="right">{{ number_format($total1 + $total2 + $total3 + $saldo_bulan_lalu, 2) }}</td>
                     </tr>
                 </table>
-            </td>
-        </tr>
-    </table>
+                
                 <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;page-break-inside: avoid; break-inside: avoid;">
                     <tr>
                         <td width="50%" align="center">
@@ -349,4 +347,7 @@
                         </td>
                     </tr>
                 </table>
+            </td>
+        </tr>
+    </table>
 @endsection
