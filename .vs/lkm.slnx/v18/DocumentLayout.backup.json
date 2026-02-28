@@ -259,8 +259,7 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2025-11-17T04:11:40.799Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -285,7 +284,7 @@
               "RelativeDocumentMoniker": "app\\Http\\Controllers\\PelaporanController.php",
               "ToolTip": "C:\\laragon\\www\\lkm\\app\\Http\\Controllers\\PelaporanController.php",
               "RelativeToolTip": "app\\Http\\Controllers\\PelaporanController.php",
-              "ViewState": "AgIAANANAAAAAAAAAAAAAOgNAABcAAAAAAAAAA==",
+              "ViewState": "AgIAAM8NAAAAAAAAAAAAANkNAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
               "WhenOpened": "2026-01-07T07:43:25.315Z",
               "EditorCaption": ""
@@ -300,8 +299,7 @@
               "RelativeToolTip": "resources\\views\\perguliran_i\\dokumen\\spk.blade.php",
               "ViewState": "AgIAAFcBAAAAAAAAAAAswGQBAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
-              "WhenOpened": "2026-02-20T06:51:51.784Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T06:51:51.784Z"
             },
             {
               "$type": "Document",
