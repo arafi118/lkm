@@ -1,15 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app",
-    "\\app\\Http",
-    "\\app\\Models",
     "\\resources",
     "\\resources\\views",
     "\\resources\\views\\auth",
-    "\\resources\\views\\layouts",
     "\\resources\\views\\pelaporan",
-    "\\resources\\views\\pelaporan\\view"
+    "\\resources\\views\\pelaporan\\view",
+    "\\resources\\views\\pelaporan\\view\\perkembangan_piutang"
   ],
   "PreviewInSolutionExplorer": false
 }

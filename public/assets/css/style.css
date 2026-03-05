@@ -1,58 +1,58 @@
 :root {
-    --bs-blue: #63B3ED;
-    --bs-indigo: #596CFF;
-    --bs-purple: #6f42c1;
-    --bs-pink: #d63384;
-    --bs-red: #F56565;
-    --bs-orange: #fd7e14;
-    --bs-yellow: #FBD38D;
-    --bs-green: #81E6D9;
-    --bs-teal: #20c997;
-    --bs-cyan: #0dcaf0;
+    --bs-blue: #5e72e4;
+    --bs-indigo: #5603ad;
+    --bs-purple: #8965e0;
+    --bs-pink: #f3a4b5;
+    --bs-red: #f5365c;
+    --bs-orange: #fb6340;
+    --bs-yellow: #ffd600;
+    --bs-green: #2dce89;
+    --bs-teal: #11cdef;
+    --bs-cyan: #2bffc6;
     --bs-white: #fff;
-    --bs-gray: #6c757d;
-    --bs-gray-dark: #343a40;
-    --bs-gray-100: #f8f9fa;
-    --bs-gray-200: #f0f2f5;
+    --bs-gray: #8898aa;
+    --bs-gray-dark: #32325d;
+    --bs-gray-100: #f6f9fc;
+    --bs-gray-200: #e9ecef;
     --bs-gray-300: #dee2e6;
     --bs-gray-400: #ced4da;
     --bs-gray-500: #adb5bd;
-    --bs-gray-600: #6c757d;
-    --bs-gray-700: #495057;
-    --bs-gray-800: #343a40;
+    --bs-gray-600: #8898aa;
+    --bs-gray-700: #525f7f;
+    --bs-gray-800: #32325d;
     --bs-gray-900: #212529;
-    --bs-primary: #e91e63;
-    --bs-secondary: #7b809a;
-    --bs-success: #4CAF50;
-    --bs-info: #1A73E8;
-    --bs-warning: #fb8c00;
-    --bs-danger: #F44335;
-    --bs-light: #f0f2f5;
+    --bs-primary: #5e72e4;
+    --bs-secondary: #8898aa;
+    --bs-success: #2dce89;
+    --bs-info: #11cdef;
+    --bs-warning: #fb6340;
+    --bs-danger: #f5365c;
+    --bs-light: #f6f9fc;
     --bs-dark: #344767;
     --bs-white: #fff;
-    --bs-dark-blue: #1A237E;
-    --bs-primary-rgb: 233, 30, 99;
-    --bs-secondary-rgb: , 128, 154;
-    --bs-success-rgb: 76, 175, 80;
-    --bs-info-rgb: 26, 115, 232;
-    --bs-warning-rgb: 251, 140, 0;
-    --bs-danger-rgb: 244, 67, 53;
-    --bs-light-rgb: 240, 242, 245;
+    --bs-dark-blue: #1a1f5e;
+    --bs-primary-rgb: 94, 114, 228;
+    --bs-secondary-rgb: 136, 152, 170;
+    --bs-success-rgb: 45, 206, 137;
+    --bs-info-rgb: 17, 205, 239;
+    --bs-warning-rgb: 251, 99, 64;
+    --bs-danger-rgb: 245, 54, 92;
+    --bs-light-rgb: 246, 249, 252;
     --bs-dark-rgb: 52, 71, 103;
     --bs-white-rgb: 255, 255, 255;
-    --bs-dark-blue-rgb: 26, 35, 126;
+    --bs-dark-blue-rgb: 26, 31, 94;
     --bs-white-rgb: 255, 255, 255;
     --bs-black-rgb: 0, 0, 0;
-    --bs-body-color-rgb: , 128, 154;
+    --bs-body-color-rgb: 136, 152, 170;
     --bs-body-bg-rgb: 255, 255, 255;
-    --bs-font-sans-serif: "Roboto", Helvetica, Arial, sans-serif;
+    --bs-font-sans-serif: "Open Sans", Helvetica, Arial, sans-serif;
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
     --bs-body-font-family: var(--bs-font-sans-serif);
     --bs-body-font-size: 1rem;
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
-    --bs-body-color: #7b809a;
+    --bs-body-color: #525f7f;
     --bs-body-bg: #fff;
     --bs-border-width: 1px;
     --bs-border-style: solid;
@@ -64,47 +64,47 @@
     --bs-border-radius-xl: 0.75rem;
     --bs-border-radius-2xl: 1rem;
     --bs-border-radius-pill: 50rem;
-    --bs-link-color: #e91e63;
-    --bs-link-hover-color: #e91e63;
-    --bs-code-color: #d63384;
+    --bs-link-color: #5e72e4;
+    --bs-link-hover-color: #233dd2;
+    --bs-code-color: #8965e0;
     --bs-highlight-bg: #fcf8e3;
 }
 
-.sidenav[data-color=primary] .navbar-nav>.nav-item.nav-item-link .nav-link.active {
-    background-image: linear-gradient(195deg, #e91e63, #e91e63);
+.sidenav[data-color=primary] .navbar-nav > .nav-item.nav-item-link .nav-link.active {
+    background-image: linear-gradient(195deg, #5e72e4, #825ee4);
 }
 
-.sidenav[data-color=secondary] .navbar-nav>.nav-item.nav-item-link .nav-link.active {
-    background-image: linear-gradient(195deg, #7b809a, #7b809a);
+.sidenav[data-color=secondary] .navbar-nav > .nav-item.nav-item-link .nav-link.active {
+    background-image: linear-gradient(195deg, #8898aa, #8898aa);
 }
 
-.sidenav[data-color=success] .navbar-nav>.nav-item.nav-item-link .nav-link.active {
-    background-image: linear-gradient(195deg, #4caf50, #4caf50);
+.sidenav[data-color=success] .navbar-nav > .nav-item.nav-item-link .nav-link.active {
+    background-image: linear-gradient(195deg, #2dce89, #2dcecc);
 }
 
-.sidenav[data-color=info] .navbar-nav>.nav-item.nav-item-link .nav-link.active {
-    background-image: linear-gradient(195deg, #1a73e8, #1a73e8);
+.sidenav[data-color=info] .navbar-nav > .nav-item.nav-item-link .nav-link.active {
+    background-image: linear-gradient(195deg, #11cdef, #1171ef);
 }
 
-.sidenav[data-color=warning] .navbar-nav>.nav-item.nav-item-link .nav-link.active {
-    background-image: linear-gradient(195deg, #fb8c00, #fb8c00);
-}
-
-
-.sidenav[data-color=danger] .navbar-nav>.nav-item.nav-item-link .nav-link.active {
-    background-image: linear-gradient(195deg, #f44335, #f44335);
+.sidenav[data-color=warning] .navbar-nav > .nav-item.nav-item-link .nav-link.active {
+    background-image: linear-gradient(195deg, #fb6340, #fbb140);
 }
 
 
-.sidenav[data-color=light] .navbar-nav>.nav-item.nav-item-link .nav-link.active {
-    background-image: linear-gradient(195deg, #f0f2f5, #f0f2f5);
+.sidenav[data-color=danger] .navbar-nav > .nav-item.nav-item-link .nav-link.active {
+    background-image: linear-gradient(195deg, #f5365c, #f56036);
 }
 
-.sidenav[data-color=dark] .navbar-nav>.nav-item.nav-item-link .nav-link.active+.collapse .nav-item.active .nav-link.active {
+
+.sidenav[data-color=light] .navbar-nav > .nav-item.nav-item-link .nav-link.active {
+    background-image: linear-gradient(195deg, #f6f9fc, #f6f9fc);
+}
+
+.sidenav[data-color=dark] .navbar-nav > .nav-item.nav-item-link .nav-link.active + .collapse .nav-item.active .nav-link.active {
     background-image: linear-gradient(195deg, #344767, #344767);
 }
 
-.sidenav[data-color=white] .navbar-nav>.nav-item.nav-item-link .nav-link.active+.collapse .nav-item.active .nav-link.active {
+.sidenav[data-color=white] .navbar-nav > .nav-item.nav-item-link .nav-link.active + .collapse .nav-item.active .nav-link.active {
     background-image: linear-gradient(195deg, #fff, #fff);
 }
 
@@ -190,12 +190,12 @@ small.text-danger {
     margin-bottom: 10px;
 }
 
-.checkbox input[type="checkbox"]:checked+label::before {
+.checkbox input[type="checkbox"]:checked + label::before {
     border-color: var(--bs-info);
     color: var(--bs-info);
 }
 
-.checkbox input[type="checkbox"]:checked+label::before {
+.checkbox input[type="checkbox"]:checked + label::before {
     content: url('/assets/svg/check.svg');
     text-align: center;
     line-height: 1.2;
@@ -296,12 +296,12 @@ body.swal2-toast-shown .swal2-container {
     color: #fff !important;
 }
 
-.sidenav .navbar-nav>.nav-item .nav-link.active+.collapse .nav-item .nav-link.active+.collapse .nav-item .nav-link.active[data-bs-toggle="collapse"],
-.sidenav .navbar-nav>.nav-item .nav-link.active+.collapsing .nav-item .nav-link.active+.collapse .nav-item .nav-link.active[data-bs-toggle="collapse"] {
+.sidenav .navbar-nav > .nav-item .nav-link.active + .collapse .nav-item .nav-link.active + .collapse .nav-item .nav-link.active[data-bs-toggle="collapse"],
+.sidenav .navbar-nav > .nav-item .nav-link.active + .collapsing .nav-item .nav-link.active + .collapse .nav-item .nav-link.active[data-bs-toggle="collapse"] {
     background-image: unset;
 }
 
-button.html5-qrcode-element, 
+button.html5-qrcode-element,
 select.html5-qrcode-element {
     appearance: none;
     background-color: #FAFBFC;
@@ -309,7 +309,7 @@ select.html5-qrcode-element {
     border-radius: 6px;
     box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
     box-sizing: border-box;
-    color: #24292E;
+    color: #32325d;
     cursor: pointer;
     display: inline-block;
     font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
@@ -327,4 +327,8 @@ select.html5-qrcode-element {
     white-space: nowrap;
     word-wrap: break-word;
     margin-bottom: 5px;
+}
+
+.bg-dark {
+    background-color: #344767 !important;
 }

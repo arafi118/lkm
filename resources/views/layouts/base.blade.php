@@ -162,30 +162,30 @@
 
     /* ===== BADGE CUSTOM ===== */
     .badge-light-blue {
-        background-color: #00c8ffc8 !important;
-        color: rgb(0, 4, 255) !important;
+        background-color: rgba(17, 205, 239, 0.2) !important;
+        color: #0d9db8 !important;
     }
 
     .badge-light-reed {
-        background-color: #ff00007c !important;
-        color: rgb(210, 0, 0) !important;
+        background-color: rgba(245, 54, 92, 0.15) !important;
+        color: #f5365c !important;
     }
 
     .angka-warna-biru {
-        background-color: #00c8ffc5 !important;
-        color: rgb(0, 4, 255) !important;
+        background-color: rgba(94, 114, 228, 0.15) !important;
+        color: #5e72e4 !important;
         float: right;
     }
 
     .angka-warna-merah {
-        background-color: rgba(255, 47, 0, 0.434) !important;
-        color: rgb(255, 0, 0) !important;
+        background-color: rgba(245, 54, 92, 0.15) !important;
+        color: #f5365c !important;
         float: right;
     }
 
     .angka-warna-kuning {
-        background-color: rgba(255, 221, 0, 0.549) !important;
-        color: rgb(255, 166, 0) !important;
+        background-color: rgba(251, 99, 64, 0.15) !important;
+        color: #fb6340 !important;
         float: right;
     }
 
@@ -743,7 +743,7 @@
                 datasets: [{
                     label: 'My First Dataset',
                     data: [sisa_saldo, sum_saldo],
-                    backgroundColor: ['#e3316e', '#3A416F'],
+                    backgroundColor: ['#5e72e4', '#f5365c'],
                     hoverOffset: 4
                 }]
             },
