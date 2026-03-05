@@ -67,15 +67,18 @@ class DashboardController extends Controller
         // Ambil jenis produk pinjaman berdasarkan lokasi & kecuali
         $lokasi = Session::get('lokasi');
         $jenis_produk = JenisProdukPinjaman::where(function ($q) use ($lokasi) {
-                $q->where('lokasi', 0)
-                  ->orWhere('lokasi', $lokasi);
-            })
-            ->where(function ($q) use ($lokasi) {
-                $q->where('kecuali', 0)
-                  ->orWhereRaw("kecuali NOT LIKE '%-{$lokasi}-%'");
-            })
-            ->orderBy('kode')
-            ->get();
+                        $q->where('lokasi', 0)
+                          ->orWhere('lokasi', $lokasi);
+                    })
+                    ->where(function ($q) use ($lokasi) {
+                        $q->where('kecuali', '0')
+                          ->orWhere(function ($q) use ($lokasi) {
+                              $q->where('kecuali', '!=', '0')
+                                ->whereRaw("kecuali NOT LIKE '%#{$lokasi}#%'");
+                          });
+                    })
+                    ->orderBy('kode', 'asc')
+                    ->get();
 
         $data['jenis_produk'] = $jenis_produk;
 
