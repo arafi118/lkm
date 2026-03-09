@@ -49,7 +49,7 @@
             </div>
             <div class="col-md-3">
                 <div class="position-relative mb-3">
-                    <label for="admin" class="form-label">Default Admin Simpanan</label>
+                    <label for="admin" class="form-label">Default Admin Simpanan per bulan</label>
                     <input autocomplete="off" type="text" name="admin" id="admin" class="form-control"value="">
                     <small class="text-danger" id="msg_admin"></small>
                 </div>
@@ -158,7 +158,7 @@
             </div>
             <div class="col-md-3">
                 <div class="position-relative mb-3">
-                    <label for="admin">Default Admin Simpanan</label>
+                    <label for="admin">Default Admin Simpanan per bulan</label>
                     <input autocomplete="off" type="text" name="admin" id="admin" class="form-control"
                         value="">
                     <small class="text-danger" id="msg_admin"></small>
