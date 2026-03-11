@@ -35,8 +35,11 @@
                                 <button class="btn btn-success btn-sm float-end ms-2" onclick="window.open('/cetak_sertifikat/{{ $nia->id }}')" type="button">
                                     <i class="fa fa-address-card"></i> Cetak Sertifikat Deposito
                                 </button>
-                                <button class="btn btn-info btn-sm ms-2" onclick="window.open('/cetak_formulir/{{ $nia->id }}')" type="button">
+                                <button class="btn btn-primary btn-sm float-end ms-2" onclick="window.open('/cetak_formulir/{{ $nia->id }}')" type="button">
                                     <i class="fa fa-pencil-square"></i> Cetak Form Pendaftaran
+                                </button>
+                                <button class="btn btn-danger btn-sm float-end ms-2" onclick="generateSimpanan({{ $nia->id }})" type="button">
+                                    <i class="fa fa-refresh"></i> Generate
                                 </button>
                             </div>
                         </div>
@@ -364,5 +367,61 @@ $(document).ready(function() {
         $('#jumlah').val('').removeClass('tarik-tunai');
     }
 });
+
+function generateSimpanan(cif) {
+    Swal.fire({
+        title: 'Generate Real Simpanan?',
+        text: 'Proses ini akan menghapus dan membangun ulang data real simpanan untuk CIF ' + cif + '. Lanjutkan?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Generate!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Mohon menunggu...',
+                text: 'Sedang memproses generate real simpanan...',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => { Swal.showLoading(); }
+            });
+
+            $.ajax({
+                url: '/simpanan/generate/' + cif,
+                method: 'POST',
+                data: { _token: '{{ csrf_token() }}' },
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: response.message || 'Generate real simpanan berhasil.',
+                            confirmButtonText: 'Oke'
+                        }).then(() => {
+                            var bulan = $('#bulants').val();
+                            var tahun = $('#tahunts').val();
+                            tableTransaksi(bulan, tahun);
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: response.message || 'Generate gagal.'
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan: ' + (xhr.responseJSON?.message || xhr.statusText)
+                    });
+                }
+            });
+        }
+    });
+}
 </script>
 @endsection

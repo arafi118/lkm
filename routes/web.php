@@ -432,6 +432,7 @@ Route::get('/qr/{filename}', function ($filename) {
 Route::get('/simpanan/get-transaksi', [SimpananController::class, 'getTransaksi'])->middleware('auth', 'is_aktif');
 
 Route::post('/simpanan/simpan-transaksi', [SimpananController::class, 'simpanTransaksi']);
+Route::post('/simpanan/generate/{cif}', [SimpananController::class, 'generateSimpanan'])->middleware('auth', 'is_aktif');
 Route::resource('/simpanan', SimpananController::class)->middleware('auth', 'is_aktif');
 Route::get('/bunga', [SimpananController::class, 'bunga'])->middleware('auth', 'is_aktif');
 Route::get('/bunga/info', [SimpananController::class, 'infoBunga'])->middleware('auth', 'is_aktif');
