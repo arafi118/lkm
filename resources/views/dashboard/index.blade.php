@@ -17,10 +17,10 @@
             text-align: justify;
         }
     </style>
-    <div class="app-main__inner">
+    <div class="app-main__inner" style="background-color: #f0f4ff;">
 
-        <div class="app-page-title">
-            <div class="row">
+        <div class="app-page-title" style="background-color: #fff3cd; padding: 10px; border-radius: 8px;">
+            <div class="row align-items-stretch" style="background-color: #ffe0b2; padding: 8px; border-radius: 6px;">
                 @if ($jumlah_saldo <= $jumlah)
                     <div class="col-12">
                         <div class="alert alert-warning text-black" role="alert">
@@ -30,9 +30,9 @@
                             saldo transaksi anda
                         </div>
                 @endif
-                <div class="col-md-6 col-xl-4">
-                    <div class="card mb-3 widget-content">
-                        <div class="widget-content-outer">
+                <div class="col-md-6 col-xl-4 d-flex">
+                    <div class="card mb-3 widget-content w-100" style="background-color: #d4edda; border: 2px solid #28a745;">
+                        <div class="widget-content-outer h-20 d-flex flex-column justify-content-center">
                             <div class="widget-content-wrapper" id="btnAktif">
                                 <div class="widget-content-left">
                                     <div class="widget-heading"
@@ -59,9 +59,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-4">
-                    <div class="card mb-3 widget-content">
-                        <div class="widget-content-outer">
+                <div class="col-md-6 col-xl-4 d-flex">
+                    <div class="card mb-3 widget-content w-100" style="background-color: #cce5ff; border: 2px solid #004085;">
+                        <div class="widget-content-outer h-20 d-flex flex-column justify-content-center">
                             <div class="widget-content-wrapper" id="btnpinjaman">
                                 <div class="widget-content-left">
                                     <div class="widget-heading"
@@ -93,9 +93,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-4">
-                    <div class="card mb-3 widget-content">
-                        <div class="widget-content-outer">
+                <div class="col-md-6 col-xl-4 d-flex">
+                    <div class="card mb-3 widget-content w-100" style="background-color: #f8d7da; border: 2px solid #721c24;">
+                        <div class="widget-content-outer h-20 d-flex flex-column justify-content-center">
                             <div class="widget-content-wrapper" id="btnjatuhTempo">
                                 <div class="widget-content-left">
                                     <div class="widget-heading"
@@ -131,9 +131,9 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" style="background-color: #e8f5e9; padding: 10px; border-radius: 8px; margin-top: 10px;">
             <div class="col-md-6 col-lg-4">
-                <div class="main-card mb-3 card">
+                <div class="main-card mb-3 card" style="background-color: #fff9c4; border: 2px solid #f9a825;">
                     <div class="card-body">
                         <h5 class="card-title">Angsuran Hari Ini</h5>
                         <div class="card-body pb-0 p-3 pt-0 mt-4">
@@ -159,7 +159,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-8">
-                <div class="card">
+                <div class="card" style="background-color: #e3f2fd; border: 2px solid #1565c0;">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
                             <h5 class="card-title">Realisasi Pendapatan dan Beban</h5>
@@ -216,7 +216,7 @@
     <div class="modal fade" id="notificationPopup" tabindex="-1" aria-labelledby="notificationPopupLabel"
         aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color: #fff3e0; border: 3px solid #e65100;">
                 <div class="modal-header">
                     <h5 class="modal-title" id="notificationPopupLabel">Notification</h5>
                 </div>
@@ -245,7 +245,7 @@
     {{-- Modal Jatuh Dempo --}}
     <div class="modal fade" id="jatuhTempo" aria-labelledby="jatuhTempoLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color: #fce4ec; border: 3px solid #c62828;">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="jatuhTempoLabel">Jatuh Tempo</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -387,7 +387,7 @@
     {{-- Modal Pinjaman --}}
     <div class="modal fade" id="pinjaman" aria-labelledby="pinjamanLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color: #e8eaf6; border: 3px solid #283593;">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="pinjamanLabel">Pinjaman</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -500,7 +500,7 @@
     <div class="modal fade" id="aktif" aria-controls="individu_aktif" aria-labelledby="aktifLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color: #e0f2f1; border: 3px solid #00695c;">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="aktifLabel">Pinjaman Aktif</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -548,7 +548,7 @@
     {{-- Modal Detail Angsuran --}}
     <div class="modal fade" id="detailAngsuran" aria-labelledby="detailAngsuranLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color: #f3e5f5; border: 3px solid #6a1b9a;">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="detailAngsuranLabel">Pinjaman detailAngsuran</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -566,7 +566,7 @@
     {{-- Modal Tagihan --}}
     <div class="modal fade" id="tagihanPinjaman" aria-labelledby="tagihanPinjamanLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color: #e8f5e9; border: 3px solid #2e7d32;">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="tagihanPinjamanLabel">Tagihan</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
