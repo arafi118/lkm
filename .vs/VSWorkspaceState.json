@@ -4,14 +4,13 @@
     "\\app",
     "\\app\\Http",
     "\\app\\Http\\Controllers",
-    "\\database",
-    "\\database\\factories",
+    "\\app\\Models",
     "\\database\\migrations",
     "\\database\\seeders",
     "\\resources",
     "\\resources\\views",
     "\\resources\\views\\dashboard"
   ],
-  "SelectedNode": "\\database\\seeders\\DatabaseSeeder.php",
+  "SelectedNode": "\\app\\Models\\Transaksi.php",
   "PreviewInSolutionExplorer": false
 }
