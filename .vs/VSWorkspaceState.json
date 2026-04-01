@@ -1,16 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app",
     "\\app\\Http",
     "\\app\\Http\\Controllers",
-    "\\app\\Models",
-    "\\database\\migrations",
-    "\\database\\seeders",
     "\\resources",
     "\\resources\\views",
     "\\resources\\views\\dashboard"
   ],
-  "SelectedNode": "\\app\\Models\\Transaksi.php",
+  "SelectedNode": "\\resources\\views\\dashboard\\index.blade.php",
   "PreviewInSolutionExplorer": false
 }
