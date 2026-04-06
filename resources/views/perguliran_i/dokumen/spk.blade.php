@@ -211,7 +211,12 @@
                 </li>
                 <li>
                     Keterlambatan angsuran Pihak Kedua telah melampaui 1(satu) bulan, maka Pihak kedua di bebani denda sebesar 
-                    2% diakumulasikan dari jumlah tunggakan pada saat jatuh tempo angsuran
+                    @if(session('lokasi') == '362')
+                        0.1%
+                    @else
+                        2%
+                    @endif
+                    diakumulasikan dari jumlah tunggakan pada saat jatuh tempo angsuran
                 </li>
             </ol>
         </div>
