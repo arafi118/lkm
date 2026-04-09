@@ -124,14 +124,14 @@
                                         </div>
                                     </a>
                                 </div>
-                                {{-- <div class="mb-3">&nbsp;
-                                <a role="tab" class="btn btn-white" style="width: 280px;" data-bs-toggle="tab"
-                                    href="#tab-content-7">
-                                    <div class="left-align">
-                                        <i class="fa-solid fa-camera-rotate"></i>&nbsp;&nbsp;<span>Whatsapp</span>
-                                    </div>
-                                </a>
-                            </div> --}}
+                                <div class="mb-3">&nbsp;
+                                    <a role="tab" class="btn btn-white" style="width: 280px;" data-bs-toggle="tab"
+                                        href="#tab-content-7">
+                                        <div class="left-align">
+                                            <i class="fa-solid fa-camera-rotate"></i>&nbsp;&nbsp;<span>Whatsapp</span>
+                                        </div>
+                                    </a>
+                                </div>
                             </ul>
                         </div>
                     </div>
@@ -264,104 +264,193 @@
 
 @section('script')
     <script src="/vendor/ckeditor/ckeditor.js"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
 
     <script>
-        const form = $('#FormWhatsapp')
-        // const socket = io("{{ $api }}")
-        const token = "{{ $token }}"
-        const pesan = $('#Pesan')
-        var scan = 0
-        var connect = 0
+        let ListContainer = $('#Pesan')
+        const API = '{{ $api }}'
+        const MASTER_KEY = '{{ $api_key }}'
+        const SAVED_ID = '{{ $device_id }}'
+        const SAVED_KEY = '{{ $device_key }}'
 
-        CKEDITOR.replace('editor_spk');
-        CKEDITOR.replace('editor_calk');
+        const CURRENT_ID = SAVED_ID || '{{ $token }}'
+        const CURRENT_KEY = SAVED_KEY || MASTER_KEY
+
+        var socket;
+
+        function saveLocalSession(id, key) {
+            $.ajax({
+                type: 'POST',
+                url: '/pengaturan/whatsapp/save_device',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    device_id: id,
+                    device_key: key
+                },
+                success: function(res) {
+                    console.log('Session saved to DB:', res);
+                }
+            })
+        }
+
+        function initSocket(id, key) {
+            if (socket) {
+                socket.disconnect();
+            }
+
+            socket = io(API, {
+                query: {
+                    device_id: id,
+                    api_key: key
+                },
+                transports: ['polling']
+            });
+
+            socket.on('connect', () => {
+                console.log('Connected to the server. Socket ID:', socket.id);
+            });
+
+            socket.on('ready', (result) => {
+                $('#QrCode').attr('src', '/assets/img/qr.png')
+                ListContainer.append('<li class="text-success fw-bold text-sm">Whatsapp Aktif (' + result.phone_number +
+                    ')</li>')
+
+                $('#HapusWa').show()
+                $('#ScanWA').hide()
+
+                if (!SAVED_ID) {
+                    saveLocalSession(result.device_id, MASTER_KEY)
+                }
+
+                if ($('#ModalScanWA').hasClass('show')) {
+                    Swal.fire('Berhasil', 'Whatsapp Aktif (' + result.phone_number + ')', 'success')
+                    setTimeout(() => {
+                        $('#ModalScanWA').modal('hide')
+                    }, 1000)
+                }
+            })
+
+            socket.on('qr', (result) => {
+                console.log('QR Code Refreshed');
+                $('#QrCode').attr('src', result.qr_image)
+            })
+
+            socket.on('status', (result) => {
+                console.log('WA status:', result.status)
+            })
+
+            socket.on('disconnect', () => {
+                console.log('Socket disconnected');
+            })
+        }
+
+        $(document).ready(function() {
+            CKEDITOR.replace('editor_spk');
+            CKEDITOR.replace('editor_calk');
+
+            // Cek status saat ini ke gateway
+            $.ajax({
+                type: 'GET',
+                url: API + '/api/devices/' + CURRENT_ID,
+                headers: {
+                    'x-api-key': MASTER_KEY
+                },
+                success: function(result) {
+                    if (result.success && result.device && (result.device.status === 'connected' || result.device
+                            .phone_number)) {
+                        $('#HapusWa').show()
+                        $('#ScanWA').hide()
+                        if (!SAVED_ID) {
+                            saveLocalSession(result.device.id, MASTER_KEY)
+                        }
+                    } else {
+                        $('#ScanWA').show()
+                        $('#HapusWa').hide()
+                    }
+                },
+                error: function() {
+                    $('#ScanWA').show()
+                    $('#HapusWa').hide()
+                }
+            })
+
+            initSocket(CURRENT_ID, CURRENT_KEY);
+        })
 
         $(document).on('click', '#ScanWA', function(e) {
             e.preventDefault()
 
+            if (SAVED_ID) {
+                $('#ModalScanWA').modal('show')
+                return
+            }
+
             Swal.fire({
-                title: 'Peringatan',
-                text: 'Kami selaku tim pengembang aplikasi LKM tidak bertanggung jawab jika terjadi sesuatu pada nomor anda ke depannya.',
+                title: 'Aktivasi Whatsapp',
+                text: 'Scan Whatsapp aplikasi LKM.',
                 showCancelButton: true,
                 confirmButtonText: 'Lanjutkan',
+                cancelButtonText: 'Batal',
+                icon: 'info'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: API + '/api/devices',
+                        headers: {
+                            'x-api-key': MASTER_KEY
+                        },
+                        data: {
+                            name: '{{ $kec->nama_lembaga_sort ?? 'LKM' }}'
+                        },
+                        success: function(result) {
+                            if (result.success) {
+                                saveLocalSession(result.device.id, result.device.api_key)
+                                initSocket(result.device.id, result.device.api_key)
+                                $('#ModalScanWA').modal('show')
+                            }
+                        }
+                    })
+                }
+            })
+        })
+
+        $(document).on('click', '#HapusWa', function(e) {
+            e.preventDefault()
+
+            Swal.fire({
+                title: 'Hapus Whatsapp',
+                text: 'Hapus koneksi whatsapp LKM.',
+                showCancelButton: true,
+                confirmButtonText: 'Hapus',
                 cancelButtonText: 'Batal',
                 icon: 'error'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $('#ModalScanWA').modal('show')
-                    if (connect < 1) {
-                        socket.emit('register', {
-                            token
-                        })
-                    } else {
-                        waActive()
-                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: API + '/api/devices/' + CURRENT_ID + '/logout',
+                        headers: {
+                            'x-api-key': MASTER_KEY
+                        },
+                        success: function() {
+                            $.post('/pengaturan/whatsapp/delete_session', {
+                                _token: '{{ csrf_token() }}'
+                            }, function() {
+                                window.location.reload()
+                            })
+                        },
+                        error: function() {
+                            $.post('/pengaturan/whatsapp/delete_session', {
+                                _token: '{{ csrf_token() }}'
+                            }, function() {
+                                window.location.reload()
+                            })
+                        }
+                    })
                 }
             })
         })
-
-        // socket.on('qrCode', (res) => {
-        //     if (res.token == token) {
-        //         $('#QrCode').attr('src', res.url)
-
-        //         if (scan < 1) {
-        //             pesan.append('<li>' + res.msg + '</li>')
-        //         }
-        //         scan += 1
-        //     }
-        // })
-
-        // socket.on('aktif', (res) => {
-        //     if (res.token == token) {
-        //         if (connect < 1) {
-        //             $.ajax({
-        //                 type: form.attr('method'),
-        //                 url: form.attr('action'),
-        //                 data: form.serialize(),
-        //                 success: function(result) {
-        //                     pesan.append('<li>' + res.msg + '</li>')
-        //                     waActive()
-        //                 }
-        //             })
-        //         }
-        //         connect += 1
-        //     }
-        // })
-
-        $(document).on('click', '#WaLogout', function(e) {
-            e.preventDefault()
-
-            $.ajax({
-                type: 'post',
-                url: '{{ $api }}/logout',
-                data: {
-                    token: token
-                },
-                success: function(result) {
-                    if (result.status) {
-                        Swal.fire({
-                            title: 'Selamat',
-                            text: 'Anda telah logout dari SI DBM Whatsapp Gateway.',
-                            showCancelButton: false,
-                            icon: 'success'
-                        }).then(() => {
-                            scan = 0
-                            connect = 0
-                        })
-                    }
-                }
-            })
-        })
-
-        function waActive() {
-            Swal.fire({
-                title: 'Selamat',
-                text: 'SI DBM Whatsapp Gateway berhasil diaktifkan.',
-                showCancelButton: false,
-                icon: 'success'
-            })
-        }
     </script>
 
     <script>

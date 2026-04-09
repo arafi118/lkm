@@ -7,6 +7,7 @@ use App\Models\AkunLevel1;
 use App\Models\Kecamatan;
 use App\Models\TandaTanganLaporan;
 use App\Models\User;
+use App\Models\Whatsapp;
 use App\Utils\Pinjaman;
 use App\Utils\Tanggal;
 use DOMDocument;
@@ -21,15 +22,19 @@ class SopController extends Controller
 {
     public function index()
     {
-        $api = env('APP_API', 'https://api-whatsapp.siupk.net');
+        $api = env('APP_API', 'http://localhost:3000');
+        $api_key = env('APP_API_KEY');
 
-        $kec = Kecamatan::where('id', Session::get('lokasi'))->with('ttd')->first();
+        $kec = Kecamatan::where('id', Session::get('lokasi'))->with('ttd', 'wa_session')->first();
         $token = "LKM-" . str_replace('.', '', $kec->kd_kec) . '-' . str_pad($kec->id, 4, '0', STR_PAD_LEFT);
         $keywordSPK = Pinjaman::spk();
         $fungsiSPK = Pinjaman::fungsi();
 
+        $device_id = $kec->wa_session->device_id ?? null;
+        $device_key = $kec->wa_session->device_key ?? null;
+
         $title = "Personalisasi SOP";
-        return view('sop.index')->with(compact('title', 'kec', 'api', 'token', 'keywordSPK', 'fungsiSPK'));
+        return view('sop.index')->with(compact('title', 'kec', 'api', 'token', 'keywordSPK', 'fungsiSPK', 'api_key', 'device_id', 'device_key'));
     }
 
     public function users()
@@ -649,5 +654,50 @@ class SopController extends Controller
 
         $title = 'Invoice #' . $inv->nomor . ' - ' . $inv->jp->nama_jp;
         return view('sop.detail_invoice')->with(compact('title', 'inv'));
+    }
+
+    public function save_whatsapp_session(Request $request)
+    {
+        $id = Session::get('lokasi');
+        $device_id = $request->device_id;
+        $device_key = $request->device_key;
+
+        if (!$id) {
+            return response()->json(['success' => false, 'msg' => 'Lokasi session tidak ditemukan']);
+        }
+
+        \Log::info('Saving WA Session (LKM): ', [
+            'lokasi' => $id,
+            'device_id' => $device_id,
+            'device_key' => $device_key,
+        ]);
+
+        try {
+            $kec = Kecamatan::where('id', $id)->first();
+            Whatsapp::updateOrCreate(
+                ['lokasi' => $id],
+                [
+                    'nama' => $kec->nama_lembaga_sort ?? 'LKM',
+                    'token' => "LKM-" . str_replace('.', '', $kec->kd_kec) . '-' . str_pad($kec->id, 4, '0', STR_PAD_LEFT),
+                    'device_id' => $device_id,
+                    'device_key' => $device_key,
+                    'status' => 'connected',
+                ]
+            );
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            \Log::error('DB Error saving WA session: ' . $e->getMessage());
+
+            return response()->json(['success' => false, 'msg' => $e->getMessage()], 500);
+        }
+    }
+
+    public function delete_whatsapp_session(Request $request)
+    {
+        $id = Session::get('lokasi');
+        Whatsapp::where('lokasi', $id)->delete();
+
+        return response()->json(['success' => true]);
     }
 }

@@ -676,18 +676,16 @@
         function sendMsg(number, nama, msg, repeat = 0) {
             $.ajax({
                 type: 'post',
-                url: '/send-text',
+                url: '{{ $api }}/api/send/text',
                 timeout: 0,
                 headers: {
-                    "Content-Type": "application/json"
-                },
-                xhrFields: {
-                    withCredentials: true
+                    "Content-Type": "application/json",
+                    "x-api-key": "{{ $api_key }}"
                 },
                 data: JSON.stringify({
-                    token: "",
-                    number: number,
-                    text: msg
+                    device_id: "{{ $wa_device_id }}",
+                    to: number,
+                    message: msg
                 }),
                 success: function(result) {
                     if (result.status) {
@@ -778,18 +776,16 @@
             function msgInvoice(number, msg, repeat = 0) {
                 $.ajax({
                     type: 'post',
-                    url: '{{ $api }}/send-text',
+                    url: '{{ $api }}/api/send/text',
                     timeout: 0,
                     headers: {
-                        "Content-Type": "application/json"
-                    },
-                    xhrFields: {
-                        withCredentials: true
+                        "Content-Type": "application/json",
+                        "x-api-key": "{{ $api_key }}"
                     },
                     data: JSON.stringify({
-                        token: "33081920220815",
-                        number: number,
-                        text: msg
+                        device_id: "{{ $wa_device_id }}",
+                        to: number,
+                        message: msg
                     }),
                     success: function(result) {
                         if (!result.status) {

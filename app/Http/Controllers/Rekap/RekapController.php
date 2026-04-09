@@ -133,7 +133,14 @@ class RekapController extends Controller
         }
 
         $title = Session::get('nama_rekap') . ' Page';
-        return view('rekap.index')->with(compact('title', 'saldo_kec', 'total', 'keuangan'));
+        $api = env('APP_API', 'http://localhost:3000');
+        $api_key = env('APP_API_KEY');
+
+        $wa = \App\Models\Whatsapp::where('lokasi', Session::get('lokasi'))->first();
+        $wa_device_id = $wa->device_id ?? null;
+        $wa_device_key = $wa->device_key ?? null;
+
+        return view('rekap.index')->with(compact('title', 'saldo_kec', 'total', 'keuangan', 'api', 'api_key', 'wa_device_id', 'wa_device_key'));
     }
 
     public function tandaTangan()

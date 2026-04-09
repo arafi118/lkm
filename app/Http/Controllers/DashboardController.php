@@ -131,7 +131,13 @@ class DashboardController extends Controller
             ->where('status', 'UNPAID')
             ->sum('jumlah');
 
-        $data['api'] = env('APP_API', 'https://api-whatsapp.siupk.net');
+        $data['api'] = env('APP_API', 'http://localhost:3000');
+        $data['api_key'] = env('APP_API_KEY');
+
+        $wa = \App\Models\Whatsapp::where('lokasi', Session::get('lokasi'))->first();
+        $data['wa_device_id'] = $wa->device_id ?? null;
+        $data['wa_device_key'] = $wa->device_key ?? null;
+
         $data['title'] = "Dashboard";
         $data['nama_lkm'] = $kec->nama_kec;
         return view('dashboard.index')->with($data);

@@ -4,25 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\AdminInvoice;
 use App\Models\AdminJenisPembayaran;
-use App\Models\Rekap;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use App\Models\Menu;
 use App\Models\MenuTombol;
+use App\Models\Rekap;
 use App\Models\User;
 use App\Utils\Keuangan;
 use App\Utils\Tanggal;
 use Auth;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
-use Session;
 
 class AuthController extends Controller
 {
-    private const ID_KEC = 362;
+    private const ID_KEC = 1;
 
     public function index()
     {
@@ -30,7 +29,7 @@ class AuthController extends Controller
         $host = request()->getHost();
 
         // Handle URL lokal
-        if (request()->server('SERVER_NAME') === '127.0.0.1' || 
+        if (request()->server('SERVER_NAME') === '127.0.0.1' ||
             request()->server('SERVER_NAME') === 'localhost' ||
             str_ends_with(request()->server('SERVER_NAME'), '.test')) {
             $kec = Kecamatan::where('id', self::ID_KEC)->first();
@@ -40,23 +39,25 @@ class AuthController extends Controller
                 ->first();
         }
 
-        if (!$kec) {
+        if (! $kec) {
             $kab = Kabupaten::where('web_kab', $host)
                 ->orWhere('web_kab_alternatif', $host)
                 ->first();
-            if (!$kab) {
+            if (! $kab) {
                 $pus = Rekap::where('web_rekap', $host)->first();
-                if (!$pus) {
+                if (! $pus) {
                     abort(404);
                 }
+
                 return redirect('/rekap');
             }
+
             return redirect('/kab');
         }
 
         $logo = '/assets/img/logo.jpeg';
         if ($kec->logo) {
-            $logo = '/storage/logo/' . $kec->logo;
+            $logo = '/storage/logo/'.$kec->logo;
         }
 
         return view('auth.login')->with(compact('kec', 'logo'));
@@ -74,12 +75,12 @@ class AuthController extends Controller
         } else {
             $this->validate($request, [
                 'username' => 'required',
-                'password' => 'required'
+                'password' => 'required',
             ]);
         }
 
         // Handle URL lokal
-        if (request()->server('SERVER_NAME') === '127.0.0.1' || 
+        if (request()->server('SERVER_NAME') === '127.0.0.1' ||
             request()->server('SERVER_NAME') === 'localhost' ||
             str_ends_with(request()->server('SERVER_NAME'), '.test')) {
             $kec = Kecamatan::where('id', self::ID_KEC)
@@ -92,7 +93,7 @@ class AuthController extends Controller
                 ->first();
         }
 
-        if (!$kec) {
+        if (! $kec) {
             return redirect()->back()->with('error', 'Username dan/atau Password salah!');
         }
 
@@ -100,15 +101,15 @@ class AuthController extends Controller
 
         $icon = '/assets/img/icon/favicon.png';
         if ($kec->logo) {
-            $icon = '/storage/logo/' . $kec->logo;
+            $icon = '/storage/logo/'.$kec->logo;
         }
 
         if ($username == 'superadmin' && $password == 'superadmin') {
             User::where([
                 'uname' => $username,
-                'pass' => $password
+                'pass' => $password,
             ])->update([
-                'lokasi' => $lokasi
+                'lokasi' => $lokasi,
             ]);
         }
 
@@ -116,66 +117,66 @@ class AuthController extends Controller
         if ($user && $password === $user->pass) {
             if (Auth::loginUsingId($user->id)) {
                 $hak_akses = explode(',', $user->hak_akses);
-            $menu = Menu::where('parent_id', '0')
-                ->whereNotIn('id', $hak_akses)
-                ->where('aktif', 'Y')
-                ->where(function ($query) use ($lokasi) {
-                    $query->where('lokasi', '0')
-                        ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
-                })
-                ->where(function ($query) use ($lokasi) {
-                    $query->where('kecuali', '0')
-                        ->orWhereNull('kecuali')
-                        ->orWhere('kecuali', 'NOT LIKE', '%#' . $lokasi . '#%');
-                })
-                ->with([
-                    'child' => function ($query) use ($hak_akses, $lokasi) {
-                        $query->whereNotIn('id', $hak_akses)
-                            ->where(function ($query) use ($lokasi) {
-                                $query->where('lokasi', '0')
-                                    ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
-                            })
-                            ->where(function ($query) use ($lokasi) {
-                                $query->where('kecuali', '0')
-                                    ->orWhereNull('kecuali')
-                                    ->orWhere('kecuali', 'NOT LIKE', '%#' . $lokasi . '#%');
-                            });
-                    },
-                    'child.child' => function ($query) use ($hak_akses, $lokasi) {
-                        $query->whereNotIn('id', $hak_akses)
-                            ->where(function ($query) use ($lokasi) {
-                                $query->where('lokasi', '0')
-                                    ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
-                            })
-                            ->where(function ($query) use ($lokasi) {
-                                $query->where('kecuali', '0')
-                                    ->orWhereNull('kecuali')
-                                    ->orWhere('kecuali', 'NOT LIKE', '%#' . $lokasi . '#%');
-                            });
-                    }
-                ])
-                ->orderBy('sort', 'ASC')
-                ->get();
+                $menu = Menu::where('parent_id', '0')
+                    ->whereNotIn('id', $hak_akses)
+                    ->where('aktif', 'Y')
+                    ->where(function ($query) use ($lokasi) {
+                        $query->where('lokasi', '0')
+                            ->orWhere('lokasi', 'LIKE', '%#'.$lokasi.'#%');
+                    })
+                    ->where(function ($query) use ($lokasi) {
+                        $query->where('kecuali', '0')
+                            ->orWhereNull('kecuali')
+                            ->orWhere('kecuali', 'NOT LIKE', '%#'.$lokasi.'#%');
+                    })
+                    ->with([
+                        'child' => function ($query) use ($hak_akses, $lokasi) {
+                            $query->whereNotIn('id', $hak_akses)
+                                ->where(function ($query) use ($lokasi) {
+                                    $query->where('lokasi', '0')
+                                        ->orWhere('lokasi', 'LIKE', '%#'.$lokasi.'#%');
+                                })
+                                ->where(function ($query) use ($lokasi) {
+                                    $query->where('kecuali', '0')
+                                        ->orWhereNull('kecuali')
+                                        ->orWhere('kecuali', 'NOT LIKE', '%#'.$lokasi.'#%');
+                                });
+                        },
+                        'child.child' => function ($query) use ($hak_akses, $lokasi) {
+                            $query->whereNotIn('id', $hak_akses)
+                                ->where(function ($query) use ($lokasi) {
+                                    $query->where('lokasi', '0')
+                                        ->orWhere('lokasi', 'LIKE', '%#'.$lokasi.'#%');
+                                })
+                                ->where(function ($query) use ($lokasi) {
+                                    $query->where('kecuali', '0')
+                                        ->orWhereNull('kecuali')
+                                        ->orWhere('kecuali', 'NOT LIKE', '%#'.$lokasi.'#%');
+                                });
+                        },
+                    ])
+                    ->orderBy('sort', 'ASC')
+                    ->get();
                 $AksesMenu = explode(',', $user->akses_menu);
                 $Menu = Menu::whereNotIn('id', $AksesMenu)->pluck('title')->toArray();
 
                 $AksesTombol = explode(',', $user->akses_tombol);
                 $MenuTombol = MenuTombol::whereNotIn('id', $AksesTombol)->pluck('akses')->toArray();
 
-                $angsuran = !in_array('19', $hak_akses) && !in_array('21', $hak_akses);
+                $angsuran = ! in_array('19', $hak_akses) && ! in_array('21', $hak_akses);
                 $inv = $this->generateInvoice($kec);
 
                 $unpaidInvoice = AdminInvoice::where([
                     ['lokasi', $lokasi],
-                    ['status', 'UNPAID']
+                    ['status', 'UNPAID'],
                 ])
-                ->whereDate('tgl_invoice', '<', Carbon::now()->subMonth())
-                ->count();
+                    ->whereDate('tgl_invoice', '<', Carbon::now()->subMonth())
+                    ->count();
 
                 $request->session()->regenerate();
                 session([
                     'nama_lembaga' => str_replace('DBM ', '', $kec->nama_lembaga_sort),
-                    'nama' => $user->namadepan . ' ' . $user->namabelakang,
+                    'nama' => $user->namadepan.' '.$user->namabelakang,
                     'foto' => $user->foto,
                     'logo' => $kec->logo,
                     'unpaidInvoice' => $unpaidInvoice,
@@ -188,7 +189,7 @@ class AuthController extends Controller
                 ]);
 
                 return redirect('/dashboard')->with([
-                    'pesan' => 'Selamat Datang ' . $user->namadepan . ' ' . $user->namabelakang,
+                    'pesan' => 'Selamat Datang '.$user->namadepan.' '.$user->namabelakang,
                     'invoice' => $inv['invoice'],
                     'msg' => $inv['msg'],
                     'hp_dir' => $inv['dir'],
@@ -213,14 +214,14 @@ class AuthController extends Controller
                 ->first();
         }
 
-        if (!$kec) {
+        if (! $kec) {
             return redirect('/');
         }
 
         $lokasi = $kec->id;
         $icon = '/assets/img/icon/favicon.png';
         if ($kec->logo) {
-            $icon = '/storage/logo/' . $kec->logo;
+            $icon = '/storage/logo/'.$kec->logo;
         }
 
         $username = $uname;
@@ -228,9 +229,9 @@ class AuthController extends Controller
 
         User::where([
             'uname' => $username,
-            'pass' => $password
+            'pass' => $password,
         ])->update([
-            'lokasi' => $lokasi
+            'lokasi' => $lokasi,
         ]);
 
         $user = User::where([['uname', $username], ['lokasi', $lokasi]])->first();
@@ -242,58 +243,58 @@ class AuthController extends Controller
                     ->where('aktif', 'Y')
                     ->where(function ($query) use ($lokasi) {
                         $query->where('lokasi', '0')
-                            ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
+                            ->orWhere('lokasi', 'LIKE', '%#'.$lokasi.'#%');
                     })
                     ->where(function ($query) use ($lokasi) {
                         $query->where('kecuali', '0')
                             ->orWhereNull('kecuali')
-                            ->orWhere('kecuali', 'NOT LIKE', '%#' . $lokasi . '#%');
+                            ->orWhere('kecuali', 'NOT LIKE', '%#'.$lokasi.'#%');
                     })
                     ->with([
                         'child' => function ($query) use ($hak_akses, $lokasi) {
                             $query->whereNotIn('id', $hak_akses)
                                 ->where(function ($query) use ($lokasi) {
                                     $query->where('lokasi', '0')
-                                        ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
+                                        ->orWhere('lokasi', 'LIKE', '%#'.$lokasi.'#%');
                                 })
                                 ->where(function ($query) use ($lokasi) {
                                     $query->where('kecuali', '0')
                                         ->orWhereNull('kecuali')
-                                        ->orWhere('kecuali', 'NOT LIKE', '%#' . $lokasi . '#%');
+                                        ->orWhere('kecuali', 'NOT LIKE', '%#'.$lokasi.'#%');
                                 });
                         },
                         'child.child' => function ($query) use ($hak_akses, $lokasi) {
                             $query->whereNotIn('id', $hak_akses)
                                 ->where(function ($query) use ($lokasi) {
                                     $query->where('lokasi', '0')
-                                        ->orWhere('lokasi', 'LIKE', '%#' . $lokasi . '#%');
+                                        ->orWhere('lokasi', 'LIKE', '%#'.$lokasi.'#%');
                                 })
                                 ->where(function ($query) use ($lokasi) {
                                     $query->where('kecuali', '0')
                                         ->orWhereNull('kecuali')
-                                        ->orWhere('kecuali', 'NOT LIKE', '%#' . $lokasi . '#%');
+                                        ->orWhere('kecuali', 'NOT LIKE', '%#'.$lokasi.'#%');
                                 });
-                        }
+                        },
                     ])
                     ->orderBy('sort', 'ASC')
                     ->orderBy('id', 'ASC')
                     ->get();
-                $angsuran = !in_array('19', $hak_akses) && !in_array('21', $hak_akses);
+                $angsuran = ! in_array('19', $hak_akses) && ! in_array('21', $hak_akses);
 
                 $request->session()->regenerate();
                 session([
                     'nama_lembaga' => str_replace('DBM ', '', $kec->nama_lembaga_sort),
-                    'nama' => $user->namadepan . ' ' . $user->namabelakang,
+                    'nama' => $user->namadepan.' '.$user->namabelakang,
                     'foto' => $user->foto,
                     'logo' => $kec->logo,
                     'lokasi' => $user->lokasi,
                     'lokasi_user' => $user->lokasi,
                     'menu' => $menu,
                     'icon' => $icon,
-                    'angsuran' => $angsuran
+                    'angsuran' => $angsuran,
                 ]);
 
-                return redirect('/dashboard')->with('pesan', 'Selamat Datang ' . $user->namadepan . ' ' . $user->namabelakang);
+                return redirect('/dashboard')->with('pesan', 'Selamat Datang '.$user->namadepan.' '.$user->namabelakang);
             }
         }
 
@@ -302,13 +303,13 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $user = auth()->user()->namadepan . ' ' . auth()->user()->namabelakang;
+        $user = auth()->user()->namadepan.' '.auth()->user()->namabelakang;
         FacadesAuth::guard('web')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('pesan', 'Terima Kasih ' . $user);
+        return redirect('/')->with('pesan', 'Terima Kasih '.$user);
     }
 
     private function generateInvoice($kec)
@@ -316,20 +317,20 @@ class AuthController extends Controller
         $return = [
             'invoice' => false,
             'msg' => '',
-            'dir' => ''
+            'dir' => '',
         ];
 
         $bulan_pakai = date('m-d', strtotime($kec->tgl_pakai));
-        $tgl_pakai = date('Y') . '-' . $bulan_pakai;
+        $tgl_pakai = date('Y').'-'.$bulan_pakai;
 
         $tgl_invoice = date('Y-m-d', strtotime('-1 month', strtotime($tgl_pakai)));
 
         $invoice = AdminInvoice::where([
             ['lokasi', $kec->id],
-            ['jenis_pembayaran', '2']
+            ['jenis_pembayaran', '2'],
         ])->whereBetween('tgl_invoice', [$tgl_invoice, $tgl_pakai]);
 
-        $pesan = "";
+        $pesan = '';
         if ($invoice->count() <= 0 && (date('Y-m-d') <= $tgl_pakai && date('Y-m-d') >= $tgl_invoice)) {
 
             $tanggal = date('Y-m-d');
@@ -346,16 +347,16 @@ class AuthController extends Controller
                 'tgl_lunas' => date('Y-m-d'),
                 'status' => 'UNPAID',
                 'jumlah' => $kec->biaya_tahunan,
-                'id_user' => 1
+                'id_user' => 1,
             ]);
 
             $jenis_pembayaran = AdminJenisPembayaran::where('id', '2')->first();
-            $pesan .= "_#Invoice - " . str_pad($kec->id, '3', '0', STR_PAD_LEFT) . " " . $kec->nama_kec . " - " . $kec->kabupaten->nama_kab . "_\n";
-            $pesan .= $jenis_pembayaran->nama_jp . "\n";
-            $pesan .= "Jumlah           : Rp. " . number_format($kec->biaya_tahunan) . "\n";
-            $pesan .= "Jatuh Tempo  : " . Tanggal::tglIndo($tgl_pakai) . "\n\n";
+            $pesan .= '_#Invoice - '.str_pad($kec->id, '3', '0', STR_PAD_LEFT).' '.$kec->nama_kec.' - '.$kec->kabupaten->nama_kab."_\n";
+            $pesan .= $jenis_pembayaran->nama_jp."\n";
+            $pesan .= 'Jumlah           : Rp. '.number_format($kec->biaya_tahunan)."\n";
+            $pesan .= 'Jatuh Tempo  : '.Tanggal::tglIndo($tgl_pakai)."\n\n";
             $pesan .= "*Detail Invoice*\n";
-            $pesan .= "_https://" . $kec->web_alternatif . "/" . $invoice->id . "_";
+            $pesan .= '_https://'.$kec->web_alternatif.'/'.$invoice->id.'_';
 
             $return['invoice'] = true;
             $return['msg'] = $pesan;
@@ -363,7 +364,7 @@ class AuthController extends Controller
             $dir = User::where([
                 ['lokasi', $kec->id],
                 ['jabatan', '1'],
-                ['level', '1']
+                ['level', '1'],
             ])->first();
 
             $return['dir'] = $dir->hp;
@@ -383,7 +384,7 @@ class AuthController extends Controller
                 'nama_akun' => $ojk->nama_akun,
                 'kode' => $ojk->kode,
                 'rekening' => '',
-                'parent_id' => 0
+                'parent_id' => 0,
             ];
 
             $parent_id = $no;
@@ -397,7 +398,7 @@ class AuthController extends Controller
                         'nama_akun' => '',
                         'kode' => '',
                         'rekening' => $rek,
-                        'parent_id' => $parent_id
+                        'parent_id' => $parent_id,
                     ];
                 }
             }
@@ -412,7 +413,7 @@ class AuthController extends Controller
                     'nama_akun' => $ch->nama_akun,
                     'kode' => $ch->kode,
                     'rekening' => 0,
-                    'parent_id' => $parent_id
+                    'parent_id' => $parent_id,
                 ];
 
                 $child_parent_id = $no;
@@ -426,7 +427,7 @@ class AuthController extends Controller
                             'nama_akun' => '',
                             'kode' => '',
                             'rekening' => $rek,
-                            'parent_id' => $child_parent_id
+                            'parent_id' => $child_parent_id,
                         ];
                     }
                 }
