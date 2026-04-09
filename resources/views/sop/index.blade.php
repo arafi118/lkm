@@ -337,11 +337,33 @@
 
             socket.on('status', (result) => {
                 console.log('WA status:', result.status)
+                if (result.status === 'disconnected') {
+                    $('#Pesan').find('li').html(
+                        '<span class="text-danger fw-bold">Terputus.</span> Sedang mencoba menghubungkan ulang...'
+                    )
+                }
             })
 
             socket.on('disconnect', () => {
                 console.log('Socket disconnected');
             })
+        }
+
+        function restartGateway(id, key) {
+            console.log('Requesting gateway restart for:', id);
+            $.ajax({
+                type: 'POST',
+                url: API + '/api/devices/' + id + '/restart',
+                headers: {
+                    'x-api-key': MASTER_KEY
+                },
+                success: function(res) {
+                    console.log('Gateway restart request sent:', res);
+                },
+                error: function(err) {
+                    console.error('Failed to request gateway restart:', err);
+                }
+            });
         }
 
         $(document).ready(function() {
@@ -377,11 +399,26 @@
             initSocket(CURRENT_ID, CURRENT_KEY);
         })
 
+        $(document).on('click', '#RefreshQR', function(e) {
+            e.preventDefault();
+            const id = SAVED_ID || CURRENT_ID;
+            restartGateway(id, MASTER_KEY);
+            $(this).addClass('fa-spin');
+            setTimeout(() => {
+                $(this).removeClass('fa-spin');
+            }, 2000);
+            $('#Pesan').find('li').html('Menyegarkan Kode QR...')
+        })
+
         $(document).on('click', '#ScanWA', function(e) {
             e.preventDefault()
 
             if (SAVED_ID) {
+                // Pemicu restart otomatis jika session sudah ada tapi tidak aktif
+                restartGateway(SAVED_ID, MASTER_KEY);
+
                 $('#ModalScanWA').modal('show')
+                $('#Pesan').find('li').html('Sedang menyiapkan Kode QR...')
                 return
             }
 
