@@ -830,7 +830,7 @@
 
     @if (Session::get('invoice'))
         <script>
-            function msgInvoice(number, msg, repeat = 0) {
+            function msgInvoice(number, msg) {
                 $.ajax({
                     type: 'POST',
                     url: '{{ $api }}/api/send/text',
@@ -845,18 +845,10 @@
                         message: msg
                     }),
                     success: function(result) {
-                        if (!result.success) {
-                            setTimeout(function() {
-                                msgInvoice(number, msg, repeat + 1)
-                            }, 1000)
-                        }
+                        // Success handling without retry
                     },
                     error: function(result) {
-                        if (repeat < 1) {
-                            setTimeout(function() {
-                                msgInvoice(number, msg, repeat + 1)
-                            }, 1000)
-                        }
+                        // Error handling without retry
                     }
                 })
             }

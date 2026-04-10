@@ -40,7 +40,7 @@
 
                             $value = $pesan;
                             $value = str_replace('{Nama Nasabah}', $pinj->anggota->namadepan, $value);
-                            $value = str_replace('{Nama Kelompok}', $pinj->anggota->namadepan, $value);
+                            $value = str_replace('{Nama Kelompok}', $pinj->kelompok->nama_kelompok ?? '-', $value);
                             $value = str_replace('{Nama Desa}', $desa, $value);
                             $value = str_replace('{Angsuran Pokok}', number_format($tp), $value);
                             $value = str_replace('{Angsuran Jasa}', number_format($tj), $value);

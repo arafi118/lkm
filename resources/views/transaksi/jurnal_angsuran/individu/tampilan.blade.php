@@ -494,7 +494,7 @@
             });
         })
 
-        function sendMsg(number, nama, msg, repeat = 0) {
+        function sendMsg(number, nama, msg) {
             $.ajax({
                 type: 'post',
                 url: '{{ $api }}/api/send/text',
@@ -509,26 +509,14 @@
                     message: msg
                 }),
                 success: function(result) {
-                    if (result.status) {
+                    if (result.status || result.success) {
                         MultiToast('success', 'Pesan untuk Nasabah ' + nama + ' berhasil dikirim')
-                    } else {
-                        if (repeat < 1) {
-                            setTimeout(function() {
-                                sendMsg(number, nama, msg, repeat + 1)
-                            }, 1000)
-                        } else {
-                            MultiToast('error', 'Pesan untuk Nasabah ' + nama + ' gagal dikirim')
-                        }
-                    }
-                },
-                error: function(result) {
-                    if (repeat < 1) {
-                        setTimeout(function() {
-                            sendMsg(number, nama, msg, repeat + 1)
-                        }, 1000)
                     } else {
                         MultiToast('error', 'Pesan untuk Nasabah ' + nama + ' gagal dikirim')
                     }
+                },
+                error: function(result) {
+                    MultiToast('error', 'Pesan untuk Nasabah ' + nama + ' gagal dikirim')
                 }
             })
         }

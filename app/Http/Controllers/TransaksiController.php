@@ -1108,10 +1108,13 @@ class TransaksiController extends Controller
                 $desa = $pinkel->kelompok->d->sebutan_desa->sebutan_desa . ' ' . $pinkel->kelompok->d->nama_desa;
 
                 $whatsapp = true;
+                $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
                 $pesan_wa = json_decode($kec->whatsapp, true);
                 $pesan = $pesan_wa['angsuran'];
                 $pesan = strtr($pesan, [
                     '{Nama Kelompok}' => $pinkel->kelompok->nama_kelompok,
+                    '{Nama Nasabah}' => $pinkel->kelompok->ketua,
+                    '{Nama}' => $pinkel->kelompok->ketua,
                     '{Nama Desa}' => $pinkel->kelompok->d->sebutan_desa->sebutan_desa . ' ' . $pinkel->kelompok->d->nama_desa,
                     '{Angsuran Pokok}' => number_format($request->pokok),
                     '{Angsuran Jasa}' => number_format($request->jasa),
@@ -1356,10 +1359,13 @@ class TransaksiController extends Controller
                 $desa = $pinj_a->anggota->d->sebutan_desa->sebutan_desa . ' ' . $pinj_a->anggota->d->nama_desa;
 
                 $whatsapp = true;
+                $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
                 $pesan_wa = json_decode($kec->whatsapp, true);
                 $pesan = $pesan_wa['angsuran'];
                 $pesan = strtr($pesan, [
-                    '{Nama Kelompok}' => $pinj_a->anggota->namadepan,
+                    '{Nama Kelompok}' => '-',
+                    '{Nama Nasabah}' => $pinj_a->anggota->namadepan,
+                    '{Nama}' => $pinj_a->anggota->namadepan,
                     '{Nama Desa}' => $pinj_a->anggota->d->sebutan_desa->sebutan_desa . ' ' . $pinj_a->anggota->d->nama_desa,
                     '{Angsuran Pokok}' => number_format($request->pokok),
                     '{Angsuran Jasa}' => number_format($request->jasa),
@@ -1377,7 +1383,7 @@ class TransaksiController extends Controller
                 'tgl_transaksi' => $tgl_transaksi,
                 'whatsapp' => $whatsapp,
                 'number' => $pinj_a->anggota->hp,
-                'namadepan' => $pinj_a->anggota->namadepan,
+                'nama_kelompok' => $pinj_a->anggota->namadepan,
                 'pesan' => $pesan
             ]);
         } catch (\Exception $e) {
