@@ -1,3 +1,9 @@
+@php
+    $wa_session = null;
+    if (Session::has('lokasi')) {
+        $wa_session = \App\Models\Whatsapp::where('lokasi', Session::get('lokasi'))->first();
+    }
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,12 +37,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
-    {{-- ===================== THIRD-PARTY CSS ===================== --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" />
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pe7-icon@1.0.4/dist/dist/pe-icon-7-stroke.css">
+  <!-- jsTree -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+  <!-- Quill -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" />
+
+  <!-- Summernote -->
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
+  <!-- jQuery UI -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+
+  <!-- Flatpickr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <!-- Pe7 Icon -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pe7-icon@1.0.4/dist/dist/pe-icon-7-stroke.css">
 
     {{-- ===================== LOCAL CSS ===================== --}}
     <link rel="stylesheet" href="/assets/css/pace.css?v=1716515606">
@@ -567,8 +584,14 @@
     {{-- Select2 --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
-    {{-- Material Dashboard --}}
-    <script async src="/assets/js/material-dashboard.min.js?v=1716515606"></script>
+  <!-- Socket.io -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+
+  <!-- Flatpickr -->
+  <script src="/assets/js/plugins/flatpickr.min.js"></script>
+
+  <!-- Argon Dashboard JS -->
+  <script async src="/assets/js/material-dashboard.min.js?v=1716515606"></script>
 
     @yield('script')
     {{-- ===================== INLINE SCRIPTS ===================== --}}
@@ -844,9 +867,52 @@
             window.open('/pelaporan/ts');
         });
 
-        $('#btnLaporanMou').on('click', function (e) {
-            e.preventDefault();
-            window.open('/pelaporan/mou');
+    $('#btnLaporanMou').click(function(e) {
+        e.preventDefault();
+        window.open('/pelaporan/mou');
+    });
+
+
+        $(document).ready(function() {
+            const gatewayUrl = "{{ env('APP_API') }}";
+            const deviceId = "{{ $wa_session->device_id ?? '' }}";
+            const deviceKey = "{{ $wa_session->device_key ?? '' }}";
+
+            if (!gatewayUrl || !deviceId || !deviceKey) return;
+
+            const waSocket = io(gatewayUrl, {
+                query: {
+                    device_id: deviceId,
+                    api_key: deviceKey
+                },
+                transports: ['polling']
+            });
+
+            waSocket.on('message_sent', (res) => {
+                if (res.device_id === deviceId) {
+                    if (window.location.pathname.indexOf('/pengaturan/whatsapp') === -1) {
+                        Toastr('success', `WA: Pesan terkirim ke ${res.recipient}`);
+                    }
+                }
+            });
+
+            waSocket.on('message_failed', (res) => {
+                if (res.device_id === deviceId) {
+                    Toastr('error', `WA: Gagal ke ${res.recipient}: ${res.error}`);
+                }
+            });
+
+            waSocket.on('ready', (res) => {
+                if (window.location.pathname.indexOf('/pengaturan/whatsapp') !== -1) {
+                    MultiToast('success', `WhatsApp Aktif (${res.phone_number})`);
+                }
+            });
+
+            waSocket.on('status', (res) => {
+                if (res.status === 'disconnected' || res.status === 'close') {
+                    MultiToast('warning', `WhatsApp Terputus!`);
+                }
+            });
         });
     </script>
 

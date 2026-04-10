@@ -299,7 +299,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form action="/perguliran_i/dokumen?status=A" target="_blank" method="post"
-                                            id="formTagihan">
+                                            id="formCetakTagihan">
                                             @csrf
 
                                             <input type="hidden" name="id" id="tagihan_id">
@@ -331,7 +331,7 @@
                             <div class="tab-pane fade" id="tagihan" role="tabpanel" aria-labelledby="tagihan">
                                 <div class="card">
                                     <div class="card-body p-3">
-                                        <form action="/dashboard/tagihan" method="post" id="formTagihan">
+                                        <form action="/dashboard/tagihan" method="post" id="formTagihanWa">
                                             @csrf
 
                                             <div class="alert alert-info text-black">
@@ -339,33 +339,36 @@
                                                 Nasabah dapat menerima pesan Whatsapp.
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="input-group input-group-static mb-3">
-                                                        <label for="tgl_tagihan">Tgl Jatuh Tempo</label>
+                                            <div class="row mt-4">
+                                                <div class="col-md-5">
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label font-weight-bolder text-xs mb-1">TGL JATUH TEMPO</label>
                                                         <input autocomplete="off" type="text" name="tgl_tagihan"
-                                                            id="tgl_tagihan" class="form-control date pesan"
-                                                            value="{{ date('d/m/Y') }}">
+                                                            id="tgl_tagihan" class="form-control date pesan border p-2"
+                                                            style="height: 40px;" value="{{ date('d/m/Y') }}">
                                                         <small class="text-danger" id="msg_tgl_tagihan"></small>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="input-group input-group-static mb-3">
-                                                        <label for="tgl_pembayaran">Tgl Pembayaran</label>
+                                                <div class="col-md-5">
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label font-weight-bolder text-xs mb-1">TGL PEMBAYARAN</label>
                                                         <input autocomplete="off" type="text" name="tgl_pembayaran"
-                                                            id="tgl_pembayaran" class="form-control date pesan"
-                                                            value="{{ date('d/m/Y') }}">
+                                                            id="tgl_pembayaran" class="form-control date pesan border p-2"
+                                                            style="height: 40px;" value="{{ date('d/m/Y') }}">
                                                         <small class="text-danger" id="msg_tgl_pembayaran"></small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label mb-1">&nbsp;</label>
+                                                        <button type="submit" class="btn btn-dark w-100 mb-0"
+                                                            id="PreviewTagihan" style="height: 40px;">Preview</button>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <textarea class="form-control d-none" name="pesan_whatsapp" id="pesan_whatsapp"></textarea>
                                         </form>
-                                        <div class="d-flex justify-content-end">
-                                            <button type="button" id="CekTagihan" class="btn btn-secondary"
-                                                {{ strlen($user->hp) >= 11 ? '' : 'disabled' }}>Preview</button>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -585,6 +588,12 @@
 
 @section('script')
     <script>
+        $(document).ready(function() {
+            $(".date").flatpickr({
+                dateFormat: "d/m/Y"
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const triggerButton = document.getElementById('triggerPopup');
             if (triggerButton) {
@@ -639,7 +648,7 @@
             $.ajax({
                 url: '/dashboard/tagihan',
                 type: 'post',
-                data: $('#formTagihan').serialize(),
+                data: $('#formTagihanWa').serialize(),
                 success: function(result) {
                     if (result.success) {
                         $('#TbTagihan').html(result.tagihan)
@@ -649,7 +658,7 @@
             })
         }
 
-        $(document).on('click', '#CekTagihan', function(e) {
+        $(document).on('click', '#PreviewTagihan', function(e) {
             e.preventDefault()
 
             tagihan()
@@ -658,6 +667,27 @@
         $(document).on('click', '#closeTagihan', function() {
             $('#tagihanPinjaman').modal('hide')
             $('#jatuhTempo').modal('show')
+        })
+
+        $(document).on('click', '.btn-wa-nunggak', function(e) {
+            e.preventDefault()
+            var id = $(this).attr('data-id')
+
+            $.ajax({
+                url: '/dashboard/tagihan',
+                type: 'post',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: id
+                },
+                success: function(result) {
+                    if (result.success) {
+                        $('#TbTagihan').html(result.tagihan)
+                        $('#jatuhTempo').modal('hide')
+                        $('#tagihanPinjaman').modal('show')
+                    }
+                }
+            })
         })
 
         $.get('/dashboard/pinjaman?status=P', function(result) {
@@ -687,59 +717,48 @@
         $(document).on('click', '#KirimPesan', function(e) {
             e.preventDefault()
 
-            var form = $('#FormPemberitahuan')
-            var values = $('[data-input=checked]:checked').map(function(i) {
-                setTimeout(() => {
-                    var pesan = this.value
-                    var number = pesan.split('||')[0]
-                    var anggota = pesan.split('||')[1]
-                    var msg = pesan.split('||')[2]
+            var messages = [];
+            $('[data-input=checked]:checked').each(function() {
+                var pesan = this.value
+                var number = pesan.split('||')[0]
+                var anggota = pesan.split('||')[1]
+                var msg = pesan.split('||')[2]
 
-                    sendMsg(number, anggota, msg)
-                }, i * 1500);
-            }).get();
-        })
+                if (!number.startsWith('08') && !number.startsWith('628')) {
+                    number = '0' + number;
+                }
 
-        function sendMsg(number, nama, msg, repeat = 0) {
+                messages.push({
+                    to: number,
+                    message: msg
+                })
+
+                // Registrasi agar notifikasi muncul (Filter Sesi LKM)
+                if (typeof registerLkmMessage === 'function') {
+                    registerLkmMessage(number);
+                }
+            });
+
+            if (messages.length == 0) return;
+
             $.ajax({
-                type: 'post',
-                url: '{{ $api }}/send-text',
-                timeout: 0,
+                type: 'POST',
+                url: '{{ $api }}/api/send/personalized',
                 headers: {
-                    "Content-Type": "application/json"
+                    'x-api-key': '{{ $api_key }}'
                 },
-                xhrFields: {
-                    withCredentials: true
-                },
+                contentType: 'application/json',
                 data: JSON.stringify({
-                    token: "{{ auth()->user()->ip }}",
-                    number: number,
-                    text: msg
+                    device_id: "{{ $wa_device_id }}",
+                    messages: messages
                 }),
                 success: function(result) {
-                    if (result.status) {
-                        MultiToast('success', 'Pesan untuk anggota ' + nama + ' berhasil dikirim')
-                    } else {
-                        if (repeat < 1) {
-                            setTimeout(function() {
-                                sendMsg(number, nama, msg, repeat + 1)
-                            }, 1000)
-                        } else {
-                            MultiToast('error', 'Pesan untuk anggota ' + nama + ' gagal dikirim')
-                        }
-                    }
-                },
-                error: function(result) {
-                    if (repeat < 1) {
-                        setTimeout(function() {
-                            sendMsg(number, nama, msg, repeat + 1)
-                        }, 1000)
-                    } else {
-                        MultiToast('error', 'Pesan untuk anggota ' + nama + ' gagal dikirim')
+                    if (result.success) {
+                        Swal.fire('Berhasil', 'Pesan Berhasil Masuk Antrean', 'success')
                     }
                 }
             })
-        }
+        })
 
         $(document).on('click', '#btnjatuhTempo', function(e) {
             e.preventDefault()
@@ -785,7 +804,7 @@
             var id = $(this).attr('data-id')
             $('#tagihan_id').val(id)
 
-            $('#formTagihan').submit()
+            $('#formCetakTagihan').submit()
         })
 
         $(document).on('click', 'div.nav-wrapper div.d-flex button', function() {
@@ -811,35 +830,25 @@
 
     @if (Session::get('invoice'))
         <script>
-            function msgInvoice(number, msg, repeat = 0) {
+            function msgInvoice(number, msg) {
                 $.ajax({
-                    type: 'post',
-                    url: '{{ $api }}/send-text',
+                    type: 'POST',
+                    url: '{{ $api }}/api/send/text',
                     timeout: 0,
                     headers: {
-                        "Content-Type": "application/json"
-                    },
-                    xhrFields: {
-                        withCredentials: true
+                        "Content-Type": "application/json",
+                        "x-api-key": "{{ $api_key }}"
                     },
                     data: JSON.stringify({
-                        token: "33081920220815",
-                        number: number,
-                        text: msg
+                        device_id: "{{ $wa_device_id }}",
+                        to: number,
+                        message: msg
                     }),
                     success: function(result) {
-                        if (!result.status) {
-                            setTimeout(function() {
-                                msgInvoice(number, msg, repeat + 1)
-                            }, 1000)
-                        }
+                        // Success handling without retry
                     },
                     error: function(result) {
-                        if (repeat < 1) {
-                            setTimeout(function() {
-                                msgInvoice(number, msg, repeat + 1)
-                            }, 1000)
-                        }
+                        // Error handling without retry
                     }
                 })
             }

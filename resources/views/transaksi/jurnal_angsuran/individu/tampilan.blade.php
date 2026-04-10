@@ -494,43 +494,29 @@
             });
         })
 
-        function sendMsg(number, nama, msg, repeat = 0) {
+        function sendMsg(number, nama, msg) {
             $.ajax({
                 type: 'post',
-                url: '{{ $api }}/send-text',
+                url: '{{ $api }}/api/send/text',
                 timeout: 0,
                 headers: {
-                    "Content-Type": "application/json"
-                },
-                xhrFields: {
-                    withCredentials: true
+                    "Content-Type": "application/json",
+                    "x-api-key": "{{ $api_key }}"
                 },
                 data: JSON.stringify({
-                    token: "{{ auth()->user()->ip }}",
-                    number: number,
-                    text: msg
+                    device_id: "{{ $wa_device_id }}",
+                    to: number,
+                    message: msg
                 }),
                 success: function(result) {
-                    if (result.status) {
+                    if (result.status || result.success) {
                         MultiToast('success', 'Pesan untuk Nasabah ' + nama + ' berhasil dikirim')
-                    } else {
-                        if (repeat < 1) {
-                            setTimeout(function() {
-                                sendMsg(number, nama, msg, repeat + 1)
-                            }, 1000)
-                        } else {
-                            MultiToast('error', 'Pesan untuk Nasabah ' + nama + ' gagal dikirim')
-                        }
-                    }
-                },
-                error: function(result) {
-                    if (repeat < 1) {
-                        setTimeout(function() {
-                            sendMsg(number, nama, msg, repeat + 1)
-                        }, 1000)
                     } else {
                         MultiToast('error', 'Pesan untuk Nasabah ' + nama + ' gagal dikirim')
                     }
+                },
+                error: function(result) {
+                    MultiToast('error', 'Pesan untuk Nasabah ' + nama + ' gagal dikirim')
                 }
             })
         }

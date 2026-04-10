@@ -168,6 +168,8 @@ Route::put('/pengaturan/logo/{kec}', [SopController::class, 'logo'])->middleware
 Route::put('/pengaturan/calk/{kec}', [SopController::class, 'calk'])->middleware('auth', 'is_aktif');
 Route::put('/pengaturan/kustomisasi_calk/{kec}', [SopController::class, 'kustomisasiCalk'])->middleware('auth', 'is_aktif');
 
+Route::post('/pengaturan/whatsapp/save_device', [SopController::class, 'save_whatsapp_session'])->middleware('auth');
+Route::post('/pengaturan/whatsapp/delete_session', [SopController::class, 'delete_whatsapp_session'])->middleware('auth');
 Route::post('/pengaturan/whatsapp/{token}', [SopController::class, 'whatsapp'])->middleware('auth', 'is_aktif');
 
 Route::get('/pengaturan/invoice', [SopController::class, 'invoice'])->middleware('auth', 'is_aktif');

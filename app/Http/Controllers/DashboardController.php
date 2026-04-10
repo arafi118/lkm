@@ -131,7 +131,13 @@ class DashboardController extends Controller
             ->where('status', 'UNPAID')
             ->sum('jumlah');
 
-        $data['api'] = env('APP_API', 'https://api-whatsapp.siupk.net');
+        $data['api'] = env('APP_API', 'http://localhost:3000');
+        $data['api_key'] = env('APP_API_KEY');
+
+        $wa = \App\Models\Whatsapp::where('lokasi', Session::get('lokasi'))->first();
+        $data['wa_device_id'] = $wa->device_id ?? null;
+        $data['wa_device_key'] = $wa->device_key ?? null;
+
         $data['title'] = "Dashboard";
         $data['nama_lkm'] = $kec->nama_kec;
         return view('dashboard.index')->with($data);
@@ -543,7 +549,10 @@ class DashboardController extends Controller
                 $table .= '<td align="right">' . number_format($tunggakan_jasa) . '</td>';
                 $table .= '<td align="right">' . number_format($totaltunggakan_pokok_jasa) . '</td>';
                 $table .= '<td align="centar">' . $pinj_anggota->catatan_verifikasi . '</td>';
-                $table .= '<td align="centar"><button type="button" class="btn btn-sm btn-info btn-cetak-tagihan" data-id="' . $pinj_anggota->id . '"><i class="fas fa-file"></i></button></td>';
+                $table .= '<td align="centar">';
+                $table .= '<button type="button" class="btn btn-sm btn-info btn-cetak-tagihan me-1" data-id="' . $pinj_anggota->id . '"><i class="fas fa-file"></i></button>';
+                $table .= '<button type="button" class="btn btn-sm btn-success btn-wa-nunggak" data-id="' . $pinj_anggota->id . '" data-hp="' . $pinj_anggota->anggota->hp . '"><i class="fab fa-whatsapp"></i></button>';
+                $table .= '</td>';
                 $table .= '</tr>';
             }
         }
@@ -560,23 +569,34 @@ class DashboardController extends Controller
         $kec = Kecamatan::where('id', Session::get('lokasi'))->first();
         $pesan_wa = json_decode($kec->whatsapp, true);
 
-        $tanggal = Tanggal::tglNasional($request->tgl_tagihan);
-        $tgl_bayar = Tanggal::tglNasional($request->tgl_pembayaran);
+        $tgl_pilih = $request->tgl_tagihan ?? date('d/m/Y');
+        $tanggal = Tanggal::tglNasional($tgl_pilih);
+        $tgl_bayar = Tanggal::tglNasional($request->tgl_pembayaran ?? date('d/m/Y'));
         $pesan = $pesan_wa['tagihan'];
 
         $pesan = strtr($pesan, [
-            '{Tanggal Jatuh Tempo}' => $request->tgl_tagihan,
-            '{Tanggal Bayar}' => $request->tgl_pembayaran,
+            '{Tanggal Jatuh Tempo}' => $tgl_pilih,
+            '{Tanggal Bayar}' => $request->tgl_pembayaran ?? date('d/m/Y'),
+            '{Tanggal Angsuran}' => $request->tgl_pembayaran ?? date('d/m/Y'),
             '{User Login}' => auth()->user()->namadepan . ' ' . auth()->user()->namabelakang,
             '{Telpon}' => auth()->user()->hp
         ]);
 
-        $pinjaman = PinjamanAnggota::where('status', 'A')->whereDay('tgl_cair', date('d', strtotime($tanggal)))->with([
-            'target' => function ($query) use ($tanggal) {
-                $query->where([
-                    ['jatuh_tempo', $tanggal],
-                    ['angsuran_ke', '!=', '0']
-                ]);
+        $query = PinjamanAnggota::where('status', 'A');
+
+        if ($request->id) {
+            $query->where('id', $request->id);
+        } else {
+            // Cari semua anggota yang Cair di tanggal (hari) yang sama
+            $day = date('d', strtotime($tanggal));
+            $query->whereDay('tgl_cair', $day);
+        }
+
+        $pinjaman = $query->with([
+            'target', // Load target default
+            'rencana' => function ($q) use ($tanggal) {
+                // Load semua rencana up to selected date untuk kalkulasi manual jika target null
+                $q->where('jatuh_tempo', '<=', $tanggal)->where('angsuran_ke', '!=', '0')->orderBy('jatuh_tempo', 'DESC');
             },
             'saldo' => function ($query) use ($tanggal) {
                 $query->where('tgl_transaksi', '<=', $tanggal);
@@ -588,7 +608,7 @@ class DashboardController extends Controller
 
         return response()->json([
             'success' => true,
-            'tagihan' => view('dashboard.partials.tagihan')->with(compact('pinjaman', 'pesan'))->render()
+            'tagihan' => view('dashboard.partials.tagihan')->with(compact('pinjaman', 'pesan', 'tanggal'))->render()
         ]);
     }
 

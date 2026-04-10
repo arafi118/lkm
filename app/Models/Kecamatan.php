@@ -44,6 +44,11 @@ class Kecamatan extends Model
 
     public function saham()
     {
-        return $this->hasMany(Saham::class, 'lokasi','id');
+        return $this->hasMany(Saham::class, 'lokasi', 'id');
+    }
+
+    public function wa_session()
+    {
+        return $this->hasOne(Whatsapp::class, 'lokasi');
     }
 }
