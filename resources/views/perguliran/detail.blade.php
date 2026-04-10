@@ -63,22 +63,27 @@
                         <i class="pe-7s-users icon-gradient bg-sunny-morning"></i>
                     </div>
                     <div>
-                        <b>Kelompok {{ $perguliran->kelompok->nama_kelompok }} Loan ID. {{ $perguliran->id }}
-                            ({{ $perguliran->jpp->nama_jpp }})</b>
-                        <div class="page-title-subheading">
-                            <span class="badge mb-2 me-2 btn badge-light-blue">{{ $perguliran->kelompok->kd_kelompok }}</span>
-                            <span class="badge mb-2 me-2 btn badge-light-blue">{{ $perguliran->kelompok->alamat_kelompok }}</span>
-                            <span class="badge mb-2 me-2 btn badge-light-blue">
+                        <b style="color: #ffffff; font-size: 1.1rem; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">
+                            Kelompok {{ $perguliran->kelompok->nama_kelompok }} Loan ID. {{ $perguliran->id }}
+                            ({{ $perguliran->jpp->nama_jpp }})
+                        </b>
+                        <div class="page-title-subheading mt-1">
+                            <span style="display: inline-block; padding: 4px 10px; margin: 0 4px 4px 0; border-radius: 4px; background: rgba(0,229,255,0.2); color: #00e5ff; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px; text-shadow: none; border: 1px solid rgba(0,229,255,0.6);">
+                                {{ $perguliran->kelompok->kd_kelompok }}
+                            </span>
+                            <span style="display: inline-block; padding: 4px 10px; margin: 0 4px 4px 0; border-radius: 4px; background: rgba(0,229,255,0.2); color: #00e5ff; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px; text-shadow: none; border: 1px solid rgba(0,229,255,0.6);">
+                                {{ $perguliran->kelompok->alamat_kelompok }}
+                            </span>
+                            <span style="display: inline-block; padding: 4px 10px; margin: 0 4px 4px 0; border-radius: 4px; background: rgba(105,255,71,0.2); color: #69ff47; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px; text-shadow: none; border: 1px solid rgba(105,255,71,0.6);">
                                 {{ $perguliran->kelompok->d->sebutan_desa->sebutan_desa }}
                                 {{ $perguliran->kelompok->d->nama_desa }}
                             </span>
-                            <span class="badge mb-2 me-2 btn badge-light-blue">
-                                Anggota: {{ $perguliran->pinjaman_anggota_count }}
+                            <span style="display: inline-block; padding: 4px 10px; margin: 0 4px 4px 0; border-radius: 4px; background: rgba(105,255,71,0.2); color: #69ff47; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px; text-shadow: none; border: 1px solid rgba(105,255,71,0.6);">
+                                Anggota: {{ $perguliran->pinjaman_anggota_count ?? 0 }}
                             </span>
                         </div>
                     </div>
                 </div>
-
                 @if ($perguliran->status == 'P')
                     <div class="page-title-actions">
                         <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom"
