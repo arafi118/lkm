@@ -1,3 +1,9 @@
+@php
+    $wa_session = null;
+    if (Session::has('lokasi')) {
+        $wa_session = \App\Models\Whatsapp::where('lokasi', Session::get('lokasi'))->first();
+    }
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,6 +47,9 @@
 
   <!-- jQuery UI -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+
+  <!-- Flatpickr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <!-- Pe7 Icon -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pe7-icon@1.0.4/dist/dist/pe-icon-7-stroke.css">
@@ -539,7 +548,13 @@
   <!-- Select2 -->
   <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
-  <!-- Material Dashboard -->
+  <!-- Socket.io -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+
+  <!-- Flatpickr -->
+  <script src="/assets/js/plugins/flatpickr.min.js"></script>
+
+  <!-- Argon Dashboard JS -->
   <script async src="/assets/js/material-dashboard.min.js?v=1716515606"></script>
 
   @yield('script')
@@ -812,7 +827,50 @@
         e.preventDefault();
         window.open('/pelaporan/mou');
     });
-  </script>
+
+
+        $(document).ready(function() {
+            const gatewayUrl = "{{ env('APP_API') }}";
+            const deviceId = "{{ $wa_session->device_id ?? '' }}";
+            const deviceKey = "{{ $wa_session->device_key ?? '' }}";
+
+            if (!gatewayUrl || !deviceId || !deviceKey) return;
+
+            const waSocket = io(gatewayUrl, {
+                query: {
+                    device_id: deviceId,
+                    api_key: deviceKey
+                },
+                transports: ['polling']
+            });
+
+            waSocket.on('message_sent', (res) => {
+                if (res.device_id === deviceId) {
+                    if (window.location.pathname.indexOf('/pengaturan/whatsapp') === -1) {
+                        Toastr('success', `WA: Pesan terkirim ke ${res.recipient}`);
+                    }
+                }
+            });
+
+            waSocket.on('message_failed', (res) => {
+                if (res.device_id === deviceId) {
+                    Toastr('error', `WA: Gagal ke ${res.recipient}: ${res.error}`);
+                }
+            });
+
+            waSocket.on('ready', (res) => {
+                if (window.location.pathname.indexOf('/pengaturan/whatsapp') !== -1) {
+                    MultiToast('success', `WhatsApp Aktif (${res.phone_number})`);
+                }
+            });
+
+            waSocket.on('status', (res) => {
+                if (res.status === 'disconnected' || res.status === 'close') {
+                    MultiToast('warning', `WhatsApp Terputus!`);
+                }
+            });
+        });
+    </script>
 
   <script>
     // TinyMCE init

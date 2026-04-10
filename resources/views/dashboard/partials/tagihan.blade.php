@@ -21,31 +21,43 @@
             </thead>
             <tbody>
                 @foreach ($pinjaman as $pinj)
-                    @if ($pinj->target)
+                    @php
+                        $target = $pinj->rencana->last();
+                        if (!$target) $target = $pinj->target;
+
+                        $sum_pokok = $pinj->saldo->sum_pokok ?? 0;
+                        $sum_jasa = $pinj->saldo->sum_jasa ?? 0;
+
+                        $tp = ($target->target_pokok ?? 0) - $sum_pokok;
+                        $tj = ($target->target_jasa ?? 0) - $sum_jasa;
+                    @endphp
+
+                    @if ($target && ($tp > 0 || $tj > 0))
                         @php
-                            $nomor = $pinj->anggota->telpon;
+                            $nomor = $pinj->anggota->hp;
                             $desa = $pinj->anggota->d->sebutan_desa->sebutan_desa;
                             $desa .= ' ' . $pinj->anggota->d->nama_desa;
 
                             $value = $pesan;
                             $value = str_replace('{Nama Nasabah}', $pinj->anggota->namadepan, $value);
+                            $value = str_replace('{Nama Kelompok}', $pinj->anggota->namadepan, $value);
                             $value = str_replace('{Nama Desa}', $desa, $value);
-                            $value = str_replace('{Angsuran Pokok}', number_format($pinj->target->wajib_pokok), $value);
-                            $value = str_replace('{Angsuran Jasa}', number_format($pinj->target->wajib_jasa), $value);
+                            $value = str_replace('{Angsuran Pokok}', number_format($tp), $value);
+                            $value = str_replace('{Angsuran Jasa}', number_format($tj), $value);
                         @endphp
                         <tr>
                             <td>
                                 <div class="form-check text-center">
                                     <input class="form-check-input" type="checkbox"
-                                        value="{{ $nomor }}||{{ $pinj->anggota->nama_anggota }}||{{ $value }}"
+                                        value="{{ $nomor }}||{{ $pinj->anggota->namadepan }}||{{ $value }}"
                                         id="{{ $pinj->id }}" name="pinjaman[]" {!! strlen($nomor) >= 11 ? 'data-input="checked"' : 'disabled' !!}>
                                 </div>
                             </td>
                             <td>{{ $pinj->anggota->namadepan }} - {{ $pinj->id }}</td>
                             <td align="center">{{ Tanggal::tglIndo($pinj->tgl_cair) }}</td>
                             <td align="right">{{ number_format($pinj->alokasi, 2) }}</td>
-                            <td align="right">{{ number_format($pinj->target->wajib_pokok, 2) }}</td>
-                            <td align="right">{{ number_format($pinj->target->wajib_jasa, 2) }}</td>
+                            <td align="right">{{ number_format($tp, 2) }}</td>
+                            <td align="right">{{ number_format($tj, 2) }}</td>
                         </tr>
                     @endif
                 @endforeach

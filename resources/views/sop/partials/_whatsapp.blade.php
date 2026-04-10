@@ -25,7 +25,74 @@
             </div>
         </div>
     </div>
+
+    <div class="card shadow-none border mb-3">
+        <div class="card-body p-3">
+            <h6 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-3">Variabel yang Tersedia (Klik untuk Salin)</h6>
+            <div class="d-flex flex-wrap gap-2" style="gap: 8px;">
+                @php
+                    $placeholders = [
+                        '{Nama Nasabah}' => 'bg-gradient-primary',
+                        '{Nama Desa}' => 'bg-gradient-info',
+                        '{Angsuran Pokok}' => 'bg-gradient-success',
+                        '{Angsuran Jasa}' => 'bg-gradient-success',
+                        '{Tanggal Jatuh Tempo}' => 'bg-gradient-warning',
+                        '{Tanggal Bayar}' => 'bg-gradient-warning',
+                        '{User Login}' => 'bg-gradient-secondary',
+                        '{Telpon}' => 'bg-gradient-secondary'
+                    ];
+                @endphp
+                @foreach($placeholders as $tag => $color)
+                    <span class="badge {{ $color }} cursor-pointer" 
+                          onclick="copySakti('{{ $tag }}', this)"
+                          style="text-transform: none; font-size: 12px; transition: all 0.2s;">{{ $tag }}</span>
+                @endforeach
+            </div>
+        </div>
+    </div>
 </form>
+
+<script>
+    function copySakti(text, element) {
+        // Buat textarea asli, jangan disembunyikan terlalu jauh agar browser tidak curiga
+        var textArea = document.createElement("textarea");
+        textArea.value = text;
+        
+        // Letakkan di luar layar tapi tetap 'visible'
+        textArea.style.position = "absolute";
+        textArea.style.left = "-9999px";
+        textArea.style.top = document.documentElement.scrollTop + "px";
+        document.body.appendChild(textArea);
+        
+        textArea.focus();
+        textArea.select();
+        textArea.setSelectionRange(0, 99999); // Untuk mobile
+        
+        var berhasil = false;
+        try {
+            berhasil = document.execCommand('copy');
+        } catch (err) {
+            berhasil = false;
+        }
+        
+        if (berhasil) {
+            var $el = $(element);
+            var originalText = $el.text();
+            $el.text('Tersalin!');
+            $el.addClass('bg-gradient-dark');
+            
+            setTimeout(function() {
+                $el.text(originalText);
+                $el.removeClass('bg-gradient-dark');
+            }, 1000);
+        } else {
+            // Jika cara sakti gagal, tampilkan prompt manual sebagai pertolongan pertama
+            prompt("Gagal copy otomatis. Silakan copy manual dari sini:", text);
+        }
+        
+        document.body.removeChild(textArea);
+    }
+</script>
 
 <div class="d-flex justify-content-end">
     <button type="button" id="HapusWa" class="btn btn-sm btn-danger mb-0 me-2" style="display: none;">
