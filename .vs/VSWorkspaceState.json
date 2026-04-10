@@ -1,12 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app",
-    "\\app\\Http",
-    "\\app\\Models",
-    "\\resources",
-    "\\resources\\views",
-    "\\resources\\views\\dashboard"
+    "\\public"
   ],
   "PreviewInSolutionExplorer": false
 }

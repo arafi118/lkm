@@ -212,26 +212,26 @@
     <div class="app-main__inner">
         <div class="app-page-title">
             <div class="page-title-wrapper">
-                <div class="page-title-heading">
-                    <div class="page-title-icon">
-                        <i class="pe-7s-user icon-gradient bg-sunny-morning">
-                        </i>
-                    </div>
-                    <div>
-                        <b>Anggota {{ $perguliran_i->anggota->namadepan }} Loan ID. {{ $perguliran_i->id }}
-                            ({{ $perguliran_i->jpp->nama_jpp }})</b>
-                        <div class="page-title-subheading">
-                            <span class="badge mb-2 me-2 btn badge-light-blue">{{ $perguliran_i->anggota->nia }}</span>
-                            <span
-                                class="badge mb-2 me-2 btn badge-light-blue">{{ $perguliran_i->anggota->alamat_anggota }}</span>
-                            <span class="badge mb-2 me-2 btn badge-light-blue">
-                                {{ $perguliran_i->anggota->d->sebutan_desa->sebutan_desa }}
-                                {{ $perguliran_i->anggota->d->nama_desa }}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
+<div class="page-title-heading">
+    <div class="page-title-icon">
+        <i class="pe-7s-user icon-gradient bg-sunny-morning"></i>
+    </div>
+    <div>
+        <b style="color: #ffffff; font-size: 1.1rem; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">
+            {{ $perguliran_i->anggota->namadepan }} Loan ID. {{ $perguliran_i->id }}
+            ({{ $perguliran_i->jpp->nama_jpp }})
+        </b>
+        <div class="page-title-subheading mt-1">
+            <span style="display: inline-block; padding: 4px 10px; margin: 0 4px 4px 0; border-radius: 4px; background: rgba(0,229,255,0.2); color: #00e5ff; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px; text-shadow: none; border: 1px solid rgba(0,229,255,0.6);">
+                NIK: {{ $perguliran_i->anggota->nik }}
+            </span>
+            <span style="display: inline-block; padding: 4px 10px; margin: 0 4px 4px 0; border-radius: 4px; background: rgba(105,255,71,0.2); color: #69ff47; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px; text-shadow: none; border: 1px solid rgba(105,255,71,0.6);">
+                {{ $perguliran_i->anggota->d->sebutan_desa->sebutan_desa }}
+                {{ $perguliran_i->anggota->d->nama_desa }}
+            </span>
+        </div>
+    </div>
+</div>
                 @if ($perguliran_i->status == 'P')
                     <div class="page-title-actions">
                         <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom"

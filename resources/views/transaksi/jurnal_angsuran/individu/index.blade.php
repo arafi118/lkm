@@ -77,17 +77,25 @@
                                 </div>
                             </form>
 
-                            <div class="d-flex justify-content-end">
-                                <button type="button"class="btn btn-warning btn-sm me-3" style="color: white;">
-                                    Loan id
-                                    <span class="badge badge-info" id="loan-id" style="font-size: 16px;">
-                                    </span>
+                            <div class="d-flex justify-content-end align-items-center gap-2 mt-2">
+                                <button type="button" class="btn btn-warning btn-sm mb-0 d-flex align-items-center gap-2" style="color: white;">
+                                    <span>Loan id</span>
+                                    <span id="loan-id" style="
+                                        background: #FFB925;
+                                        color: white;
+                                        font-size: 13px;
+                                        font-weight: 700;
+                                        padding: 2px 8px;
+                                        border-radius: 4px;
+                                        line-height: 1.4;
+                                    "></span>
                                 </button>
-                                <button type="button" id="btnDetailIndividu" class="btn btn-info btn-sm me-3">
+                                <button type="button" id="btnDetailIndividu" class="btn btn-info btn-sm mb-0">
                                     Detail Pemanfaat
                                 </button>
-                                <button type="button" id="SimpanAngsuran"
-                                    class="btn btn-github btn-sm btn btn-sm btn-dark mb-0">Posting</button>
+                                <button type="button" id="SimpanAngsuran" class="btn btn-dark btn-sm mb-0">
+                                    Posting
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -574,4 +582,17 @@
             })
         }
     </script>
+@endsection
+
+
+@section('style')
+    <style>
+        #tujuan + .select2-container,
+        .select2-container--default .select2-selection--single {
+            width: 100% !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+        }
+    </style>
 @endsection
