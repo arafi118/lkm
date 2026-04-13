@@ -28,6 +28,7 @@
         @foreach ($akun1 as $lev1)
             @php
                 $sum_akun1 = 0;
+                $sum_akun1_saldo_awal = 0;
             @endphp
 
             <tr style="background: rgb(74, 74, 74); color: #fff;">
@@ -80,6 +81,7 @@
                         }
 
                         $sum_akun1 += $sum_total_saldo;
+                        $sum_akun1_saldo_awal += $sum_saldo_awal;
                     @endphp
 
                     <tr style="background: rgb(230, 230, 230);">
@@ -119,9 +121,14 @@
             @endforeach
 
             <tr style="background: rgb(167, 167, 167); font-weight: bold;">
-                <td height="15" colspan="3" align="left">
+                <td height="15" colspan="2" align="left">
                     <b>Jumlah {{ $lev1->nama_akun }}</b>
                 </td>
+                @if ($sum_akun1_saldo_awal < 0)
+                    <td align="right">({{ number_format($sum_akun1_saldo_awal * -1, 2) }})</td>
+                @else
+                    <td align="right">{{ number_format($sum_akun1_saldo_awal, 2) }}</td>
+                @endif
                 <td align="right">{{ number_format($sum_akun1, 2) }}</td>
             </tr>
             <tr>
