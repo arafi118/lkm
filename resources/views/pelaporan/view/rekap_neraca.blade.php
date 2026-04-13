@@ -79,7 +79,6 @@
                             $debit += $sum_total_saldo;
                         } else {
                             $kredit += $sum_total_saldo;
-                            $kredit_saldo_awal += $sum_akun1_saldo_awal;
                         }
 
                         $sum_akun1 += $sum_total_saldo;
@@ -136,6 +135,11 @@
             <tr>
                 <td colspan="3" height="1"></td>
             </tr>
+            @php
+                if ($lev1->lev1 != '1') {
+                    $kredit_saldo_awal += $sum_akun1_saldo_awal;
+                }
+            @endphp
         @endforeach
 
 
