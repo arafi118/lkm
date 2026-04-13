@@ -247,6 +247,7 @@
                                         $debit += $sum_total_saldo;
                                     } else {
                                         $kredit += $sum_total_saldo;
+                                        $kredit_saldo_awal += $sum_akun1_saldo_awal;
                                     }
 
                                     $sum_akun1 += $sum_total_saldo;
@@ -310,9 +311,14 @@
                     @endforeach
 
                     <tr style="background: rgb(167, 167, 167); font-weight: bold;">
-                        <td height="15" colspan="3" align="left">
+                        <td height="15" colspan="2" align="left">
                             <b>Jumlah Liabilitas + Ekuitas </b>
                         </td>
+                        @if ($kredit_saldo_awal < 0)
+                            <td align="right">({{ number_format($kredit_saldo_awal * -1, 2) }})</td>
+                        @else
+                            <td align="right">{{ number_format($kredit_saldo_awal, 2) }}</td>
+                        @endif
                         <td align="right">{{ number_format($kredit, 2) }}</td>
                     </tr>
                 </table>
