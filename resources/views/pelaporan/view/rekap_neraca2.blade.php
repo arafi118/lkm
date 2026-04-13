@@ -25,6 +25,7 @@
             <td colspan="4" height="1"></td>
         </tr>
 
+        @php $kredit_saldo_awal = 0; @endphp
         @foreach ($akun1 as $lev1)
             @php
                 $sum_akun1 = 0;
