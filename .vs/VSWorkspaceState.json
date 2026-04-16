@@ -1,11 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\app",
+    "\\app\\Http",
+    "\\app\\Http\\Controllers",
+    "\\app\\Http\\Controllers\\Rekap",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\perguliran",
-    "\\resources\\views\\transaksi"
+    "\\resources\\views\\pelaporan",
+    "\\resources\\views\\pelaporan\\view",
+    "\\resources\\views\\rekap"
   ],
-  "SelectedNode": "\\resources\\views\\perguliran\\detail.blade.php",
+  "SelectedNode": "\\resources\\views\\pelaporan\\view\\rekap_calk2.blade.php",
   "PreviewInSolutionExplorer": false
 }

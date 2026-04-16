@@ -2129,6 +2129,7 @@ class TransaksiController extends Controller
     public function detailAngsuranIndividu($id)
     {
         $nia = PinjamanIndividu::where('id', $id)->with([
+            'ra_i',
             'real_i',
             'real_i.trx',
             'anggota'

@@ -3,6 +3,7 @@
     $t_pokok = 0;
     $t_jasa = 0;
     $t_denda = 0;
+	$total_rencana_jasa = $nia->ra_i->sum('wajib_jasa');
 @endphp
 
 <table border="1" class="table table-striped midle">
@@ -26,7 +27,7 @@
             </td>
             <td align="right"><b>{{ number_format($nia->alokasi) }}</b></td>
             <td align="right"><b>{{ number_format($nia->alokasi) }}</b></td>
-            <td align="right"><b>{{ number_format(($nia->alokasi * $nia->pros_jasa) / 100) }}</b></td>
+            <td align="right"><b>{{ number_format($total_rencana_jasa) }}</b></td>
             <td align="right"><b>0</b></td>
             <td align="right">&nbsp;</td>
         </tr>
