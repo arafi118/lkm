@@ -6,11 +6,9 @@
     "\\app\\Http\\Controllers",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\pelaporan\\view",
     "\\resources\\views\\perguliran_i",
     "\\resources\\views\\perguliran_i\\dokumen",
     "\\resources\\views\\rekap"
   ],
-  "SelectedNode": "\\resources\\views\\perguliran_i\\dokumen\\rencana_angsuran.blade.php",
   "PreviewInSolutionExplorer": false
 }

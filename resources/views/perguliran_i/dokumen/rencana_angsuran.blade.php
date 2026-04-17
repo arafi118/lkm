@@ -28,8 +28,8 @@
 
     $saldo_pokok = $alokasi;
     $alokasi_pinjaman = $alokasi;
-    $saldo_jasa = $keuangan->pembulatan(($saldo_pokok * $pinkel->pros_jasa) / 100);
-
+    
+	$saldo_jasa = $rencana->sum('wajib_jasa');
     $sum_pokok = 0;
     $sum_jasa = 0;
 
