@@ -4,13 +4,13 @@
     "\\app",
     "\\app\\Http",
     "\\app\\Http\\Controllers",
-    "\\app\\Http\\Controllers\\Rekap",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\pelaporan",
     "\\resources\\views\\pelaporan\\view",
+    "\\resources\\views\\perguliran_i",
+    "\\resources\\views\\perguliran_i\\dokumen",
     "\\resources\\views\\rekap"
   ],
-  "SelectedNode": "\\resources\\views\\pelaporan\\view\\rekap_calk2.blade.php",
+  "SelectedNode": "\\resources\\views\\perguliran_i\\dokumen\\rencana_angsuran.blade.php",
   "PreviewInSolutionExplorer": false
 }

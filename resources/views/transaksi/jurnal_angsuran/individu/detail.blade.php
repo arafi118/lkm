@@ -130,7 +130,7 @@
             </td>
             <td align="right"><b>{{ number_format($nia->alokasi) }}</b></td>
             <td align="right"><b>{{ number_format($nia->alokasi - $t_pokok) }}</b></td>
-            <td align="right"><b>{{ number_format(($nia->alokasi * $nia->pros_jasa) / 100 - $t_jasa) }}</b></td>
+            <td align="right"><b>{{ number_format(($total_rencana_jasa) - $t_jasa) }}</b></td>
             <td align="right"><b>{{ number_format($t_denda) }}</b></td>
             <td>&nbsp;</td>
         </tr>
