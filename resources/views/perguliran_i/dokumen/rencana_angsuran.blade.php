@@ -29,7 +29,9 @@
     $saldo_pokok = $alokasi;
     $alokasi_pinjaman = $alokasi;
     
-	$saldo_jasa = $rencana->sum('wajib_jasa');
+    $saldo_jasa = is_array($rencana)
+        ? array_sum(array_column($rencana, 'wajib_jasa'))
+        : $rencana->sum('wajib_jasa');
     $sum_pokok = 0;
     $sum_jasa = 0;
 
