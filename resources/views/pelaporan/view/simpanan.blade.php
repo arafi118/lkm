@@ -77,7 +77,7 @@
                             <td class="t l b" colspan="6" align="left" height="15">
                                 Jumlah {{ $nama_desa }}
                             </td>
-                            <td class="t l b" align="center">{{ number_format($j_debit) }}</td>
+                            <td class="t l b" align="right">{{ number_format($j_debit) }}</td>
                             <td class="t l b" align="right">{{ number_format($j_kredit) }}</td>
                             <td class="t l b r" align="right">{{ number_format($j_saldo) }}</td>
                         </tr>
@@ -198,7 +198,6 @@
                     $t_debit += $j_debit;
                     $t_kredit += $j_kredit;
                     $t_saldo += $j_saldo;
-
             @endphp
             @if (count($kd_desa) > 0)
                 <tr style="font-weight: bold;">
@@ -209,38 +208,34 @@
                     <td class="t l b" align="right">{{ number_format($j_kredit) }}</td>
                     <td class="t l b r" align="right">{{ number_format($j_saldo) }}</td>
                 </tr>
-
-                @php
-                    $tl_debit = 0;
-                    $tl_kredit = 0;
-                    $tl_saldo = 0;
-
-
-                @endphp
-
-                <tr>
-                    <td colspan="9" style="padding: 0px !important;">
-                        <table class="p" border="0" width="100%" cellspacing="0" cellpadding="0"
-                            style="font-size: 8px; table-layout: fixed;">
-                            <tr style="background: rgb(230, 230, 230); font-weight: bold;">
-                                <td class="t l b" align="center" height="15">
-                                    J U M L A H
-                                </td>
-								<td class="t l b" align="right">{{ number_format($t_debit) }}</td>
-								<td class="t l b" align="right">{{ number_format($t_kredit) }}</td>
-								<td class="t l b r" align="right">{{ number_format($t_saldo) }}</td>
-                            </tr>
-
-                            <tr>
-                                <td colspan="14">
-                                    <div style="margin-top: 16px;"></div>
-                                    {!! json_decode(str_replace('{tanggal}', $tanggal_kondisi, $kec->ttd->tanda_tangan_pelaporan), true) !!}
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
             @endif
         </table>
+        @if (count($kd_desa) > 0)
+        <div style="page-break-inside: avoid; margin-top: 0;">
+            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 8px; table-layout: fixed;">
+                <tr style="background: rgb(230, 230, 230); font-weight: bold;">
+                    <td class="t l b" colspan="6" align="center" height="15">
+                        J U M L A H
+                    </td>
+                    <td class="t l b" align="center">{{ number_format($t_debit) }}</td>
+                    <td class="t l b" align="center">{{ number_format($t_kredit) }}</td>
+                    <td class="t l b r" align="center">{{ number_format($t_saldo) }}</td>
+                </tr>
+                <tr>
+                    <td class="b" align="center" width="5%"></td>
+                    <td class="b" align="center" width="13%"></td>
+                    <td class="b" align="center" width="13%"></td>
+                    <td class="b" align="center" width="13%"></td>
+                    <td class="b" align="center" width="13%"></td>
+                    <td class="b" align="center" width="13%"></td>
+                    <td class="b" align="center" width="10%"></td>
+                    <td class="b" align="center" width="10%"></td>
+                    <td class="b" align="center" width="10%"></td>
+                </tr>
+            </table>
+            <div style="margin-top: 16px;"></div>
+            {!! json_decode(str_replace('{tanggal}', $tanggal_kondisi, $kec->ttd->tanda_tangan_pelaporan), true) !!}
+        </div>
+        @endif
     @endforeach
 @endsection
