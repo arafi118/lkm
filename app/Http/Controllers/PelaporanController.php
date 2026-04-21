@@ -414,10 +414,13 @@ class PelaporanController extends Controller
 
         $data['debit'] = 0;
         $data['kredit'] = 0;
+        $batasId = RekeningOjk::where('parent_id', '0')
+                               ->where('rekening', 'lr')
+                               ->min('id') - 1;
 
         $data['rekening_ojk'] = RekeningOjk::where([
             ['parent_id', '0'],
-            ['id', '<=', '73']
+            ['id', '<=', $batasId]  
         ])->with([
             'child',
             'child.rek.kom_saldo' => function ($query) use ($data) {
@@ -430,7 +433,6 @@ class PelaporanController extends Controller
                     $query->where('bulan', '0')->orwhere('bulan', $data['bulan'])->orwhere('bulan', ($data['bulan'] - 1));
                 });
             },
-
             'child.child',
             'child.child.rek.kom_saldo' => function ($query) use ($data) {
                 $query->where('tahun', $data['tahun'])->where(function ($query) use ($data) {
@@ -513,20 +515,6 @@ class PelaporanController extends Controller
                 });
             },
         ])->get();
-
-        // foreach ($rekening_ojk as $ojk) {
-        //     if ($ojk->child) {
-        //         foreach ($ojk->child as $child) {
-        //             if (strlen($child->rekening) >= 7) {
-        //                 dd($ojk);
-        //             } else {
-        //                 foreach ($child->child as $sub_child) {
-        //                     dd($ojk);
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
 
         $data['keuangan'] = $keuangan;
         $data['laporan'] = 'Laba Rugi';
