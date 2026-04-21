@@ -6,9 +6,9 @@
     "\\app\\Http\\Controllers",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\perguliran_i",
-    "\\resources\\views\\perguliran_i\\dokumen",
-    "\\resources\\views\\rekap"
+    "\\resources\\views\\simpanan",
+    "\\resources\\views\\simpanan\\partials"
   ],
+  "SelectedNode": "\\app\\Http\\Controllers\\SimpananController.php",
   "PreviewInSolutionExplorer": false
 }
