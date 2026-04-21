@@ -467,39 +467,40 @@ class PelaporanController extends Controller
         $hari = $data['hari'];
 
         $tgl = $thn . '-' . $bln . '-' . $hari;
-        $data['judul'] = 'Formulir Rincian Simpanan OJK';
+        $data['judul'] = 'Laporan Keuangan';
         $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
         $data['tgl'] = Tanggal::tglLatin($tgl);
 
         if ($data['bulanan']) {
-            $data['judul'] = 'Formulir Rincian Simpanan OJK';
+            $data['judul'] = 'Laporan Keuangan';
             $data['sub_judul'] = date('t', strtotime($tgl)) . ' Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
         }
-
+        $data['kec'] = Kecamatan::find(Session::get('lokasi'));
         $data['jenis_simpanan'] = JenisSimpanan::with([
             'simpanan' => function ($query) use ($data) {
                 $tb_anggota = 'anggota_' . Session::get('lokasi');
                 $tb_simpanan = 'simpanan_anggota_' . Session::get('lokasi');
 
-                $query->select(
-                    $tb_simpanan . '.*',
-                    $tb_anggota . '.namadepan',
-                    $tb_anggota . '.nik'
-                )
-                    ->join($tb_anggota, $tb_simpanan . '.nia', '=', $tb_anggota . '.id')
+                $query->select($tb_simpanan . '.*', $tb_anggota . '.namadepan', $tb_anggota . '.nik')
+                    ->join($tb_anggota, $tb_simpanan . '.nia', $tb_anggota . '.id')
                     ->where('tgl_buka', '<=', $data['tgl_kondisi'])
-                    ->where(function ($q) use ($data) {
-                        $q->whereColumn('tgl_buka', 'tgl_tutup')
-                            ->orWhere('tgl_tutup', '>', $data['tgl_kondisi']);
+                    ->where(function ($query) use ($data) {
+                        $query->whereRaw('tgl_buka = tgl_tutup')
+                              ->orwhere('tgl_tutup', '>', $data['tgl_kondisi']);
                     });
+            },
+            // Tambahan: eager load relasi realSimpananTerbesar untuk saldo akhir
+            'simpanan.realSimpananTerbesar' => function ($query) use ($data) {
+                $query->where('tgl_transaksi', '<=', $data['tgl_kondisi'])
+                      ->orderBy('id', 'desc');
+            },
+            'simpanan.trx' => function ($query) use ($data) {
+                $query->where('tgl_transaksi', '<=', $data['tgl_kondisi'])->where(function ($query) {
+                    $query->where('rekening_debit', 'LIKE', '2.2%')
+                        ->orwhere('rekening_kredit', 'LIKE', '2.2%');
+                });
             }
-        ])
-            ->where(function ($q) {
-                $lokasi = Session::get('lokasi');
-                $q->where('kecuali', 'NOT LIKE', $lokasi . '#%')
-                    ->where('kecuali', 'NOT LIKE', '%#' . $lokasi);
-            })
-            ->get();
+        ])->where('kecuali', 'NOT LIKE', Session::get('lokasi') . '#%')->orwhere('kecuali', 'NOT LIKE', '%#' . Session::get('lokasi'))->get();
 
         $data['laporan'] = 'Rincian Tabungan';
         $view = view('pelaporan.view.ojk.fd_rincian_simpanan', $data)->render();
@@ -507,12 +508,13 @@ class PelaporanController extends Controller
         if ($data['type'] == 'pdf') {
             $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
 
-            $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'portrait');
+            $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
         } else {
             return $view;
         }
     }
+
     private function LRL(array $data)
     {
         $keuangan = new Keuangan;
