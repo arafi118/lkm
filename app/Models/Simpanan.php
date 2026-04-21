@@ -31,7 +31,7 @@ class Simpanan extends Model
     
     public function realSimpananTerbesar()
     {
-        return $this->hasOne(RealSimpanan::class, 'cif', 'id')->latestOfMany();
+        return $this->hasOne(RealSimpanan::class, 'cif', 'id')->orderBy('id', 'desc');
     }
 
     public function anggota()
