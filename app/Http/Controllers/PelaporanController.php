@@ -467,12 +467,12 @@ class PelaporanController extends Controller
         $hari = $data['hari'];
 
         $tgl = $thn . '-' . $bln . '-' . $hari;
-        $data['judul'] = 'Laporan Keuangan';
+        $data['judul'] = 'Formulir Rincian Simpanan OJK';
         $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
         $data['tgl'] = Tanggal::tglLatin($tgl);
 
         if ($data['bulanan']) {
-            $data['judul'] = 'Laporan Keuangan';
+            $data['judul'] = 'Formulir Rincian Simpanan OJK';
             $data['sub_judul'] = date('t', strtotime($tgl)) . ' Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
         }
 
@@ -481,19 +481,26 @@ class PelaporanController extends Controller
                 $tb_anggota = 'anggota_' . Session::get('lokasi');
                 $tb_simpanan = 'simpanan_anggota_' . Session::get('lokasi');
 
-                $query->select($tb_simpanan . '.*', $tb_anggota . '.namadepan', $tb_anggota . '.nik')
-                    ->join($tb_anggota, $tb_simpanan . '.nia', $tb_anggota . '.id')
-                    ->where('tgl_buka', '<=', $data['tgl_kondisi'],)->where(function ($query) use ($data) {
-                        $query->whereRaw('tgl_buka = tgl_tutup')->orwhere('tgl_tutup', '>', $data['tgl_kondisi']);
+                $query->select(
+                    $tb_simpanan . '.*',
+                    $tb_anggota . '.namadepan',
+                    $tb_anggota . '.nik'
+                )
+                    ->join($tb_anggota, $tb_simpanan . '.nia', '=', $tb_anggota . '.id')
+                    ->where('tgl_buka', '<=', $data['tgl_kondisi'])
+                    ->where(function ($q) use ($data) {
+                        $q->whereColumn('tgl_buka', 'tgl_tutup')
+                            ->orWhere('tgl_tutup', '>', $data['tgl_kondisi']);
                     });
-            },
-            'simpanan.trx' => function ($query) use ($data) {
-                $query->where('tgl_transaksi', '<=', $data['tgl_kondisi'])->where(function ($query) {
-                    $query->where('rekening_debit', 'LIKE', '2.2%')
-                        ->orwhere('rekening_kredit', 'LIKE', '2.2%');
-                });
             }
-        ])->where('kecuali', 'NOT LIKE', Session::get('lokasi') . '#%')->orwhere('kecuali', 'NOT LIKE', '%#' . Session::get('lokasi'))->get();
+        ])
+            ->where(function ($q) {
+                $lokasi = Session::get('lokasi');
+                $q->where('kecuali', 'NOT LIKE', $lokasi . '#%')
+                    ->where('kecuali', 'NOT LIKE', '%#' . $lokasi);
+            })
+            ->get();
+
         $data['laporan'] = 'Rincian Tabungan';
         $view = view('pelaporan.view.ojk.fd_rincian_simpanan', $data)->render();
 

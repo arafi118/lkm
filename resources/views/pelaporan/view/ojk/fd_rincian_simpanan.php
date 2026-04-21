@@ -1,191 +1,158 @@
-@php
-use App\Utils\Keuangan;
-$keuangan = new Keuangan();
-$section = 0;
-$empty = false;
-@endphp
+<!DOCTYPE html>
+<html>
 
-@extends('pelaporan.layout.base')
+<head>
+    <title>Daftar Rincian Tabungan</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11px;
+        }
 
-@section('content')
-<style type="text/css">
-    .style6 {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 16px;
-        font-weight: bold;
-        -webkit-print-color-adjust: exact;
-    }
+        table {
+            border-collapse: collapse;
+        }
 
-    .style9 {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 11px;
-        -webkit-print-color-adjust: exact;
-    }
+        .center {
+            text-align: center;
+        }
 
-    .style10 {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 10px;
-        -webkit-print-color-adjust: exact;
-    }
+        .right {
+            text-align: right;
+        }
 
-    .top {
-        border-top: 1px solid #000000;
-    }
+        .left {
+            text-align: left;
+        }
 
-    .bottom {
-        border-bottom: 1px solid #000000;
-    }
+        .border {
+            border: 1px solid black;
+        }
 
-    .left {
-        border-left: 1px solid #000000;
-    }
+        .header {
+            font-size: 16px;
+            font-weight: bold;
+        }
 
-    .right {
-        border-right: 1px solid #000000;
-    }
+        .ttd {
+            margin-top: 50px;
+        }
+    </style>
+</head>
 
-    .all {
-        border: 1px solid #000000;
-    }
+<body>
+    <table width="95%" align="center">
+        <tr>
+            <td class="center header">
+                DAFTAR RINCIAN TABUNGAN
+            </td>
+        </tr>
+    </table>
 
-    .style26 {
-        font-family: Arial, Helvetica, sans-serif
-    }
+    <br>
 
-    .style27 {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 11px;
-        font-weight: bold;
-    }
+    <!-- INFORMASI -->
+    <table width="95%" align="center">
+        <tr>
+            <td width="20%">NAMA LKM</td>
+            <td width="80%">: LKM CONTOH</td>
+        </tr>
+        <tr>
+            <td>SANDI LKM</td>
+            <td>: 123456</td>
+        </tr>
+        <tr>
+            <td>PERIODE LAPORAN</td>
+            <td>: 31 DESEMBER 2026</td>
+        </tr>
+    </table>
 
-    .align-justify {
-        text-align: justify;
-    }
+    <br>
 
-    .align-center {
-        text-align: center;
-    }
+    <!-- TABEL UTAMA -->
+    <table width="95%" align="center">
+        <thead>
+            <tr>
+                <th class="border center">NO</th>
+                <th class="border center">NAMA ANGGOTA</th>
+                <th class="border center">JENIS ANGGOTA</th>
+                <th class="border center">NIA</th>
+                <th class="border center">NIK</th>
+                <th class="border center">JENIS SIMPANAN</th>
+                <th class="border center">SALDO AKHIR</th>
+                <th class="border center">TGL BUKA</th>
+                <th class="border center">TGL TUTUP</th>
+                <th class="border center">BUNGA (%)</th>
+                <th class="border center">BUNGA (%)</th>
+                <th class="border center">KETERANGAN</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php
+            $no = 1;
+            $total = 0;
+            @endphp
 
-    .align-right {
-        text-align: right;
-    }
-</style>
+            @foreach($jenis_simpanan as $jenis)
+            @foreach($jenis->simpanan as $simpanan)
+            @php
+            $jumlah = $simpanan->saldo ?? 0; // sesuaikan field saldo kamu
+            $total += $jumlah;
+            @endphp
+            <tr>
+                <td class="border center">{{ $no++ }}</td>
+                <td class="border">{{ $simpanan->namadepan }}</td>
+                <td class="border center">Individu</td>
+                <td class="border center">{{ $simpanan->nia }}</td>
+                <td class="border center">{{ $simpanan->nik }}</td>
+                <td class="border center">{{ $jenis->nama }}</td>
+                <td class="border right">{{ number_format($jumlah, 0, ',', '.') }}</td>
+                <td class="border center">
+                    {{ date('d-m-Y', strtotime($simpanan->tgl_buka)) }}
+                </td>
+                <td class="border center">
+                    {{ $simpanan->tgl_tutup ? date('d-m-Y', strtotime($simpanan->tgl_tutup)) : '-' }}
+                </td>
+                <td class="border center">
+                    {{ $simpanan->bunga ?? '0' }}%
+                </td>
+                <td class="border center">
+                    {{ $simpanan->bunga ?? '0' }}%
+                </td>
+                <td class="border">
+                    {{ $simpanan->keterangan ?? '-' }}
+                </td>
+            </tr>
+            @endforeach
+            @endforeach
 
-@php
-$jumlah_aktif = 0;
-@endphp
+            <!-- TOTAL -->
+            <tr>
+                <td colspan="6" class="border center"><b>JUMLAH</b></td>
+                <td class="border right">
+                    <b>{{ number_format($total, 0, ',', '.') }}</b>
+                </td>
+                <td colspan="5" class="border"></td>
+            </tr>
+        </tbody>
+    </table>
 
-@foreach ($jenis_simpanan as $js)
-@php
-$jumlah_aktif_per_jenis = 0;
-$nomor = 1;
-@endphp
+    <br><br>
 
-@if ($js->nama_js != 'Simpanan Umum')
-<div class="break"></div>
-@endif
+    <!-- TANDA TANGAN -->
+    <table width="95%" align="center">
+        <tr>
+            <td width="60%"></td>
+            <td class="center">
+                Sruweng, 31 DESEMBER 2026
+                <br><br>
+                Direktur Utama
+                <br><br><br><br>
+                <b>Wati Kusuma, SE, MSi, Ak, CA</b>
+            </td>
+        </tr>
+    </table>
 
-<table width="90%" border="0" align="center" cellpadding="3" cellspacing="0">
+</body>
 
-    <tr>
-        <td height="20" colspan="3" class="bottom">
-
-        </td>
-        <td height="20" colspan="3" class="bottom">
-
-        </td>
-    </tr>
-
-    <tr>
-        <td height="20" colspan="6" class="style6 bottom align-center"><br>DAFTAR RINCIAN TABUNGAN <br><br>
-        </td>
-    </tr>
-</table>
-<table width="90%" border="0" align="center" cellpadding="3" cellspacing="0">
-    <tr>
-        <td width="20%" class="style9">NAMA LKM</td>
-        <td width="70%" class="style9">:{{ $kec->nama_lembaga_long }}</td>
-    </tr>
-    <tr>
-        <td width="20%" class="style9">SANDI LKM</td>
-        <td width="70%" class="style9">:{{ $kec->sandi_lkm }}</td>
-    </tr>
-    <tr>
-        <td width="20%" class="style9 bottom">PERIODE LAPORAN</td>
-        <td width="70%" class="style9 bottom">:{{ $tgl }}</td>
-    </tr>
-</table>
-<table width="90%" border="0" align="center" cellpadding="3" cellspacing="0">
-    <tr align="center" height="30px" class="style9 ">
-        <th width="6%" rowspan="2" class="left bottom">No</th>
-        <th width="10%" rowspan="2" colspan="2" class="left bottom">Nama Penyimpan - CIF</a></th>
-        <th width="20%" colspan="2" class="left bottom">Suku Bunga</a></th>
-        <th width="20%" rowspan="2" class="left bottom right">Jumlah </a></th>
-
-    </tr>
-
-    <tr align="center" height="30px" class="style9">
-        <th width="5%" class="left bottom">%</th>
-        <th width="10%" class="left bottom">Keterangan</th>
-
-    </tr>
-    @php
-    $total_saldo = 0; // Variabel untuk menyimpan total saldo
-    @endphp
-
-    @foreach ($js->simpanan as $simp)
-    @php
-    $jumlah_aktif += 1;
-    $jumlah_aktif_per_jenis += 1;
-    $tgl_buka = explode('-', $simp->tgl_buka);
-    $tgl1 = new DateTime($simp->tgl_tutup);
-    $tgl2 = new DateTime($simp->tgl_buka);
-    $selisih = $tgl2->diff($tgl1);
-
-    $tgl1 = Tanggal::tglIndo($simp->tgl_tutup);
-    $tgl2 = Tanggal::tglIndo($simp->tgl_buka);
-    $y12 = date('Y')-1;
-
-    $sum_saldo = 0;
-    foreach ($simp->trx as $trx) {
-    if ($trx->rekening_kredit == '2.1.04.01' || $trx->rekening_kredit == '2.1.04.01') {
-    $sum_saldo -= $trx->jumlah;
-    }
-    else {
-    $sum_saldo += $trx->jumlah;
-    }
-    }
-
-    // Tambahkan saldo ke total saldo
-    $total_saldo += $sum_saldo;
-    @endphp
-    <tr align="right" height="15px" class="style9">
-        <td class="left top" align="center">{{ $nomor++ }}</td>
-        <td colspan="2" class="left top" align="left">
-            {{ $simp->namadepan }} - {{ $simp->id }}
-        </td>
-        <td class="left top" align="center">{{ $simp ? $simp->bunga : '0' }}</td>
-        <td width="20%" class="left top" align="left">Per Bulan</td>
-        <td class="left top" align="center" style="border: 1px solid;">{{ number_format($sum_saldo, 2) }}</td>
-    </tr>
-    @endforeach
-
-    <tr class="style9">
-        <th colspan="5" class="left bottom top" align="center" style="background:rgba(0,0,0, 0.3);">JUMLAH SALDO</th>
-        <th class="left right bottom top" align="center">{{ number_format($total_saldo, 2) }}</th>
-    </tr>
-
-    <tr class="style9">
-        <th colspan="5" class="bottom" align="center">&nbsp;</th>
-        <th class="bottom" align="right">&nbsp;</th>
-    </tr>
-    <tr>
-        <td class="style10 top" colspan="6"><b>Keterangan</b> : Data yang ditampilkan diatas merupakan
-            Tabungan pada tahun berjalan {{$tahun}} untuk menampilkan data Individu aktif tahun lalu
-            dapat memilih mode tahun lalu {{$y12}}</td>
-    </tr>
-
-</table>
-@endforeach
-
-@endsection
+</html>
