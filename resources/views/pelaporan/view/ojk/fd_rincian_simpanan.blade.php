@@ -45,15 +45,15 @@
             font-size: 11px;
         }
 
-        tbody td {
+        #tabel-utama tbody td {
             padding: 5px 10px;
         }
 
-        tbody tr:nth-child(even) {
+        #tabel-utama tbody tr:nth-child(even) {
             background-color: #fafafa;
         }
 
-        tfoot td {
+        #tabel-utama tfoot td {
             padding: 5px 10px;
         }
 
@@ -62,6 +62,7 @@
             font-weight: bold;
             padding: 6px 10px;
         }
+
     </style>
 </head>
 
@@ -93,7 +94,7 @@
 
     <br>
 
-    <table width="95%" align="center">
+    <table id="tabel-utama" width="95%" align="center">
         <thead>
             <tr>
                 <th class="border center">No</th>
@@ -129,7 +130,7 @@
                     @if($nama_desa !== $desa_sekarang)
                         @php $desa_sekarang = $nama_desa; @endphp
                         <tr class="row-desa">
-                            <td colspan="12" class="border">{{$simpanan->kode_desa}} {{ $nama_desa }}</td>
+                            <td colspan="12" class="border">{{ $nama_desa }}</td>
                         </tr>
                     @endif
 
