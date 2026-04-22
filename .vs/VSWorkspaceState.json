@@ -2,13 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\app",
-    "\\app\\Http",
-    "\\app\\Http\\Controllers",
+    "\\app\\Models",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\simpanan",
-    "\\resources\\views\\simpanan\\partials"
+    "\\resources\\views\\pelaporan",
+    "\\resources\\views\\pelaporan\\partials",
+    "\\resources\\views\\pelaporan\\view",
+    "\\resources\\views\\pelaporan\\view\\ojk"
   ],
-  "SelectedNode": "\\app\\Http\\Controllers\\SimpananController.php",
   "PreviewInSolutionExplorer": false
 }

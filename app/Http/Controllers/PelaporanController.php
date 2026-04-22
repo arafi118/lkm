@@ -475,39 +475,76 @@ class PelaporanController extends Controller
             $data['judul'] = 'Laporan Keuangan';
             $data['sub_judul'] = date('t', strtotime($tgl)) . ' Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
         }
-        $data['kec'] = Kecamatan::find(Session::get('lokasi'));
-        $data['jenis_simpanan'] = JenisSimpanan::with([
-            'simpanan' => function ($query) use ($data) {
-                $tb_anggota = 'anggota_' . Session::get('lokasi');
-                $tb_simpanan = 'simpanan_anggota_' . Session::get('lokasi');
 
-                $query->select($tb_simpanan . '.*', $tb_anggota . '.namadepan', $tb_anggota . '.nik')
-                    ->join($tb_anggota, $tb_simpanan . '.nia', $tb_anggota . '.id')
-                    ->where('tgl_buka', '<=', $data['tgl_kondisi'])
-                    ->where(function ($query) use ($data) {
-                        $query->whereRaw('tgl_buka = tgl_tutup')
-                              ->orwhere('tgl_tutup', '>', $data['tgl_kondisi']);
-                    });
-            },
-            // Tambahan: eager load relasi realSimpananTerbesar untuk saldo akhir
-            'simpanan.realSimpananTerbesar' => function ($query) use ($data) {
-                $query->where('tgl_transaksi', '<=', $data['tgl_kondisi'])
-                      ->orderBy('id', 'desc');
-            },
-            'simpanan.trx' => function ($query) use ($data) {
-                $query->where('tgl_transaksi', '<=', $data['tgl_kondisi'])->where(function ($query) {
-                    $query->where('rekening_debit', 'LIKE', '2.2%')
-                        ->orwhere('rekening_kredit', 'LIKE', '2.2%');
-                });
-            }
-        ])->where('kecuali', 'NOT LIKE', Session::get('lokasi') . '#%')->orwhere('kecuali', 'NOT LIKE', '%#' . Session::get('lokasi'))->get();
+        $data['kec'] = Kecamatan::find(Session::get('lokasi'));
+
+        $data['jenis_simpanan'] = JenisSimpanan::where(function ($query) {
+                $query->where('lokasi', '0')
+                    ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+            })
+            ->orWhere(function ($query) {
+                $query->where('lokasi', session('lokasi'))
+                    ->where('kecuali', 'NOT LIKE', '%#' . session('lokasi') . '#%');
+            })
+            ->with([
+                'simpanan' => function ($query) use ($data) {
+                    $tb_simp = 'simpanan_anggota_' . $data['kec']->id;
+                    $tb_angg = 'anggota_' . $data['kec']->id;
+                    $data['tb_simp'] = $tb_simp;
+
+                    $query->select(
+                            $tb_simp . '.*',
+                            $tb_angg . '.namadepan',
+                            $tb_angg . '.nik',
+                            'desa.nama_desa',
+                            'desa.kd_desa',
+                            'desa.kode_desa',
+                            'sebutan_desa.sebutan_desa'
+                        )
+                        ->join($tb_angg, $tb_simp . '.nia', $tb_angg . '.id')
+                        ->join('desa', $tb_angg . '.desa', '=', 'desa.kd_desa')
+                        ->join('sebutan_desa', 'sebutan_desa.id', '=', 'desa.sebutan')
+                        ->withSum(['real_s' => function ($query) use ($data) {
+                            $tgl_kondisi = $data['tahun'] . '-' . $data['bulan'] . '-' . $data['hari'];
+                            $query->where('tgl_transaksi', '<', $tgl_kondisi);
+                        }], 'real_d')
+                        ->withSum(['real_s' => function ($query) use ($data) {
+                            $tgl_kondisi = $data['tahun'] . '-' . $data['bulan'] . '-' . $data['hari'];
+                            $query->where('tgl_transaksi', '<', $tgl_kondisi);
+                        }], 'real_k')
+                        ->where(function ($query) use ($data, $tb_simp) {
+                            $query->where([
+                                [$tb_simp . '.status', 'A'],
+                                [$tb_simp . '.tgl_buka', '<=', $data['tgl_kondisi']]
+                            ])->orWhere([
+                                [$tb_simp . '.status', 'L'],
+                                [$tb_simp . '.tgl_buka', '<=', $data['tgl_kondisi']],
+                                [$tb_simp . '.tgl_tutup', '>=', $data['tgl_kondisi']]
+                            ]);
+                        })
+                        ->orderBy($tb_angg . '.desa', 'ASC')
+                        ->orderBy($tb_simp . '.tgl_buka', 'ASC');
+                },
+                'simpanan.realSimpananTerbesar' => function ($query) use ($data) {
+                    $query->where('tgl_transaksi', '<=', $data['tgl_kondisi'])
+                          ->orderBy('id', 'desc');
+                },
+                'simpanan.trx' => function ($query) use ($data) {
+                    $query->where('tgl_transaksi', '<=', $data['tgl_kondisi'])
+                          ->where(function ($query) {
+                              $query->where('rekening_debit', 'LIKE', '2.2%')
+                                  ->orWhere('rekening_kredit', 'LIKE', '2.2%');
+                          });
+                }
+            ])
+            ->orderBy('rek_simp', 'ASC')
+            ->get();
 
         $data['laporan'] = 'Rincian Tabungan';
         $view = view('pelaporan.view.ojk.fd_rincian_simpanan', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
-
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
             return $pdf->stream();
         } else {
