@@ -371,6 +371,7 @@ class PelaporanController extends Controller
             return $view;
         }
     }
+
     private function PF(array $data)
     {
         $thn = $data['tahun'];
@@ -384,15 +385,21 @@ class PelaporanController extends Controller
 
         if ($data['bulanan']) {
             $data['judul'] = 'Laporan Keuangan';
-            $data['sub_judul'] =  date('t', strtotime($tgl)) . ' Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+            $data['sub_judul'] = date('t', strtotime($tgl)) . ' Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
         }
 
         $data['laporan'] = 'Profil';
+
+        $data['pengurus'] = User::with(['j', 'p'])
+            ->where('lokasi', Session::get('lokasi'))
+            ->whereNotNull('jabatan')
+            ->orderBy('jabatan', 'asc') 
+            ->get();
+
         $view = view('pelaporan.view.ojk.profil_o', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
-
             $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'portrait');
             return $pdf->stream();
         } else {

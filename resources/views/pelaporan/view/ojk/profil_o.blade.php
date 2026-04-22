@@ -273,6 +273,55 @@ $keuangan = new Keuangan();
         <td width="40%" class="style9">*) coret yang tidak perlu
             <br> **) hanya diisi untuk LKM berbentuk PT
         </td>
+    </tr>
+    <tr>
+        <td width="2%" class="style9">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="2%" class="style9">10.</td>
+        <td width="30%" class="style9">Pengurus :</td>
+        <td width="60%" class="style9"> </td>
+    </tr>
+    <tr>
+        <td width="2%" class="style9"></td>
+        <td colspan="2">
+            <table border="0" width="100%">
+                <tr>
+                    <th class="style9 bottom top align-center" width="25%">Nama</th>
+                    <th class="style9 bottom top align-center" width="15%">NIK</th>
+                    <th class="style9 bottom top align-center" width="15%">Jabatan</th>
+                    <th class="style9 bottom top align-center" width="15%">Tanggal Lahir</th>
+                    <th class="style9 bottom top align-center" width="15%">Pendidikan</th>
+                    <th class="style9 bottom top align-center" width="15%">Tgl Mulai Menjabat</th>
+                    <th class="style9 bottom top align-center" width="15%">Tgl Selesai Menjabat</th>
+                </tr>
+                @forelse ($pengurus as $u)
+                <tr>
+                    <td class="style9 bottom align-center">
+                        {{ trim($u->namadepan . ' ' . $u->namabelakang) }}&nbsp;
+                    </td>
+                    <td class="style9 bottom align-center">{{ $u->nik ?? '-' }}&nbsp;</td>
+                    <td class="style9 bottom align-center">{{ $u->j->nama_jabatan ?? '-' }}&nbsp;</td>
+                    <td class="style9 bottom align-center">
+                        {{ $u->tempat_lahir ? $u->tempat_lahir . ', ' : '' }}
+                        {{ $u->tgl_lahir ? Tanggal::tglLatin($u->tgl_lahir) : '-' }}&nbsp;
+                    </td>
+                    <td class="style9 bottom align-center">{{ $u->p->nama_pendidikan ?? '-' }}&nbsp;</td>
+                    <td class="style9 bottom align-center">
+                        {{ $u->sejak ? Tanggal::tglLatin($u->sejak) : '-' }}&nbsp;
+                    </td>
+                    <td class="style9 bottom align-center">
+                        {{ $u->hingga ? Tanggal::tglLatin($u->hingga) : '-' }}&nbsp;
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="7" class="style9 bottom align-center">Tidak ada data pengurus&nbsp;</td>
+                </tr>
+                @endforelse
+            </table>
+        </td>
+    </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
     <tr>
