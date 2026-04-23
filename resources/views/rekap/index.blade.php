@@ -52,9 +52,6 @@
                                     <div class="widget-numbers" style="font-size: 17px;">
                                         <strong class="text-warning">{{$total->total_2}}</strong> Anggota Pendiri
                                     </div>
-                                    <div class="widget-numbers text-success" style="font-size: 17px;">
-                                        <strong>{{$total->total_21}}</strong> Anggota Aktif s.d. hari ini
-                                    </div>
                                     <!-- endforeach -->
                                 </div>
                             </div>
