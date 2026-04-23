@@ -6,9 +6,9 @@
     "\\resources",
     "\\resources\\views",
     "\\resources\\views\\pelaporan",
-    "\\resources\\views\\pelaporan\\partials",
     "\\resources\\views\\pelaporan\\view",
     "\\resources\\views\\pelaporan\\view\\ojk"
   ],
+  "SelectedNode": "\\app\\Models\\User.php",
   "PreviewInSolutionExplorer": false
 }

@@ -44,6 +44,7 @@
                                     <!-- foreach -->
                                     @php
                                     $calon = $total->anggota - $total->total_2;
+                                    $total_s = $total->total_1 + $total->total_2;
                                     @endphp
                                     <div class="widget-numbers text-secondary" style="font-size: 17px;">
                                         <strong>{{$total->total_1}}</strong> Anggota umum
@@ -78,7 +79,7 @@
                                 <div class="widget-content-right">
                                     <!-- foreach -->
                                     <div class="widget-numbers text-secondary" style="font-size: 17px;">
-                                        <strong>{{$total->total_t}}</strong> Total Simpanan
+                                        <strong>{{$total_s}}</strong> Total Simpanan
                                     </div>
                                     <div class="widget-numbers" style="font-size: 17px;">
                                         <strong class="text-warning">{{$total->total_1}}</strong> Simpanan Umum
