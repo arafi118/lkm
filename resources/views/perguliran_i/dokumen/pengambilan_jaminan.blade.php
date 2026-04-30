@@ -42,7 +42,23 @@
             <tr>
               <td  height="10" colspan="3" class="style9">Dengan ini menyatakan bahwa saya telah mengambil kembali jaminan di <strong>{{$kec->nama_lembaga_sort}}</strong> berupa:</td>
             </tr>
-      @if ($jaminan['jenis_jaminan'] == '1')
+      @if ($jaminan == NULL)
+            <tr>
+              <td width="5">&nbsp;</td>
+              <td height="10" class="style9">Nomor Jaminan</td>
+              <td class="style27">: &nbsp;</td>
+            </tr>
+            <tr>
+              <td width="5">&nbsp;</td>
+              <td height="10" class="style9">Keterangan</td>
+              <td class="style27">:&nbsp;</td>
+            </tr>
+            <tr>
+              <td width="5">&nbsp;</td>
+              <td height="10" class="style9">Nilai Jaminan</td>
+              <td class="style27">: &nbsp;</td>
+            </tr>
+      @elseif ($jaminan['jenis_jaminan'] == '1')
             <tr>
               <td width="5">&nbsp;</td>
               <td height="10" class="style9">Nomor Sertifikat</td>

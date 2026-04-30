@@ -2,13 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\app",
-    "\\app\\Models",
     "\\resources",
     "\\resources\\views",
     "\\resources\\views\\pelaporan",
     "\\resources\\views\\pelaporan\\view",
-    "\\resources\\views\\pelaporan\\view\\ojk"
+    "\\resources\\views\\rekap"
   ],
-  "SelectedNode": "\\app\\Models\\User.php",
+  "SelectedNode": "\\resources\\views\\pelaporan\\view\\rekap_rb.blade.php",
   "PreviewInSolutionExplorer": false
 }
