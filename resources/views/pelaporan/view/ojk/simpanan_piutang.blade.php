@@ -138,7 +138,7 @@
         <td class="left bottom right" align="center">Keterangan</td>
     </tr>
 
-    @foreach ($js->simpanan as $simp)
+    @foreach (($js->simpanan ?? collect()) as $simp)
         @php
             $jumlah_aktif += 1;
             $jumlah_aktif_per_jenis += 1;

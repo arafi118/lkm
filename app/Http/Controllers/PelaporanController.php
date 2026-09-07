@@ -38,6 +38,7 @@ use App\Utils\Tanggal;
 use DB;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use PDF;
 use Session;
 
@@ -1005,18 +1006,31 @@ class PelaporanController extends Controller
             $data['sub_judul'] = date('t', strtotime($tgl)) . ' Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
         }
 
-        $data['jenis_simpanan'] = JenisSimpanan::with([
-            'simpanan' => function ($query) use ($data) {
-                $tb_anggota = 'anggota_' . Session::get('lokasi');
-                $tb_simpanan = 'simpanan_anggota_' . Session::get('lokasi');
+        $lokasi = Session::get('lokasi');
+        $tb_anggota = 'anggota_' . $lokasi;
+        $tb_simpanan = 'simpanan_anggota_' . $lokasi;
 
-                $query->select($tb_simpanan . '.*', $tb_anggota . '.namadepan', $tb_anggota . '.nik')
-                    ->join($tb_anggota, $tb_simpanan . '.nia', $tb_anggota . '.id')
-                    ->where('tgl_buka', '<=', $data['tgl_kondisi'],)->where(function ($query) use ($data) {
-                        $query->whereRaw('tgl_buka = tgl_tutup')->orwhere('tgl_tutup', '>', $data['tgl_kondisi']);
-                    });
-            }
-        ])->where('kecuali', 'NOT LIKE', Session::get('lokasi') . '#%')->orwhere('kecuali', 'NOT LIKE', '%#' . Session::get('lokasi'))->get();
+        $tb_anggota_exists = \Schema::hasTable($tb_anggota);
+        $tb_simpanan_exists = \Schema::hasTable($tb_simpanan);
+
+        $query = JenisSimpanan::query();
+
+        if ($tb_simpanan_exists && $tb_anggota_exists) {
+            $query->with([
+                'simpanan' => function ($q) use ($data, $tb_anggota, $tb_simpanan) {
+                    $q->select($tb_simpanan . '.*', $tb_anggota . '.namadepan', $tb_anggota . '.nik')
+                        ->join($tb_anggota, $tb_simpanan . '.nia', $tb_anggota . '.id')
+                        ->where('tgl_buka', '<=', $data['tgl_kondisi'],)->where(function ($q2) use ($data) {
+                            $q2->whereRaw('tgl_buka = tgl_tutup')->orwhere('tgl_tutup', '>', $data['tgl_kondisi']);
+                        });
+                }
+            ]);
+        }
+
+        $data['jenis_simpanan'] = $query
+            ->where('kecuali', 'NOT LIKE', $lokasi . '#%')
+            ->orWhere('kecuali', 'NOT LIKE', '%#' . $lokasi)
+            ->get();
         $data['laporan'] = 'Simpanan';
         $view = view('pelaporan.view.ojk.simpanan_piutang', $data)->render();
         if ($data['type'] == 'pdf') {
@@ -1387,6 +1401,265 @@ class PelaporanController extends Controller
         ])->with('saldo', 'target')->get();
 
         $view = view('pelaporan.view.ojk.piutang', $data)->render();
+
+        if ($data['type'] == 'pdf') {
+            $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
+
+            $pdf = PDF::loadHTML($view)->setPaper($paperSize, 'landscape');
+            return $pdf->stream();
+        } else {
+            return $view;
+        }
+    }
+
+    private function piutang_gabungan(array $data)
+    {
+        $thn = $data['tahun'];
+        $bln = $data['bulan'];
+        $hari = $data['hari'];
+
+        $tgl = $thn . '-' . $bln . '-' . $hari;
+        $data['sub_judul'] = 'Tahun ' . Tanggal::tahun($tgl);
+        $data['tgl'] = Tanggal::tahun($tgl);
+        if ($data['bulanan']) {
+            $data['sub_judul'] = 'Bulan ' . Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+            $data['tgl'] = Tanggal::namaBulan($tgl) . ' ' . Tanggal::tahun($tgl);
+        }
+
+        $data['tgl_lalu'] = $data['tahun'] . '-' . $data['bulan'] . '-01';
+        $data['laporan'] = 'piutang_gabungan';
+        $data['judul'] = 'Daftar Perkembangan Piutang';
+
+        $lokasi_id = $data['kec']->id;
+        $tb_pinkel = 'pinjaman_kelompok_' . $lokasi_id;
+        $tb_kel = 'kelompok_' . $lokasi_id;
+        $tb_pinj_i = 'pinjaman_anggota_' . $lokasi_id;
+        $tb_angg = 'anggota_' . $lokasi_id;
+        $data['tb_pinkel'] = $tb_pinkel;
+        $data['tb_pinj_i'] = $tb_pinj_i;
+
+        $tb_pinkel_exists = \Schema::hasTable($tb_pinkel);
+        $tb_kel_exists = \Schema::hasTable($tb_kel);
+        $tb_pinj_i_exists = \Schema::hasTable($tb_pinj_i);
+        $tb_angg_exists = \Schema::hasTable($tb_angg);
+
+        $statusFilter = function ($q) use ($data) {
+            $q->where([
+                [$data['tb_pinkel'] . '.status', 'A'],
+                [$data['tb_pinkel'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
+            ])->orwhere([
+                [$data['tb_pinkel'] . '.status', 'L'],
+                [$data['tb_pinkel'] . '.tgl_cair', '<=', $data['tgl_kondisi']],
+                [$data['tb_pinkel'] . '.tgl_lunas', '>=', "$data[tahun]-01-01"]
+            ])->orwhere([
+                [$data['tb_pinkel'] . '.status', 'L'],
+                [$data['tb_pinkel'] . '.tgl_lunas', '<=', $data['tgl_kondisi']],
+                [$data['tb_pinkel'] . '.tgl_lunas', '>=', "$data[tahun]-01-01"]
+            ])->orwhere([
+                [$data['tb_pinkel'] . '.status', 'R'],
+                [$data['tb_pinkel'] . '.tgl_cair', '<=', $data['tgl_kondisi']],
+                [$data['tb_pinkel'] . '.tgl_lunas', '>=', "$data[tahun]-01-01"]
+            ])->orwhere([
+                [$data['tb_pinkel'] . '.status', 'R'],
+                [$data['tb_pinkel'] . '.tgl_lunas', '<=', $data['tgl_kondisi']],
+                [$data['tb_pinkel'] . '.tgl_lunas', '>=', "$data[tahun]-01-01"]
+            ])->orwhere([
+                [$data['tb_pinkel'] . '.status', 'H'],
+                [$data['tb_pinkel'] . '.tgl_cair', '<=', $data['tgl_kondisi']],
+                [$data['tb_pinkel'] . '.tgl_lunas', '>=', "$data[tahun]-01-01"]
+            ])->orwhere([
+                [$data['tb_pinkel'] . '.status', 'H'],
+                [$data['tb_pinkel'] . '.tgl_lunas', '<=', $data['tgl_kondisi']],
+                [$data['tb_pinkel'] . '.tgl_lunas', '>=', "$data[tahun]-01-01"]
+            ]);
+        };
+
+        $data['pinkel_gabungan'] = collect();
+        if ($tb_pinkel_exists && $tb_kel_exists) {
+            $data['pinkel_gabungan'] = \DB::table($tb_pinkel)
+                ->select(
+                    $tb_pinkel . '.*',
+                    $tb_kel . '.nama_kelompok',
+                    $tb_kel . '.ketua',
+                    'desa.nama_desa',
+                    'desa.kd_desa',
+                    'desa.kode_desa',
+                    'sebutan_desa.sebutan_desa'
+                )
+                ->join($tb_kel, $tb_kel . '.id', '=', $tb_pinkel . '.id_kel')
+                ->join('desa', $tb_kel . '.desa', '=', 'desa.kd_desa')
+                ->join('sebutan_desa', 'sebutan_desa.id', '=', 'desa.sebutan')
+                ->where(function ($q) use ($statusFilter) {
+                    $statusFilter($q);
+                })
+                ->orderBy($tb_kel . '.desa', 'ASC')
+                ->orderBy($tb_pinkel . '.tgl_cair', 'ASC')
+                ->get();
+
+            $realSumPokok = collect();
+            $realSumJasa = collect();
+            $saldoPinkel = collect();
+            $targetPinkel = collect();
+
+            $tb_real_pinkel = 'real_angsuran_' . $lokasi_id;
+            if (\Schema::hasTable($tb_real_pinkel)) {
+                $realSumPokok = \DB::table($tb_real_pinkel)
+                    ->select('loan_id', \DB::raw('SUM(realisasi_pokok) as total_pokok'))
+                    ->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%')
+                    ->groupBy('loan_id')
+                    ->get()
+                    ->keyBy('loan_id');
+
+                $realSumJasa = \DB::table($tb_real_pinkel)
+                    ->select('loan_id', \DB::raw('SUM(realisasi_jasa) as total_jasa'))
+                    ->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%')
+                    ->groupBy('loan_id')
+                    ->get()
+                    ->keyBy('loan_id');
+            }
+
+            $tb_saldo_pinkel = 'real_angsuran_' . $lokasi_id;
+            if (\Schema::hasTable($tb_saldo_pinkel)) {
+                $saldoPinkel = \DB::table($tb_saldo_pinkel)
+                    ->where('tgl_transaksi', '<=', $data['tgl_kondisi'])
+                    ->orderBy('id', 'desc')
+                    ->get()
+                    ->keyBy('loan_id');
+            }
+
+            $tb_target_pinkel = 'rencana_angsuran_' . $lokasi_id;
+            if (\Schema::hasTable($tb_target_pinkel)) {
+                $targetPinkel = \DB::table($tb_target_pinkel)
+                    ->where('jatuh_tempo', '<=', $data['tgl_kondisi'])
+                    ->orderBy('id', 'desc')
+                    ->get()
+                    ->keyBy('loan_id');
+            }
+
+            foreach ($data['pinkel_gabungan'] as $pinkel) {
+                $pinkel->real_sum_realisasi_pokok = $realSumPokok[$pinkel->id]->total_pokok ?? 0;
+                $pinkel->real_sum_realisasi_jasa = $realSumJasa[$pinkel->id]->total_jasa ?? 0;
+                $pinkel->saldo = $saldoPinkel[$pinkel->id] ?? null;
+                $pinkel->target = $targetPinkel[$pinkel->id] ?? null;
+            }
+        }
+
+        $statusFilterI = function ($q) use ($data) {
+            $q->where([
+                [$data['tb_pinj_i'] . '.status', 'A'],
+                [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
+                [$data['tb_pinj_i'] . '.tgl_cair', '<=', $data['tgl_kondisi']]
+            ])->orwhere([
+                [$data['tb_pinj_i'] . '.status', 'L'],
+                [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
+                [$data['tb_pinj_i'] . '.tgl_cair', '<=', $data['tgl_kondisi']],
+                [$data['tb_pinj_i'] . '.tgl_lunas', '>=', "$data[tahun]-01-01"]
+            ])->orwhere([
+                [$data['tb_pinj_i'] . '.status', 'L'],
+                [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
+                [$data['tb_pinj_i'] . '.tgl_lunas', '<=', $data['tgl_kondisi']],
+                [$data['tb_pinj_i'] . '.tgl_lunas', '>=', "$data[tahun]-01-01"]
+            ])->orwhere([
+                [$data['tb_pinj_i'] . '.status', 'R'],
+                [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
+                [$data['tb_pinj_i'] . '.tgl_cair', '<=', $data['tgl_kondisi']],
+                [$data['tb_pinj_i'] . '.tgl_lunas', '>=', "$data[tahun]-01-01"]
+            ])->orwhere([
+                [$data['tb_pinj_i'] . '.status', 'R'],
+                [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
+                [$data['tb_pinj_i'] . '.tgl_lunas', '<=', $data['tgl_kondisi']],
+                [$data['tb_pinj_i'] . '.tgl_lunas', '>=', "$data[tahun]-01-01"]
+            ])->orwhere([
+                [$data['tb_pinj_i'] . '.status', 'H'],
+                [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
+                [$data['tb_pinj_i'] . '.tgl_cair', '<=', $data['tgl_kondisi']],
+                [$data['tb_pinj_i'] . '.tgl_lunas', '>=', "$data[tahun]-01-01"]
+            ])->orwhere([
+                [$data['tb_pinj_i'] . '.status', 'H'],
+                [$data['tb_pinj_i'] . '.jenis_pinjaman', 'I'],
+                [$data['tb_pinj_i'] . '.tgl_lunas', '<=', $data['tgl_kondisi']],
+                [$data['tb_pinj_i'] . '.tgl_lunas', '>=', "$data[tahun]-01-01"]
+            ]);
+        };
+
+        $data['pinj_i_gabungan'] = collect();
+        if ($tb_pinj_i_exists && $tb_angg_exists) {
+            $data['pinj_i_gabungan'] = \DB::table($tb_pinj_i)
+                ->select(
+                    $tb_pinj_i . '.*',
+                    $tb_angg . '.namadepan',
+                    'agent.agent AS nama_agent',
+                    'desa.nama_desa',
+                    'desa.kd_desa',
+                    'desa.kode_desa',
+                    'sebutan_desa.sebutan_desa'
+                )
+                ->join($tb_angg, $tb_angg . '.id', '=', $tb_pinj_i . '.nia')
+                ->join('agent', $tb_pinj_i . '.id_agent', '=', 'agent.id')
+                ->join('desa', $tb_angg . '.desa', '=', 'desa.kd_desa')
+                ->join('sebutan_desa', 'sebutan_desa.id', '=', 'desa.sebutan')
+                ->where(function ($q) use ($statusFilterI) {
+                    $statusFilterI($q);
+                })
+                ->orderBy($tb_angg . '.desa', 'ASC')
+                ->orderBy($tb_pinj_i . '.id_agent', 'ASC')
+                ->orderBy($tb_pinj_i . '.tgl_cair', 'ASC')
+                ->get();
+
+            $realSumPokokI = collect();
+            $realSumJasaI = collect();
+            $saldoPinjI = collect();
+            $targetPinjI = collect();
+
+            $tb_real_pinj_i = 'real_angsuran_i_' . $lokasi_id;
+            if (\Schema::hasTable($tb_real_pinj_i)) {
+                $realSumPokokI = \DB::table($tb_real_pinj_i)
+                    ->select('loan_id', \DB::raw('SUM(realisasi_pokok) as total_pokok'))
+                    ->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%')
+                    ->groupBy('loan_id')
+                    ->get()
+                    ->keyBy('loan_id');
+
+                $realSumJasaI = \DB::table($tb_real_pinj_i)
+                    ->select('loan_id', \DB::raw('SUM(realisasi_jasa) as total_jasa'))
+                    ->where('tgl_transaksi', 'LIKE', '%' . $data['tahun'] . '-' . $data['bulan'] . '-%')
+                    ->groupBy('loan_id')
+                    ->get()
+                    ->keyBy('loan_id');
+            }
+
+            $tb_saldo_pinj_i = 'real_angsuran_i_' . $lokasi_id;
+            if (\Schema::hasTable($tb_saldo_pinj_i)) {
+                $saldoPinjI = \DB::table($tb_saldo_pinj_i)
+                    ->where('tgl_transaksi', '<=', $data['tgl_kondisi'])
+                    ->orderBy('id', 'desc')
+                    ->get()
+                    ->keyBy('loan_id');
+            }
+
+            $tb_target_pinj_i = 'rencana_angsuran_i_' . $lokasi_id;
+            if (\Schema::hasTable($tb_target_pinj_i)) {
+                $targetPinjI = \DB::table($tb_target_pinj_i)
+                    ->where('jatuh_tempo', '<=', $data['tgl_kondisi'])
+                    ->orderBy('id', 'desc')
+                    ->get()
+                    ->keyBy('loan_id');
+            }
+
+            foreach ($data['pinj_i_gabungan'] as $pinj_i) {
+                $pinj_i->real_i_sum_realisasi_pokok = $realSumPokokI[$pinj_i->id]->total_pokok ?? 0;
+                $pinj_i->real_i_sum_realisasi_jasa = $realSumJasaI[$pinj_i->id]->total_jasa ?? 0;
+                $pinj_i->saldo = $saldoPinjI[$pinj_i->id] ?? null;
+                $pinj_i->target = $targetPinjI[$pinj_i->id] ?? null;
+            }
+        }
+
+        $data['lunas'] = PinjamanIndividu::where([
+            ['tgl_lunas', '<', $thn . '-01-01'],
+            ['status', 'L']
+        ])->with('saldo', 'target')->get();
+
+        $view = view('pelaporan.view.ojk.piutang_gabungan', $data)->render();
 
         if ($data['type'] == 'pdf') {
             $paperSize = Session::get('lokasi') == 109 ? [0, 0, 595.28, 935.43] : 'A4';
