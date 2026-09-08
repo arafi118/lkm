@@ -321,4 +321,80 @@
             </tr>
         @endif
     </table>
+
+    <div style="page-break-before: always;"></div>
+
+    @php
+        $col_count = 3 + $jumlah_kolek + 2;
+    @endphp
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+        <tr>
+            <td colspan="{{ $col_count }}" align="center">
+                <div style="font-size: 18px;">
+                    <b>RINGKASAN KOLEKTIBILITAS PINJAMAN</b>
+                </div>
+                <div style="font-size: 14px;">
+                    <b>(Berdasarkan POJK No. 41 Tahun 2024)</b>
+                </div>
+                <div style="font-size: 16px;">
+                    <b>{{ strtoupper($sub_judul) }}</b>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="{{ $col_count }}" height="10"></td>
+        </tr>
+    </table>
+
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px; table-layout: fixed;">
+        <tr style="background: rgb(230, 230, 230); font-weight: bold;">
+            <th class="t l b" rowspan="2" width="4%">No</th>
+            <th class="t l b" rowspan="2" width="15%">Jenis</th>
+            <th class="t l b" rowspan="2" width="11%">Saldo Pokok</th>
+            <th class="t l b" rowspan="2" width="11%">Tunggakan Pokok</th>
+            @foreach ($kolek_items as $idx => $kolek_item)
+                @php $kolek_num = $idx + 1; @endphp
+                <th class="t l b {{ $kolek_num == $jumlah_kolek ? 'r' : '' }}" width="{{ 42 / $jumlah_kolek }}%">{{ $kolek_item['nama'] }}</th>
+            @endforeach
+            <th class="t l b r" rowspan="2" width="11%">Total Resiko</th>
+        </tr>
+        <tr style="background: rgb(230, 230, 230); font-weight: bold;">
+            @foreach ($kolek_items as $idx => $kolek_item)
+                @php $kolek_num = $idx + 1; @endphp
+                <th class="t l b {{ $kolek_num == $jumlah_kolek ? 'r' : '' }}">{{ $kolek_item['prosentase'] }}%</th>
+            @endforeach
+        </tr>
+
+        @php
+            $row_total_risiko_41 = 0;
+            foreach ($kolek_items as $idx => $item) {
+                $kolek_num = $idx + 1;
+                $nilai_kolek = $t_kolek_total[$kolek_num] ?? 0;
+                $prosentase = (float) $item['prosentase'];
+                $row_total_risiko_41 += ($nilai_kolek * $prosentase / 100);
+            }
+        @endphp
+        <tr>
+            <td class="t l b" align="center">1</td>
+            <td class="t l b" align="left">Semua Jenis</td>
+            <td class="t l b" align="right">{{ number_format($t_saldo) }}</td>
+            <td class="t l b" align="right">{{ number_format($t_tunggakan_pokok) }}</td>
+            @for ($i = 1; $i <= $jumlah_kolek; $i++)
+                @php $kolek_val = $t_kolek_total[$i] ?? 0; @endphp
+                <td class="t l b {{ $i == $jumlah_kolek ? 'r' : '' }}" align="right">{{ number_format($kolek_val) }}</td>
+            @endfor
+            <td class="t l b r" align="right">{{ number_format($row_total_risiko_41) }}</td>
+        </tr>
+
+        <tr style="font-weight: bold; background: rgb(230, 230, 230);">
+            <td class="t l b" align="center" colspan="2">JUMLAH</td>
+            <td class="t l b" align="right">{{ number_format($t_saldo) }}</td>
+            <td class="t l b" align="right">{{ number_format($t_tunggakan_pokok) }}</td>
+            @for ($i = 1; $i <= $jumlah_kolek; $i++)
+                @php $kolek_val = $t_kolek_total[$i] ?? 0; @endphp
+                <td class="t l b {{ $i == $jumlah_kolek ? 'r' : '' }}" align="right">{{ number_format($kolek_val) }}</td>
+            @endfor
+            <td class="t l b r" align="right">{{ number_format($row_total_risiko_41) }}</td>
+        </tr>
+    </table>
 @endsection

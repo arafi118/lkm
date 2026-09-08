@@ -3,6 +3,15 @@
     $pinkel_exists = isset($pinkel_gabungan) && $pinkel_gabungan->count() > 0;
     $pinj_i_exists = isset($pinj_i_gabungan) && $pinj_i_gabungan->count() > 0;
     $has_any = $pinkel_exists || $pinj_i_exists;
+    $ringkasan = [];
+    $grand_alokasi = 0;
+    $grand_target_pokok = 0;
+    $grand_target_jasa = 0;
+    $grand_real_bi_pokok = 0;
+    $grand_real_bi_jasa = 0;
+    $grand_saldo_pokok = 0;
+    $grand_tunggakan_pokok = 0;
+    $grand_tunggakan_jasa = 0;
 @endphp
 
 @extends('pelaporan.layout.base')
@@ -368,6 +377,28 @@
                     <td class="t l b r" align="right">{{ number_format($t_tunggakan_jasa) }}</td>
                 </tr>
             </table>
+
+            @php
+                $ringkasan[] = [
+                    'jenis' => 'Individu',
+                    'alokasi' => $t_alokasi,
+                    'target_pokok' => $t_target_pokok,
+                    'target_jasa' => $t_target_jasa,
+                    'real_bi_pokok' => $t_real_bi_pokok,
+                    'real_bi_jasa' => $t_real_bi_jasa,
+                    'saldo_pokok' => $t_saldo_pokok,
+                    'tunggakan_pokok' => $t_tunggakan_pokok,
+                    'tunggakan_jasa' => $t_tunggakan_jasa,
+                ];
+                $grand_alokasi += $t_alokasi;
+                $grand_target_pokok += $t_target_pokok;
+                $grand_target_jasa += $t_target_jasa;
+                $grand_real_bi_pokok += $t_real_bi_pokok;
+                $grand_real_bi_jasa += $t_real_bi_jasa;
+                $grand_saldo_pokok += $t_saldo_pokok;
+                $grand_tunggakan_pokok += $t_tunggakan_pokok;
+                $grand_tunggakan_jasa += $t_tunggakan_jasa;
+            @endphp
         @endif
 
         @if ($pinkel_exists && $pinj_i_exists)
@@ -693,9 +724,111 @@
                     <td class="t l b r" align="right">{{ number_format($t_tunggakan_jasa) }}</td>
                 </tr>
             </table>
+
+            @php
+                $ringkasan[] = [
+                    'jenis' => 'Kelompok',
+                    'alokasi' => $t_alokasi,
+                    'target_pokok' => $t_target_pokok,
+                    'target_jasa' => $t_target_jasa,
+                    'real_bi_pokok' => $t_real_bi_pokok,
+                    'real_bi_jasa' => $t_real_bi_jasa,
+                    'saldo_pokok' => $t_saldo_pokok,
+                    'tunggakan_pokok' => $t_tunggakan_pokok,
+                    'tunggakan_jasa' => $t_tunggakan_jasa,
+                ];
+                $grand_alokasi += $t_alokasi;
+                $grand_target_pokok += $t_target_pokok;
+                $grand_target_jasa += $t_target_jasa;
+                $grand_real_bi_pokok += $t_real_bi_pokok;
+                $grand_real_bi_jasa += $t_real_bi_jasa;
+                $grand_saldo_pokok += $t_saldo_pokok;
+                $grand_tunggakan_pokok += $t_tunggakan_pokok;
+                $grand_tunggakan_jasa += $t_tunggakan_jasa;
+            @endphp
         @endif
 
         @if ($has_any)
+            <div style="page-break-before: always;"></div>
+
+            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px;">
+                <tr>
+                    <td colspan="3" align="center">
+                        <div style="font-size: 18px;">
+                            <b>RINGKASAN PERKEMBANGAN PIUTANG</b>
+                        </div>
+                        <div style="font-size: 16px;">
+                            <b>{{ strtoupper($sub_judul) }}</b>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" height="10"></td>
+                </tr>
+            </table>
+
+            <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-size: 10px; table-layout: fixed;">
+                <tr style="background: rgb(230, 230, 230); font-weight: bold;">
+                    <th class="t l b" rowspan="2" width="4%">No</th>
+                    <th class="t l b" rowspan="2" width="15%">Jenis</th>
+                    <th class="t l b" rowspan="2" width="13%">Alokasi</th>
+                    <th class="t l b" colspan="2">Target</th>
+                    <th class="t l b" colspan="2">Real s.d. Bulan Ini</th>
+                    <th class="t l b" rowspan="2" width="13%">Saldo Pokok</th>
+                    <th class="t l b" rowspan="2" width="6%">%</th>
+                    <th class="t l b r" colspan="2">Tunggakan</th>
+                </tr>
+                <tr style="background: rgb(230, 230, 230); font-weight: bold;">
+                    <th class="t l b" width="9%">Pokok</th>
+                    <th class="t l b" width="9%">Jasa</th>
+                    <th class="t l b" width="9%">Pokok</th>
+                    <th class="t l b" width="9%">Jasa</th>
+                    <th class="t l b" width="8%">Pokok</th>
+                    <th class="t l b r" width="8%">Jasa</th>
+                </tr>
+
+                @foreach ($ringkasan as $i => $r)
+                    @php
+                        $row_pross = 1;
+                        if ($r['target_pokok'] != 0) {
+                            $row_pross = $r['real_bi_pokok'] / $r['target_pokok'];
+                        }
+                    @endphp
+                    <tr>
+                        <td class="t l b" align="center">{{ $i + 1 }}</td>
+                        <td class="t l b" align="left">{{ $r['jenis'] }}</td>
+                        <td class="t l b" align="right">{{ number_format($r['alokasi']) }}</td>
+                        <td class="t l b" align="right">{{ number_format($r['target_pokok']) }}</td>
+                        <td class="t l b" align="right">{{ number_format($r['target_jasa']) }}</td>
+                        <td class="t l b" align="right">{{ number_format($r['real_bi_pokok']) }}</td>
+                        <td class="t l b" align="right">{{ number_format($r['real_bi_jasa']) }}</td>
+                        <td class="t l b" align="right">{{ number_format($r['saldo_pokok']) }}</td>
+                        <td class="t l b" align="center">{{ number_format(floor($row_pross * 100)) }}</td>
+                        <td class="t l b" align="right">{{ number_format($r['tunggakan_pokok']) }}</td>
+                        <td class="t l b r" align="right">{{ number_format($r['tunggakan_jasa']) }}</td>
+                    </tr>
+                @endforeach
+
+                @php
+                    $grand_pross = 1;
+                    if ($grand_target_pokok != 0) {
+                        $grand_pross = $grand_real_bi_pokok / $grand_target_pokok;
+                    }
+                @endphp
+                <tr style="font-weight: bold; background: rgb(230, 230, 230);">
+                    <td class="t l b" align="center" colspan="2">JUMLAH</td>
+                    <td class="t l b" align="right">{{ number_format($grand_alokasi) }}</td>
+                    <td class="t l b" align="right">{{ number_format($grand_target_pokok) }}</td>
+                    <td class="t l b" align="right">{{ number_format($grand_target_jasa) }}</td>
+                    <td class="t l b" align="right">{{ number_format($grand_real_bi_pokok) }}</td>
+                    <td class="t l b" align="right">{{ number_format($grand_real_bi_jasa) }}</td>
+                    <td class="t l b" align="right">{{ number_format($grand_saldo_pokok) }}</td>
+                    <td class="t l b" align="center">{{ number_format(floor($grand_pross * 100)) }}</td>
+                    <td class="t l b" align="right">{{ number_format($grand_tunggakan_pokok) }}</td>
+                    <td class="t l b r" align="right">{{ number_format($grand_tunggakan_jasa) }}</td>
+                </tr>
+            </table>
+
             @php
                 $signature = is_string($kec->ttd->tanda_tangan_pelaporan ?? null)
                     ? str_replace('{tanggal}', $tanggal_kondisi, $kec->ttd->tanda_tangan_pelaporan)
