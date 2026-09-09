@@ -1279,4 +1279,216 @@ public function simpanSaldo()
             exit;
         }
     }
+
+    public function simpanSaldoDebug()
+    {
+        $tahun = request()->get('tahun') ?: date('Y');
+        $bulan = request()->get('bulan') ?: date('m');
+
+        $logFile = storage_path('logs/simpan_saldo_debug.log');
+        $sessionId = substr(md5(uniqid('', true)), 0, 8);
+        $log = function ($msg) use ($logFile, $sessionId) {
+            $line = '[' . date('Y-m-d H:i:s') . '][' . $sessionId . '] ' . $msg . PHP_EOL;
+            @file_put_contents($logFile, $line, FILE_APPEND);
+        };
+
+        $log('=== START simpanSaldoDebug ===');
+        $log("tahun={$tahun}, bulan={$bulan}, lokasi=" . Session::get('lokasi'));
+
+        // Anti-buffering setup
+        @ob_end_clean();
+        @ini_set('output_buffering', '0');
+        @ini_set('implicit_flush', '1');
+        while (ob_get_level() > 0) { @ob_end_flush(); }
+        header('Content-Type: text/html; charset=utf-8');
+        header('X-Accel-Buffering: no');
+        header('Cache-Control: no-cache');
+        echo str_repeat(' ', 4096);
+
+        $render = function ($title, $rows) {
+            echo '<!doctype html><html><head><meta charset="utf-8"><title>' . htmlspecialchars($title) . '</title>';
+            echo '<style>body{font-family:monospace,Arial;background:#1e1e1e;color:#ddd;margin:0;padding:20px;font-size:13px}';
+            echo 'h1{color:#7ecfff;font-size:16px;margin:0 0 12px}';
+            echo '.log{background:#2d2d2d;padding:12px;border-radius:6px;border:1px solid #444}';
+            echo '.log div{padding:2px 0;border-bottom:1px solid #3a3a3a}.ok{color:#7dd87d}.err{color:#ff6b6b}.warn{color:#ffd54f}.info{color:#7ecfff}';
+            echo '.ts{color:#888;margin-right:8px}</style></head><body>';
+            echo '<h1>Simpan Saldo Debug — ' . htmlspecialchars($title) . '</h1>';
+            echo '<div class="log">';
+            foreach ($rows as $r) {
+                echo '<div class="' . ($r['type'] ?? 'info') . '"><span class="ts">' . htmlspecialchars($r['ts']) . '</span>' . htmlspecialchars($r['msg']) . '</div>';
+            }
+            echo '</div></body></html>';
+            @ob_flush(); @flush();
+        };
+
+        $rows = [];
+        $addRow = function ($msg, $type = 'info') use (&$rows) {
+            $rows[] = ['ts' => date('H:i:s'), 'msg' => $msg, 'type' => $type];
+        };
+
+        $addRow('Session: lokasi=' . Session::get('lokasi'), 'info');
+        $addRow('Param: tahun=' . $tahun . ', bulan=' . $bulan, 'info');
+
+        // Step 1: load kecamatan
+        $log('Step 1: load Kecamatan');
+        $t0 = microtime(true);
+        try {
+            $kec = Kecamatan::where('id', Session::get('lokasi'))->with('desa')->first();
+            $dt = round((microtime(true) - $t0) * 1000);
+            $addRow("Step 1 OK — Kecamatan loaded ({$dt}ms)", 'ok');
+            $log("Step 1 OK ({$dt}ms)");
+        } catch (\Throwable $e) {
+            $addRow('Step 1 ERROR: ' . $e->getMessage(), 'err');
+            $log('Step 1 ERROR: ' . $e->getMessage());
+        }
+
+        // Step 2: load rekening
+        $log('Step 2: load Rekening');
+        $t0 = microtime(true);
+        try {
+            $rekening = Rekening::orderBy('kode_akun', 'ASC')->get();
+            $dt = round((microtime(true) - $t0) * 1000);
+            $addRow("Step 2 OK — rekening count=" . count($rekening) . " ({$dt}ms)", 'ok');
+            $log("Step 2 OK — " . count($rekening) . " rekening ({$dt}ms)");
+            $rekeningIds = $rekening->pluck('kode_akun')->all();
+        } catch (\Throwable $e) {
+            $addRow('Step 2 ERROR: ' . $e->getMessage(), 'err');
+            $log('Step 2 ERROR: ' . $e->getMessage());
+            $render('ERROR', $rows);
+            exit;
+        }
+
+        // Step 3: query DB ping
+        $log('Step 3: DB ping');
+        $t0 = microtime(true);
+        try {
+            DB::select('SELECT 1 as v');
+            $dt = round((microtime(true) - $t0) * 1000);
+            $addRow("Step 3 OK — DB ping ({$dt}ms)", 'ok');
+            $log("Step 3 OK ({$dt}ms)");
+        } catch (\Throwable $e) {
+            $addRow('Step 3 ERROR: ' . $e->getMessage(), 'err');
+            $log('Step 3 ERROR: ' . $e->getMessage());
+        }
+
+        // Step 4: count transaksi
+        $log('Step 4: count transaksi_' . Session::get('lokasi'));
+        $trxTable = 'transaksi_' . Session::get('lokasi');
+        $t0 = microtime(true);
+        try {
+            $cnt = DB::table($trxTable)->whereNull('deleted_at')
+                ->whereBetween('tgl_transaksi', [$tahun.'-01-01', $tahun.'-12-31'])
+                ->count();
+            $dt = round((microtime(true) - $t0) * 1000);
+            $addRow("Step 4 OK — trx count {$tahun} = {$cnt} ({$dt}ms)", 'ok');
+            $log("Step 4 OK — count={$cnt} ({$dt}ms)");
+        } catch (\Throwable $e) {
+            $addRow('Step 4 ERROR: ' . $e->getMessage(), 'err');
+            $log('Step 4 ERROR: ' . $e->getMessage());
+        }
+
+        // Step 5: single GROUP BY debit
+        $log('Step 5: GROUP BY rekening_debit');
+        $t0 = microtime(true);
+        try {
+            $debitRows = DB::table($trxTable)
+                ->select('rekening_debit as kode_akun', DB::raw('MONTH(tgl_transaksi) as bln'), DB::raw('SUM(jumlah) as total'))
+                ->whereNull('deleted_at')
+                ->whereBetween('tgl_transaksi', [$tahun.'-01-01', $tahun.'-12-31'])
+                ->whereIn('rekening_debit', $rekeningIds)
+                ->groupBy('rekening_debit', 'bln')
+                ->get();
+            $dt = round((microtime(true) - $t0) * 1000);
+            $addRow("Step 5 OK — debit rows=" . count($debitRows) . " ({$dt}ms)", 'ok');
+            $log("Step 5 OK — debit rows=" . count($debitRows) . " ({$dt}ms)");
+        } catch (\Throwable $e) {
+            $addRow('Step 5 ERROR: ' . $e->getMessage(), 'err');
+            $log('Step 5 ERROR: ' . $e->getMessage());
+        }
+
+        // Step 6: single GROUP BY kredit
+        $log('Step 6: GROUP BY rekening_kredit');
+        $t0 = microtime(true);
+        try {
+            $kreditRows = DB::table($trxTable)
+                ->select('rekening_kredit as kode_akun', DB::raw('MONTH(tgl_transaksi) as bln'), DB::raw('SUM(jumlah) as total'))
+                ->whereNull('deleted_at')
+                ->whereBetween('tgl_transaksi', [$tahun.'-01-01', $tahun.'-12-31'])
+                ->whereIn('rekening_kredit', $rekeningIds)
+                ->groupBy('rekening_kredit', 'bln')
+                ->get();
+            $dt = round((microtime(true) - $t0) * 1000);
+            $addRow("Step 6 OK — kredit rows=" . count($kreditRows) . " ({$dt}ms)", 'ok');
+            $log("Step 6 OK — kredit rows=" . count($kreditRows) . " ({$dt}ms)");
+        } catch (\Throwable $e) {
+            $addRow('Step 6 ERROR: ' . $e->getMessage(), 'err');
+            $log('Step 6 ERROR: ' . $e->getMessage());
+        }
+
+        // Step 7: build maps + loop
+        $log('Step 7: build saldo array');
+        $t0 = microtime(true);
+        try {
+            $debitMap = [];
+            $kreditMap = [];
+            foreach ($debitRows as $r) {
+                $debitMap[$r->kode_akun][(int)$r->bln] = (float)$r->total;
+            }
+            foreach ($kreditRows as $r) {
+                $kreditMap[$r->kode_akun][(int)$r->bln] = (float)$r->total;
+            }
+            $saldo = [];
+            $data_id = [];
+            foreach ($rekening as $rek) {
+                $kd = $rek->kode_akun;
+                $cumD = 0;
+                $cumK = 0;
+                for ($m = 1; $m <= 12; $m++) {
+                    $cumD += $debitMap[$kd][$m] ?? 0;
+                    $cumK += $kreditMap[$kd][$m] ?? 0;
+                    $id = str_replace('.', '', $kd) . $tahun . str_pad($m, 2, '0', STR_PAD_LEFT);
+                    $saldo[] = ['id' => $id, 'kode_akun' => $kd, 'tahun' => $tahun, 'bulan' => $m, 'debit' => $cumD, 'kredit' => $cumK];
+                    $data_id[] = $id;
+                }
+            }
+            $dt = round((microtime(true) - $t0) * 1000);
+            $addRow("Step 7 OK — saldo rows=" . count($saldo) . " ({$dt}ms)", 'ok');
+            $log("Step 7 OK — saldo rows=" . count($saldo) . " ({$dt}ms)");
+        } catch (\Throwable $e) {
+            $addRow('Step 7 ERROR: ' . $e->getMessage(), 'err');
+            $log('Step 7 ERROR: ' . $e->getMessage());
+        }
+
+        // Step 8: delete existing
+        $log('Step 8: Saldo::whereIn delete');
+        $t0 = microtime(true);
+        try {
+            Saldo::whereIn('id', $data_id)->delete();
+            $dt = round((microtime(true) - $t0) * 1000);
+            $addRow("Step 8 OK — delete ({$dt}ms)", 'ok');
+            $log("Step 8 OK ({$dt}ms)");
+        } catch (\Throwable $e) {
+            $addRow('Step 8 ERROR: ' . $e->getMessage(), 'err');
+            $log('Step 8 ERROR: ' . $e->getMessage());
+        }
+
+        // Step 9: batch insert
+        $log('Step 9: Saldo::insert');
+        $t0 = microtime(true);
+        try {
+            Saldo::insert($saldo);
+            $dt = round((microtime(true) - $t0) * 1000);
+            $addRow("Step 9 OK — insert " . count($saldo) . " rows ({$dt}ms)", 'ok');
+            $log("Step 9 OK ({$dt}ms)");
+        } catch (\Throwable $e) {
+            $addRow('Step 9 ERROR: ' . $e->getMessage(), 'err');
+            $log('Step 9 ERROR: ' . $e->getMessage());
+        }
+
+        $addRow('SELESAI. Tab tidak akan close.', 'ok');
+        $log('=== END simpanSaldoDebug ===');
+
+        $render('Lokasi ' . Session::get('lokasi') . ' — Tahun ' . $tahun . ' — Selesai', $rows);
+        exit;
+    }
 }
