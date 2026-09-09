@@ -1114,13 +1114,17 @@ public function simpanSaldo()
         @ini_set('output_buffering', '0');
         @ini_set('implicit_flush', '1');
         while (ob_get_level() > 0) { @ob_end_flush(); }
+        // Anti-buffering headers for nginx/php-fpm
         header('Content-Type: text/html; charset=utf-8');
+        header('X-Accel-Buffering: no');
+        header('Cache-Control: no-cache');
+        echo str_repeat(' ', 2048); // force initial flush
         echo '<!doctype html><html><head><meta charset="utf-8"><title>Menyimpan Saldo...</title>';
         echo '<style>body{font-family:system-ui,Arial,sans-serif;background:#f5f6fa;margin:0;padding:24px;color:#222}';
         echo '.box{max-width:520px;margin:24px auto;background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:24px}';
         echo 'h1{font-size:18px;margin:0 0 16px}ol{padding-left:20px;margin:0}li{padding:6px 0;border-bottom:1px solid #eee;font-size:14px}';
-        echo 'li.done{color:#2e7d32}.spinner{display:inline-block;width:12px;height:12px;border:2px solid #1976d2;border-right-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin-right:6px;vertical-align:middle}@keyframes spin{to{transform:rotate(360deg)}}';
-        echo '</style></head><body><div class="box"><h1>Menyimpan Saldo Tahun '.$tahun.'</h1><ol id="log">';
+        echo 'li.done{color:#2e7d32}.spinner{display:inline-block;width:12px;height:12px;border:2px solid #1976d2;border-right-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin-right:6px;vertical-align:middle}@keyframes spin{to{transform:rotate(360deg)}}</style>';
+        echo '</head><body><div class="box"><h1>Menyimpan Saldo Tahun '.$tahun.'</h1><ol id="log">';
         @ob_flush(); @flush();
 
         $progress = function ($key, $label) {
@@ -1131,6 +1135,7 @@ public function simpanSaldo()
             } else {
                 echo '<script>document.getElementById("'.$ids[$key].'").className="done";document.getElementById("'.$ids[$key].'").innerHTML=\''.$label.'\';</script>';
             }
+            echo str_repeat(' ', 512); // pad to force chunk flush
             @ob_flush(); @flush();
         };
 
