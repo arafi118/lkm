@@ -1489,6 +1489,11 @@ public function simpanSaldo()
         $log('=== END simpanSaldoDebug ===');
 
         $render('Lokasi ' . Session::get('lokasi') . ' — Tahun ' . $tahun . ' — Selesai', $rows);
-        exit;
+        // Keep response alive so browser renders fully
+        @ob_flush(); @flush();
+        echo "\n<!-- " . str_repeat('x', 2048) . " -->";
+        @ob_flush(); @flush();
+        // Don't exit — let PHP-FPM finish naturally so chunked output is flushed
+        return;
     }
 }
