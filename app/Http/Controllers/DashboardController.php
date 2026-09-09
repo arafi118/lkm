@@ -1109,9 +1109,35 @@ public function simpanSaldo()
         $kode_akun = request()->get('kode_akun') ?: '0';
 
         $kec = Kecamatan::where('id', Session::get('lokasi'))->with('desa')->first();
+
+        @ob_end_clean();
+        @ini_set('output_buffering', '0');
+        @ini_set('implicit_flush', '1');
+        while (ob_get_level() > 0) { @ob_end_flush(); }
+        header('Content-Type: text/html; charset=utf-8');
+        echo '<!doctype html><html><head><meta charset="utf-8"><title>Menyimpan Saldo...</title>';
+        echo '<style>body{font-family:system-ui,Arial,sans-serif;background:#f5f6fa;margin:0;padding:24px;color:#222}';
+        echo '.box{max-width:520px;margin:24px auto;background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:24px}';
+        echo 'h1{font-size:18px;margin:0 0 16px}ol{padding-left:20px;margin:0}li{padding:6px 0;border-bottom:1px solid #eee;font-size:14px}';
+        echo 'li.done{color:#2e7d32}.spinner{display:inline-block;width:12px;height:12px;border:2px solid #1976d2;border-right-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin-right:6px;vertical-align:middle}@keyframes spin{to{transform:rotate(360deg)}}';
+        echo '</style></head><body><div class="box"><h1>Menyimpan Saldo Tahun '.$tahun.'</h1><ol id="log">';
+        @ob_flush(); @flush();
+
+        $progress = function ($key, $label) {
+            static $ids = [];
+            if (!isset($ids[$key])) {
+                $ids[$key] = uniqid('p_');
+                echo '<li id="'.$ids[$key].'" class="pending"><span class="spinner"></span>'.$label.'</li>';
+            } else {
+                echo '<script>document.getElementById("'.$ids[$key].'").className="done";document.getElementById("'.$ids[$key].'").innerHTML=\''.$label.'\';</script>';
+            }
+            @ob_flush(); @flush();
+        };
+
         $saldo = [];
 
         if ($bulan == '00') {
+            $progress('desa', 'Menyiapkan saldo desa & kecamatan...');
             if (Saldo::where([
                 ['kode_akun', 'LIKE', '%'.$kec->kd_kec.'%'],
                 ['tahun', $tahun],
@@ -1215,6 +1241,7 @@ public function simpanSaldo()
         }
 
         // Always recompute saldo bulanan (bulan 1..12) for the whole year in one pass
+        $progress('rekening', 'Mengambil daftar rekening...');
         $rekening = Rekening::orderBy('kode_akun', 'ASC');
         if ($kode_akun != '0') {
             $kode = explode(',', $kode_akun);
@@ -1226,6 +1253,7 @@ public function simpanSaldo()
         $trxTable = 'transaksi_' . Session::get('lokasi');
 
         // Single GROUP BY per mode instead of N+1 withSum queries
+        $progress('debit', 'Menghitung total debit per rekening per bulan...');
         $debitRows = DB::table($trxTable)
             ->select('rekening_debit as kode_akun', DB::raw('MONTH(tgl_transaksi) as bln'), DB::raw('SUM(jumlah) as total'))
             ->whereNull('deleted_at')
@@ -1234,6 +1262,7 @@ public function simpanSaldo()
             ->groupBy('rekening_debit', 'bln')
             ->get();
 
+        $progress('kredit', 'Menghitung total kredit per rekening per bulan...');
         $kreditRows = DB::table($trxTable)
             ->select('rekening_kredit as kode_akun', DB::raw('MONTH(tgl_transaksi) as bln'), DB::raw('SUM(jumlah) as total'))
             ->whereNull('deleted_at')
@@ -1241,6 +1270,8 @@ public function simpanSaldo()
             ->whereIn('rekening_kredit', $rekeningIds)
             ->groupBy('rekening_kredit', 'bln')
             ->get();
+
+        $progress('hitung', 'Menyusun saldo kumulatif 12 bulan...');
 
         $debitMap = [];
         foreach ($debitRows as $r) {
@@ -1277,10 +1308,16 @@ public function simpanSaldo()
             }
         }
 
+        $progress('insert', 'Menyimpan saldo ke database...');
+
         Saldo::whereIn('id', $data_id)->delete();
         Saldo::insert($saldo);
 
+        $progress('done', 'Selesai! Menutup tab...');
+        echo '</ol></div></body></html>';
+        @ob_flush(); @flush();
         echo '<script>window.opener.postMessage("closed", "*"); window.close();</script>';
+
         exit;
     }
 }
