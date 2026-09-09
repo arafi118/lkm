@@ -1109,10 +1109,9 @@ public function simpanSaldo()
         $kode_akun = request()->get('kode_akun') ?: '0';
 
         $kec = Kecamatan::where('id', Session::get('lokasi'))->with('desa')->first();
-        $data_id = [];
         $saldo = [];
-        if ($bulan == '00') {
 
+        if ($bulan == '00') {
             if (Saldo::where([
                 ['kode_akun', 'LIKE', '%'.$kec->kd_kec.'%'],
                 ['tahun', $tahun],
@@ -1186,6 +1185,7 @@ public function simpanSaldo()
             $tbk = 'tbk'.$tahun_tb;
 
             $rekening = Rekening::orderBy('kode_akun', 'ASC')->get();
+            $data_id = [];
             foreach ($rekening as $rek) {
                 $saldo_debit = $rek->$tb;
                 $saldo_kredit = $rek->$tbk;
@@ -1202,41 +1202,7 @@ public function simpanSaldo()
 
                 $data_id[] = $id;
             }
-        } else {
-            $date = $tahun.'-'.$bulan.'-01';
-            $tgl_kondisi = date('Y-m-t', strtotime($date));
-            $rekening = Rekening::withSum([
-                'trx_debit' => function ($query) use ($tgl_kondisi, $tahun) {
-                    $query->whereBetween('tgl_transaksi', [$tahun.'-01-01', $tgl_kondisi]);
-                },
-            ], 'jumlah')->withSum([
-                'trx_kredit' => function ($query) use ($tgl_kondisi, $tahun) {
-                    $query->whereBetween('tgl_transaksi', [$tahun.'-01-01', $tgl_kondisi]);
-                },
-            ], 'jumlah')->orderBy('kode_akun', 'ASC');
-            if ($kode_akun != '0') {
-                $kode = explode(',', $kode_akun);
-                $rekening = $rekening->whereIn('kode_akun', $kode);
-            }
 
-            $rekening = $rekening->get();
-
-            foreach ($rekening as $rek) {
-                $id = str_replace('.', '', $rek->kode_akun).$tahun.str_pad($bulan, 2, '0', STR_PAD_LEFT);
-                $saldo[] = [
-                    'id' => $id,
-                    'kode_akun' => $rek->kode_akun,
-                    'tahun' => $tahun,
-                    'bulan' => intval($bulan),
-                    'debit' => $rek->trx_debit_sum_jumlah,
-                    'kredit' => $rek->trx_kredit_sum_jumlah,
-                ];
-
-                $data_id[] = $id;
-            }
-        }
-
-        if ($bulan < 1) {
             $jumlah = Saldo::where([
                 ['tahun', $tahun],
                 ['bulan', '0'],
@@ -1244,39 +1210,77 @@ public function simpanSaldo()
 
             if ($jumlah <= '0') {
                 Saldo::whereIn('id', $data_id)->delete();
-                $query = Saldo::insert($saldo);
+                Saldo::insert($saldo);
             }
-        } else {
-            Saldo::whereIn('id', $data_id)->delete();
-            $query = Saldo::insert($saldo);
         }
 
-        $link = request()->url('');
-        $query = request()->query();
-
-        if (isset($query['bulan'])) {
-            $query['bulan'] += 1;
-        } else {
-            $query['bulan'] = date('m') + 1;
+        // Always recompute saldo bulanan (bulan 1..12) for the whole year in one pass
+        $rekening = Rekening::orderBy('kode_akun', 'ASC');
+        if ($kode_akun != '0') {
+            $kode = explode(',', $kode_akun);
+            $rekening = $rekening->whereIn('kode_akun', $kode);
         }
-        if (! isset($query['tahun'])) {
-            $query['tahun'] = date('Y');
+        $rekening = $rekening->get();
+
+        $rekeningIds = $rekening->pluck('kode_akun')->all();
+        $trxTable = 'transaksi_' . Session::get('lokasi');
+
+        // Single GROUP BY per mode instead of N+1 withSum queries
+        $debitRows = DB::table($trxTable)
+            ->select('rekening_debit as kode_akun', DB::raw('MONTH(tgl_transaksi) as bln'), DB::raw('SUM(jumlah) as total'))
+            ->whereNull('deleted_at')
+            ->whereBetween('tgl_transaksi', [$tahun.'-01-01', $tahun.'-12-31'])
+            ->whereIn('rekening_debit', $rekeningIds)
+            ->groupBy('rekening_debit', 'bln')
+            ->get();
+
+        $kreditRows = DB::table($trxTable)
+            ->select('rekening_kredit as kode_akun', DB::raw('MONTH(tgl_transaksi) as bln'), DB::raw('SUM(jumlah) as total'))
+            ->whereNull('deleted_at')
+            ->whereBetween('tgl_transaksi', [$tahun.'-01-01', $tahun.'-12-31'])
+            ->whereIn('rekening_kredit', $rekeningIds)
+            ->groupBy('rekening_kredit', 'bln')
+            ->get();
+
+        $debitMap = [];
+        foreach ($debitRows as $r) {
+            $debitMap[$r->kode_akun][(int)$r->bln] = (float)$r->total;
+        }
+        $kreditMap = [];
+        foreach ($kreditRows as $r) {
+            $kreditMap[$r->kode_akun][(int)$r->bln] = (float)$r->total;
         }
 
-        $query['bulan'] = str_pad($query['bulan'], 2, '0', STR_PAD_LEFT);
-        $next = $link.'?'.http_build_query($query);
+        $saldo = [];
+        $data_id = [];
+        foreach ($rekening as $rek) {
+            $kd = $rek->kode_akun;
+            $debitBulanan = $debitMap[$kd] ?? [];
+            $kreditBulanan = $kreditMap[$kd] ?? [];
 
-        if ((! ($kode_akun == '0' || $tahun != date('Y')) && $bulan >= date('m'))) {
-            echo '<script>window.opener.postMessage("closed", "*"); window.close();</script>';
-            exit;
+            $cumDebit = 0;
+            $cumKredit = 0;
+            for ($m = 1; $m <= 12; $m++) {
+                $cumDebit += $debitBulanan[$m] ?? 0;
+                $cumKredit += $kreditBulanan[$m] ?? 0;
+
+                $id = str_replace('.', '', $kd) . $tahun . str_pad($m, 2, '0', STR_PAD_LEFT);
+                $saldo[] = [
+                    'id' => $id,
+                    'kode_akun' => $kd,
+                    'tahun' => $tahun,
+                    'bulan' => $m,
+                    'debit' => $cumDebit,
+                    'kredit' => $cumKredit,
+                ];
+                $data_id[] = $id;
+            }
         }
 
-        if ($query['bulan'] < 13) {
-            echo '<a href="'.$next.'" id="next"></a><script>document.querySelector("#next").click()</script>';
-            exit;
-        } else {
-            echo '<script>window.opener.postMessage("closed", "*"); window.close();</script>';
-            exit;
-        }
+        Saldo::whereIn('id', $data_id)->delete();
+        Saldo::insert($saldo);
+
+        echo '<script>window.opener.postMessage("closed", "*"); window.close();</script>';
+        exit;
     }
 }
