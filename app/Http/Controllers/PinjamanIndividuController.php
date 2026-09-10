@@ -10,6 +10,7 @@ use App\Models\JenisProdukPinjaman;
 use App\Models\Kecamatan;
 use App\Models\PinjamanAnggota;
 use App\Models\PinjamanIndividu;
+use App\Models\PinjamanKelompok;
 use App\Models\RealAngsuranI;
 use App\Models\Rekening;
 use App\Models\RencanaAngsuranI;
@@ -1051,6 +1052,41 @@ class PinjamanIndividuController extends Controller
             'success' => true,
             'msg' => 'Pinjaman Kredit '.$pinj_i->anggota->namadepan.' Berhasil Diperbarui',
             'tgl_cair' => $data['tgl_cair'],
+        ]);
+    }
+
+    public function cekSpk(Request $request, $id)
+    {
+        $spkNo = trim((string) $request->get('spk_no', ''));
+
+        if ($spkNo === '' || $spkNo === '-' || $spkNo === '0') {
+            return response()->json([
+                'duplicate' => false,
+                'empty' => true,
+                'msg' => '',
+            ]);
+        }
+
+        $existsIndividu = PinjamanIndividu::where('spk_no', $spkNo)
+            ->where('id', '!=', $id)
+            ->exists();
+
+        $existsKelompok = PinjamanKelompok::where('spk_no', $spkNo)
+            ->where('id', '!=', $id)
+            ->exists();
+
+        if ($existsIndividu || $existsKelompok) {
+            return response()->json([
+                'duplicate' => true,
+                'empty' => false,
+                'msg' => 'Nomor SPK sudah digunakan oleh pinjaman lain.',
+            ]);
+        }
+
+        return response()->json([
+            'duplicate' => false,
+            'empty' => false,
+            'msg' => 'Nomor SPK tersedia.',
         ]);
     }
 

@@ -291,6 +291,8 @@
                                     <input autocomplete="off" type="text" name="spk_no" id="spk_no"
                                         class="form-control save" {{ $readonly }}
                                         value="{{ $perguliran_i->spk_no }}">
+                                    <small id="msg_spk_no" class="text-danger d-block mt-1"
+                                        style="display:none;"></small>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -708,7 +710,7 @@
 
 
 
-        $(document).on('change', '.save', function() {
+        function simpanForm() {
             var form = $('#simpanData')
             $.ajax({
                 type: form.attr('method'),
@@ -721,6 +723,79 @@
                     }
                 }
             })
+        }
+
+        $(document).on('change', '.save:not(#spk_no)', function() {
+            simpanForm()
+        })
+
+        var spkNoTimer = null
+        var spkSaveTimer = null
+        function resetSpkFeedback() {
+            var $input = $('#spk_no')
+            var $msg = $('#msg_spk_no')
+            $input.removeClass('is-invalid is-valid')
+            $msg.hide().text('')
+        }
+
+        $(document).on('input', '#spk_no', function() {
+            var $input = $(this)
+            var $msg = $('#msg_spk_no')
+            $input.removeClass('is-invalid is-valid')
+            $msg.hide().text('')
+            clearTimeout(spkNoTimer)
+            clearTimeout(spkSaveTimer)
+        })
+
+        $(document).on('change', '#spk_no', function() {
+            var $input = $(this)
+            var $msg = $('#msg_spk_no')
+            var value = $.trim($(this).val())
+
+            if (value === '' || value === '-' || value === '0') {
+                $input.removeClass('is-invalid').addClass('is-valid')
+                $msg.hide().text('')
+                clearTimeout(spkSaveTimer)
+                spkSaveTimer = setTimeout(function() {
+                    simpanForm()
+                }, 500)
+                return
+            }
+
+            clearTimeout(spkNoTimer)
+            spkNoTimer = setTimeout(function() {
+                $.ajax({
+                    url: '/perguliran_i/cek_spk/{{ $perguliran_i->id }}',
+                    method: 'GET',
+                    data: {
+                        spk_no: value
+                    },
+                    success: function(res) {
+                        if (res.empty) {
+                            $input.removeClass('is-invalid').addClass('is-valid')
+                            $msg.hide().text('')
+                            clearTimeout(spkSaveTimer)
+                            spkSaveTimer = setTimeout(function() {
+                                simpanForm()
+                            }, 500)
+                            return
+                        }
+                        if (res.duplicate) {
+                            $input.removeClass('is-valid').addClass('is-invalid')
+                            $msg.removeClass('text-success').addClass('text-danger')
+                                .text(res.msg).show()
+                        } else {
+                            $input.removeClass('is-invalid').addClass('is-valid')
+                            $msg.removeClass('text-danger').addClass('text-success')
+                                .text(res.msg).show()
+                            clearTimeout(spkSaveTimer)
+                            spkSaveTimer = setTimeout(function() {
+                                simpanForm()
+                            }, 500)
+                        }
+                    }
+                })
+            }, 3000)
         })
 
         $(document).on('click', '#kembaliProposal', function() {

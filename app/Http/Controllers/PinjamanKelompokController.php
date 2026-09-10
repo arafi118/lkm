@@ -8,6 +8,7 @@ use App\Models\JenisProdukPinjaman;
 use App\Models\Kecamatan;
 use App\Models\Kelompok;
 use App\Models\PinjamanAnggota;
+use App\Models\PinjamanIndividu;
 use App\Models\PinjamanKelompok;
 use App\Models\RealAngsuran;
 use App\Models\Rekening;
@@ -1114,6 +1115,40 @@ class PinjamanKelompokController extends Controller
         $data['msg'] = 'Piutang Kelompok '.$pinkel->kelompok->nama_kelompok.' Berhasil Diperbarui';
 
         return response()->json($data);
+    }
+
+    public function cekSpk(Request $request, $id)
+    {
+        $spkNo = trim((string) $request->get('spk_no', ''));
+
+        if ($spkNo === '' || $spkNo === '-' || $spkNo === '0') {
+            return response()->json([
+                'duplicate' => false,
+                'empty' => true,
+                'msg' => '',
+            ]);
+        }
+
+        $existsKelompok = PinjamanKelompok::where('spk_no', $spkNo)
+            ->where('id', '!=', $id)
+            ->exists();
+
+        $existsIndividu = PinjamanIndividu::where('spk_no', $spkNo)
+            ->exists();
+
+        if ($existsKelompok || $existsIndividu) {
+            return response()->json([
+                'duplicate' => true,
+                'empty' => false,
+                'msg' => 'Nomor SPK sudah digunakan oleh pinjaman lain.',
+            ]);
+        }
+
+        return response()->json([
+            'duplicate' => false,
+            'empty' => false,
+            'msg' => 'Nomor SPK tersedia.',
+        ]);
     }
 
     public function tidakLayak(Request $request, PinjamanKelompok $id)
