@@ -122,7 +122,8 @@
                     <input type="hidden" name="type" id="type" value="pdf">
 
                     <div class="d-flex justify-content-end mt-3">
-                        <button type="button" id="SimpanSaldo" class="btn btn-sm btn-danger me-2">Simpan Saldo</button>
+                        <button type="button" id="GenerateSaldo" class="btn btn-sm btn-danger me-2">Simpan Saldo</button>
+                        <button type="button" id="SimpanSaldo" class="btn btn-sm btn-danger me-2 d-none">Simpan Saldo</button>
                         <button type="button" id="Excel" class="btn btn-sm btn-success me-2">Excel</button>
                         <button type="button" id="Preview" class="btn btn-sm btn-dark">Preview</button>
                     </div>
@@ -278,6 +279,101 @@
             })
 
             childWindow = window.open('/simpan_saldo?bulan=00&tahun=' + tahun + '&bulan=' + bulan, '_blank');
+        })
+
+        $(document).on('click', '#GenerateSaldo', function(e) {
+            e.preventDefault()
+
+            var tahun = $('select#tahun').val()
+            var bulan = $('select#bulan').val()
+            var includeSaldoAwal = (!bulan || parseInt(bulan, 10) < 1)
+
+            if (includeSaldoAwal) {
+                bulan = '00'
+            } else {
+                bulan = String(bulan).padStart(2, '0')
+            }
+
+            var label_awal = (bulan === '00') ? 'Saldo Awal Tahun' : namaBulan(bulan)
+            var totalBulan = includeSaldoAwal ? 13 : (13 - parseInt(bulan, 10))
+
+            Swal.fire({
+                title: "Mohon Menunggu..",
+                html: '<div id="gen-progress-info">Mempersiapkan generate saldo...</div>' +
+                      '<div class="progress mt-2" style="height: 18px;">' +
+                      '<div id="gen-progress-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: 0%">0%</div>' +
+                      '</div>',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+
+            var currentBulan = bulan
+            var processed = 0
+
+            function labelBulan(b) {
+                if (b === '00') return 'Saldo Awal Tahun'
+                var n = namaBulan(b)
+                return n ? n : b
+            }
+
+            function runStep() {
+                var bulanStr = currentBulan
+                var url = '/generate_saldo?format=json&tahun=' + tahun + '&bulan=' + bulanStr
+
+                fetch(url, {
+                    method: 'GET',
+                    credentials: 'same-origin',
+                    headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(function(r) { return r.json() })
+                .then(function(data) {
+                    if (data.status !== 'ok') {
+                        throw new Error(data.message || 'Gagal generate bulan ' + bulanStr)
+                    }
+
+                    processed++
+                    var pct = Math.round((processed / totalBulan) * 100)
+                    var bar = document.getElementById('gen-progress-bar')
+                    var info = document.getElementById('gen-progress-info')
+                    if (bar) {
+                        bar.style.width = pct + '%'
+                        bar.textContent = pct + '%'
+                    }
+                    if (info) {
+                        info.textContent = 'Generate ' + labelBulan(bulanStr) + ' ' + tahun +
+                            ' (' + data.rekening_count + ' rekening) — ' + processed + '/' + totalBulan
+                    }
+
+                    if (data.done) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Selesai',
+                            html: 'Generate saldo ' + label_awal + ' s/d Desember ' + tahun + ' berhasil.<br>' +
+                                  'Total ' + processed + ' step diproses.',
+                            confirmButtonText: 'OK'
+                        }).then(function() {
+                            window.location.reload()
+                        })
+                        return
+                    }
+
+                    currentBulan = data.next_bulan
+                    setTimeout(runStep, 150)
+                })
+                .catch(function(err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: err.message || 'Terjadi kesalahan saat generate saldo',
+                        confirmButtonText: 'OK'
+                    })
+                })
+            }
+
+            setTimeout(runStep, 200)
         })
 
         window.addEventListener('message', function(event) {

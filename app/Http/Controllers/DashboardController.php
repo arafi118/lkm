@@ -1496,4 +1496,226 @@ public function simpanSaldo()
         // Don't exit — let PHP-FPM finish naturally so chunked output is flushed
         return;
     }
+
+    public function generateSaldo()
+    {
+        $tahun = request()->get('tahun') ?: date('Y');
+        $bulan = request()->get('bulan') ?: date('m');
+        $kode_akun = request()->get('kode_akun') ?: '0';
+        $is_json = request()->get('format') === 'json';
+
+        $kec = Kecamatan::where('id', Session::get('lokasi'))->with('desa')->first();
+
+        $is_saldo_awal = ($bulan == '00');
+
+        $saldo = [];
+        $data_id = [];
+
+        if ($is_saldo_awal) {
+            if (Saldo::where([
+                ['kode_akun', 'LIKE', '%'.$kec->kd_kec.'%'],
+                ['tahun', $tahun],
+            ])->count() <= 0) {
+                $saldo_desa = [];
+                foreach ($kec->desa as $desa) {
+                    $saldo_desa[] = [
+                        'id' => $desa->kd_desa.$tahun. 0,
+                        'kode_akun' => $desa->kode_desa,
+                        'tahun' => $tahun,
+                        'bulan' => 0,
+                        'debit' => 0,
+                        'kredit' => 0,
+                    ];
+                }
+
+                $saldo_desa[] = [
+                    'id' => str_replace('.', '', $kec->kd_kec).$tahun.'001',
+                    'kode_akun' => $kec->kd_kec,
+                    'tahun' => $tahun,
+                    'bulan' => 0,
+                    'debit' => 0,
+                    'kredit' => 0,
+                ];
+                $saldo_desa[] = [
+                    'id' => str_replace('.', '', $kec->kd_kec).$tahun.'002',
+                    'kode_akun' => $kec->kd_kec,
+                    'tahun' => $tahun,
+                    'bulan' => 0,
+                    'debit' => 0,
+                    'kredit' => 0,
+                ];
+                $saldo_desa[] = [
+                    'id' => str_replace('.', '', $kec->kd_kec).$tahun.'003',
+                    'kode_akun' => $kec->kd_kec,
+                    'tahun' => $tahun,
+                    'bulan' => 0,
+                    'debit' => 0,
+                    'kredit' => 0,
+                ];
+                $saldo_desa[] = [
+                    'id' => str_replace('.', '', $kec->kd_kec).$tahun.'004',
+                    'kode_akun' => $kec->kd_kec,
+                    'tahun' => $tahun,
+                    'bulan' => 0,
+                    'debit' => 0,
+                    'kredit' => 0,
+                ];
+                $saldo_desa[] = [
+                    'id' => str_replace('.', '', $kec->kd_kec).$tahun.'005',
+                    'kode_akun' => $kec->kd_kec,
+                    'tahun' => $tahun,
+                    'bulan' => 0,
+                    'debit' => 0,
+                    'kredit' => 0,
+                ];
+                $saldo_desa[] = [
+                    'id' => str_replace('.', '', $kec->kd_kec).$tahun.'006',
+                    'kode_akun' => $kec->kd_kec,
+                    'tahun' => $tahun,
+                    'bulan' => 0,
+                    'debit' => 0,
+                    'kredit' => 0,
+                ];
+
+                Saldo::insert($saldo_desa);
+            }
+
+            $tahun_tb = $tahun - 1;
+            $tb = 'tb'.$tahun_tb;
+            $tbk = 'tbk'.$tahun_tb;
+
+            $rekening = Rekening::orderBy('kode_akun', 'ASC');
+            if ($kode_akun != '0') {
+                $kode = explode(',', $kode_akun);
+                $rekening = $rekening->whereIn('kode_akun', $kode);
+            }
+            $rekening = $rekening->get();
+
+            foreach ($rekening as $rek) {
+                $saldo_debit = $rek->$tb;
+                $saldo_kredit = $rek->$tbk;
+
+                $id = str_replace('.', '', $rek->kode_akun).$tahun.'00';
+                $saldo[] = [
+                    'id' => $id,
+                    'kode_akun' => $rek->kode_akun,
+                    'tahun' => $tahun,
+                    'bulan' => 0,
+                    'debit' => $saldo_debit,
+                    'kredit' => $saldo_kredit,
+                ];
+
+                $data_id[] = $id;
+            }
+        } else {
+            $bulan = (int) $bulan;
+
+            if ($bulan < 1 || $bulan > 12) {
+                if ($is_json) {
+                    return response()->json(['status' => 'error', 'message' => 'Bulan tidak valid'], 400);
+                }
+                echo '<script>window.opener.postMessage("closed", "*"); window.close();</script>';
+                exit;
+            }
+
+            $date = $tahun.'-'.str_pad($bulan, 2, '0', STR_PAD_LEFT).'-01';
+            $tgl_kondisi = date('Y-m-t', strtotime($date));
+
+            $trxTable = 'transaksi_'.Session::get('lokasi');
+
+            $debitMap = DB::table($trxTable)
+                ->select('rekening_debit as kode_akun', DB::raw('SUM(jumlah) as total'))
+                ->whereNull('deleted_at')
+                ->whereBetween('tgl_transaksi', [$tahun.'-01-01', $tgl_kondisi])
+                ->groupBy('rekening_debit')
+                ->pluck('total', 'kode_akun')
+                ->toArray();
+
+            $kreditMap = DB::table($trxTable)
+                ->select('rekening_kredit as kode_akun', DB::raw('SUM(jumlah) as total'))
+                ->whereNull('deleted_at')
+                ->whereBetween('tgl_transaksi', [$tahun.'-01-01', $tgl_kondisi])
+                ->groupBy('rekening_kredit')
+                ->pluck('total', 'kode_akun')
+                ->toArray();
+
+            $rekening = Rekening::orderBy('kode_akun', 'ASC');
+            if ($kode_akun != '0') {
+                $kode = explode(',', $kode_akun);
+                $rekening = $rekening->whereIn('kode_akun', $kode);
+            }
+            $rekening = $rekening->get();
+
+            foreach ($rekening as $rek) {
+                $id = str_replace('.', '', $rek->kode_akun).$tahun.str_pad($bulan, 2, '0', STR_PAD_LEFT);
+                $saldo[] = [
+                    'id' => $id,
+                    'kode_akun' => $rek->kode_akun,
+                    'tahun' => $tahun,
+                    'bulan' => $bulan,
+                    'debit' => $debitMap[$rek->kode_akun] ?? 0,
+                    'kredit' => $kreditMap[$rek->kode_akun] ?? 0,
+                ];
+
+                $data_id[] = $id;
+            }
+        }
+
+        if ($is_saldo_awal) {
+            $jumlah = Saldo::where([
+                ['tahun', $tahun],
+                ['bulan', '0'],
+            ])->whereRaw('LENGTH(kode_akun)=9')->count();
+
+            if ($jumlah <= '0') {
+                Saldo::whereIn('id', $data_id)->delete();
+                if (count($saldo) > 0) {
+                    Saldo::insert($saldo);
+                }
+            }
+        } else {
+            Saldo::whereIn('id', $data_id)->delete();
+            if (count($saldo) > 0) {
+                Saldo::insert($saldo);
+            }
+        }
+
+        if ($is_saldo_awal) {
+            $next_bulan = 1;
+            $next_bulan_str = '01';
+            $done = false;
+        } else {
+            $next_bulan = $bulan + 1;
+            $done = $next_bulan > 12;
+            $next_bulan_str = str_pad(min($next_bulan, 12), 2, '0', STR_PAD_LEFT);
+        }
+
+        if ($is_json) {
+            return response()->json([
+                'status' => 'ok',
+                'bulan' => $is_saldo_awal ? 0 : $bulan,
+                'next_bulan' => $next_bulan_str,
+                'done' => $done,
+                'rekening_count' => count($saldo),
+                'rows_inserted' => count($saldo),
+                'tahun' => $tahun,
+                'is_saldo_awal' => $is_saldo_awal,
+            ]);
+        }
+
+        $link = url('/generate_saldo');
+        $params = [
+            'tahun' => $tahun,
+            'bulan' => $next_bulan_str,
+        ];
+        $next = $link.'?'.http_build_query($params);
+
+        if ($done) {
+            echo '<script>window.opener.postMessage("generate_done", "*"); window.close();</script>';
+            exit;
+        }
+
+        echo '<a href="'.$next.'" id="next"></a><script>document.querySelector("#next").click()</script>';
+        exit;
+    }
 }
